@@ -1,0 +1,23 @@
+#wedding-info {
+    background-image: url(/images/home-1.jpg);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    padding: 90px 2%;
+    align-items: center;
+    gap: 14px;
+
+    .info-sub {
+        font-size: 1.3rem;
+    }
+
+    .info-date {
+        font-size: 2rem;
+        font-weight: bold;
+    }
+
+    .info-address {
+        font-size: 1.2rem;
+    }
+}

@@ -1,0 +1,16 @@
+@import "../../../../../../../../styles/colors.module.scss";
+
+#gift-payment-modal {
+    text-align: center;
+    padding: 24px;
+
+    .description {
+    }
+
+    .price {
+        color: $color-primary;
+    }
+
+    .text {
+    }
+}

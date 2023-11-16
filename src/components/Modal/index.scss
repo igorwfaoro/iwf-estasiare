@@ -1,0 +1,20 @@
+.app-modal {
+    .wrapper {
+        padding: 16px;
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+
+            .title {
+                font-size: 1.5rem;
+                font-weight: bold;
+            }
+
+            .close-icon {
+                width: 32px;
+                cursor: pointer;
+            }
+        }
+    }
+}

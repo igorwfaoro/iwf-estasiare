@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum EventType {
+  WEDDING
+}
+
+model Event {
+  id          BigInt       @id @default(autoincrement())
+  eventType   EventType
+  date        DateTime
+  slug        String       @db.VarChar(100)
+  address     String       @db.VarChar(300)
+  invitations Invitation[]
+  gifts       Gift[]
+
+  designDetailId BigInt            @unique
+  designDetail   EventDesignDetail @relation(fields: [designDetailId], references: [id])
+
+  financialDetailId BigInt?               @unique
+  financialDetail   EventFinancialDetail? @relation(fields: [financialDetailId], references: [id])
+
+  weddingDetailId BigInt?        @unique
+  weddingDetail   WeddingDetail? @relation(fields: [weddingDetailId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model EventDesignDetail {
+  id             BigInt  @id @default(autoincrement())
+  primaryColor   String  @db.VarChar(7)
+  secondaryColor String? @db.VarChar(7)
+  bannerImage    String? @db.VarChar(500)
+  event          Event?
+}
+
+model WeddingDetail {
+  id        BigInt @id @default(autoincrement())
+  brideName String @db.VarChar(100)
+  groomName String @db.VarChar(100)
+  event     Event?
+}
+
+model Invitation {
+  id          BigInt  @id @default(autoincrement())
+  description String? @db.VarChar(200)
+  guests      Guest[]
+
+  eventId BigInt
+  event   Event  @relation(fields: [eventId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model Guest {
+  id               BigInt    @id @default(autoincrement())
+  name             String    @db.VarChar(120)
+  isConfirmed      Boolean   @default(false)
+  confirmationDate DateTime?
+
+  invitationId BigInt
+  invitation   Invitation @relation(fields: [invitationId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model Gift {
+  id          BigInt  @id @default(autoincrement())
+  description String  @db.VarChar(100)
+  image       String  @db.VarChar(500)
+  price       Decimal @db.Decimal(10, 2)
+
+  eventId BigInt
+  event   Event  @relation(fields: [eventId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model EventFinancialDetail {
+  id                  BigInt  @id @default(autoincrement())
+  paypalBussinessCode String? @db.VarChar(100)
+  event               Event?
+}
