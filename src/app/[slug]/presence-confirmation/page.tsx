@@ -10,13 +10,15 @@ const getEvent = cache(async (slug: string) => {
   return await createEventService().getBySlug(slug);
 });
 
-export async function generateMetadata(params: {
-  slug: string;
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
 }): Promise<Metadata> {
   const event = await getEvent(params.slug);
 
   return {
-    title: `Confirmação de presença - ${event.titleDescription}`,
+    title: `Confirmação | ${event.titleDescription}`,
   };
 }
 
