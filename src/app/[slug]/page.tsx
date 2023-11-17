@@ -18,14 +18,18 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const event = await createEventService().getBySlug(params.slug);
+  const event = await getEvent(params.slug);
 
   return {
-    title: event.titleDescription,
+    title: `Confirmação | ${event.titleDescription}`,
   };
 }
 
-export default async function EventSite({ params }: { params: { slug: string } }) {
+export default async function EventSite({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const event = await getEvent(params.slug);
 
   const banners = {
