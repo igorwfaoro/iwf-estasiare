@@ -25,7 +25,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function EventSite(params: { slug: string }) {
+export default async function EventSite({ params }: { params: { slug: string } }) {
   const event = await getEvent(params.slug);
 
   const banners = {

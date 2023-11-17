@@ -24,7 +24,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function Gifts(params: { slug: string }) {
+export default async function Gifts({ params }: { params: { slug: string } }) {
   const event = await getEvent(params.slug);
 
   return (
