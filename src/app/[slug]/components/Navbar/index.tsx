@@ -1,13 +1,14 @@
 'use client';
 
 import Link from 'next/link';
+import './index.scss'
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { MenuSVGIcon } from '@react-md/material-icons';
 import './index.scss';
-import Button from '../../../../components/Button';
 import { EventViewModel } from '../../../../models/view-models/event.view-model';
+import Button from '../../../../components/Button';
 
 enum NavbarType {
   transparent = 'transparent',

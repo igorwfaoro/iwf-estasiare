@@ -6,10 +6,10 @@ import {
   useRef,
   useState,
 } from 'react';
-import { InvitationViewModel } from '../../../../../models/view-models/invitation.view-model';
-import { GuestViewModel } from '../../../../../models/view-models/guest.view-model';
-import { createInvitationFetcher } from '../../../../../client-services/invitation.fetcher';
-import { useToast } from '../../../../../contexts/ToastContext';
+import { InvitationViewModel } from '../../../../../../models/view-models/invitation.view-model';
+import { GuestViewModel } from '../../../../../../models/view-models/guest.view-model';
+import { createInvitationFetcher } from '../../../../../../client-services/invitation.fetcher';
+import { useToast } from '../../../../../../contexts/ToastContext';
 
 export interface IPresenceConfirmationProvider {
   invitation?: InvitationViewModel;

@@ -1,8 +1,8 @@
 import { KeyboardEvent, useState } from 'react';
-import Button from '../../../../../../../../components/Button';
-import Input from '../../../../../../../../components/Input';
-import { usePresenceConfirmationContext } from '../../../../contexts/PresenceConfirmationContext';
+import Button from '../../../../../../../../../components/Button';
+import Input from '../../../../../../../../../components/Input';
 import './index.scss';
+import { usePresenceConfirmationContext } from '../../../../contexts/PresenceConfirmationContext';
 
 export default function InvitationSearch() {
   const { getInvitationByCode, gettingInvitation, isAlreadyConfirmed } =
