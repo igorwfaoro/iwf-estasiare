@@ -1,4 +1,3 @@
-import Input from '../components/Input';
 import { invitationConverter } from '../converters/invitation.converter';
 import { prisma } from '../data/db';
 import { UpdateGuestsConfirmationInputModel } from '../models/input-models/update-guests-confirmation.input-model';
@@ -6,10 +5,7 @@ import { InvitationViewModel } from '../models/view-models/invitation.view-model
 
 export const createInvitationService = () => {
   const getByCode = async (code: string): Promise<InvitationViewModel> => {
-    const invitation = await prisma.invitation.findUniqueOrThrow({
-      where: {
-        code,
-      },
+    const invitation = await prisma.invitation.findFirstOrThrow({
       include: {
         guests: true,
       },

@@ -27,12 +27,20 @@ CREATE TABLE "EventDesignDetail" (
 );
 
 -- CreateTable
-CREATE TABLE "WeddingDetail" (
+CREATE TABLE "EventWeddingDetail" (
     "id" BIGSERIAL NOT NULL,
     "brideName" VARCHAR(100) NOT NULL,
     "groomName" VARCHAR(100) NOT NULL,
 
-    CONSTRAINT "WeddingDetail_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "EventWeddingDetail_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "EventFinancialDetail" (
+    "id" BIGSERIAL NOT NULL,
+    "paypalBusinessCode" VARCHAR(100),
+
+    CONSTRAINT "EventFinancialDetail_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -69,13 +77,8 @@ CREATE TABLE "Gift" (
     CONSTRAINT "Gift_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
-CREATE TABLE "EventFinancialDetail" (
-    "id" BIGSERIAL NOT NULL,
-    "paypalBussinessCode" VARCHAR(100),
-
-    CONSTRAINT "EventFinancialDetail_pkey" PRIMARY KEY ("id")
-);
+-- CreateIndex
+CREATE UNIQUE INDEX "Event_slug_key" ON "Event"("slug");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Event_designDetailId_key" ON "Event"("designDetailId");
@@ -93,7 +96,7 @@ ALTER TABLE "Event" ADD CONSTRAINT "Event_designDetailId_fkey" FOREIGN KEY ("des
 ALTER TABLE "Event" ADD CONSTRAINT "Event_financialDetailId_fkey" FOREIGN KEY ("financialDetailId") REFERENCES "EventFinancialDetail"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Event" ADD CONSTRAINT "Event_weddingDetailId_fkey" FOREIGN KEY ("weddingDetailId") REFERENCES "WeddingDetail"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Event" ADD CONSTRAINT "Event_weddingDetailId_fkey" FOREIGN KEY ("weddingDetailId") REFERENCES "EventWeddingDetail"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Invitation" ADD CONSTRAINT "Invitation_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

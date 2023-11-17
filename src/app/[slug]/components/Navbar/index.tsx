@@ -3,10 +3,10 @@
 import Link from 'next/link';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
-import Button from '../Button';
 import { usePathname } from 'next/navigation';
 import { MenuSVGIcon } from '@react-md/material-icons';
 import './index.scss';
+import Button from '../../../../components/Button';
 
 enum NavbarType {
   transparent = 'transparent',

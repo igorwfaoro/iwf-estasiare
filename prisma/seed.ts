@@ -11,7 +11,7 @@ async function main() {
       address: 'La Casa Piemont - Farroupilha - RS',
       financialDetail: {
         create: {
-          paypalBussinessCode: 'igor.faoro',
+          paypalBusinessCode: 'igor.faoro',
         },
       },
       designDetail: {
