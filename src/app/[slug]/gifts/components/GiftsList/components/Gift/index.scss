@@ -1,4 +1,4 @@
-@import '../../../../../../styles/colors.module.scss';
+@import '../../../../../../../styles/colors.module.scss';
 
 .card {
     background-color: $color-white;
@@ -31,11 +31,9 @@
     &__price { 
       font-size: 1.25rem;
       font-weight: 600;
-      color: $color-primary;
     }
   
     &__button {
       margin-top: 16px;
-      background-color: $color-primary;
     }
   }

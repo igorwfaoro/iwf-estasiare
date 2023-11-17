@@ -1,9 +1,19 @@
+import { EventViewModel } from '../../../../../models/view-models/event.view-model';
 import './index.scss';
 
-export default function Header() {
+interface HeaderProps {
+  event: EventViewModel;
+}
+
+export default function Header({ event }: HeaderProps) {
   return (
     <div id="gifts-header">
-      <h1 className="header-title">Escolha um presente simbólico!</h1>
+      <h1
+        className="header-title"
+        style={{ color: event.designDetail.primaryColor }}
+      >
+        Escolha um presente simbólico!
+      </h1>
 
       <div className="header-text">
         <p>

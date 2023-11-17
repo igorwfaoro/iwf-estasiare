@@ -2,6 +2,7 @@ import { EventType } from '@prisma/client';
 import { EventDesignDetailViewModel } from './event-design-detail.view-model';
 import { EventFinancialDetailViewModel } from './event-financial-detail.view-model';
 import { EventWeddingDetailViewModel } from './event-wedding-detail.view-model';
+import { GiftViewModel } from './gift.view-model';
 
 export interface EventViewModel {
   id: number;
@@ -12,5 +13,8 @@ export interface EventViewModel {
   designDetail: EventDesignDetailViewModel;
   financialDetail: EventFinancialDetailViewModel | null;
   weddingDetail: EventWeddingDetailViewModel | null;
+  gifts: GiftViewModel[] | undefined;
   createdAt: Date;
+
+  titleDescription: string;
 }

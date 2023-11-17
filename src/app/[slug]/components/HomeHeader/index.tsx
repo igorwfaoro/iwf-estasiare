@@ -1,25 +1,41 @@
 import dayjs from 'dayjs';
-import { InfoViewModel } from '../../../models/view-models/info.view-model';
 import './index.scss';
+import { EventViewModel } from '../../../../models/view-models/event.view-model';
+import { EventType } from '@prisma/client';
+import { eventTypeLabel } from '../../../../util/helpers/event-type.helper';
 
 interface HomeHeaderProps {
-  info: InfoViewModel;
+  event: EventViewModel;
 }
 
-export default function HomeHeader({ info }: HomeHeaderProps) {
-  const weddingDateFormatted = dayjs(info.weddingDate).format('DD/MM/YYYY');
+export default function HomeHeader({ event }: HomeHeaderProps) {
+  const dateFormatted = dayjs(event.date).format('DD/MM/YYYY');
+
+  const titleContent = {
+    [EventType.WEDDING]: (
+      <h1>
+        {event.weddingDetail?.groomName} & {event.weddingDetail?.brideName}
+      </h1>
+    ),
+  }[event.eventType];
+
+  const eventTypeText = eventTypeLabel[event.eventType];
 
   return (
-    <header id="home-header">
-      <div className="content">
-        <img className="content_logo" src="/images/logo-ig.svg" alt="Logo" />
+    <>
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `#home-header:before { background-image: url(${event.designDetail.bannerImage}) }`,
+        }}
+      ></style>
 
-        <h1>
-          {info.groomName} & {info.brideName}
-        </h1>
-
-        <span className="content_sub">{weddingDateFormatted}</span>
-      </div>
-    </header>
+      <header id="home-header">
+        <div className="content">
+          <h2>{eventTypeText}</h2>
+          <div>{titleContent}</div>
+          <span className="content_sub">{dateFormatted}</span>
+        </div>
+      </header>
+    </>
   );
 }

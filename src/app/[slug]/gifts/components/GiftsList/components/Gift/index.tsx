@@ -1,27 +1,29 @@
 'use client';
 
-import Button from '../../../../../../components/Button';
-import Card from '../../../../../../components/Card';
-import { useModal } from '../../../../../../contexts/ModalContext';
-import { GiftViewModel } from '../../../../../../models/view-models/gift.view-model';
-import { toCurrency } from '../../../../../../util/helpers/number.helper';
+import Button from '../../../../../../../components/Button';
+import Card from '../../../../../../../components/Card';
+import { useModal } from '../../../../../../../contexts/ModalContext';
+import { EventViewModel } from '../../../../../../../models/view-models/event.view-model';
+import { GiftViewModel } from '../../../../../../../models/view-models/gift.view-model';
+import { toCurrency } from '../../../../../../../util/helpers/number.helper';
 import GiftPaymentModal, {
   GiftPaymentModalProps,
 } from './components/GiftPaymentModal';
 import './index.scss';
 
 interface GiftProps {
+  event: EventViewModel;
   gift: GiftViewModel;
 }
 
-export default function Gift({ gift }: GiftProps) {
+export default function Gift({ event, gift }: GiftProps) {
   const modal = useModal();
 
   const openPaymentModal = () => {
     modal.open({
       component: GiftPaymentModal,
       title: 'Presentear',
-      props: { gift } as GiftPaymentModalProps,
+      props: { event, gift } as GiftPaymentModalProps,
       width: window.innerWidth < 768 ? '90%' : '30%',
     });
   };
@@ -32,12 +34,18 @@ export default function Gift({ gift }: GiftProps) {
       <div className="card__content">
         <div>
           <h2 className="card__title">{gift.description}</h2>
-          <div className="card__price">{toCurrency(gift.price)}</div>
+          <div
+            className="card__price"
+            style={{ color: event.designDetail.primaryColor }}
+          >
+            {toCurrency(gift.price)}
+          </div>
         </div>
         <Button
           className="card__button"
           onClick={openPaymentModal}
           theme="primary"
+          buttonColor={event.designDetail.primaryColor}
         >
           Presentear
         </Button>

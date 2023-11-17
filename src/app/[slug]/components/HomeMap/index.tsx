@@ -1,6 +1,11 @@
+import { EventViewModel } from '../../../../models/view-models/event.view-model';
 import './index.scss';
 
-export default function HomeMap() {
+interface HomeMapProps {
+  event: EventViewModel;
+}
+
+export default function HomeMap({ event }: HomeMapProps) {
   return (
     <iframe
       id="home-map"

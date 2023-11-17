@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import { MenuSVGIcon } from '@react-md/material-icons';
 import './index.scss';
 import Button from '../../../../components/Button';
+import { EventViewModel } from '../../../../models/view-models/event.view-model';
 
 enum NavbarType {
   transparent = 'transparent',
@@ -21,7 +22,11 @@ interface LinkItem {
   changeThemeWhenScroll?: boolean;
 }
 
-export function Navbar() {
+interface NavbarProps {
+  event: EventViewModel;
+}
+
+export function Navbar({ event }: NavbarProps) {
   const pathname = usePathname();
 
   const [menuIsOpen, setMenuIsOpen] = useState(false);
@@ -32,19 +37,19 @@ export function Navbar() {
 
   const links: LinkItem[] = [
     {
-      path: '/',
+      path: `/${event.slug}`,
       label: 'Home',
       navbarTheme: NavbarType.transparent,
       changeThemeWhenScroll: true,
     },
     {
-      path: '/gifts',
+      path: `/${event.slug}/gifts`,
       label: 'Presentes',
       navbarTheme: NavbarType.solid,
       navbarUseSpacer: true,
     },
     {
-      path: '/presence-confirmation',
+      path: `${event.slug}/presence-confirmation`,
       label: 'Confirmação de presença',
       navbarTheme: NavbarType.solid,
       navbarUseSpacer: true,

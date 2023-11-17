@@ -1,9 +1,12 @@
 import { prisma } from '../data/db';
-import { Event } from '@prisma/client';
 import { EventViewModel } from '../models/view-models/event.view-model';
+import { eventConverter } from '../converters/event.converter';
 
 export const createEventService = () => {
-  const getBySlug = async (slug: string): Promise<EventViewModel> => {
+  const getBySlug = async (
+    slug: string,
+    extraIncludes: { gifts?: boolean } = {}
+  ): Promise<EventViewModel> => {
     const event = await prisma.event.findFirstOrThrow({
       where: {
         slug,
@@ -12,10 +15,11 @@ export const createEventService = () => {
         financialDetail: true,
         designDetail: true,
         weddingDetail: true,
+        ...extraIncludes,
       },
     });
 
-    return event;
+    return eventConverter.modelToViewModel(event);
   };
 
   return {

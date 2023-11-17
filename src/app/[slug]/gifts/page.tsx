@@ -1,37 +1,38 @@
-import { createGiftService } from '../../app-services/gift.service';
-import { createInfoService } from '../../app-services/info.service';
 import { cache } from 'react';
 import { Metadata } from 'next';
+import './page.scss';
 import Header from './components/Header';
 import GiftsList from './components/GiftsList';
+import ModalProvider from '../../../contexts/ModalContext';
+import { createEventService } from '../../../app-services/event.service';
 
 export const revalidate = 3600;
 
-const giftService = createGiftService();
-
-const getInfo = cache(async () => {
-  return await createInfoService().getInfo();
+const getEvent = cache(async (slug: string) => {
+  return await createEventService().getBySlug(slug, { gifts: true });
 });
 
-const getGifts = cache(async () => {
-  return await giftService.getAll();
-});
-
-export async function generateMetadata({ params }: any): Promise<Metadata> {
-  const info = await getInfo();
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const event = await getEvent(params.slug);
 
   return {
-    title: `Presentes | ${info.groomName} & ${info.brideName} | Wedding`,
+    title: `Presentes | ${event.titleDescription}`,
   };
 }
 
-export default async function Gifts() {
-  const gifts = await getGifts();
+export default async function Gifts(params: { slug: string }) {
+  const event = await getEvent(params.slug);
 
   return (
-    <div>
-      <Header />
-      <GiftsList gifts={gifts} />
-    </div>
+    <ModalProvider>
+      <div id="gifts-page">
+        <Header event={event} />
+        <GiftsList event={event} />
+      </div>
+    </ModalProvider>
   );
 }

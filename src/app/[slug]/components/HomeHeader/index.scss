@@ -1,4 +1,4 @@
-@import "../../../styles/colors.module.scss";
+@import "../../../../styles/colors.module.scss";
 
 #home-header {
     width: 100%;
@@ -6,7 +6,7 @@
 
     &::before {
         content: "";
-        background-image: url(/images/cover.jpg);
+        // background-image: url(/images/cover.jpg);
         background-size: cover;
         background-position: center top;
         position: absolute;
@@ -27,13 +27,15 @@
         justify-content: center;
         gap: 6px;
 
-        &_logo {
-            width: 260px;
-        }
-
         h1 {
             font-weight: bold;
             color: $color-neutral-50;
+        }
+
+        h2 {
+            font-weight: bold;
+            color: $color-neutral-50;
+            margin: 0;
         }
 
         &_sub {

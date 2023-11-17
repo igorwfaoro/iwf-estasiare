@@ -1,16 +1,16 @@
 'use client';
 
-import { GiftViewModel } from '../../../../models/view-models/gift.view-model';
 import Gift from './components/Gift';
 import { Col, Row } from 'react-grid-system';
 import './index.scss';
+import { EventViewModel } from '../../../../../models/view-models/event.view-model';
 
 interface GiftsListProps {
-  gifts: GiftViewModel[];
+  event: EventViewModel;
   // categories: GiftCategoryViewModel[];
 }
 
-export default function GiftsList({ gifts }: GiftsListProps) {
+export default function GiftsList({ event }: GiftsListProps) {
   // const [selectedCategory, setSelectedCategory] =
   // useState<GiftCategoryViewModel | null>(null);
 
@@ -27,9 +27,9 @@ export default function GiftsList({ gifts }: GiftsListProps) {
       /> */}
 
       <Row className="row">
-        {gifts.map((g, i) => (
+        {event.gifts?.map((g, i) => (
           <Col key={i} md={4}>
-            <Gift gift={g} />
+            <Gift event={event} gift={g} />
           </Col>
         ))}
       </Row>

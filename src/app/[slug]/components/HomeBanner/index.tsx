@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
-import Button, { ButtonTheme, ButtonVariant } from '../../../components/Button';
 import './index.scss';
+import Button, { ButtonTheme, ButtonVariant } from '../../../../components/Button';
 
 type Direction = 'row' | 'column';
 

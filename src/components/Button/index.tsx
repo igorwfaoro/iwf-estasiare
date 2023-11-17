@@ -23,6 +23,7 @@ interface ButtonProps {
   disabled?: boolean;
   theme?: ButtonTheme;
   variant?: ButtonVariant;
+  buttonColor?: string;
 }
 
 export default function Button(props: ButtonProps) {
@@ -33,15 +34,15 @@ export default function Button(props: ButtonProps) {
 
   const themeConfig = {
     primary: {
-      color: colors['color-primary'],
+      color: props.buttonColor ?? colors['color-primary'],
       contrast: colors['color-white'],
     },
     secondary: {
-      color: colors['color-secondary'],
+      color: props.buttonColor ?? colors['color-secondary'],
       contrast: colors['color-white'],
     },
     light: {
-      color: colors['color-neutral-100'],
+      color: props.buttonColor ?? colors['color-neutral-100'],
       contrast: colors['color-neutral-950'],
     },
   }[theme];

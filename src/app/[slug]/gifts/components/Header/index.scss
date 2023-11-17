@@ -1,4 +1,4 @@
-@import "../../../../styles/colors.module.scss";
+@import "../../../../../styles/colors.module.scss";
 
 #gifts-header {
     padding-top: 24px 16px 64px;
@@ -7,7 +7,6 @@
         font-size: 1.875rem;
         font-weight: bold;
         text-align: center;
-        color: $color-primary;
         margin-bottom: 24px;
     }
 
