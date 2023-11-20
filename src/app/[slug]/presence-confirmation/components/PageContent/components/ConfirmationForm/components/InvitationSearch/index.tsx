@@ -5,23 +5,24 @@ import './index.scss';
 import { usePresenceConfirmationContext } from '../../../../contexts/PresenceConfirmationContext';
 
 export default function InvitationSearch() {
-  const { getInvitationByCode, gettingInvitation, isAlreadyConfirmed } =
+  const { getInvitation, gettingInvitation, isAlreadyConfirmed } =
     usePresenceConfirmationContext();
 
-  const [invitationCodeValue, setInvitationCodeValue] = useState<string>();
+  const [invitationDescriptionValue, setInvitationDescriptionValue] =
+    useState<string>();
   const [alreadyTrySearch, setAlreadyTrySearch] = useState(false);
 
   const inputErrorMessage =
-    alreadyTrySearch && !invitationCodeValue
-      ? 'Insira o código do convite'
+    alreadyTrySearch && !invitationDescriptionValue
+      ? 'Insira a descrição do convite'
       : null;
 
   const handleGetInvitation = () => {
     setAlreadyTrySearch(true);
 
-    if (!invitationCodeValue) return;
+    if (!invitationDescriptionValue) return;
 
-    getInvitationByCode(invitationCodeValue!);
+    getInvitation(invitationDescriptionValue!);
   };
 
   const handleInputKeyup = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -37,14 +38,13 @@ export default function InvitationSearch() {
   return (
     <div id="invitation-search">
       <Input
-        label="Código do convite"
+        label="Nomes que estão no convite"
+        helpText="Escreva exatamente como está escrito no convite"
         inputClassName="input"
-        type="number"
-        value={invitationCodeValue}
-        onChange={(e) => setInvitationCodeValue(e.target.value)}
+        value={invitationDescriptionValue}
+        onChange={(e) => setInvitationDescriptionValue(e.target.value)}
         errorMessage={inputErrorMessage}
         onKeyUp={handleInputKeyup}
-        placeholder="Digite o código"
       />
       <Button
         className="button-search"

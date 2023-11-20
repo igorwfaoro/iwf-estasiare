@@ -2,8 +2,6 @@ import { cache } from 'react';
 import { Metadata } from 'next';
 import HomeBanner, { HomeBannerProps } from './components/HomeBanner';
 import { createEventService } from '../../app-services/event.service';
-import { Navbar } from './components/Navbar';
-import { Footer } from './components/Footer';
 import HomeHeader from './components/HomeHeader';
 import HomeInfo from './components/HomeInfo';
 
@@ -21,7 +19,7 @@ export async function generateMetadata({
   const event = await getEvent(params.slug);
 
   return {
-    title: `Confirmação | ${event.titleDescription}`,
+    title: event.titleDescription,
   };
 }
 
@@ -46,14 +44,12 @@ export default async function EventSite({
 
   return (
     <div>
-      <Navbar event={event} />
       <HomeHeader event={event} />
       <HomeInfo event={event} />
       <HomeBanner {...banners.gifts} />
       {/* <HomePhotoAlbum /> */}
       {/* <HomePlaylist /> */}
       {/* <HomeMap event={event} /> */}
-      <Footer />
     </div>
   );
 }

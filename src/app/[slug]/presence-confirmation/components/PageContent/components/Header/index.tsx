@@ -14,8 +14,10 @@ export default function Header() {
         </p>
 
         <ol>
-          <li>Encontre o código único do seu convite de casamento</li>
-          <li>Digite o código do convite no campo abaixo</li>
+          <li>
+            Digite os nomes que estão no convite do convite no campo abaixo
+            (digite exatamente igual do convite)
+          </li>
           <li>
             Selecione as pessoas pessoas que irão comparecer ao evento junto com
             você

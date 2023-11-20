@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import './index.scss'
+import './index.scss';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
@@ -31,9 +31,14 @@ export function Navbar({ event }: NavbarProps) {
   const pathname = usePathname();
 
   const [menuIsOpen, setMenuIsOpen] = useState(false);
+
   const [navbarTheme, setNavbarTheme] = useState<NavbarType>(
     NavbarType.transparent
   );
+
+  const [lastNavbarTheme, setLastNavbarTheme] =
+    useState<NavbarType>(navbarTheme);
+
   const [useSpacer, setUseSpacer] = useState(false);
 
   const links: LinkItem[] = [
@@ -50,17 +55,20 @@ export function Navbar({ event }: NavbarProps) {
       navbarUseSpacer: true,
     },
     {
-      path: `${event.slug}/presence-confirmation`,
+      path: `/${event.slug}/presence-confirmation`,
       label: 'Confirmação de presença',
       navbarTheme: NavbarType.solid,
       navbarUseSpacer: true,
     },
   ];
 
-  let currentNavbarTheme: NavbarType = navbarTheme;
-
   useEffect(() => {
     const selectedLink = links.find((l) => l.path === pathname);
+    console.log({
+      pathname,
+      selectedLink,
+      theme: selectedLink?.navbarTheme,
+    });
 
     setNavbarTheme(selectedLink?.navbarTheme || NavbarType.transparent);
     setUseSpacer(!!selectedLink?.navbarUseSpacer);
@@ -81,15 +89,15 @@ export function Navbar({ event }: NavbarProps) {
   const handleScroll = () => {
     const { scrollY, innerHeight } = window;
 
-    if (scrollY < innerHeight && currentNavbarTheme == NavbarType.solid) {
+    if (scrollY < innerHeight && lastNavbarTheme == NavbarType.solid) {
       setNavbarTheme(NavbarType.transparent);
-      currentNavbarTheme = NavbarType.transparent;
+      setLastNavbarTheme(NavbarType.transparent);
     } else if (
       scrollY >= innerHeight &&
-      currentNavbarTheme == NavbarType.transparent
+      lastNavbarTheme == NavbarType.transparent
     ) {
       setNavbarTheme(NavbarType.solid);
-      currentNavbarTheme = NavbarType.solid;
+      setLastNavbarTheme(NavbarType.solid);
     }
   };
 

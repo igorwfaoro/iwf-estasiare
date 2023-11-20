@@ -4,8 +4,18 @@ import { UpdateGuestsConfirmationInputModel } from '../models/input-models/updat
 import { InvitationViewModel } from '../models/view-models/invitation.view-model';
 
 export const createInvitationService = () => {
-  const getByCode = async (code: string): Promise<InvitationViewModel> => {
+  const getByDescription = async (
+    eventId: number,
+    description: string
+  ): Promise<InvitationViewModel> => {
     const invitation = await prisma.invitation.findFirstOrThrow({
+      where: {
+        eventId,
+        description: {
+          equals: description,
+          mode: 'insensitive',
+        },
+      },
       include: {
         guests: true,
       },
@@ -38,7 +48,7 @@ export const createInvitationService = () => {
   };
 
   return {
-    getByCode,
+    getByDescription,
     updateGuestsConfirmation,
   };
 };

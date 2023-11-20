@@ -10,6 +10,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   inputClassName?: string;
   errorMessageClassName?: string;
   errorMessage?: string | null;
+  helpText?: string;
 }
 
 export default function Input({
@@ -20,11 +21,13 @@ export default function Input({
   inputClassName,
   errorMessage,
   errorMessageClassName,
+  helpText,
   ...otherProps
 }: InputProps) {
   return (
     <div className={classNames('app-input', className)}>
       <label className={classNames('label', labelClassName)}>{label}</label>
+      {helpText && <small className="help-text">{helpText}</small>}
       <input
         ref={inputRef}
         {...otherProps}

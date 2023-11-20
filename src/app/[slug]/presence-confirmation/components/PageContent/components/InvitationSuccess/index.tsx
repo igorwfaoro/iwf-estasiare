@@ -1,8 +1,11 @@
 import ConfettiExplosion from 'react-confetti-explosion';
 import './index.scss';
 import Button from '../../../../../../../components/Button';
+import { usePresenceConfirmationContext } from '../../contexts/PresenceConfirmationContext';
 
 export default function InvitationSuccess() {
+  const { event } = usePresenceConfirmationContext();
+
   const confettiDuration = 3000;
   const confettiParticleCount = 150;
   const confettiWidth = window.innerWidth + 200;
@@ -28,7 +31,7 @@ export default function InvitationSuccess() {
           </p>
         </div>
 
-        <Button theme="primary" variant="outlined" link="/">
+        <Button theme="primary" variant="outlined" link={`/${event.slug}`}>
           Ir para início
         </Button>
       </div>

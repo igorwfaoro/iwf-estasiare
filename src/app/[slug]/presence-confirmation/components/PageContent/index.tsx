@@ -1,17 +1,13 @@
 'use client';
 
-import './index.scss'
+import './index.scss';
 import ConfirmationForm from './components/ConfirmationForm';
 import Header from './components/Header';
 import InvitationSuccess from './components/InvitationSuccess';
-import {
-  usePresenceConfirmationContext,
-  withContext,
-} from './contexts/PresenceConfirmationContext';
+import { usePresenceConfirmationContext } from './contexts/PresenceConfirmationContext';
 import './index.scss';
-import ToastProvider from '../../../../../contexts/ToastContext';
 
-function PresenceConfirmationContent() {
+export default function PresenceConfirmationContent() {
   const { isAlreadyConfirmed } = usePresenceConfirmationContext();
 
   return (
@@ -19,9 +15,7 @@ function PresenceConfirmationContent() {
       {!isAlreadyConfirmed ? (
         <>
           <Header />
-          <ToastProvider>
-            <ConfirmationForm />
-          </ToastProvider>
+          <ConfirmationForm />
         </>
       ) : (
         <InvitationSuccess />
@@ -29,5 +23,3 @@ function PresenceConfirmationContent() {
     </div>
   );
 }
-
-export default withContext(PresenceConfirmationContent);

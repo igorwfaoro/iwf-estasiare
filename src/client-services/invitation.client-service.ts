@@ -1,11 +1,17 @@
 import { API_URLS } from '../constants/api-urls';
 import { InvitationViewModel } from '../models/view-models/invitation.view-model';
 
-export const createInvitationFetcher = () => {
-  const getByCode = (code: string): Promise<InvitationViewModel> =>
-    fetch(API_URLS.invitations.getByCode(code)).then((response) =>
-      response.json()
-    );
+export const createInvitationClientService = () => {
+  const getByDescription = (
+    eventId: number,
+    description: string
+  ): Promise<InvitationViewModel> =>
+    fetch(
+      `${API_URLS.invitations.getByDescription()}?${new URLSearchParams({
+        eventId: String(eventId),
+        description,
+      })}`
+    ).then((response) => response.json());
 
   const updateGuestsConfirmations = (
     invitationId: number,
@@ -20,7 +26,7 @@ export const createInvitationFetcher = () => {
     });
 
   return {
-    getByCode,
+    getByDescription,
     updateGuestsConfirmations,
   };
 };

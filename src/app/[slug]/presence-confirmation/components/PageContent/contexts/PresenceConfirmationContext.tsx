@@ -1,3 +1,5 @@
+'use client';
+
 import {
   RefObject,
   createContext,
@@ -8,23 +10,26 @@ import {
 } from 'react';
 import { InvitationViewModel } from '../../../../../../models/view-models/invitation.view-model';
 import { GuestViewModel } from '../../../../../../models/view-models/guest.view-model';
-import { createInvitationFetcher } from '../../../../../../client-services/invitation.fetcher';
 import { useToast } from '../../../../../../contexts/ToastContext';
+import { createInvitationClientService } from '../../../../../../client-services/invitation.client-service';
+import { EventViewModel } from '../../../../../../models/view-models/event.view-model';
 
 export interface IPresenceConfirmationProvider {
   invitation?: InvitationViewModel;
   gettingInvitation: boolean;
-  getInvitationByCode: (code: string) => void;
+  getInvitation: (description: string) => void;
   guestsSelects: GuestViewModel[];
   setGuestsSelectsValue: (guestId: number, selected: boolean) => void;
   confirmGuests: () => void;
   loadingConfirmGuests: boolean;
   isAlreadyConfirmed: boolean;
   guestsListRef: RefObject<HTMLDivElement>;
+  event: EventViewModel;
 }
 
 interface PresenceConfirmationProviderProps {
   children: any;
+  event: EventViewModel;
 }
 
 const PresenceConfirmationContext = createContext<
@@ -34,7 +39,7 @@ const PresenceConfirmationContext = createContext<
 const PresenceConfirmationProvider = (
   props: PresenceConfirmationProviderProps
 ) => {
-  const invitationFetcher = createInvitationFetcher();
+  const invitationClientService = createInvitationClientService();
 
   const toast = useToast();
 
@@ -48,10 +53,10 @@ const PresenceConfirmationProvider = (
 
   const guestsListRef = useRef<HTMLDivElement>(null);
 
-  const getInvitationByCode = (code: string) => {
+  const getInvitation = (description: string) => {
     setGettingInvitation(true);
-    invitationFetcher
-      .getByCode(code)
+    invitationClientService
+      .getByDescription(props.event.id, description)
       .then((response) => {
         setInvitation(response);
         setGuestsSelects(
@@ -71,7 +76,7 @@ const PresenceConfirmationProvider = (
 
   const confirmGuests = () => {
     setLoadingConfirmGuests(true);
-    invitationFetcher
+    invitationClientService
       .updateGuestsConfirmations(
         invitation!.id,
         guestsSelects.map((g) => ({
@@ -96,13 +101,14 @@ const PresenceConfirmationProvider = (
     () => ({
       invitation,
       gettingInvitation,
-      getInvitationByCode,
+      getInvitation,
       guestsSelects,
       setGuestsSelectsValue,
       confirmGuests,
       loadingConfirmGuests,
       isAlreadyConfirmed,
       guestsListRef,
+      event: props.event,
     }),
     [
       invitation,
@@ -125,10 +131,3 @@ export default PresenceConfirmationProvider;
 
 export const usePresenceConfirmationContext = () =>
   useContext(PresenceConfirmationContext)!;
-
-export const withContext = (Component: any) => (props: any) =>
-  (
-    <PresenceConfirmationProvider>
-      <Component {...props} />
-    </PresenceConfirmationProvider>
-  );
