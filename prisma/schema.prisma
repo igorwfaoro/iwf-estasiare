@@ -46,7 +46,7 @@ model EventContent {
   primaryColor       String              @db.VarChar(7)
   bannerImage        String              @db.VarChar(500)
   logoImage          String?             @db.VarChar(500)
-  favicon            String?             @db.VarChar(500)
+  icon               String?             @db.VarChar(500)
   spotifyPlaylistUrl String?             @db.VarChar(100)
   images             EventContentImage[]
   event              Event?
@@ -98,7 +98,7 @@ model Guest {
 
 model Gift {
   id          BigInt  @id @default(autoincrement())
-  description String  @db.VarChar(100)
+  description String  @db.VarChar(400)
   image       String  @db.VarChar(500)
   price       Decimal @db.Decimal(10, 2)
 

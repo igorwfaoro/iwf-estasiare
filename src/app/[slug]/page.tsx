@@ -1,12 +1,12 @@
 import { cache } from 'react';
 import { Metadata } from 'next';
-import HomeBanner, { HomeBannerProps } from './components/HomeBanner';
+import EventBanner, { EventBannerProps } from './components/EventBanner';
 import { createEventService } from '../../app-services/event.service';
-import HomeHeader from './components/HomeHeader';
-import HomeInfo from './components/HomeInfo';
-import HomePhotoAlbum from './components/HomePhotoAlbum';
-import HomePlaylist from './components/HomePlaylist';
-import HomeMap from './components/HomeMap';
+import EventHeader from './components/EventHeader';
+import EventInfo from './components/EventInfo';
+import EventPhotoAlbum from './components/EventPhotoAlbum';
+import EventPlaylist from './components/EventPlaylist';
+import EventMap from './components/EventMap';
 
 export const revalidate = 3600;
 
@@ -26,11 +26,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function EventSite({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function Event({ params }: { params: { slug: string } }) {
   const event = await getEvent(params.slug);
 
   const banners = {
@@ -42,38 +38,36 @@ export default async function EventSite({
       imageSrc: '/images/banner1.jpg',
       buttonLink: `/${event.slug}/gifts`,
       direction: 'row',
-    } as HomeBannerProps,
+    } as EventBannerProps,
     presenceConfirmation: {
       title: 'Confirmação de Presença',
       description:
         'Confirme sua presença em nossa celebração especial. Estamos ansiosos para compartilhar este momento com você!',
-      buttonText: 'Lista de presentes',
-      imageSrc: '/images/banner1.jpg',
-      buttonLink: `/${event.slug}/gifts`,
+      buttonText: 'Confirmação',
+      imageSrc: '/images/banner2.jpg',
+      buttonLink: `/${event.slug}/presence-confirmation`,
       direction: 'row',
-    } as HomeBannerProps,
+    } as EventBannerProps,
   };
 
   return (
     <div>
-      <HomeHeader event={event} />
-      <HomeInfo event={event} />
+      <EventHeader event={event} />
+      <EventInfo event={event} />
 
-      <HomeBanner {...banners.gifts} />
+      <EventBanner {...banners.gifts} />
 
-      {!!event.content.images.length && (
-        <HomePhotoAlbum images={event.content.images} />
+      {!!event.content.images?.length && (
+        <EventPhotoAlbum images={event.content.images} />
       )}
 
-      <HomeBanner {...banners.presenceConfirmation} />
+      <EventBanner {...banners.presenceConfirmation} />
 
       {event.content.spotifyPlaylistUrl && (
-        <HomePlaylist
-          spotifyPlaylistUrl={event.content.spotifyPlaylistUrl}
-        />
+        <EventPlaylist spotifyPlaylistUrl={event.content.spotifyPlaylistUrl} />
       )}
 
-      <HomeMap />
+      <EventMap addressDescription={event.address.fullDescription} />
     </div>
   );
 }

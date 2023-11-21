@@ -1,7 +1,7 @@
 import { ReactNode, cache } from 'react';
 import { createEventService } from '../../app-services/event.service';
-import { Navbar } from './components/Navbar';
-import { Footer } from './components/Footer';
+import { EventNavbar } from './components/Navbar';
+import { EventFooter } from './components/Footer';
 
 interface LayoutProps {
   params: { slug: string };
@@ -12,14 +12,14 @@ const getEvent = cache(async (slug: string) => {
   return await createEventService().getBySlug(slug);
 });
 
-export default async function SlugLayout({ params, children }: LayoutProps) {
+export default async function EventLayout({ params, children }: LayoutProps) {
   const event = await getEvent(params.slug);
 
   return (
     <>
-      <Navbar event={event} />
+      <EventNavbar event={event} />
       {children}
-      <Footer />
+      <EventFooter />
     </>
   );
 }

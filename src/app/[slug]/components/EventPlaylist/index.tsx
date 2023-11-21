@@ -1,14 +1,14 @@
 import './index.scss';
 
-interface HomePlaylistProps {
+interface EventPlaylistProps {
   spotifyPlaylistUrl: string;
 }
 
-export default function HomePlaylist({
+export default function EventPlaylist({
   spotifyPlaylistUrl,
-}: HomePlaylistProps) {
+}: EventPlaylistProps) {
   return (
-    <div id="home-playlist">
+    <div id="event-playlist">
       <iframe
         className="spotify-iframe"
         src={spotifyPlaylistUrl}

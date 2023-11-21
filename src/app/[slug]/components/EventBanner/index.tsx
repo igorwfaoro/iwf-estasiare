@@ -4,7 +4,7 @@ import Button, { ButtonTheme, ButtonVariant } from '../../../../components/Butto
 
 type Direction = 'row' | 'column';
 
-export interface HomeBannerProps {
+export interface EventBannerProps {
   title: string;
   description: string;
   direction?: Direction;
@@ -15,7 +15,7 @@ export interface HomeBannerProps {
   imageSrc: string;
 }
 
-export default function HomeBanner({
+export default function EventBanner({
   title,
   description,
   direction = 'column',
@@ -24,7 +24,7 @@ export default function HomeBanner({
   imageSrc,
   buttonTheme = 'light',
   buttonVariant = 'outlined',
-}: HomeBannerProps) {
+}: EventBannerProps) {
   const wrapperStyle: CSSProperties = {
     backgroundImage: `url(${imageSrc})`,
   };
@@ -38,7 +38,7 @@ export default function HomeBanner({
   };
 
   return (
-    <div id="home-banner" style={wrapperStyle}>
+    <div id="event-banner" style={wrapperStyle}>
       <div className="banner-content" style={contentStyle}>
         <div className="banner-content__text-side" style={textStyle}>
           <h2>{title}</h2>

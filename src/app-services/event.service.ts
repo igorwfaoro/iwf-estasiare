@@ -5,15 +5,15 @@ import { eventConverter } from '../converters/event.converter';
 export const createEventService = () => {
   const getBySlug = async (
     slug: string,
-    extraIncludes: { gifts?: boolean } = {}
+    extraIncludes: { gifts?: boolean; financial?: boolean } = {}
   ): Promise<EventViewModel> => {
     const event = await prisma.event.findFirstOrThrow({
       where: {
         slug,
       },
       include: {
-        financialDetail: true,
-        designDetail: {
+        address: true,
+        content: {
           include: {
             images: true,
           },

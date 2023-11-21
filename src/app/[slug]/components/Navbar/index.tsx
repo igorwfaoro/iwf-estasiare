@@ -9,6 +9,8 @@ import { MenuSVGIcon } from '@react-md/material-icons';
 import './index.scss';
 import { EventViewModel } from '../../../../models/view-models/event.view-model';
 import Button from '../../../../components/Button';
+import InitialsIcon from '../../../../components/InitialsIcon';
+import { EventType } from '@prisma/client';
 
 enum NavbarType {
   transparent = 'transparent',
@@ -23,11 +25,11 @@ interface LinkItem {
   changeThemeWhenScroll?: boolean;
 }
 
-interface NavbarProps {
+interface EventNavbarProps {
   event: EventViewModel;
 }
 
-export function Navbar({ event }: NavbarProps) {
+export function EventNavbar({ event }: EventNavbarProps) {
   const pathname = usePathname();
 
   const [menuIsOpen, setMenuIsOpen] = useState(false);
@@ -64,11 +66,6 @@ export function Navbar({ event }: NavbarProps) {
 
   useEffect(() => {
     const selectedLink = links.find((l) => l.path === pathname);
-    console.log({
-      pathname,
-      selectedLink,
-      theme: selectedLink?.navbarTheme,
-    });
 
     setNavbarTheme(selectedLink?.navbarTheme || NavbarType.transparent);
     setUseSpacer(!!selectedLink?.navbarUseSpacer);
@@ -104,11 +101,31 @@ export function Navbar({ event }: NavbarProps) {
   const toggleMenu = () => setMenuIsOpen((mio) => !mio);
   const closeMenu = () => setMenuIsOpen(false);
 
+  const renderInitialsIcon = () =>
+    ({
+      [EventType.WEDDING]: (
+        <InitialsIcon
+          name={[
+            event.weddingDetail?.groomName!,
+            event.weddingDetail?.brideName!,
+          ]}
+          size={32}
+          color={event.content.primaryColor}
+        />
+      ),
+    }[event.eventType]);
+
+  const icon = event.content.icon ? (
+    <img src={event.content.icon} alt="Logo" />
+  ) : (
+    renderInitialsIcon()
+  );
+
   return (
     <>
-      <div id="app-navbar" className={navbarTheme}>
-        <Link href="/" className="logo">
-          <img src="/images/favicon.svg" alt="Logo" />
+      <div id="event-navbar" className={navbarTheme}>
+        <Link href={`/${event.slug}`} className="logo">
+          {icon}
         </Link>
 
         <Button

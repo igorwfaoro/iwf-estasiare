@@ -13,7 +13,7 @@ export const eventContentConverter = {
     id: Number(model.id),
     primaryColor: model.primaryColor,
     logoImage: model.logoImage,
-    favicon: model.favicon,
+    icon: model.icon,
     spotifyPlaylistUrl: model.spotifyPlaylistUrl,
     bannerImage: model.bannerImage,
     images: model.images?.map(eventContentImageConverter.modelToViewModel),

@@ -9,7 +9,10 @@ import { createEventService } from '../../../app-services/event.service';
 export const revalidate = 3600;
 
 const getEvent = cache(async (slug: string) => {
-  return await createEventService().getBySlug(slug, { gifts: true });
+  return await createEventService().getBySlug(slug, {
+    gifts: true,
+    financial: true,
+  });
 });
 
 export async function generateMetadata({

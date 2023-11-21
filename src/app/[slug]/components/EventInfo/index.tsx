@@ -2,17 +2,17 @@ import dayjs from 'dayjs';
 import './index.scss';
 import { EventViewModel } from '../../../../models/view-models/event.view-model';
 
-interface HomeInfoProps {
+interface EventInfoProps {
   event: EventViewModel;
 }
 
-export default function HomeInfo({ event }: HomeInfoProps) {
+export default function EventInfo({ event }: EventInfoProps) {
   const dateFormatted = dayjs(event.date).format('DD/MM/YYYY');
 
   return (
-    <section id="wedding-info">
+    <section id="event-info">
       <span className="info-date">{dateFormatted}</span>
-      <span className="info-address">{event.address}</span>
+      <span className="info-address">{event.address.shortDescription}</span>
     </section>
   );
 }

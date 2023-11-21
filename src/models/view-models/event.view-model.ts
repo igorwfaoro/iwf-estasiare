@@ -10,8 +10,8 @@ export interface EventViewModel {
   eventType: EventType;
   date: Date;
   slug: string;
-  address: EventAddressViewModel | undefined;
-  content: EventContentViewModel | undefined;
+  address: EventAddressViewModel;
+  content: EventContentViewModel;
   financial: EventFinancialViewModel | null;
   weddingDetail: EventWeddingDetailViewModel | null;
   gifts: GiftViewModel[] | undefined;

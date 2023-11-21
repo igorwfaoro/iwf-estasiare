@@ -6,14 +6,13 @@ import {
   FaChevronRight as IconArrowRight,
 } from 'react-icons/fa';
 import './index.scss';
-import { EventViewModel } from '../../../../models/view-models/event.view-model';
 import { EventContentImageViewModel } from '../../../../models/view-models/event-content-image.view-model';
 
-interface HomePhotoAlbumProps {
+interface EventPhotoAlbumProps {
   images: EventContentImageViewModel[];
 }
 
-export default function HomePhotoAlbum({ images }: HomePhotoAlbumProps) {
+export default function EventPhotoAlbum({ images }: EventPhotoAlbumProps) {
   const photosRef = useRef<HTMLDivElement>(null);
 
   const handleArrowClick = (direction: 'left' | 'right') => {
@@ -28,7 +27,7 @@ export default function HomePhotoAlbum({ images }: HomePhotoAlbumProps) {
   };
 
   return (
-    <div id="home-photo-album">
+    <div id="event-photo-album">
       <div className="album">
         <div className="photos" ref={photosRef}>
           {images.map((p, i) => (
