@@ -1,17 +1,18 @@
 import { EventType } from '@prisma/client';
-import { EventDesignDetailViewModel } from './event-design-detail.view-model';
-import { EventFinancialDetailViewModel } from './event-financial-detail.view-model';
+import { EventContentViewModel } from './event-content.view-model';
+import { EventFinancialViewModel } from './event-financial.view-model';
 import { EventWeddingDetailViewModel } from './event-wedding-detail.view-model';
 import { GiftViewModel } from './gift.view-model';
+import { EventAddressViewModel } from './event-address.view-model';
 
 export interface EventViewModel {
   id: number;
   eventType: EventType;
   date: Date;
   slug: string;
-  address: string;
-  designDetail: EventDesignDetailViewModel;
-  financialDetail: EventFinancialDetailViewModel | null;
+  address: EventAddressViewModel | undefined;
+  content: EventContentViewModel | undefined;
+  financial: EventFinancialViewModel | null;
   weddingDetail: EventWeddingDetailViewModel | null;
   gifts: GiftViewModel[] | undefined;
   createdAt: Date;

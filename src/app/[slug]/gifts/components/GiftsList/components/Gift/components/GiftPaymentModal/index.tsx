@@ -19,7 +19,7 @@ export default function GiftPaymentModal({
   return (
     <div id="gift-payment-modal">
       <h1 className="description">{gift.description}</h1>
-      <h3 className="price" style={{ color: event.designDetail.primaryColor }}>
+      <h3 className="price" style={{ color: event.content.primaryColor }}>
         {toCurrency(gift.price)}
       </h3>
       <p className="text">
@@ -30,7 +30,7 @@ export default function GiftPaymentModal({
         link={paymentLink}
         linkTarget="_blank"
         theme="primary"
-        buttonColor={event.designDetail.primaryColor}
+        buttonColor={event.content.primaryColor}
       >
         Dê seu presente
       </Button>

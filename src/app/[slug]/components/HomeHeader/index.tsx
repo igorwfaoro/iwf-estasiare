@@ -25,7 +25,7 @@ export default function HomeHeader({ event }: HomeHeaderProps) {
     <>
       <style
         dangerouslySetInnerHTML={{
-          __html: `#home-header:before { background-image: url(${event.designDetail.bannerImage}) }`,
+          __html: `#home-header:before { background-image: url(${event.content.bannerImage}) }`,
         }}
       ></style>
 

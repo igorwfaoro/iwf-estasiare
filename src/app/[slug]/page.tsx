@@ -4,6 +4,9 @@ import HomeBanner, { HomeBannerProps } from './components/HomeBanner';
 import { createEventService } from '../../app-services/event.service';
 import HomeHeader from './components/HomeHeader';
 import HomeInfo from './components/HomeInfo';
+import HomePhotoAlbum from './components/HomePhotoAlbum';
+import HomePlaylist from './components/HomePlaylist';
+import HomeMap from './components/HomeMap';
 
 export const revalidate = 3600;
 
@@ -40,16 +43,37 @@ export default async function EventSite({
       buttonLink: `/${event.slug}/gifts`,
       direction: 'row',
     } as HomeBannerProps,
+    presenceConfirmation: {
+      title: 'Confirmação de Presença',
+      description:
+        'Confirme sua presença em nossa celebração especial. Estamos ansiosos para compartilhar este momento com você!',
+      buttonText: 'Lista de presentes',
+      imageSrc: '/images/banner1.jpg',
+      buttonLink: `/${event.slug}/gifts`,
+      direction: 'row',
+    } as HomeBannerProps,
   };
 
   return (
     <div>
       <HomeHeader event={event} />
       <HomeInfo event={event} />
+
       <HomeBanner {...banners.gifts} />
-      {/* <HomePhotoAlbum /> */}
-      {/* <HomePlaylist /> */}
-      {/* <HomeMap event={event} /> */}
+
+      {!!event.content.images.length && (
+        <HomePhotoAlbum images={event.content.images} />
+      )}
+
+      <HomeBanner {...banners.presenceConfirmation} />
+
+      {event.content.spotifyPlaylistUrl && (
+        <HomePlaylist
+          spotifyPlaylistUrl={event.content.spotifyPlaylistUrl}
+        />
+      )}
+
+      <HomeMap />
     </div>
   );
 }

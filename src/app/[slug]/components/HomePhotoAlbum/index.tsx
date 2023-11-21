@@ -6,11 +6,14 @@ import {
   FaChevronRight as IconArrowRight,
 } from 'react-icons/fa';
 import './index.scss';
-import { BRIDE_GROOM_PHOTOS } from './photos';
+import { EventViewModel } from '../../../../models/view-models/event.view-model';
+import { EventContentImageViewModel } from '../../../../models/view-models/event-content-image.view-model';
 
-export default function HomePhotoAlbum() {
-  const photos = BRIDE_GROOM_PHOTOS;
+interface HomePhotoAlbumProps {
+  images: EventContentImageViewModel[];
+}
 
+export default function HomePhotoAlbum({ images }: HomePhotoAlbumProps) {
   const photosRef = useRef<HTMLDivElement>(null);
 
   const handleArrowClick = (direction: 'left' | 'right') => {
@@ -28,8 +31,8 @@ export default function HomePhotoAlbum() {
     <div id="home-photo-album">
       <div className="album">
         <div className="photos" ref={photosRef}>
-          {photos.map((p, i) => (
-            <img key={i} alt={`bride and groom ${i + 1}`} src={p} />
+          {images.map((p, i) => (
+            <img key={i} alt={`photo ${i + 1}`} src={p.image} />
           ))}
         </div>
 

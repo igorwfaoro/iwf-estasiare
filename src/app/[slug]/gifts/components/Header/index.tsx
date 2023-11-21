@@ -10,7 +10,7 @@ export default function Header({ event }: HeaderProps) {
     <div id="gifts-header">
       <h1
         className="header-title"
-        style={{ color: event.designDetail.primaryColor }}
+        style={{ color: event.content.primaryColor }}
       >
         Escolha um presente simbólico!
       </h1>

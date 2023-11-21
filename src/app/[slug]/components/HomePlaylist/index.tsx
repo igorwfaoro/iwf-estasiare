@@ -1,11 +1,17 @@
 import './index.scss';
 
-export default function HomePlaylist() {
+interface HomePlaylistProps {
+  spotifyPlaylistUrl: string;
+}
+
+export default function HomePlaylist({
+  spotifyPlaylistUrl,
+}: HomePlaylistProps) {
   return (
     <div id="home-playlist">
       <iframe
         className="spotify-iframe"
-        src="https://open.spotify.com/embed/playlist/4repDc6kVmb39JvP5uq4Eb?utm_source=generator"
+        src={spotifyPlaylistUrl}
         frameBorder="0"
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
         loading="lazy"

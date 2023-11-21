@@ -13,7 +13,11 @@ export const createEventService = () => {
       },
       include: {
         financialDetail: true,
-        designDetail: true,
+        designDetail: {
+          include: {
+            images: true,
+          },
+        },
         weddingDetail: true,
         ...extraIncludes,
       },

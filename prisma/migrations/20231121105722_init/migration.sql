@@ -7,9 +7,9 @@ CREATE TABLE "Event" (
     "eventType" "EventType" NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
     "slug" VARCHAR(100) NOT NULL,
-    "address" VARCHAR(300) NOT NULL,
-    "designDetailId" BIGINT NOT NULL,
-    "financialDetailId" BIGINT,
+    "addressId" BIGINT NOT NULL,
+    "contentId" BIGINT NOT NULL,
+    "financialId" BIGINT,
     "weddingDetailId" BIGINT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -17,13 +17,33 @@ CREATE TABLE "Event" (
 );
 
 -- CreateTable
-CREATE TABLE "EventDesignDetail" (
+CREATE TABLE "EventAddress" (
+    "id" BIGSERIAL NOT NULL,
+    "shortDescription" VARCHAR(300) NOT NULL,
+    "fullDescription" VARCHAR(500) NOT NULL,
+
+    CONSTRAINT "EventAddress_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "EventContent" (
     "id" BIGSERIAL NOT NULL,
     "primaryColor" VARCHAR(7) NOT NULL,
-    "secondaryColor" VARCHAR(7),
-    "bannerImage" VARCHAR(500),
+    "bannerImage" VARCHAR(500) NOT NULL,
+    "logoImage" VARCHAR(500),
+    "favicon" VARCHAR(500),
+    "spotifyPlaylistUrl" VARCHAR(100),
 
-    CONSTRAINT "EventDesignDetail_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "EventContent_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "EventContentImage" (
+    "id" BIGSERIAL NOT NULL,
+    "image" VARCHAR(500) NOT NULL,
+    "eventContentId" BIGINT NOT NULL,
+
+    CONSTRAINT "EventContentImage_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -36,11 +56,11 @@ CREATE TABLE "EventWeddingDetail" (
 );
 
 -- CreateTable
-CREATE TABLE "EventFinancialDetail" (
+CREATE TABLE "EventFinancial" (
     "id" BIGSERIAL NOT NULL,
     "paypalBusinessCode" VARCHAR(100),
 
-    CONSTRAINT "EventFinancialDetail_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "EventFinancial_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -81,22 +101,31 @@ CREATE TABLE "Gift" (
 CREATE UNIQUE INDEX "Event_slug_key" ON "Event"("slug");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Event_designDetailId_key" ON "Event"("designDetailId");
+CREATE UNIQUE INDEX "Event_addressId_key" ON "Event"("addressId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Event_financialDetailId_key" ON "Event"("financialDetailId");
+CREATE UNIQUE INDEX "Event_contentId_key" ON "Event"("contentId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Event_financialId_key" ON "Event"("financialId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Event_weddingDetailId_key" ON "Event"("weddingDetailId");
 
 -- AddForeignKey
-ALTER TABLE "Event" ADD CONSTRAINT "Event_designDetailId_fkey" FOREIGN KEY ("designDetailId") REFERENCES "EventDesignDetail"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Event" ADD CONSTRAINT "Event_addressId_fkey" FOREIGN KEY ("addressId") REFERENCES "EventAddress"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Event" ADD CONSTRAINT "Event_financialDetailId_fkey" FOREIGN KEY ("financialDetailId") REFERENCES "EventFinancialDetail"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Event" ADD CONSTRAINT "Event_contentId_fkey" FOREIGN KEY ("contentId") REFERENCES "EventContent"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Event" ADD CONSTRAINT "Event_financialId_fkey" FOREIGN KEY ("financialId") REFERENCES "EventFinancial"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Event" ADD CONSTRAINT "Event_weddingDetailId_fkey" FOREIGN KEY ("weddingDetailId") REFERENCES "EventWeddingDetail"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "EventContentImage" ADD CONSTRAINT "EventContentImage_eventContentId_fkey" FOREIGN KEY ("eventContentId") REFERENCES "EventContent"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Invitation" ADD CONSTRAINT "Invitation_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

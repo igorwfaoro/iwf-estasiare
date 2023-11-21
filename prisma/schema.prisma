@@ -16,28 +16,48 @@ model Event {
   eventType   EventType
   date        DateTime
   slug        String       @unique @db.VarChar(100)
-  address     String       @db.VarChar(300)
   invitations Invitation[]
   gifts       Gift[]
 
-  designDetailId BigInt            @unique
-  designDetail   EventDesignDetail @relation(fields: [designDetailId], references: [id])
+  addressId BigInt       @unique
+  address   EventAddress @relation(fields: [addressId], references: [id])
 
-  financialDetailId BigInt?               @unique
-  financialDetail   EventFinancialDetail? @relation(fields: [financialDetailId], references: [id])
+  contentId BigInt       @unique
+  content   EventContent @relation(fields: [contentId], references: [id])
 
-  weddingDetailId BigInt?        @unique
+  financialId BigInt?         @unique
+  financial   EventFinancial? @relation(fields: [financialId], references: [id])
+
+  weddingDetailId BigInt?             @unique
   weddingDetail   EventWeddingDetail? @relation(fields: [weddingDetailId], references: [id])
 
   createdAt DateTime @default(now())
 }
 
-model EventDesignDetail {
-  id             BigInt  @id @default(autoincrement())
-  primaryColor   String  @db.VarChar(7)
-  secondaryColor String? @db.VarChar(7)
-  bannerImage    String? @db.VarChar(500)
-  event          Event?
+model EventAddress {
+  id               BigInt @id @default(autoincrement())
+  shortDescription String @db.VarChar(300)
+  fullDescription  String @db.VarChar(500)
+  event            Event?
+}
+
+model EventContent {
+  id                 BigInt              @id @default(autoincrement())
+  primaryColor       String              @db.VarChar(7)
+  bannerImage        String              @db.VarChar(500)
+  logoImage          String?             @db.VarChar(500)
+  favicon            String?             @db.VarChar(500)
+  spotifyPlaylistUrl String?             @db.VarChar(100)
+  images             EventContentImage[]
+  event              Event?
+}
+
+model EventContentImage {
+  id    BigInt @id @default(autoincrement())
+  image String @db.VarChar(500)
+
+  eventContentId BigInt
+  eventContent   EventContent @relation(fields: [eventContentId], references: [id])
 }
 
 model EventWeddingDetail {
@@ -47,10 +67,10 @@ model EventWeddingDetail {
   event     Event?
 }
 
-model EventFinancialDetail {
-  id                  BigInt  @id @default(autoincrement())
+model EventFinancial {
+  id                 BigInt  @id @default(autoincrement())
   paypalBusinessCode String? @db.VarChar(100)
-  event               Event?
+  event              Event?
 }
 
 model Invitation {
