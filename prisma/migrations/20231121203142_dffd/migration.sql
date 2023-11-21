@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Gift" ALTER COLUMN "description" SET DATA TYPE VARCHAR(400);

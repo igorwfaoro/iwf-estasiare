@@ -88,7 +88,7 @@ CREATE TABLE "Guest" (
 -- CreateTable
 CREATE TABLE "Gift" (
     "id" BIGSERIAL NOT NULL,
-    "description" VARCHAR(100) NOT NULL,
+    "description" VARCHAR(400) NOT NULL,
     "image" VARCHAR(500) NOT NULL,
     "price" DECIMAL(10,2) NOT NULL,
     "eventId" BIGINT NOT NULL,
