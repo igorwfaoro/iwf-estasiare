@@ -36,7 +36,7 @@ export default function Gift({ event, gift }: GiftProps) {
           <h2 className="card__title">{gift.description}</h2>
           <div
             className="card__price"
-            style={{ color: event.content.primaryColor }}
+            style={{ color: event.content?.primaryColor }}
           >
             {toCurrency(gift.price)}
           </div>
@@ -45,7 +45,7 @@ export default function Gift({ event, gift }: GiftProps) {
           className="card__button"
           onClick={openPaymentModal}
           theme="primary"
-          color={event.content.primaryColor}
+          color={event.content?.primaryColor}
         >
           Presentear
         </Button>

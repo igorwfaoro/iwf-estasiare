@@ -8,7 +8,7 @@ export default function Header() {
     <div id="presence-confirmation-header">
       <h1
         className="header-title"
-        style={{ color: event.content.primaryColor }}
+        style={{ color: event.content?.primaryColor }}
       >
         Confirmação de presença
       </h1>

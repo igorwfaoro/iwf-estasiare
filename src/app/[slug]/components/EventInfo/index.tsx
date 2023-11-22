@@ -12,7 +12,7 @@ export default function EventInfo({ event }: EventInfoProps) {
   return (
     <section id="event-info">
       <span className="info-date">{dateFormatted}</span>
-      <span className="info-address">{event.address.shortDescription}</span>
+      <span className="info-address">{event.address?.shortDescription}</span>
     </section>
   );
 }

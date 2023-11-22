@@ -21,7 +21,7 @@ export default function InvitationGuests() {
           label={g.name}
           onChange={(e) => setGuestsSelectsValue(g.id, e.target.checked)}
           checked={g.isConfirmed}
-          color={event.content.primaryColor}
+          color={event.content?.primaryColor}
         />
       ))}
     </div>
