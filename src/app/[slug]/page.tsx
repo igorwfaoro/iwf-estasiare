@@ -35,7 +35,7 @@ export default async function Event({ params }: { params: { slug: string } }) {
       description:
         'Nossa celebração está se aproximando, e estamos felizes em compartilhá-la com vocês. Se desejarem nos presentear de maneira simbólica, confiram nossa lista de presentes especiais',
       buttonText: 'Lista de presentes',
-      imageSrc: '/images/banner1.jpg',
+      imageSrc: '/images/event/banner1.jpg',
       buttonLink: `/${event.slug}/gifts`,
       direction: 'row',
     } as EventBannerProps,
@@ -44,7 +44,7 @@ export default async function Event({ params }: { params: { slug: string } }) {
       description:
         'Confirme sua presença em nossa celebração especial. Estamos ansiosos para compartilhar este momento com você!',
       buttonText: 'Confirmação',
-      imageSrc: '/images/banner2.jpg',
+      imageSrc: '/images/event/banner2.jpg',
       buttonLink: `/${event.slug}/presence-confirmation`,
       direction: 'row',
     } as EventBannerProps,

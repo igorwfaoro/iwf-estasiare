@@ -1,9 +1,17 @@
+import { usePresenceConfirmationContext } from '../../contexts/PresenceConfirmationContext';
 import './index.scss';
 
 export default function Header() {
+  const { event } = usePresenceConfirmationContext();
+
   return (
     <div id="presence-confirmation-header">
-      <h1 className="header-title">Confirmação de presença</h1>
+      <h1
+        className="header-title"
+        style={{ color: event.content.primaryColor }}
+      >
+        Confirmação de presença
+      </h1>
 
       <div className="header-text">
         <p>

@@ -1,14 +1,13 @@
 @import "../../../../../../../styles/colors.module.scss";
 
 #presence-confirmation-header {
-    padding: 24px 16px 64px;
+    padding: 24px 0 64px;
     max-width: 672px;
 
     .header-title {
         font-size: 1.875rem;
         font-weight: bold;
         text-align: center;
-        color: $color-primary;
         margin-bottom: 24px;
     }
 

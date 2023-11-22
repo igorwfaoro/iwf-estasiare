@@ -5,7 +5,6 @@ export interface EventContentViewModel {
   primaryColor: string;
   bannerImage: string;
   logoImage: string | null;
-  icon: string | null;
   spotifyPlaylistUrl: string | null;
   images: EventContentImageViewModel[] | undefined;
 }

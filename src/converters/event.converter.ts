@@ -20,11 +20,11 @@ import {
 import { eventFinancialConverter } from './event-financial.converter';
 
 export type EventConverterModel = Event & {
-  content: EventContentConverterModel;
-  address: EventAddress;
-  financial: EventFinancial | null;
-  weddingDetail: EventWeddingDetail | null;
-  gifts: Gift[] | undefined;
+  content?: EventContentConverterModel;
+  address?: EventAddress;
+  financial?: EventFinancial | null;
+  weddingDetail?: EventWeddingDetail | null;
+  gifts?: Gift[];
 };
 
 export const eventConverter = {
@@ -33,16 +33,22 @@ export const eventConverter = {
     eventType: model.eventType,
     date: model.date,
     slug: model.slug,
-    address: eventAddressConverter.modelToViewModel(model.address),
-    content: eventContentConverter.modelToViewModel(model.content),
+
+    address: model.address
+      ? eventAddressConverter.modelToViewModel(model.address)
+      : undefined,
+
+    content: model.content
+      ? eventContentConverter.modelToViewModel(model.content)
+      : undefined,
 
     financial: model.financial
       ? eventFinancialConverter.modelToViewModel(model.financial)
-      : null,
+      : undefined,
 
     weddingDetail: model.weddingDetail
       ? eventWeddingDetailConverter.modelToViewModel(model.weddingDetail)
-      : null,
+      : undefined,
 
     gifts: model.gifts?.map(giftConverter.modelToViewModel),
 

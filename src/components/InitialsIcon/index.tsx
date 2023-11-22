@@ -12,9 +12,9 @@ export default function InitialsIcon({
   size = 32,
   color,
 }: InitialsIconProps) {
-  const initials = Array.isArray(name)
-    ? name.map((x) => x[0])
-    : [name[0].toUpperCase()];
+  const initials = (Array.isArray(name) ? name.map((x) => x[0]) : [name[0]])
+    .map((x) => x.toUpperCase())
+    .sort();
 
   return (
     <div

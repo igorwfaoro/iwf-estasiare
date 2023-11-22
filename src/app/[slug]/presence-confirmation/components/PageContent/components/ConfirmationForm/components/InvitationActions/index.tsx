@@ -8,6 +8,7 @@ export default function InvitationActions() {
     confirmGuests,
     loadingConfirmGuests,
     isAlreadyConfirmed,
+    event,
   } = usePresenceConfirmationContext();
 
   const disableConfirmButton =
@@ -27,6 +28,7 @@ export default function InvitationActions() {
           theme="primary"
           disabled={disableConfirmButton}
           onClick={confirmGuests}
+          color={event.content.primaryColor}
         >
           {buttonText}
         </Button>

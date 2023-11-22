@@ -10,11 +10,11 @@ export interface EventViewModel {
   eventType: EventType;
   date: Date;
   slug: string;
-  address: EventAddressViewModel;
-  content: EventContentViewModel;
-  financial: EventFinancialViewModel | null;
-  weddingDetail: EventWeddingDetailViewModel | null;
-  gifts: GiftViewModel[] | undefined;
+  address?: EventAddressViewModel;
+  content?: EventContentViewModel;
+  financial?: EventFinancialViewModel | null;
+  weddingDetail?: EventWeddingDetailViewModel | null;
+  gifts?: GiftViewModel[];
   createdAt: Date;
 
   titleDescription: string;

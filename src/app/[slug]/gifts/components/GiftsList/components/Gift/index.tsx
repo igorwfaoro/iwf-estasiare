@@ -45,7 +45,7 @@ export default function Gift({ event, gift }: GiftProps) {
           className="card__button"
           onClick={openPaymentModal}
           theme="primary"
-          buttonColor={event.content.primaryColor}
+          color={event.content.primaryColor}
         >
           Presentear
         </Button>

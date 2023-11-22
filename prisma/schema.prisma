@@ -31,7 +31,7 @@ model Event {
   weddingDetailId BigInt?             @unique
   weddingDetail   EventWeddingDetail? @relation(fields: [weddingDetailId], references: [id])
 
-  createdAt DateTime @default(now())
+  createdAt    DateTime @default(now())
 }
 
 model EventAddress {
@@ -46,7 +46,6 @@ model EventContent {
   primaryColor       String              @db.VarChar(7)
   bannerImage        String              @db.VarChar(500)
   logoImage          String?             @db.VarChar(500)
-  icon               String?             @db.VarChar(500)
   spotifyPlaylistUrl String?             @db.VarChar(100)
   images             EventContentImage[]
   event              Event?

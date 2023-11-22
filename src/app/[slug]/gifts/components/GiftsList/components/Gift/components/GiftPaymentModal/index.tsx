@@ -30,7 +30,7 @@ export default function GiftPaymentModal({
         link={paymentLink}
         linkTarget="_blank"
         theme="primary"
-        buttonColor={event.content.primaryColor}
+        color={event.content.primaryColor}
       >
         Dê seu presente
       </Button>

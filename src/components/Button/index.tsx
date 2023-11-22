@@ -9,7 +9,7 @@ import Link from 'next/link';
 import colors from '../../styles/colors.module.scss';
 import './index.scss';
 
-export type ButtonTheme = 'primary' | 'secondary' | 'light';
+export type ButtonTheme = 'primary' | 'secondary' | 'light' | 'highlight';
 
 export type ButtonVariant = 'outlined' | 'contained';
 
@@ -23,7 +23,7 @@ interface ButtonProps {
   disabled?: boolean;
   theme?: ButtonTheme;
   variant?: ButtonVariant;
-  buttonColor?: string;
+  color?: string;
 }
 
 export default function Button(props: ButtonProps) {
@@ -34,16 +34,20 @@ export default function Button(props: ButtonProps) {
 
   const themeConfig = {
     primary: {
-      color: props.buttonColor ?? colors['color-primary'],
+      color: props.color ?? colors['color-primary'],
       contrast: colors['color-white'],
     },
     secondary: {
-      color: props.buttonColor ?? colors['color-secondary'],
+      color: props.color ?? colors['color-secondary'],
       contrast: colors['color-white'],
     },
     light: {
-      color: props.buttonColor ?? colors['color-neutral-100'],
+      color: props.color ?? colors['color-neutral-100'],
       contrast: colors['color-neutral-950'],
+    },
+    highlight: {
+      color: props.color ?? colors['color-highlight'],
+      contrast: colors['color-white'],
     },
   }[theme];
 

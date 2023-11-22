@@ -31,7 +31,6 @@ CREATE TABLE "EventContent" (
     "primaryColor" VARCHAR(7) NOT NULL,
     "bannerImage" VARCHAR(500) NOT NULL,
     "logoImage" VARCHAR(500),
-    "icon" VARCHAR(500),
     "spotifyPlaylistUrl" VARCHAR(100),
 
     CONSTRAINT "EventContent_pkey" PRIMARY KEY ("id")

@@ -5,7 +5,7 @@ import './index.scss';
 import { usePresenceConfirmationContext } from '../../../../contexts/PresenceConfirmationContext';
 
 export default function InvitationSearch() {
-  const { getInvitation, gettingInvitation, isAlreadyConfirmed } =
+  const { getInvitation, gettingInvitation, isAlreadyConfirmed, event } =
     usePresenceConfirmationContext();
 
   const [invitationDescriptionValue, setInvitationDescriptionValue] =
@@ -52,6 +52,7 @@ export default function InvitationSearch() {
         disabled={gettingInvitation}
         theme="primary"
         variant="outlined"
+        color={event.content.primaryColor}
       >
         {buttonText}
       </Button>

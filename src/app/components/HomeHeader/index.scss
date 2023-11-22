@@ -1,0 +1,47 @@
+@import "../../../styles/colors.module.scss";
+
+#home-header {
+    width: 100%;
+    height: 100vh;
+
+    &::before {
+        content: "";
+        background-size: cover;
+        background-position: center top;
+        background-image: url(/images/banner-home.jpg);
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        filter: brightness(0.5);
+    }
+
+    .content {
+        position: absolute;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+
+        &_logo {
+            width: 212px;
+        }
+
+        h1 {
+            font-weight: bold;
+            color: $color-neutral-50;
+            font-size: 4rem;
+            margin: 32px 0 8px;
+        }
+
+        h2 {
+            font-weight: bold;
+            color: $color-neutral-50;
+            margin: 0;
+        }
+    }
+}

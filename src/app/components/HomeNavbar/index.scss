@@ -1,0 +1,120 @@
+@import "../../../styles/responsive.scss";
+@import "../../../styles/colors.module.scss";
+
+$transition: all 0.5s;
+
+#home-navbar {
+    z-index: 999;
+    position: fixed;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    transition: $transition;
+    background: $color-neutral-50;
+
+    -webkit-box-shadow: 0px 0px 24px -4px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 0px 0px 24px -4px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 24px -4px rgba(0, 0, 0, 0.4);
+
+    @include is-mobile() {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .logo {
+        position: absolute;
+        left: 12px;
+        top: 8px;
+        text-decoration: none;
+
+        @include is-mobile() {
+            top: 18px;
+        }
+
+        img {
+            height: 32px;
+        }
+    }
+
+    .button-menu-toggle {
+        margin: 10px;
+        width: 64px;
+        z-index: 2;
+        background-color: $color-neutral-50;
+        box-shadow: none;
+        border: $color-neutral-300 1px solid;
+        padding: 6px 16px;
+
+        svg {
+            path {
+                fill: $color-neutral-300;
+            }
+        }
+
+        @include is-desktop() {
+            display: none !important;
+        }
+    }
+
+    .menu {
+        display: none;
+        opacity: 0;
+        list-style: none;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+        margin: 0;
+        position: absolute;
+        top: 0;
+        padding: 0;
+        background: $color-neutral-50;
+
+        &.menu__menu-show {
+            display: flex;
+            opacity: 1;
+        }
+
+        &__item {
+            border-bottom: 1px solid $color-neutral-100;
+            width: 100%;
+            padding: 10px;
+            padding-inline-start: 28px;
+
+            &__link {
+                text-decoration: none;
+                color: $color-neutral-950;
+            }
+        }
+    }
+
+    .items {
+        list-style: none;
+        display: flex !important;
+        gap: 20px;
+        padding: 0;
+
+        @include is-mobile() {
+            display: none !important;
+        }
+
+        &__item {
+            &__link {
+                text-decoration: none;
+                transition: $transition;
+                color: $color-neutral-950;
+            }
+        }
+    }
+
+    .right {
+        position: absolute;
+        right: 12px;
+        top: 10px;
+
+        .register-button {
+            padding: 0 8px;
+            height: 28px;
+        }
+    }
+}

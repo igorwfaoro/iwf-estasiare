@@ -22,7 +22,6 @@ async function main() {
             'https://www.weddinggownpreservationkit.com/blog-images/zoom-virtual-wedding-background-lg.jpg',
           logoImage:
             'https://drive.google.com/uc?export=view&id=1YkZQUFKzEd5CW6OXBRd0x46j1-tumquv',
-          icon: 'https://drive.google.com/uc?export=view&id=1-TAeGoysHdeD7MnSlkzTAnYqL08pCGJX',
           spotifyPlaylistUrl:
             'https://open.spotify.com/embed/playlist/4repDc6kVmb39JvP5uq4Eb?utm_source=generator',
         },

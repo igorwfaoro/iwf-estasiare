@@ -8,6 +8,7 @@ interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   labelClassName?: string;
   inputClassName?: string;
+  color?: string;
 }
 
 export default function Checkbox({
@@ -16,6 +17,7 @@ export default function Checkbox({
   className,
   labelClassName,
   inputClassName,
+  color,
   ...otherProps
 }: CheckboxProps) {
   return (
@@ -24,8 +26,9 @@ export default function Checkbox({
         <input
           type="checkbox"
           ref={inputRef}
-          {...otherProps}
           className={inputClassName}
+          style={{ backgroundColor: color }}
+          {...otherProps}
         />
         <span>{label}</span>
       </label>

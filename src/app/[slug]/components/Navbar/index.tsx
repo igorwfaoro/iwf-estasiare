@@ -115,17 +115,11 @@ export function EventNavbar({ event }: EventNavbarProps) {
       ),
     }[event.eventType]);
 
-  const icon = event.content.icon ? (
-    <img src={event.content.icon} alt="Logo" />
-  ) : (
-    renderInitialsIcon()
-  );
-
   return (
     <>
       <div id="event-navbar" className={navbarTheme}>
         <Link href={`/${event.slug}`} className="logo">
-          {icon}
+          {renderInitialsIcon()}
         </Link>
 
         <Button
