@@ -25,13 +25,13 @@ export default function EventHeader({ event }: EventHeaderProps) {
     <>
       <style
         dangerouslySetInnerHTML={{
-          __html: `#event-header:before { background-image: url(${event.content.bannerImage}) }`,
+          __html: `#event-header:before { background-image: url(${event.content?.bannerImage}) }`,
         }}
       ></style>
 
       <header id="event-header">
         <div className="content">
-          {event.content.logoImage && (
+          {event.content?.logoImage && (
             <img
               className="content_logo"
               src={event.content.logoImage}

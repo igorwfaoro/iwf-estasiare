@@ -52,7 +52,7 @@ export default function InvitationSearch() {
         disabled={gettingInvitation}
         theme="primary"
         variant="outlined"
-        color={event.content.primaryColor}
+        color={event.content?.primaryColor}
       >
         {buttonText}
       </Button>

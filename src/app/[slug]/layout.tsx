@@ -23,10 +23,10 @@ export async function generateMetadata({
   return {
     description: event.titleDescription,
     robots: 'index',
-    themeColor: event.content.primaryColor,
+    themeColor: event.content?.primaryColor,
     openGraph: {
       description: event.titleDescription,
-      ...(event.content.logoImage && { images: event.content.logoImage }),
+      ...(event.content?.logoImage && { images: event.content.logoImage }),
       type: 'website',
       siteName: `Eventy`,
     },
@@ -34,7 +34,7 @@ export async function generateMetadata({
       title: event.titleDescription,
       description: `${event.titleDescription} | Eventy`,
       card: 'summary',
-      ...(event.content.logoImage && { images: event.content.logoImage }),
+      ...(event.content?.logoImage && { images: event.content.logoImage }),
     },
   };
 }

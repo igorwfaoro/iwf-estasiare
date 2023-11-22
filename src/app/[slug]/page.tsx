@@ -57,17 +57,17 @@ export default async function Event({ params }: { params: { slug: string } }) {
 
       <EventBanner {...banners.gifts} />
 
-      {!!event.content.images?.length && (
+      {!!event.content?.images?.length && (
         <EventPhotoAlbum images={event.content.images} />
       )}
 
       <EventBanner {...banners.presenceConfirmation} />
 
-      {event.content.spotifyPlaylistUrl && (
+      {event.content?.spotifyPlaylistUrl && (
         <EventPlaylist spotifyPlaylistUrl={event.content.spotifyPlaylistUrl} />
       )}
 
-      <EventMap addressDescription={event.address.fullDescription} />
+      <EventMap addressDescription={event.address?.fullDescription!} />
     </div>
   );
 }

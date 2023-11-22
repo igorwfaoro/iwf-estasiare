@@ -28,7 +28,7 @@ export default function InvitationActions() {
           theme="primary"
           disabled={disableConfirmButton}
           onClick={confirmGuests}
-          color={event.content.primaryColor}
+          color={event.content?.primaryColor}
         >
           {buttonText}
         </Button>

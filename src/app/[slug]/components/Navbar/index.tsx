@@ -110,7 +110,7 @@ export function EventNavbar({ event }: EventNavbarProps) {
             event.weddingDetail?.brideName!,
           ]}
           size={32}
-          color={event.content.primaryColor}
+          color={event.content?.primaryColor}
         />
       ),
     }[event.eventType]);
