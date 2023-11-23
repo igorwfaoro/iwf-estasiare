@@ -29,9 +29,13 @@ export default async function Home() {
     <div id="page-home">
       <HomeNavbar />
       <HomeHeader />
-      <Events />
-      <About />
-      <Footer />
+
+      <div className="home-content">
+        <Events />
+        {/* <About /> */}
+      </div>
+
+      {/* <Footer /> */}
     </div>
   );
 }

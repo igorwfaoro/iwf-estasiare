@@ -5,9 +5,11 @@ import { createEventClientService } from '../../../client-services/event.client-
 import './index.scss';
 import { EventViewModel } from '../../../models/view-models/event.view-model';
 import { useToast } from '../../../contexts/ToastContext';
-import { Col, Row } from 'react-grid-system';
 import Card from '../../../components/Card';
 import dayjs from 'dayjs';
+import Skeleton from 'react-loading-skeleton';
+import ScrollContainer from 'react-indiana-drag-scroll';
+import EventsList from './EventsList';
 
 interface EventsProps {}
 
@@ -39,26 +41,41 @@ export default function Events({}: EventsProps) {
     // TODO: search events
   };
 
+  const eventsRaw: EventViewModel[] = Array.from({ length: 20 }).map(
+    (_, i) => ({
+      id: i,
+      eventType: 'WEDDING',
+      date: dayjs('2024-09-21T19:00:00.000Z').toDate(),
+      slug: 'casamento-igor-gabi',
+      address: {
+        id: 1,
+        shortDescription: 'La Casa Piemont - Farroupilha - RS',
+        fullDescription:
+          'Espaço de Eventos La Casa Piemont, 240 - Estrada VRS 826 - Linha Boêmios, Farroupilha - RS, 95181-899',
+      },
+      content: {
+        id: 1,
+        primaryColor: '#687FF9',
+        logoImage:
+          'https://drive.google.com/uc?export=view&id=1YkZQUFKzEd5CW6OXBRd0x46j1-tumquv',
+        spotifyPlaylistUrl:
+          'https://open.spotify.com/embed/playlist/4repDc6kVmb39JvP5uq4Eb?utm_source=generator',
+        bannerImage: 'https://i.imgur.com/fdyNtWe.jpg',
+        images: [],
+      },
+      weddingDetail: {
+        id: 1,
+        brideName: 'Gabrielle',
+        groomName: 'Igor',
+      },
+      createdAt: dayjs('2023-11-22T19:59:52.459Z').toDate(),
+      titleDescription: 'Casamento Igor & Gabrielle',
+    })
+  );
+
   return (
     <section id="events">
-      <h3>Eventos</h3>
-      <Row className="list">
-        {events.map((event) => (
-          <Col md={4}>
-            <Card>
-              <div className="event-title">{event.titleDescription}</div>
-              <div className="event-date">
-                {dayjs(event.date).format('DD/MM/YYYY')}
-              </div>
-              <img
-                style={{ width: '100%' }}
-                src={event.content?.bannerImage}
-                alt={`Image ${event.titleDescription}`}
-              />
-            </Card>
-          </Col>
-        ))}
-      </Row>
+      <EventsList items={events} isLoading={isLoading} />
     </section>
   );
 }

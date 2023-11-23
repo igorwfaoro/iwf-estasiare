@@ -1,0 +1,154 @@
+@import "../../../../styles/colors.module.scss";
+
+$control-width: 42px;
+
+#events-list {
+    position: relative;
+
+    // #region items
+    .items {
+        display: flex;
+        gap: 40px;
+        scroll-behavior: smooth;
+        padding: 12px 0;
+
+        .event-link {
+            min-width: 25%;
+            max-width: 25%;
+            text-decoration: none;
+
+            .event-card {
+                height: 200px;
+                background-size: cover;
+                background-position: center;
+                position: relative;
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                align-items: flex-end;
+                justify-content: flex-end;
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    border-radius: inherit;
+                    background: -moz-linear-gradient(
+                        0deg,
+                        rgba(0, 0, 0, 1) 0%,
+                        rgba(0, 0, 0, 0) 60%,
+                        rgba(0, 0, 0, 0) 100%
+                    );
+                    background: -webkit-linear-gradient(
+                        0deg,
+                        rgba(0, 0, 0, 1) 0%,
+                        rgba(0, 0, 0, 0) 60%,
+                        rgba(0, 0, 0, 0) 100%
+                    );
+                    background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0) 100%);
+                }
+
+                .content {
+                    z-index: 1;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    width: 100%;
+                    padding: 12px;
+
+                    .event-title {
+                        font-size: 1.6rem;
+                        font-weight: bold;
+                        color: $color-white;
+                    }
+
+                    .event-date {
+                        color: $color-white;
+                    }
+                }
+            }
+        }
+    }
+    // #endregion
+
+    // #region gradient
+    .items-gradient-left {
+        -webkit-mask-image: -webkit-linear-gradient(90deg, transparent 0%, #000 $control-width * 2, #000 100%);
+        mask-image: linear-gradient(90deg, transparent 0%, #000 $control-width * 2, #000 100%);
+    }
+
+    .items-gradient-right {
+        -webkit-mask-image: -webkit-linear-gradient(
+            90deg,
+            #000 0%,
+            #000 calc(100% - $control-width * 2),
+            transparent 100%
+        );
+        mask-image: linear-gradient(90deg, #000 0%, #000 calc(100% - $control-width * 2), transparent 100%);
+    }
+
+    .items-gradient-all {
+        -webkit-mask-image: -webkit-linear-gradient(
+            90deg,
+            transparent 0%,
+            #000 $control-width * 2,
+            #000 calc(100% - $control-width * 2),
+            transparent 100%
+        );
+        mask-image: linear-gradient(
+            90deg,
+            transparent 0%,
+            #000 $control-width * 2,
+            #000 calc(100% - $control-width * 2),
+            transparent 100%
+        );
+    }
+    // #endregion
+
+    // #region controls
+    .controls {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        position: absolute;
+        padding: 0 12px;
+        top: 0;
+        pointer-events: none;
+
+        .control-button {
+            width: $control-width;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            button {
+                all: unset;
+                background: $color-primary;
+                border-radius: 50%;
+                width: 42px;
+                height: 42px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                pointer-events: all;
+
+                .icon {
+                    height: 1.4rem;
+
+                    path {
+                        fill: $color-white;
+                        stroke: $color-white;
+                        stroke-width: 4px;
+                        stroke-linejoin: bevel;
+                    }
+                }
+            }
+        }
+    }
+    // #endregion
+}

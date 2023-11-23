@@ -19,7 +19,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html lang={locale.id}>
       <body>
         <>{children}</>
-        <script src="https://www.paypalobjects.com/donate/sdk/donate-sdk.js"></script>
+        {/* <script src="https://www.paypalobjects.com/donate/sdk/donate-sdk.js"></script> */}
       </body>
     </html>
   );
