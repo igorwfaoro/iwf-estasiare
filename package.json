@@ -29,6 +29,7 @@
     "eslint-config-next": "^14.0.2",
     "i": "^0.3.7",
     "next": "^13.4.12",
+    "next-auth": "^4.24.5",
     "npm": "^10.2.4",
     "react": "^18.2.0",
     "react-confetti-explosion": "^2.1.2",

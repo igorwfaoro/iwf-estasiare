@@ -59,9 +59,12 @@ export const eventConverter = {
     createdAt: model.createdAt,
 
     titleDescription: {
-      [EventType.WEDDING]: `${eventTypeLabel[EventType.WEDDING]} ${
-        model.weddingDetail?.groomName
-      } & ${model.weddingDetail?.brideName}`,
+      [EventType.WEDDING]: `${eventTypeLabel[EventType.WEDDING]} ${[
+        model.weddingDetail?.groomName,
+        model.weddingDetail?.brideName,
+      ]
+        .sort()
+        .join(' & ')}`,
     }[model.eventType],
 
     hasGifts,

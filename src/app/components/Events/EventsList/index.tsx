@@ -14,6 +14,8 @@ import Card from '../../../../components/Card';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { EventViewModel } from '../../../../models/view-models/event.view-model';
+import { eventTypeLabel } from '../../../../util/helpers/event-type.helper';
+import { EventType } from '@prisma/client';
 
 const CONTROL_BUTTON_WIDTH = 42;
 
@@ -127,6 +129,16 @@ export default function EventsList({ items, isLoading }: EventsListProps) {
       </div>
     ));
 
+  const getEventTitle = (event: EventViewModel) =>
+    ({
+      [EventType.WEDDING]: [
+        event.weddingDetail?.groomName,
+        event.weddingDetail?.brideName,
+      ]
+        .sort()
+        .join(' & '),
+    }[event.eventType]);
+
   return (
     <div id="events-list">
       <ScrollContainer
@@ -145,7 +157,10 @@ export default function EventsList({ items, isLoading }: EventsListProps) {
                   }}
                 >
                   <div className="content">
-                    <div className="event-title">{item.titleDescription}</div>
+                    <div className="event-title">{getEventTitle(item)}</div>
+                    <div className="event-type">
+                      {eventTypeLabel[item.eventType]}
+                    </div>
                     <div className="event-date">
                       {dayjs(item.date).format('DD/MM/YYYY')}
                     </div>

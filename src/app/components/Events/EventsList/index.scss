@@ -1,4 +1,5 @@
 @import "../../../../styles/colors.module.scss";
+@import "../../../../styles/responsive.scss";
 
 $control-width: 42px;
 
@@ -16,6 +17,11 @@ $control-width: 42px;
             min-width: 25%;
             max-width: 25%;
             text-decoration: none;
+
+            @include is-mobile {
+                min-width: 60%;
+                max-width: 60%;
+            }
 
             .event-card {
                 height: 200px;
@@ -55,11 +61,10 @@ $control-width: 42px;
                 &:hover {
                     filter: brightness(1.3);
                     -webkit-filter: brightness(1.3);
-                    
+
                     .content {
                         color: $color-white;
                     }
-                    
                 }
 
                 .content {
@@ -67,14 +72,23 @@ $control-width: 42px;
                     display: flex;
                     flex-direction: column;
                     align-items: flex-start;
+                    gap: 4px;
                     width: 100%;
                     padding: 12px;
                     color: $color-neutral-100;
                     transition: all 0.5s ease;
 
+                    .event-type {
+                        text-transform: uppercase;
+                        font-weight: bold;
+                    }
+
                     .event-title {
                         font-size: 1.6rem;
                         font-weight: bold;
+                    }
+
+                    .event-date {
                     }
                 }
             }
@@ -126,6 +140,10 @@ $control-width: 42px;
         padding: 0 12px;
         top: 0;
         pointer-events: none;
+
+        @include is-mobile {
+            display: none;
+        }
 
         .control-button {
             width: $control-width;
