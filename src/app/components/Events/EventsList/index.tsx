@@ -2,7 +2,6 @@
 
 import Skeleton from 'react-loading-skeleton';
 import './index.scss';
-import { EventViewModel } from '../../../../models/view-models/event.view-model';
 import { useEffect, useRef, useState } from 'react';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import { onlyNumbers } from '../../../../util/helpers/string.helper';
@@ -14,6 +13,7 @@ import {
 import Card from '../../../../components/Card';
 import dayjs from 'dayjs';
 import Link from 'next/link';
+import { EventViewModel } from '../../../../models/view-models/event.view-model';
 
 const CONTROL_BUTTON_WIDTH = 42;
 

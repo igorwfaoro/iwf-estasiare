@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 import './index.scss';
-import { EventViewModel } from '../../../../models/view-models/event.view-model';
+import { EventBySlugViewModel } from '../../../../models/view-models/event-by-slug.view-model';
 
 interface EventInfoProps {
-  event: EventViewModel;
+  event: EventBySlugViewModel;
 }
 
 export default function EventInfo({ event }: EventInfoProps) {

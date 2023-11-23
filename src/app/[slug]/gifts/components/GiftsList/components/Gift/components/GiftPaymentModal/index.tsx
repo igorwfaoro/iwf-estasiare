@@ -1,12 +1,12 @@
 import Button from '../../../../../../../../../components/Button';
-import { EventViewModel } from '../../../../../../../../../models/view-models/event.view-model';
+import { EventBySlugViewModel } from '../../../../../../../../../models/view-models/event-by-slug.view-model';
 import { GiftViewModel } from '../../../../../../../../../models/view-models/gift.view-model';
 import { toCurrency } from '../../../../../../../../../util/helpers/number.helper';
 import { locale } from '../../../../../../../../../util/locale';
 import './index.scss';
 
 export interface GiftPaymentModalProps {
-  event: EventViewModel;
+  event: EventBySlugViewModel;
   gift: GiftViewModel;
 }
 

@@ -1,8 +1,8 @@
-import { EventViewModel } from '../../../../../models/view-models/event.view-model';
+import { EventBySlugViewModel } from '../../../../../models/view-models/event-by-slug.view-model';
 import './index.scss';
 
 interface HeaderProps {
-  event: EventViewModel;
+  event: EventBySlugViewModel;
 }
 
 export default function Header({ event }: HeaderProps) {

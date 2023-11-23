@@ -86,6 +86,10 @@ $transition: all 0.5s;
                 color: $color-neutral-950;
             }
         }
+
+        .register-button {
+            margin: 0 0 16px;
+        }
     }
 
     .items {
@@ -113,8 +117,14 @@ $transition: all 0.5s;
         top: 10px;
 
         .register-button {
-            padding: 0 8px;
-            height: 28px;
+            @include is-mobile() {
+                display: none;
+            }
         }
+    }
+
+    .register-button {
+        padding: 0 8px;
+        height: 28px;
     }
 }

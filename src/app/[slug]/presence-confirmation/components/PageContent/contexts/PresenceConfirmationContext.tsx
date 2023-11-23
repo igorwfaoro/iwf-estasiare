@@ -12,7 +12,7 @@ import { InvitationViewModel } from '../../../../../../models/view-models/invita
 import { GuestViewModel } from '../../../../../../models/view-models/guest.view-model';
 import { useToast } from '../../../../../../contexts/ToastContext';
 import { createInvitationClientService } from '../../../../../../client-services/invitation.client-service';
-import { EventViewModel } from '../../../../../../models/view-models/event.view-model';
+import { EventBySlugViewModel } from '../../../../../../models/view-models/event-by-slug.view-model';
 
 export interface IPresenceConfirmationProvider {
   invitation?: InvitationViewModel;
@@ -24,12 +24,12 @@ export interface IPresenceConfirmationProvider {
   loadingConfirmGuests: boolean;
   isAlreadyConfirmed: boolean;
   guestsListRef: RefObject<HTMLDivElement>;
-  event: EventViewModel;
+  event: EventBySlugViewModel;
 }
 
 interface PresenceConfirmationProviderProps {
   children: any;
-  event: EventViewModel;
+  event: EventBySlugViewModel;
 }
 
 const PresenceConfirmationContext = createContext<

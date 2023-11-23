@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { MenuSVGIcon } from '@react-md/material-icons';
 import './index.scss';
-import { EventViewModel } from '../../../../models/view-models/event.view-model';
+import { EventBySlugViewModel } from '../../../../models/view-models/event-by-slug.view-model';
 import Button from '../../../../components/Button';
 import InitialsIcon from '../../../../components/InitialsIcon';
 import { EventType } from '@prisma/client';
@@ -26,7 +26,7 @@ interface LinkItem {
 }
 
 interface EventNavbarProps {
-  event: EventViewModel;
+  event: EventBySlugViewModel;
 }
 
 export function EventNavbar({ event }: EventNavbarProps) {
@@ -43,26 +43,26 @@ export function EventNavbar({ event }: EventNavbarProps) {
 
   const [useSpacer, setUseSpacer] = useState(false);
 
-  const links: LinkItem[] = [
-    {
+  const links = [
+    (event.hasGifts || event.hasInvitations) && {
       path: `/${event.slug}`,
       label: 'Home',
       navbarTheme: NavbarType.transparent,
       changeThemeWhenScroll: true,
     },
-    {
+    event.hasGifts && {
       path: `/${event.slug}/gifts`,
       label: 'Presentes',
       navbarTheme: NavbarType.solid,
       navbarUseSpacer: true,
     },
-    {
+    event.hasInvitations && {
       path: `/${event.slug}/presence-confirmation`,
       label: 'Confirmação de presença',
       navbarTheme: NavbarType.solid,
       navbarUseSpacer: true,
     },
-  ];
+  ].filter(Boolean) as LinkItem[];
 
   useEffect(() => {
     const selectedLink = links.find((l) => l.path === pathname);
@@ -109,7 +109,7 @@ export function EventNavbar({ event }: EventNavbarProps) {
             event.weddingDetail?.groomName!,
             event.weddingDetail?.brideName!,
           ]}
-          size={32}
+          size={34}
           color={event.content?.primaryColor}
         />
       ),

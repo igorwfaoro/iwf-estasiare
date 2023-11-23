@@ -3,13 +3,10 @@
 import { useEffect, useState } from 'react';
 import { createEventClientService } from '../../../client-services/event.client-service';
 import './index.scss';
-import { EventViewModel } from '../../../models/view-models/event.view-model';
 import { useToast } from '../../../contexts/ToastContext';
-import Card from '../../../components/Card';
 import dayjs from 'dayjs';
-import Skeleton from 'react-loading-skeleton';
-import ScrollContainer from 'react-indiana-drag-scroll';
 import EventsList from './EventsList';
+import { EventViewModel } from '../../../models/view-models/event.view-model';
 
 interface EventsProps {}
 

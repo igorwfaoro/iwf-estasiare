@@ -1,13 +1,30 @@
 import { prisma } from '../data/db';
-import { EventViewModel } from '../models/view-models/event.view-model';
+import { EventBySlugViewModel } from '../models/view-models/event-by-slug.view-model';
 import { eventConverter } from '../converters/event.converter';
 import { SearchEventsInputModel } from '../models/input-models/search-events.input-model';
+import { EventViewModel } from '../models/view-models/event.view-model';
 
 export const createEventService = () => {
   const getBySlug = async (
     slug: string,
     extraIncludes: { gifts?: boolean; financial?: boolean } = {}
-  ): Promise<EventViewModel> => {
+  ): Promise<EventBySlugViewModel> => {
+    const giftsCount = await prisma.gift.count({
+      where: {
+        event: {
+          slug,
+        },
+      },
+    });
+
+    const invitationsCount = await prisma.invitation.count({
+      where: {
+        event: {
+          slug,
+        },
+      },
+    });
+
     const event = await prisma.event.findFirstOrThrow({
       where: {
         slug,
@@ -24,7 +41,10 @@ export const createEventService = () => {
       },
     });
 
-    return eventConverter.modelToViewModel(event);
+    return eventConverter.modelToSlugViewModel(event, {
+      hasGifts: !!giftsCount,
+      hasInvitations: !!invitationsCount,
+    });
   };
 
   const search = async ({
@@ -73,7 +93,7 @@ export const createEventService = () => {
 
     events[0].address;
 
-    return events.map(eventConverter.modelToViewModel);
+    return events.map(eventConverter.modelViewModel);
   };
 
   const recommended = async (limit: number = 10): Promise<EventViewModel[]> => {
@@ -86,7 +106,7 @@ export const createEventService = () => {
       take: limit,
     });
 
-    return events.map(eventConverter.modelToViewModel);
+    return events.map(eventConverter.modelViewModel);
   };
 
   return {

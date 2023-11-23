@@ -55,13 +55,15 @@ export default async function Event({ params }: { params: { slug: string } }) {
       <EventHeader event={event} />
       <EventInfo event={event} />
 
-      <EventBanner {...banners.gifts} />
+      {event.hasGifts && <EventBanner {...banners.gifts} />}
 
       {!!event.content?.images?.length && (
         <EventPhotoAlbum images={event.content.images} />
       )}
 
-      <EventBanner {...banners.presenceConfirmation} />
+      {event.hasInvitations && (
+        <EventBanner {...banners.presenceConfirmation} />
+      )}
 
       {event.content?.spotifyPlaylistUrl && (
         <EventPlaylist spotifyPlaylistUrl={event.content.spotifyPlaylistUrl} />

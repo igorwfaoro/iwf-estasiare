@@ -1,0 +1,21 @@
+@import "../../../styles/colors.module.scss";
+
+#about {
+    .text {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        text-align: center;
+        font-size: 1.2rem;
+        padding: 44px 16%;
+
+        p {
+            margin: 0;
+            color: $color-neutral-600;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+    }
+}

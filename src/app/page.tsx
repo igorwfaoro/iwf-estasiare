@@ -32,10 +32,10 @@ export default async function Home() {
 
       <div className="home-content">
         <Events />
-        {/* <About /> */}
+        <About />
       </div>
 
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }

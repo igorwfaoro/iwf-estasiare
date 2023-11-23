@@ -5,7 +5,7 @@ import { EventWeddingDetailViewModel } from './event-wedding-detail.view-model';
 import { GiftViewModel } from './gift.view-model';
 import { EventAddressViewModel } from './event-address.view-model';
 
-export interface EventViewModel {
+export interface EventBySlugViewModel {
   id: number;
   eventType: EventType;
   date: Date;
@@ -14,7 +14,10 @@ export interface EventViewModel {
   content?: EventContentViewModel;
   financial?: EventFinancialViewModel | null;
   weddingDetail?: EventWeddingDetailViewModel | null;
+  gifts?: GiftViewModel[];
   createdAt: Date;
 
   titleDescription: string;
+  hasGifts: boolean;
+  hasInvitations: boolean;
 }

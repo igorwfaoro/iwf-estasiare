@@ -1,11 +1,11 @@
 import dayjs from 'dayjs';
 import './index.scss';
-import { EventViewModel } from '../../../../models/view-models/event.view-model';
+import { EventBySlugViewModel } from '../../../../models/view-models/event-by-slug.view-model';
 import { EventType } from '@prisma/client';
 import { eventTypeLabel } from '../../../../util/helpers/event-type.helper';
 
 interface EventHeaderProps {
-  event: EventViewModel;
+  event: EventBySlugViewModel;
 }
 
 export default function EventHeader({ event }: EventHeaderProps) {

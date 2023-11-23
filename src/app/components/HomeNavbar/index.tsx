@@ -35,6 +35,12 @@ export default function HomeNavbar({}: HomeNavbarProps) {
   const toggleMenu = () => setMenuIsOpen((mio) => !mio);
   const closeMenu = () => setMenuIsOpen(false);
 
+  const ButtonRegister = () => (
+    <Button className="register-button" variant="outlined" theme="highlight">
+      Crie seu evento!
+    </Button>
+  );
+
   return (
     <nav id="home-navbar">
       <Link href="/" className="logo">
@@ -61,6 +67,7 @@ export default function HomeNavbar({}: HomeNavbarProps) {
             </Link>
           </li>
         ))}
+        <ButtonRegister />
       </ul>
 
       <ul className="items">
@@ -74,13 +81,7 @@ export default function HomeNavbar({}: HomeNavbarProps) {
       </ul>
 
       <div className="right">
-        <Button
-          className="register-button"
-          variant="outlined"
-          theme="highlight"
-        >
-          Crie seu evento!
-        </Button>
+        <ButtonRegister />
       </div>
     </nav>
   );

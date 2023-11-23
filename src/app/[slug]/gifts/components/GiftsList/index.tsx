@@ -3,10 +3,10 @@
 import Gift from './components/Gift';
 import { Col, Row } from 'react-grid-system';
 import './index.scss';
-import { EventViewModel } from '../../../../../models/view-models/event.view-model';
+import { EventBySlugViewModel } from '../../../../../models/view-models/event-by-slug.view-model';
 
 interface GiftsListProps {
-  event: EventViewModel;
+  event: EventBySlugViewModel;
   // categories: GiftCategoryViewModel[];
 }
 
