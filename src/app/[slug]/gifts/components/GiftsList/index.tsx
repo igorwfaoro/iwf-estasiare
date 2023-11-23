@@ -1,7 +1,6 @@
 'use client';
 
 import Gift from './components/Gift';
-import { Col, Row } from 'react-grid-system';
 import './index.scss';
 import { EventBySlugViewModel } from '../../../../../models/view-models/event-by-slug.view-model';
 
@@ -26,13 +25,13 @@ export default function GiftsList({ event }: GiftsListProps) {
         selectedCategory={selectedCategory}
       /> */}
 
-      <Row className="row">
+      <div className="row">
         {event.gifts?.map((g, i) => (
-          <Col key={i} md={4}>
+          <div key={i} className="col-md-4">
             <Gift event={event} gift={g} />
-          </Col>
+          </div>
         ))}
-      </Row>
+      </div>
     </div>
   );
 }
