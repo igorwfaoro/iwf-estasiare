@@ -1,4 +1,4 @@
-import Button from '../../../../../../../../../components/Button';
+import Button from '../../../../../../../../../components/Button/Button';
 import { EventBySlugViewModel } from '../../../../../../../../../models/view-models/event-by-slug.view-model';
 import { GiftViewModel } from '../../../../../../../../../models/view-models/gift.view-model';
 import { toCurrency } from '../../../../../../../../../util/helpers/number.helper';

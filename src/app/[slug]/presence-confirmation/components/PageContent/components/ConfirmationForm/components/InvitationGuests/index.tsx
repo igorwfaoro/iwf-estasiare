@@ -1,4 +1,4 @@
-import Checkbox from '../../../../../../../../../components/Checkbox';
+import Checkbox from '../../../../../../../../../components/Checkbox/Checkbox';
 import { usePresenceConfirmationContext } from '../../../../contexts/PresenceConfirmationContext';
 import './index.scss';
 

@@ -1,6 +1,6 @@
 import ConfettiExplosion from 'react-confetti-explosion';
 import './index.scss';
-import Button from '../../../../../../../components/Button';
+import Button from '../../../../../../../components/Button/Button';
 import { usePresenceConfirmationContext } from '../../contexts/PresenceConfirmationContext';
 
 export default function InvitationSuccess() {

@@ -1,6 +1,6 @@
 import { KeyboardEvent, useState } from 'react';
-import Button from '../../../../../../../../../components/Button';
-import Input from '../../../../../../../../../components/Input';
+import Button from '../../../../../../../../../components/Button/Button';
+import Input from '../../../../../../../../../components/Input/Input';
 import './index.scss';
 import { usePresenceConfirmationContext } from '../../../../contexts/PresenceConfirmationContext';
 
@@ -51,7 +51,6 @@ export default function InvitationSearch() {
         onClick={handleGetInvitation}
         disabled={gettingInvitation}
         theme="primary"
-        variant="outlined"
         color={event.content?.primaryColor}
       >
         {buttonText}

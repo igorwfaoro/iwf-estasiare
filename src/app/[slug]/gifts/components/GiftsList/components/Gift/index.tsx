@@ -1,7 +1,7 @@
 'use client';
 
-import Button from '../../../../../../../components/Button';
-import Card from '../../../../../../../components/Card';
+import Button from '../../../../../../../components/Button/Button';
+import Card from '../../../../../../../components/Card/Card';
 import { useModal } from '../../../../../../../contexts/ModalContext';
 import { EventBySlugViewModel } from '../../../../../../../models/view-models/event-by-slug.view-model';
 import { GiftViewModel } from '../../../../../../../models/view-models/gift.view-model';

@@ -1,4 +1,4 @@
-import Button from '../../../../../../../../../components/Button';
+import Button from '../../../../../../../../../components/Button/Button';
 import { usePresenceConfirmationContext } from '../../../../contexts/PresenceConfirmationContext';
 import './index.scss';
 

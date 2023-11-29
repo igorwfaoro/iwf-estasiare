@@ -8,8 +8,8 @@ import { usePathname } from 'next/navigation';
 import { MenuSVGIcon } from '@react-md/material-icons';
 import './index.scss';
 import { EventBySlugViewModel } from '../../../../models/view-models/event-by-slug.view-model';
-import Button from '../../../../components/Button';
-import InitialsIcon from '../../../../components/InitialsIcon';
+import Button from '../../../../components/Button/Button';
+import InitialsIcon from '../../../../components/InitialsIcon/InitialsIcon';
 import { EventType } from '@prisma/client';
 
 enum NavbarType {
@@ -127,7 +127,6 @@ export function EventNavbar({ event }: EventNavbarProps) {
           onClick={toggleMenu}
           icon={MenuSVGIcon}
           theme="light"
-          variant="outlined"
         />
 
         <ul className={classNames('menu', menuIsOpen && 'menu__menu-show')}>

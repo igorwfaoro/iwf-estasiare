@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState } from 'react';
 import { v4 as uuidV4 } from 'uuid';
-import CustomModal from '../components/Modal';
+import CustomModal from '../components/Modal/Modal';
 
 export type ModalRefPropType = {
   modalRef: ModalRef;
