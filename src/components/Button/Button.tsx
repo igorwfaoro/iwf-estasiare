@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { tv, VariantProps } from 'tailwind-variants';
 
 const button = tv({
-    base: 'rounded-md px-4 h-10 font-bold uppercase shadow-sm transition-all ease-in-out hover:brightness-90 disabled:cursor-not-allowed disabled:border-none disabled:bg-gray-400 disabled:text-gray-300',
+    base: 'rounded-lg px-4 py-3 h-10 font-bold uppercase shadow-sm transition-all ease-in-out hover:brightness-90 disabled:cursor-not-allowed disabled:border-none disabled:bg-gray-400 disabled:text-gray-300 [text-wrap:nowrap]',
     variants: {
         theme: {
             primary: 'bg-primary text-white',

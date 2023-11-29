@@ -1,6 +1,6 @@
 import { ReactNode, cache } from 'react';
 import { createEventService } from '../../app-services/event.service';
-import { EventNavbar } from './components/Navbar';
+import { EventNavbar } from './components/Navbar/Navbar';
 import { EventFooter } from './components/Footer';
 import { Metadata } from 'next';
 

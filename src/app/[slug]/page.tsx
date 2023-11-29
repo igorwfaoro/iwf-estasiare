@@ -1,8 +1,8 @@
 import { cache } from 'react';
 import { Metadata } from 'next';
-import EventBanner, { EventBannerProps } from './components/EventBanner';
+import EventBanner, { EventBannerProps } from './components/EventBanner/EventBanner';
 import { createEventService } from '../../app-services/event.service';
-import EventHeader from './components/EventHeader';
+import EventHeader from './components/EventHeader/EventHeader';
 import EventInfo from './components/EventInfo';
 import EventPhotoAlbum from './components/EventPhotoAlbum';
 import EventPlaylist from './components/EventPlaylist';
