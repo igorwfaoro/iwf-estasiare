@@ -1,13 +1,11 @@
-import './index.scss';
-
 interface AboutProps {}
 
 export default function About({}: AboutProps) {
   return (
     <section id="about">
-      <div className="text">
+      <div className="flex flex-col gap-6 text-center text-lg px-[10%]">
         <p>
-          Bem-vindo à <span className="bold">Eventy</span>, o seu parceiro de
+          Bem-vindo à <span className="font-bold">Eventy</span>, o seu parceiro de
           confiança na criação de eventos memoráveis. Na Eventy, acreditamos que
           cada momento especial merece ser celebrado de forma única e
           inesquecível. Com nossa plataforma intuitiva e flexível, você pode
@@ -23,7 +21,7 @@ export default function About({}: AboutProps) {
           sua visão em realidade e criar momentos que serão lembrados para
           sempre.
         </p>
-        <p className="bold">
+        <p className="font-bold">
           Junte-se a nós e comece a jornada para um evento extraordinário.
           Celebre a vida com a Eventy!
         </p>

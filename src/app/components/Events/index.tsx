@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { createEventClientService } from '../../../client-services/event.client-service';
-import './index.scss';
 import { useToast } from '../../../contexts/ToastContext';
 import dayjs from 'dayjs';
 import EventsList from './EventsList';

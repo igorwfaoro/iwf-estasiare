@@ -1,7 +1,5 @@
-import './index.scss';
-
 interface FooterProps {}
 
 export default function Footer({}: FooterProps) {
-  return <footer id="home-footer"></footer>;
+  return <footer className="bg-primary w-[100%] h-24"></footer>;
 }
