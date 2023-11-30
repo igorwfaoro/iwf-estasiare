@@ -10,6 +10,6 @@ export const invitationConverter = {
     description: model.description,
     guests: model.guests
       ? model.guests?.map(guestConverter.modelToViewModel)
-      : undefined,
-  }),
+      : undefined
+  })
 };

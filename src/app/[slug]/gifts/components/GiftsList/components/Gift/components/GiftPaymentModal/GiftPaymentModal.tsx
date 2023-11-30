@@ -3,7 +3,6 @@ import { EventBySlugViewModel } from '../../../../../../../../../models/view-mod
 import { GiftViewModel } from '../../../../../../../../../models/view-models/gift.view-model';
 import { toCurrency } from '../../../../../../../../../util/helpers/number.helper';
 import { locale } from '../../../../../../../../../util/locale';
-import './index.scss';
 
 export interface GiftPaymentModalProps {
   event: EventBySlugViewModel;
@@ -12,17 +11,20 @@ export interface GiftPaymentModalProps {
 
 export default function GiftPaymentModal({
   event,
-  gift,
+  gift
 }: GiftPaymentModalProps) {
-  const paymentLink = `https://www.paypal.com/donate?business=igor.faoro17@gmail.com&no_recurring=0&item_name=${gift.description}&amount=${gift.price}&currency_code=${locale.currency}`;
+  const paymentLink = `https://www.paypal.com/donate?business=${event.financial?.paypalBusinessCode}&no_recurring=0&item_name=${gift.description}&amount=${gift.price}&currency_code=${locale.currency}`;
 
   return (
-    <div id="gift-payment-modal">
-      <h1 className="description">{gift.description}</h1>
-      <h3 className="price" style={{ color: event.content?.primaryColor }}>
+    <div className="text-center p-6 flex flex-col gap-4">
+      <h1 className="text-xl font-bold">{gift.description}</h1>
+      <h3
+        className="text-lg font-bold"
+        style={{ color: event.content?.primaryColor }}
+      >
         {toCurrency(gift.price)}
       </h3>
-      <p className="text">
+      <p>
         Você pode doar o valor do presente simbólico que escolheu e nós
         receberemos 😉
       </p>

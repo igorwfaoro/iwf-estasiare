@@ -1,11 +1,10 @@
 import dayjs from 'dayjs';
-import './index.scss';
 
 export function EventFooter() {
   const year = dayjs().format('YYYY');
 
   return (
-    <div id="event-footer">
+    <div className="flex justify-center p-3 text-sm text-neutral-400">
       <div>Eventy | {year}</div>
     </div>
   );

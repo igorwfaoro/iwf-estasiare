@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: true
   },
   optimizeFonts: false,
   webpack(config) {
@@ -15,7 +15,7 @@ const nextConfig = {
       }
     });
     return config;
-  },
+  }
 };
 
 module.exports = nextConfig;

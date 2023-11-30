@@ -1,17 +1,15 @@
 'use client';
 
-import './index.scss';
-import ConfirmationForm from './components/ConfirmationForm';
-import Header from './components/Header';
-import InvitationSuccess from './components/InvitationSuccess';
+import ConfirmationForm from './components/ConfirmationForm/ConfirmationForm';
+import Header from './components/Header/Header';
+import InvitationSuccess from './components/InvitationSuccess/InvitationSuccess';
 import { usePresenceConfirmationContext } from './contexts/PresenceConfirmationContext';
-import './index.scss';
 
 export default function PresenceConfirmationContent() {
   const { isAlreadyConfirmed } = usePresenceConfirmationContext();
 
   return (
-    <div id="presence-confirmation-page-content">
+    <div className="min-h-screen flex flex-col items-center px-4">
       {!isAlreadyConfirmed ? (
         <>
           <Header />

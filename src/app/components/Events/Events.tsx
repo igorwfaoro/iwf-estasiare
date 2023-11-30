@@ -47,7 +47,7 @@ export default function Events({}: EventsProps) {
         id: 1,
         shortDescription: 'La Casa Piemont - Farroupilha - RS',
         fullDescription:
-          'Espaço de Eventos La Casa Piemont, 240 - Estrada VRS 826 - Linha Boêmios, Farroupilha - RS, 95181-899',
+          'Espaço de Eventos La Casa Piemont, 240 - Estrada VRS 826 - Linha Boêmios, Farroupilha - RS, 95181-899'
       },
       content: {
         id: 1,
@@ -57,15 +57,15 @@ export default function Events({}: EventsProps) {
         spotifyPlaylistUrl:
           'https://open.spotify.com/embed/playlist/4repDc6kVmb39JvP5uq4Eb?utm_source=generator',
         bannerImage: 'https://i.imgur.com/fdyNtWe.jpg',
-        images: [],
+        images: []
       },
       weddingDetail: {
         id: 1,
         brideName: 'Gabrielle',
-        groomName: 'Igor',
+        groomName: 'Igor'
       },
       createdAt: dayjs('2023-11-22T19:59:52.459Z').toDate(),
-      titleDescription: 'Casamento Igor & Gabrielle',
+      titleDescription: 'Casamento Igor & Gabrielle'
     })
   );
 

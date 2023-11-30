@@ -1,6 +1,5 @@
 import Checkbox from '../../../../../../../../../components/Checkbox/Checkbox';
 import { usePresenceConfirmationContext } from '../../../../contexts/PresenceConfirmationContext';
-import './index.scss';
 
 export default function InvitationGuests() {
   const {
@@ -8,13 +7,13 @@ export default function InvitationGuests() {
     setGuestsSelectsValue,
     isAlreadyConfirmed,
     guestsListRef,
-    event,
+    event
   } = usePresenceConfirmationContext();
 
   if (isAlreadyConfirmed) return <></>;
 
   return (
-    <div id="invitation-guests" ref={guestsListRef}>
+    <div ref={guestsListRef} className="w-full flex flex-col gap-3">
       {guestsSelects?.map((g) => (
         <Checkbox
           key={g.id}

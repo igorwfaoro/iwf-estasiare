@@ -1,7 +1,6 @@
 'use client';
 
-import Gift from './components/Gift';
-import './index.scss';
+import Gift from './components/Gift/Gift';
 import { EventBySlugViewModel } from '../../../../../models/view-models/event-by-slug.view-model';
 
 interface GiftsListProps {
@@ -25,12 +24,8 @@ export default function GiftsList({ event }: GiftsListProps) {
         selectedCategory={selectedCategory}
       /> */}
 
-      <div className="row">
-        {event.gifts?.map((g, i) => (
-          <div key={i} className="col-md-4">
-            <Gift event={event} gift={g} />
-          </div>
-        ))}
+      <div className="mt-4 gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        {event.gifts?.map((g, i) => <Gift key={i} event={event} gift={g} />)}
       </div>
     </div>
   );

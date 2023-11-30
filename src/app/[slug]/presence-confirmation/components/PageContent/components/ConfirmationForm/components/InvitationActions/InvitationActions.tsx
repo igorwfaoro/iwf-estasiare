@@ -1,6 +1,5 @@
 import Button from '../../../../../../../../../components/Button/Button';
 import { usePresenceConfirmationContext } from '../../../../contexts/PresenceConfirmationContext';
-import './index.scss';
 
 export default function InvitationActions() {
   const {
@@ -8,7 +7,7 @@ export default function InvitationActions() {
     confirmGuests,
     loadingConfirmGuests,
     isAlreadyConfirmed,
-    event,
+    event
   } = usePresenceConfirmationContext();
 
   const disableConfirmButton =
@@ -21,11 +20,10 @@ export default function InvitationActions() {
   if (isAlreadyConfirmed) return <></>;
 
   return (
-    <div id="invitation-actions">
+    <>
       {!!guestsSelects.length && (
         <Button
-          className="button-confirm"
-          theme="primary"
+          className="w-full"
           disabled={disableConfirmButton}
           onClick={confirmGuests}
           color={event.content?.primaryColor}
@@ -33,6 +31,6 @@ export default function InvitationActions() {
           {buttonText}
         </Button>
       )}
-    </div>
+    </>
   );
 }

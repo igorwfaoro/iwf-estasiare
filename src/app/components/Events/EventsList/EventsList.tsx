@@ -18,148 +18,136 @@ import EventItem from './components/EventItem/EventItem';
 const CONTROL_BUTTON_WIDTH = 42;
 
 interface EventsListProps {
-    isLoading: boolean;
-    items: EventViewModel[];
+  isLoading: boolean;
+  items: EventViewModel[];
 }
 
 export default function EventsList({ items, isLoading }: EventsListProps) {
-    const itemsScrollRef = useRef<ScrollContainer>(null);
-    const scrollingCardItemRef = useRef<HTMLDivElement>(null);
+  const itemsScrollRef = useRef<ScrollContainer>(null);
+  const scrollingCardItemRef = useRef<HTMLDivElement>(null);
 
-    const [showArrowLeft, setShowArrowLeft] = useState(false);
-    const [showArrowRight, setShowArrowRight] = useState(false);
+  const [showArrowLeft, setShowArrowLeft] = useState(false);
+  const [showArrowRight, setShowArrowRight] = useState(false);
 
-    useEffect(() => {
-        const scrollElement = itemsScrollRef.current?.getElement();
+  useEffect(() => {
+    const scrollElement = itemsScrollRef.current?.getElement();
 
-        scrollElement?.addEventListener('scroll', handleOnScroll);
+    scrollElement?.addEventListener('scroll', handleOnScroll);
 
-        window.addEventListener('resize', onResize);
+    window.addEventListener('resize', onResize);
 
-        onResize();
+    onResize();
 
-        return () => {
-            scrollElement?.removeEventListener('scroll', handleOnScroll);
-            window.removeEventListener('resize', onResize);
-        };
-    }, [items]);
-
-    const onResize = () => {
-        if (getItemWidth() * items.length < getClientWidth()) {
-            setShowArrowLeft(false);
-            setShowArrowRight(false);
-            return;
-        }
-
-        scrollTo(0);
-        handleOnScroll();
+    return () => {
+      scrollElement?.removeEventListener('scroll', handleOnScroll);
+      window.removeEventListener('resize', onResize);
     };
+  }, [items]);
 
-    const handleOnScroll = () => {
-        if (getCurrentScroll() > getMaxScroll() - CONTROL_BUTTON_WIDTH) {
-            setShowArrowLeft(true);
-            setShowArrowRight(false);
-            return;
-        }
+  const onResize = () => {
+    if (getItemWidth() * items.length < getClientWidth()) {
+      setShowArrowLeft(false);
+      setShowArrowRight(false);
+      return;
+    }
 
-        if (getCurrentScroll() < CONTROL_BUTTON_WIDTH) {
-            setShowArrowLeft(false);
-            setShowArrowRight(true);
-            return;
-        }
+    scrollTo(0);
+    handleOnScroll();
+  };
 
-        setShowArrowLeft(true);
-        setShowArrowRight(true);
-    };
+  const handleOnScroll = () => {
+    if (getCurrentScroll() > getMaxScroll() - CONTROL_BUTTON_WIDTH) {
+      setShowArrowLeft(true);
+      setShowArrowRight(false);
+      return;
+    }
 
-    const getClientWidth = () =>
-        itemsScrollRef.current?.getElement().clientWidth || 0;
+    if (getCurrentScroll() < CONTROL_BUTTON_WIDTH) {
+      setShowArrowLeft(false);
+      setShowArrowRight(true);
+      return;
+    }
 
-    const getMaxScroll = () =>
-        (itemsScrollRef.current?.getElement().scrollWidth || 0) -
-        getClientWidth();
+    setShowArrowLeft(true);
+    setShowArrowRight(true);
+  };
 
-    const getCurrentScroll = () =>
-        itemsScrollRef.current?.getElement().scrollLeft || 0;
+  const getClientWidth = () =>
+    itemsScrollRef.current?.getElement().clientWidth || 0;
 
-    const scrollTo = (value: number) =>
-        itemsScrollRef.current?.getElement().scrollTo({ left: value });
+  const getMaxScroll = () =>
+    (itemsScrollRef.current?.getElement().scrollWidth || 0) - getClientWidth();
 
-    const getItemWidth = () => {
-        const itemsGapWidth = Number(
-            onlyNumbers(
-                window
-                    .getComputedStyle(
-                        document.querySelector('.events-list-items')!
-                    )
-                    .getPropertyValue('gap')
-            )
-        );
-        const itemWidth = scrollingCardItemRef.current?.clientWidth || 0;
+  const getCurrentScroll = () =>
+    itemsScrollRef.current?.getElement().scrollLeft || 0;
 
-        return itemWidth + itemsGapWidth;
-    };
+  const scrollTo = (value: number) =>
+    itemsScrollRef.current?.getElement().scrollTo({ left: value });
 
-    const handleClickButtonLeft = () => {
-        scrollTo(getCurrentScroll() - getItemWidth());
-    };
-
-    const handleClickButtonRight = () => {
-        scrollTo(getCurrentScroll() + getItemWidth());
-    };
-
-    const gradientClass = (() => {
-        if (!showArrowLeft && !showArrowRight) return '';
-        if (showArrowLeft && showArrowRight)
-            return 'gradient-mask-l-80 gradient-mask-r-80 md:gradient-mask-l-90 md:gradient-mask-r-90';
-        if (showArrowLeft) return 'gradient-mask-l-80 md:gradient-mask-l-90';
-        if (showArrowRight) return 'gradient-mask-r-80 md:gradient-mask-r-90';
-    })();
-
-    const renderLoading = () =>
-        Array.from({ length: 6 }).map(() => (
-            <div className="event-link">
-                <Skeleton
-                    count={1}
-                    className="w-full h-52 rounded-2xl"
-                    style={{
-                        width: '100%',
-                        height: 200,
-                        lineHeight: 'none',
-                        borderRadius: 16
-                    }}
-                />
-            </div>
-        ));
-
-    return (
-        <div className="relative">
-            <ScrollContainer
-                className={twMerge(
-                    'events-list-items',
-                    'flex gap-10 scroll-smooth py-3',
-                    gradientClass
-                )}
-                ref={itemsScrollRef as any}
-            >
-                {!!items.length
-                    ? items.map((item, i) => (
-                          <EventItem
-                              key={i}
-                              item={item}
-                              scrollingCardItemRef={scrollingCardItemRef}
-                          />
-                      ))
-                    : renderLoading()}
-            </ScrollContainer>
-
-            <ListControls
-                controlButtonWidth={CONTROL_BUTTON_WIDTH}
-                handleClickButtonLeft={handleClickButtonLeft}
-                handleClickButtonRight={handleClickButtonRight}
-                showArrowLeft={showArrowLeft}
-                showArrowRight={showArrowRight}
-            />
-        </div>
+  const getItemWidth = () => {
+    const itemsGapWidth = Number(
+      onlyNumbers(
+        window
+          .getComputedStyle(document.querySelector('.events-list-items')!)
+          .getPropertyValue('gap')
+      )
     );
+    const itemWidth = scrollingCardItemRef.current?.clientWidth || 0;
+
+    return itemWidth + itemsGapWidth;
+  };
+
+  const handleClickButtonLeft = () => {
+    scrollTo(getCurrentScroll() - getItemWidth());
+  };
+
+  const handleClickButtonRight = () => {
+    scrollTo(getCurrentScroll() + getItemWidth());
+  };
+
+  const gradientClass = (() => {
+    if (!showArrowLeft && !showArrowRight) return '';
+    if (showArrowLeft && showArrowRight)
+      return 'gradient-mask-l-80 gradient-mask-r-80 md:gradient-mask-l-90 md:gradient-mask-r-90';
+    if (showArrowLeft) return 'gradient-mask-l-80 md:gradient-mask-l-90';
+    if (showArrowRight) return 'gradient-mask-r-80 md:gradient-mask-r-90';
+  })();
+
+  const renderLoading = () =>
+    Array.from({ length: 6 }).map(() => (
+      <div className="min-w-[60%] max-w-[60%] md:min-w-[25%] md:max-w-[25%]">
+        <Skeleton count={1} className="w-full h-52 rounded-2xl" />
+      </div>
+    ));
+
+  return (
+    <div className="relative">
+      <ScrollContainer
+        className={twMerge(
+          'events-list-items',
+          'flex gap-10 scroll-smooth py-3',
+          gradientClass
+        )}
+        ref={itemsScrollRef as any}
+      >
+        {!!items.length
+          ? items.map((item, i) => (
+              <EventItem
+                key={i}
+                item={item}
+                scrollingCardItemRef={scrollingCardItemRef}
+              />
+            ))
+          : renderLoading()}
+      </ScrollContainer>
+
+      <ListControls
+        controlButtonWidth={CONTROL_BUTTON_WIDTH}
+        handleClickButtonLeft={handleClickButtonLeft}
+        handleClickButtonRight={handleClickButtonRight}
+        showArrowLeft={showArrowLeft}
+        showArrowRight={showArrowRight}
+      />
+    </div>
+  );
 }

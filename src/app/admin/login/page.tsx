@@ -1,10 +1,7 @@
-import GoogleButton from "./components/GoogleButton";
+import GoogleButton from './components/GoogleButton';
 
-interface AdminLoginPageProps { }
+interface AdminLoginPageProps {}
 
 export default function AdminLoginPage({}: AdminLoginPageProps) {
-
-    return (
-        <GoogleButton />
-    );
+  return <GoogleButton />;
 }

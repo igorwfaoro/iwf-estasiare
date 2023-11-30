@@ -1,5 +1,4 @@
 import ConfettiExplosion from 'react-confetti-explosion';
-import './index.scss';
 import Button from '../../../../../../../components/Button/Button';
 import { usePresenceConfirmationContext } from '../../contexts/PresenceConfirmationContext';
 
@@ -11,14 +10,14 @@ export default function InvitationSuccess() {
   const confettiWidth = window.innerWidth + 200;
 
   return (
-    <div id="invitation-success">
-      <div className="content">
-        <div className="message-toast">
+    <>
+      <div className="mt-8 flex flex-col gap-6">
+        <div className="bg-sky-400 p-6 text-white font-bold text-2xl rounded-lg text-center">
           🎉👰 Parabéns! Sua confirmação de presença foi registrada com sucesso!
           🤵🎉
         </div>
 
-        <div className="success-message">
+        <div className="text-center text-lg text-gray-800 flex flex-col">
           <p>
             Estamos animados para compartilhar este dia especial com você e sua
             presença tornará esse momento ainda mais memorável. Mal podemos
@@ -31,18 +30,18 @@ export default function InvitationSuccess() {
           </p>
         </div>
 
-        <Button theme="primary" variant="outlined" link={`/${event.slug}`}>
+        <Button theme="primary" link={`/${event.slug}`}>
           Ir para início
         </Button>
       </div>
 
-      <div className="confetti">
+      <div className="absolute top-1/4 left-1/2">
         <ConfettiExplosion
           duration={confettiDuration}
           particleCount={confettiParticleCount}
           width={confettiWidth}
         />
       </div>
-    </div>
+    </>
   );
 }

@@ -1,5 +1,4 @@
 import { EventBySlugViewModel } from '../../../../../models/view-models/event-by-slug.view-model';
-import './index.scss';
 
 interface HeaderProps {
   event: EventBySlugViewModel;
@@ -7,15 +6,15 @@ interface HeaderProps {
 
 export default function Header({ event }: HeaderProps) {
   return (
-    <div id="gifts-header">
+    <div className="pt-6 pb-16 px-4">
       <h1
-        className="header-title"
+        className="text-3xl font-bold text-center mb-6"
         style={{ color: event.content?.primaryColor }}
       >
         Escolha um presente simbólico!
       </h1>
 
-      <div className="header-text">
+      <div className="max-w-[672px] mx-auto text-lg text-center text-gray-800 flex flex-col">
         <p>
           É com muita felicidade que compartilhamos este momento único em nossas
           vidas. Sua presença é um presente inestimável e torna este dia ainda

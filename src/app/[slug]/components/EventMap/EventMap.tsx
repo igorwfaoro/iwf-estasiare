@@ -1,5 +1,3 @@
-import './index.scss';
-
 interface EventMapProps {
   addressDescription: string;
 }
@@ -11,7 +9,7 @@ export default function EventMap({ addressDescription }: EventMapProps) {
 
   return (
     <iframe
-      id="event-map"
+      className="w-full h-[450px]"
       src={embedUrl}
       style={{ border: 0 }}
       loading="lazy"

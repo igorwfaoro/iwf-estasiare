@@ -6,7 +6,7 @@ import {
   EventFinancial,
   EventType,
   EventWeddingDetail,
-  Gift,
+  Gift
 } from '@prisma/client';
 import { EventBySlugViewModel } from '../models/view-models/event-by-slug.view-model';
 import { eventWeddingDetailConverter } from './event-wedding-detail.converter';
@@ -15,7 +15,7 @@ import { giftConverter } from './gift.converter';
 import { eventAddressConverter } from './event-address.converter';
 import {
   EventContentConverterModel,
-  eventContentConverter,
+  eventContentConverter
 } from './event-content.converter';
 import { eventFinancialConverter } from './event-financial.converter';
 import { EventViewModel } from '../models/view-models/event.view-model';
@@ -61,14 +61,14 @@ export const eventConverter = {
     titleDescription: {
       [EventType.WEDDING]: `${eventTypeLabel[EventType.WEDDING]} ${[
         model.weddingDetail?.groomName,
-        model.weddingDetail?.brideName,
+        model.weddingDetail?.brideName
       ]
         .sort()
-        .join(' & ')}`,
+        .join(' & ')}`
     }[model.eventType],
 
     hasGifts,
-    hasInvitations,
+    hasInvitations
   }),
 
   modelViewModel: (model: EventConverterModel): EventViewModel => ({
@@ -96,9 +96,8 @@ export const eventConverter = {
     createdAt: model.createdAt,
 
     titleDescription: {
-      [EventType.WEDDING]: `${eventTypeLabel[EventType.WEDDING]} ${
-        model.weddingDetail?.groomName
-      } & ${model.weddingDetail?.brideName}`,
-    }[model.eventType],
-  }),
+      [EventType.WEDDING]: `${eventTypeLabel[EventType.WEDDING]} ${model
+        .weddingDetail?.groomName} & ${model.weddingDetail?.brideName}`
+    }[model.eventType]
+  })
 };

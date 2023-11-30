@@ -5,9 +5,9 @@ export default function About({}: AboutProps) {
     <section id="about">
       <div className="flex flex-col gap-6 text-center text-lg px-[10%]">
         <p>
-          Bem-vindo à <span className="font-bold">Eventy</span>, o seu parceiro de
-          confiança na criação de eventos memoráveis. Na Eventy, acreditamos que
-          cada momento especial merece ser celebrado de forma única e
+          Bem-vindo à <span className="font-bold">Eventy</span>, o seu parceiro
+          de confiança na criação de eventos memoráveis. Na Eventy, acreditamos
+          que cada momento especial merece ser celebrado de forma única e
           inesquecível. Com nossa plataforma intuitiva e flexível, você pode
           criar o evento dos seus sonhos, seja um casamento mágico, um
           aniversário emocionante ou qualquer ocasião especial que mereça ser

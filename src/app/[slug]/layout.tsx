@@ -1,7 +1,7 @@
 import { ReactNode, cache } from 'react';
 import { createEventService } from '../../app-services/event.service';
 import { EventNavbar } from './components/Navbar/Navbar';
-import { EventFooter } from './components/Footer';
+import { EventFooter } from './components/Footer/Footer';
 import { Metadata } from 'next';
 
 interface LayoutProps {
@@ -14,7 +14,7 @@ const getEvent = cache(async (slug: string) => {
 });
 
 export async function generateMetadata({
-  params,
+  params
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
@@ -26,16 +26,18 @@ export async function generateMetadata({
     themeColor: event.content?.primaryColor,
     openGraph: {
       description: event.titleDescription,
-      ...(event.content?.logoImage && { images: event.content.logoImage }),
+      ...(event.content?.logoImage && {
+        images: event.content.logoImage
+      }),
       type: 'website',
-      siteName: `Eventy`,
+      siteName: `Eventy`
     },
     twitter: {
       title: event.titleDescription,
       description: `${event.titleDescription} | Eventy`,
       card: 'summary',
-      ...(event.content?.logoImage && { images: event.content.logoImage }),
-    },
+      ...(event.content?.logoImage && { images: event.content.logoImage })
+    }
   };
 }
 

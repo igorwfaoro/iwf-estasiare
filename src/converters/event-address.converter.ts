@@ -9,6 +9,6 @@ export const eventAddressConverter = {
   ): EventAddressViewModel => ({
     id: Number(model.id),
     shortDescription: model.shortDescription,
-    fullDescription: model.fullDescription,
-  }),
+    fullDescription: model.fullDescription
+  })
 };

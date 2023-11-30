@@ -1,7 +1,6 @@
 import { KeyboardEvent, useState } from 'react';
 import Button from '../../../../../../../../../components/Button/Button';
 import Input from '../../../../../../../../../components/Input/Input';
-import './index.scss';
 import { usePresenceConfirmationContext } from '../../../../contexts/PresenceConfirmationContext';
 
 export default function InvitationSearch() {
@@ -36,22 +35,22 @@ export default function InvitationSearch() {
   if (isAlreadyConfirmed) return <></>;
 
   return (
-    <div id="invitation-search">
+    <div className="w-full">
       <Input
         label="Nomes que estão no convite"
         helpText="Escreva exatamente como está escrito no convite"
-        inputClassName="input"
+        inputClassName="text-xl p-3 font-bold"
         value={invitationDescriptionValue}
         onChange={(e) => setInvitationDescriptionValue(e.target.value)}
         errorMessage={inputErrorMessage}
         onKeyUp={handleInputKeyup}
       />
       <Button
-        className="button-search"
+        className="w-full bg-transparent border"
         onClick={handleGetInvitation}
         disabled={gettingInvitation}
         theme="primary"
-        color={event.content?.primaryColor}
+        style={{ borderColor: event.content?.primaryColor, color: event.content?.primaryColor }}
       >
         {buttonText}
       </Button>

@@ -7,9 +7,8 @@ import { EventBySlugViewModel } from '../../../../../../../models/view-models/ev
 import { GiftViewModel } from '../../../../../../../models/view-models/gift.view-model';
 import { toCurrency } from '../../../../../../../util/helpers/number.helper';
 import GiftPaymentModal, {
-  GiftPaymentModalProps,
-} from './components/GiftPaymentModal';
-import './index.scss';
+  GiftPaymentModalProps
+} from './components/GiftPaymentModal/GiftPaymentModal';
 
 interface GiftProps {
   event: EventBySlugViewModel;
@@ -24,25 +23,30 @@ export default function Gift({ event, gift }: GiftProps) {
       component: GiftPaymentModal,
       title: 'Presentear',
       props: { event, gift } as GiftPaymentModalProps,
-      width: window.innerWidth < 768 ? '90%' : '30%',
+      width: window.innerWidth < 768 ? '90%' : '30%'
     });
   };
 
   return (
-    <Card className="card">
-      <img className="card__image" src={gift.image} alt={gift.description} />
-      <div className="card__content">
-        <div>
-          <h2 className="card__title">{gift.description}</h2>
-          <div
-            className="card__price"
-            style={{ color: event.content?.primaryColor }}
-          >
-            {toCurrency(gift.price)}
-          </div>
+    <Card className="bg-white overflow-hidden">
+      <img
+        className="h-96 w-full object-cover"
+        src={gift.image}
+        alt={gift.description}
+      />
+      <div className="p-4 flex flex-col justify-between gap-2 h-44">
+        <h2 className="text-2xl font-semibold text-gray-800 overflow-hidden line-clamp-2">
+          {gift.description}
+        </h2>
+        <div
+          className="text-xl font-semibold"
+          style={{ color: event.content?.primaryColor }}
+        >
+          {toCurrency(gift.price)}
         </div>
+
         <Button
-          className="card__button"
+          className="py-2"
           onClick={openPaymentModal}
           theme="primary"
           color={event.content?.primaryColor}

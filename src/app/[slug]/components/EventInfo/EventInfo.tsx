@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import './index.scss';
 import { EventBySlugViewModel } from '../../../../models/view-models/event-by-slug.view-model';
 
 interface EventInfoProps {
@@ -10,9 +9,9 @@ export default function EventInfo({ event }: EventInfoProps) {
   const dateFormatted = dayjs(event.date).format('DD/MM/YYYY');
 
   return (
-    <section id="event-info">
-      <span className="info-date">{dateFormatted}</span>
-      <span className="info-address">{event.address?.shortDescription}</span>
+    <section className="bg-[url(/images/event/home-1.jpg)] bg-cover bg-bottom flex flex-col py-24 px-[2%] items-center gap-3">
+      <span className="text-3xl font-bold">{dateFormatted}</span>
+      <span className="text-xl">{event.address?.shortDescription}</span>
     </section>
   );
 }

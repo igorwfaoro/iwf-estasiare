@@ -53,7 +53,7 @@ const ModalProvider = (props: ModalProviderProps) => {
       close: (result?: any) => {
         close(id);
         if (options.onClose) options.onClose(result);
-      },
+      }
     };
 
     setModalList((ml) => [...ml, modal]);
