@@ -26,12 +26,12 @@ export default function InitialsIcon({
       }}
     >
       {initials.map((x, i) => (
-        <>
+        <div key={i} className='flex'>
           <div className="text-white font-bold">{x}</div>
           {initials.length > 1 && i < initials.length - 1 && (
             <HeartIcon className="fill-white" style={{ width: size / 4 }} />
           )}
-        </>
+        </div>
       ))}
     </div>
   );

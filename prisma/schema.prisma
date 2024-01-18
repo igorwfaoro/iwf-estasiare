@@ -11,6 +11,11 @@ enum EventType {
   WEDDING
 }
 
+enum UserEventRole {
+  ADMIN
+  EDITOR
+}
+
 model Event {
   id          BigInt          @id @default(autoincrement())
   eventType   EventType
@@ -19,6 +24,7 @@ model Event {
   invitations Invitation[]
   gifts       Gift[]
   handbooks   EventHandbook[]
+  usersEvent  UserEvent[]
 
   addressId BigInt       @unique
   address   EventAddress @relation(fields: [addressId], references: [id])
@@ -113,6 +119,26 @@ model EventHandbook {
   title       String @db.VarChar(150)
   description String @db.VarChar(200)
   content     String @db.Text
+
+  eventId BigInt
+  event   Event  @relation(fields: [eventId], references: [id])
+}
+
+model User {
+  id    BigInt @id @default(autoincrement())
+  name  String @db.VarChar(300)
+  email String @unique @db.VarChar(300)
+
+  createdAt  DateTime    @default(now())
+  userEvents UserEvent[]
+}
+
+model UserEvent {
+  id   BigInt        @id @default(autoincrement())
+  role UserEventRole
+
+  userId BigInt
+  user   User   @relation(fields: [userId], references: [id])
 
   eventId BigInt
   event   Event  @relation(fields: [eventId], references: [id])

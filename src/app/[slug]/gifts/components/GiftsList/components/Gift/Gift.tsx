@@ -28,14 +28,15 @@ export default function Gift({ event, gift }: GiftProps) {
   };
 
   return (
-    <Card className="bg-white overflow-hidden">
+    <Card className="bg-white overflow-hidden relative">
       <img
         className="h-96 w-full object-cover"
         src={gift.image}
         alt={gift.description}
       />
-      <div className="p-4 flex flex-col justify-between gap-2 h-44">
-        <h2 className="text-2xl font-semibold text-gray-800 overflow-hidden line-clamp-2">
+
+      <div className="p-4 space-y-2 mb-11">
+        <h2 className="text-md font-bold text-gray-800 overflow-hidden">
           {gift.description}
         </h2>
         <div
@@ -44,16 +45,16 @@ export default function Gift({ event, gift }: GiftProps) {
         >
           {toCurrency(gift.price)}
         </div>
+      </div>
 
-        <Button
-          className="py-2"
+      <Button
+          className="absolute w-full bottom-0 rounded-none"
           onClick={openPaymentModal}
           theme="primary"
           color={event.content?.primaryColor}
         >
           Presentear
         </Button>
-      </div>
     </Card>
   );
 }

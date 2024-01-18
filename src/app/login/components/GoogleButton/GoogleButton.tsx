@@ -6,7 +6,7 @@ const GoogleButton = () => {
   return (
     <button
       className="flex w-full justify-center gap-5 rounded bg-white py-4 px-4 text-sm font-bold drop-shadow-md hover:bg-gray-50"
-      onClick={() => signIn('google')}
+      onClick={() => signIn('google', { callbackUrl: '/admin' })}
     >
       <GoogleLogo />
       <div>Entrar com Google</div>

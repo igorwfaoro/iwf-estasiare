@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-export function Footer() {
+export function EventFooter() {
   const year = dayjs().format('YYYY');
 
   return (
