@@ -3,7 +3,7 @@
 import { SessionProvider } from 'next-auth/react';
 import { ReactNode } from 'react';
 import Navbar from './components/Navbar/Navbar';
-import { Footer } from '../components/Footer/Footer';
+import Footer from './components/Footer/Footer';
 
 interface AdminLayoutProps {
   children: ReactNode;
