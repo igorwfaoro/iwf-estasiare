@@ -1,14 +1,15 @@
 'use client';
 
-import { SessionProvider } from 'next-auth/react';
-import Profile from './components/Profile';
+import { useSession } from 'next-auth/react';
 
 interface AdminPageProps {}
 
 export default function AdminPage({}: AdminPageProps) {
-  return (
-    <SessionProvider>
-      <Profile />
-    </SessionProvider>
-  );
+  const session = useSession();
+
+  if (session.status === 'loading') {
+    return <div>Loading...</div>;
+  }
+
+  return <div>admin</div>
 }

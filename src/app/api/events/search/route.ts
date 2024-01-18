@@ -13,8 +13,8 @@ export async function GET(req: Request) {
       : undefined,
     limit: searchParams.has('limit')
       ? Number(searchParams.get('limit'))
-      : undefined,
+      : undefined
   });
-  
+
   return NextResponse.json(response);
 }

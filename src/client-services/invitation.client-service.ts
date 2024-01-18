@@ -9,7 +9,7 @@ export const createInvitationClientService = () => {
     fetch(
       `${API_URLS.invitations.getByDescription()}?${new URLSearchParams({
         eventId: String(eventId),
-        description,
+        description
       })}`
     ).then((response) => response.json());
 
@@ -21,12 +21,12 @@ export const createInvitationClientService = () => {
       method: 'PATCH',
       body: JSON.stringify({
         invitationId,
-        guests,
-      }),
+        guests
+      })
     });
 
   return {
     getByDescription,
-    updateGuestsConfirmations,
+    updateGuestsConfirmations
   };
 };

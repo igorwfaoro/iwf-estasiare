@@ -1,29 +1,29 @@
 import { cache } from 'react';
 import { Metadata } from 'next';
-import './page.scss';
-import Header from './components/Header';
-import GiftsList from './components/GiftsList';
+import Header from './components/Header/Header';
+import GiftsList from './components/GiftsList/GiftsList';
 import ModalProvider from '../../../contexts/ModalContext';
 import { createEventService } from '../../../app-services/event.service';
+import EventPage from '../components/EventPage/EventPage';
 
 export const revalidate = 3600;
 
 const getEvent = cache(async (slug: string) => {
   return await createEventService().getBySlug(slug, {
     gifts: true,
-    financial: true,
+    financial: true
   });
 });
 
 export async function generateMetadata({
-  params,
+  params
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
   const event = await getEvent(params.slug);
 
   return {
-    title: `Presentes | ${event.titleDescription}`,
+    title: `Presentes | ${event.titleDescription}`
   };
 }
 
@@ -32,10 +32,10 @@ export default async function Gifts({ params }: { params: { slug: string } }) {
 
   return (
     <ModalProvider>
-      <div id="gifts-page">
+      <EventPage>
         <Header event={event} />
         <GiftsList event={event} />
-      </div>
+      </EventPage>
     </ModalProvider>
   );
 }

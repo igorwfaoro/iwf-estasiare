@@ -9,6 +9,6 @@ export const eventWeddingDetailConverter = {
   ): EventWeddingDetailViewModel => ({
     id: Number(model.id),
     brideName: model.brideName,
-    groomName: model.groomName,
-  }),
+    groomName: model.groomName
+  })
 };

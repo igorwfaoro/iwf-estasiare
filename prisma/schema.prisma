@@ -11,13 +11,20 @@ enum EventType {
   WEDDING
 }
 
+enum UserEventRole {
+  ADMIN
+  EDITOR
+}
+
 model Event {
-  id          BigInt       @id @default(autoincrement())
+  id          BigInt          @id @default(autoincrement())
   eventType   EventType
   date        DateTime
-  slug        String       @unique @db.VarChar(100)
+  slug        String          @unique @db.VarChar(100)
   invitations Invitation[]
   gifts       Gift[]
+  handbooks   EventHandbook[]
+  usersEvent  UserEvent[]
 
   addressId BigInt       @unique
   address   EventAddress @relation(fields: [addressId], references: [id])
@@ -31,7 +38,7 @@ model Event {
   weddingDetailId BigInt?             @unique
   weddingDetail   EventWeddingDetail? @relation(fields: [weddingDetailId], references: [id])
 
-  createdAt    DateTime @default(now())
+  createdAt DateTime @default(now())
 }
 
 model EventAddress {
@@ -105,4 +112,34 @@ model Gift {
   event   Event  @relation(fields: [eventId], references: [id])
 
   createdAt DateTime @default(now())
+}
+
+model EventHandbook {
+  id          BigInt @id @default(autoincrement())
+  title       String @db.VarChar(150)
+  description String @db.VarChar(200)
+  content     String @db.Text
+
+  eventId BigInt
+  event   Event  @relation(fields: [eventId], references: [id])
+}
+
+model User {
+  id    BigInt @id @default(autoincrement())
+  name  String @db.VarChar(300)
+  email String @unique @db.VarChar(300)
+
+  createdAt  DateTime    @default(now())
+  userEvents UserEvent[]
+}
+
+model UserEvent {
+  id   BigInt        @id @default(autoincrement())
+  role UserEventRole
+
+  userId BigInt
+  user   User   @relation(fields: [userId], references: [id])
+
+  eventId BigInt
+  event   Event  @relation(fields: [eventId], references: [id])
 }

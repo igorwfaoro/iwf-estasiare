@@ -1,56 +1,80 @@
 import { prisma } from '../data/db';
-import { EventBySlugViewModel } from '../models/view-models/event-by-slug.view-model';
+import { EventDetailViewModel } from '../models/view-models/event-detail.view-model';
 import { eventConverter } from '../converters/event.converter';
 import { SearchEventsInputModel } from '../models/input-models/search-events.input-model';
 import { EventViewModel } from '../models/view-models/event.view-model';
 
+interface ExtraIncludes {
+  gifts?: boolean;
+  financial?: boolean;
+  handbooks?: boolean;
+}
+
 export const createEventService = () => {
   const getBySlug = async (
     slug: string,
-    extraIncludes: { gifts?: boolean; financial?: boolean } = {}
-  ): Promise<EventBySlugViewModel> => {
+    extraIncludes: ExtraIncludes = {}
+  ): Promise<EventDetailViewModel> => {
     const giftsCount = await prisma.gift.count({
       where: {
         event: {
-          slug,
-        },
-      },
+          slug
+        }
+      }
     });
 
     const invitationsCount = await prisma.invitation.count({
       where: {
         event: {
-          slug,
-        },
-      },
+          slug
+        }
+      }
+    });
+
+    const handbooksCount = await prisma.eventHandbook.count({
+      where: {
+        event: {
+          slug
+        }
+      }
     });
 
     const event = await prisma.event.findFirstOrThrow({
       where: {
-        slug,
+        slug
       },
       include: {
         address: true,
         content: {
           include: {
-            images: true,
-          },
+            images: true
+          }
         },
         weddingDetail: true,
-        ...extraIncludes,
-      },
+        handbooks: extraIncludes.handbooks
+          ? {
+              select: {
+                id: true,
+                title: true,
+                description: true
+              }
+            }
+          : false,
+        ...extraIncludes
+      }
     });
 
-    return eventConverter.modelToSlugViewModel(event, {
+    return eventConverter.modelDetailViewModel(event, {
       hasGifts: !!giftsCount,
       hasInvitations: !!invitationsCount,
+      hasHandbooks: !!handbooksCount
     });
   };
 
   const search = async ({
     query,
     index,
-    limit,
+    limit
   }: SearchEventsInputModel): Promise<EventViewModel[]> => {
     const take = limit ?? 30;
     const skip = (index ?? 0) * take;
@@ -61,34 +85,37 @@ export const createEventService = () => {
         OR: [
           {
             address: {
-              fullDescription: { contains: searchQuery, mode: 'insensitive' },
-            },
+              fullDescription: {
+                contains: searchQuery,
+                mode: 'insensitive'
+              }
+            }
           },
           {
             weddingDetail: {
               groomName: {
                 contains: searchQuery,
-                mode: 'insensitive',
-              },
-            },
+                mode: 'insensitive'
+              }
+            }
           },
           {
             weddingDetail: {
               brideName: {
                 contains: searchQuery,
-                mode: 'insensitive',
-              },
-            },
-          },
-        ],
+                mode: 'insensitive'
+              }
+            }
+          }
+        ]
       },
       include: {
         address: true,
         content: true,
-        weddingDetail: true,
+        weddingDetail: true
       },
       skip,
-      take,
+      take
     });
 
     events[0].address;
@@ -101,9 +128,9 @@ export const createEventService = () => {
       include: {
         address: true,
         content: true,
-        weddingDetail: true,
+        weddingDetail: true
       },
-      take: limit,
+      take: limit
     });
 
     return events.map(eventConverter.modelViewModel);
@@ -112,6 +139,6 @@ export const createEventService = () => {
   return {
     getBySlug,
     search,
-    recommended,
+    recommended
   };
 };

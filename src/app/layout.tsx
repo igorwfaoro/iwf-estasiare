@@ -1,13 +1,13 @@
+import '../styles/globals.scss';
 import dayjs from 'dayjs';
 import { ReactNode } from 'react';
-import '../styles/globals.scss';
 import { Metadata } from 'next';
 import { locale } from '../util/locale';
 
 dayjs.locale(locale.id);
 
 export const metadata: Metadata = {
-  title: 'Eventy',
+  title: 'Eventy'
 };
 
 interface RootLayoutProps {

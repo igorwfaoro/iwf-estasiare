@@ -1,12 +1,14 @@
 import { cache } from 'react';
 import { Metadata } from 'next';
-import EventBanner, { EventBannerProps } from './components/EventBanner';
+import EventBanner, {
+  EventBannerProps
+} from './components/EventBanner/EventBanner';
 import { createEventService } from '../../app-services/event.service';
-import EventHeader from './components/EventHeader';
-import EventInfo from './components/EventInfo';
-import EventPhotoAlbum from './components/EventPhotoAlbum';
-import EventPlaylist from './components/EventPlaylist';
-import EventMap from './components/EventMap';
+import EventHeader from './components/EventHeader/EventHeader';
+import EventInfo from './components/EventInfo/EventInfo';
+import EventPhotoAlbum from './components/EventPhotoAlbum/EventPhotoAlbum';
+import EventPlaylist from './components/EventPlaylist/EventPlaylist';
+import EventMap from './components/EventMap/EventMap';
 
 export const revalidate = 3600;
 
@@ -15,14 +17,14 @@ const getEvent = cache(async (slug: string) => {
 });
 
 export async function generateMetadata({
-  params,
+  params
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
   const event = await getEvent(params.slug);
 
   return {
-    title: event.titleDescription,
+    title: event.titleDescription
   };
 }
 
@@ -37,7 +39,7 @@ export default async function Event({ params }: { params: { slug: string } }) {
       buttonText: 'Lista de presentes',
       imageSrc: '/images/event/banner1.jpg',
       buttonLink: `/${event.slug}/gifts`,
-      direction: 'row',
+      direction: 'row'
     } as EventBannerProps,
     presenceConfirmation: {
       title: 'Confirmação de Presença',
@@ -46,8 +48,8 @@ export default async function Event({ params }: { params: { slug: string } }) {
       buttonText: 'Confirmação',
       imageSrc: '/images/event/banner2.jpg',
       buttonLink: `/${event.slug}/presence-confirmation`,
-      direction: 'row',
-    } as EventBannerProps,
+      direction: 'row'
+    } as EventBannerProps
   };
 
   return (

@@ -1,4 +1,4 @@
 export interface CreateOrderInputModel {
-    itemDescription: string;
-    itemPrice: number;
+  itemDescription: string;
+  itemPrice: number;
 }

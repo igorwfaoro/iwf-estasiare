@@ -13,12 +13,12 @@ export const createInvitationService = () => {
         eventId,
         description: {
           equals: description,
-          mode: 'insensitive',
-        },
+          mode: 'insensitive'
+        }
       },
       include: {
-        guests: true,
-      },
+        guests: true
+      }
     });
 
     return invitationConverter.modelToViewModel(invitation);
@@ -33,22 +33,22 @@ export const createInvitationService = () => {
         id: {
           in: input.guests
             .filter((g) => g.isConfirmed === isConfirmed)
-            .map((g) => g.id),
-        },
+            .map((g) => g.id)
+        }
       },
       data: {
-        isConfirmed,
-      },
+        isConfirmed
+      }
     });
 
     await prisma.$transaction([
       prisma.guest.updateMany(getConfig(true)),
-      prisma.guest.updateMany(getConfig(false)),
+      prisma.guest.updateMany(getConfig(false))
     ]);
   };
 
   return {
     getByDescription,
-    updateGuestsConfirmation,
+    updateGuestsConfirmation
   };
 };

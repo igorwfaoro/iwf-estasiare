@@ -20,7 +20,7 @@ const ToastProvider = ({ children }: ToastProviderProps) => {
   const open = (message: string, type: TypeOptions = 'info') => {
     toast(message, {
       type,
-      autoClose: TOAST_DURATION,
+      autoClose: TOAST_DURATION
     });
   };
 

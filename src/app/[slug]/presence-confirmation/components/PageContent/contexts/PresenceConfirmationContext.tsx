@@ -6,13 +6,13 @@ import {
   useContext,
   useMemo,
   useRef,
-  useState,
+  useState
 } from 'react';
 import { InvitationViewModel } from '../../../../../../models/view-models/invitation.view-model';
 import { GuestViewModel } from '../../../../../../models/view-models/guest.view-model';
 import { useToast } from '../../../../../../contexts/ToastContext';
 import { createInvitationClientService } from '../../../../../../client-services/invitation.client-service';
-import { EventBySlugViewModel } from '../../../../../../models/view-models/event-by-slug.view-model';
+import { EventDetailViewModel } from '../../../../../../models/view-models/event-detail.view-model';
 
 export interface IPresenceConfirmationProvider {
   invitation?: InvitationViewModel;
@@ -24,12 +24,12 @@ export interface IPresenceConfirmationProvider {
   loadingConfirmGuests: boolean;
   isAlreadyConfirmed: boolean;
   guestsListRef: RefObject<HTMLDivElement>;
-  event: EventBySlugViewModel;
+  event: EventDetailViewModel;
 }
 
 interface PresenceConfirmationProviderProps {
   children: any;
-  event: EventBySlugViewModel;
+  event: EventDetailViewModel;
 }
 
 const PresenceConfirmationContext = createContext<
@@ -81,7 +81,7 @@ const PresenceConfirmationProvider = (
         invitation!.id,
         guestsSelects.map((g) => ({
           id: g.id,
-          isConfirmed: g.isConfirmed,
+          isConfirmed: g.isConfirmed
         }))
       )
       .then(() => {
@@ -108,7 +108,7 @@ const PresenceConfirmationProvider = (
       loadingConfirmGuests,
       isAlreadyConfirmed,
       guestsListRef,
-      event: props.event,
+      event: props.event
     }),
     [
       invitation,
@@ -116,7 +116,7 @@ const PresenceConfirmationProvider = (
       guestsSelects,
       loadingConfirmGuests,
       isAlreadyConfirmed,
-      guestsListRef,
+      guestsListRef
     ]
   );
 

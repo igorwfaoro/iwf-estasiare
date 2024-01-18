@@ -5,7 +5,7 @@ export const createEventClientService = () => {
   const search = ({
     q,
     index,
-    limit,
+    limit
   }: {
     q?: string;
     index?: number;
@@ -15,19 +15,19 @@ export const createEventClientService = () => {
       `${API_URLS.events.search()}?${new URLSearchParams({
         ...(q && { q }),
         ...(index !== undefined && { index: String(index) }),
-        ...(limit !== undefined && { limit: String(limit) }),
+        ...(limit !== undefined && { limit: String(limit) })
       })}`
     ).then((response) => response.json());
 
   const recommended = (limit?: number): Promise<EventViewModel[]> =>
     fetch(
       `${API_URLS.events.recommended()}?${new URLSearchParams({
-        ...(limit !== undefined && { limit: String(limit) }),
+        ...(limit !== undefined && { limit: String(limit) })
       })}`
     ).then((response) => response.json());
 
   return {
     search,
-    recommended,
+    recommended
   };
 };

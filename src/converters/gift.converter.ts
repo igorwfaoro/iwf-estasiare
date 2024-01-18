@@ -8,6 +8,6 @@ export const giftConverter = {
     id: Number(model.id),
     description: model.description,
     image: model.image,
-    price: model.price.toNumber(),
-  }),
+    price: model.price.toNumber()
+  })
 };

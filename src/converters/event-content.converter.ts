@@ -15,6 +15,6 @@ export const eventContentConverter = {
     logoImage: model.logoImage,
     spotifyPlaylistUrl: model.spotifyPlaylistUrl,
     bannerImage: model.bannerImage,
-    images: model.images?.map(eventContentImageConverter.modelToViewModel),
-  }),
+    images: model.images?.map(eventContentImageConverter.modelToViewModel)
+  })
 };

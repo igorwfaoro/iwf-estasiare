@@ -12,6 +12,6 @@ export const guestConverter = {
     confirmationDate: model.confirmationDate,
     invitation: model.invitation
       ? invitationConverter.modelToViewModel(model.invitation)
-      : undefined,
-  }),
+      : undefined
+  })
 };

@@ -8,6 +8,6 @@ export const eventContentImageConverter = {
     model: EventContentImageConverterModel
   ): EventContentImageViewModel => ({
     id: Number(model.id),
-    image: model.image,
-  }),
+    image: model.image
+  })
 };
