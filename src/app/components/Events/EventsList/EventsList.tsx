@@ -1,6 +1,5 @@
 'use client';
 
-import Skeleton from 'react-loading-skeleton';
 import { useEffect, useRef, useState } from 'react';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import { onlyNumbers } from '../../../../util/helpers/string.helper';
@@ -14,6 +13,7 @@ import { EventType } from '@prisma/client';
 import { twMerge } from 'tailwind-merge';
 import ListControls from './components/ListControls/ListControls';
 import EventItem from './components/EventItem/EventItem';
+import Skeleton from '../../../../components/Skeleton/Skeleton';
 
 const CONTROL_BUTTON_WIDTH = 42;
 
@@ -114,10 +114,8 @@ export default function EventsList({ items, isLoading }: EventsListProps) {
   })();
 
   const renderLoading = () =>
-    Array.from({ length: 6 }).map(() => (
-      <div className="min-w-[60%] max-w-[60%] md:min-w-[25%] md:max-w-[25%]">
-        <Skeleton count={1} className="w-full h-52 rounded-2xl" />
-      </div>
+    Array.from({ length: 8 }).map(() => (
+      <Skeleton className="h-52 rounded-xl min-w-[60%] max-w-[60%] md:min-w-[25%] md:max-w-[25%]" />
     ));
 
   return (

@@ -96,6 +96,17 @@ CREATE TABLE "Gift" (
     CONSTRAINT "Gift_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "EventHandbook" (
+    "id" BIGSERIAL NOT NULL,
+    "title" VARCHAR(150) NOT NULL,
+    "description" VARCHAR(200) NOT NULL,
+    "content" TEXT NOT NULL,
+    "eventId" BIGINT NOT NULL,
+
+    CONSTRAINT "EventHandbook_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Event_slug_key" ON "Event"("slug");
 
@@ -134,3 +145,6 @@ ALTER TABLE "Guest" ADD CONSTRAINT "Guest_invitationId_fkey" FOREIGN KEY ("invit
 
 -- AddForeignKey
 ALTER TABLE "Gift" ADD CONSTRAINT "Gift_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "EventHandbook" ADD CONSTRAINT "EventHandbook_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

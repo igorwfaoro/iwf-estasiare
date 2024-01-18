@@ -3,7 +3,7 @@
 import Button from '../../../../../../../components/Button/Button';
 import Card from '../../../../../../../components/Card/Card';
 import { useModal } from '../../../../../../../contexts/ModalContext';
-import { EventBySlugViewModel } from '../../../../../../../models/view-models/event-by-slug.view-model';
+import { EventDetailViewModel } from '../../../../../../../models/view-models/event-detail.view-model';
 import { GiftViewModel } from '../../../../../../../models/view-models/gift.view-model';
 import { toCurrency } from '../../../../../../../util/helpers/number.helper';
 import GiftPaymentModal, {
@@ -11,7 +11,7 @@ import GiftPaymentModal, {
 } from './components/GiftPaymentModal/GiftPaymentModal';
 
 interface GiftProps {
-  event: EventBySlugViewModel;
+  event: EventDetailViewModel;
   gift: GiftViewModel;
 }
 

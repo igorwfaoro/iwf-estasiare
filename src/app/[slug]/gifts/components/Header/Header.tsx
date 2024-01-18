@@ -1,20 +1,17 @@
-import { EventBySlugViewModel } from '../../../../../models/view-models/event-by-slug.view-model';
+import { EventDetailViewModel } from '../../../../../models/view-models/event-detail.view-model';
+import EventPageHeader from '../../../components/EventPageHeader/EventPageHeader';
 
 interface HeaderProps {
-  event: EventBySlugViewModel;
+  event: EventDetailViewModel;
 }
 
 export default function Header({ event }: HeaderProps) {
   return (
-    <div className="pt-6 pb-16 px-4">
-      <h1
-        className="text-3xl font-bold text-center mb-6"
-        style={{ color: event.content?.primaryColor }}
-      >
+    <EventPageHeader>
+      <EventPageHeader.Title color={event.content?.primaryColor}>
         Escolha um presente simbólico!
-      </h1>
-
-      <div className="max-w-[672px] mx-auto text-lg text-center text-gray-800 flex flex-col">
+      </EventPageHeader.Title>
+      <EventPageHeader.Sub>
         <p>
           É com muita felicidade que compartilhamos este momento único em nossas
           vidas. Sua presença é um presente inestimável e torna este dia ainda
@@ -44,7 +41,7 @@ export default function Header({ event }: HeaderProps) {
           Seu carinho é o nosso presente. Obrigado por fazer parte da nossa
           história.
         </p>
-      </div>
-    </div>
+      </EventPageHeader.Sub>
+    </EventPageHeader>
   );
 }

@@ -48,7 +48,7 @@ export default function HomeNavbar({}: HomeNavbarProps) {
 
       {/* mobile button menu */}
       <Button
-        className="z-20 md:hidden w-16 border-neutral-400 bg-neutral-50 px-4"
+        className="z-20 md:hidden w-16 border-neutral-400 bg-neutral-50 px-4 py-1 fill-gray-500"
         onClick={toggleMenu}
         icon={MenuSVGIcon}
         theme="light"
@@ -68,7 +68,7 @@ export default function HomeNavbar({}: HomeNavbarProps) {
               </Link>
             </li>
           ))}
-          <ButtonRegister className="mb-4 h-7 px-2" />
+          <ButtonRegister className="mb-4 px-2 py-1" />
         </ul>
       )}
 
@@ -88,7 +88,7 @@ export default function HomeNavbar({}: HomeNavbarProps) {
 
       {/* right items */}
       <div className="absolute right-3 top-2">
-        <ButtonRegister className="h-7 px-2 hidden md:block" />
+        <ButtonRegister className="px-2 py-1 hidden md:block" />
       </div>
     </nav>
   );

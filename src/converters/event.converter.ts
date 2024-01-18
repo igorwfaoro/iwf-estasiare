@@ -1,14 +1,13 @@
 import {
   Event,
   EventAddress,
-  EventContent,
-  EventContentImage,
   EventFinancial,
+  EventHandbook,
   EventType,
   EventWeddingDetail,
   Gift
 } from '@prisma/client';
-import { EventBySlugViewModel } from '../models/view-models/event-by-slug.view-model';
+import { EventDetailViewModel } from '../models/view-models/event-detail.view-model';
 import { eventWeddingDetailConverter } from './event-wedding-detail.converter';
 import { eventTypeLabel } from '../util/helpers/event-type.helper';
 import { giftConverter } from './gift.converter';
@@ -19,6 +18,7 @@ import {
 } from './event-content.converter';
 import { eventFinancialConverter } from './event-financial.converter';
 import { EventViewModel } from '../models/view-models/event.view-model';
+import { eventHandbookConverter } from './event-handbook.converter';
 
 export type EventConverterModel = Event & {
   content?: EventContentConverterModel;
@@ -26,13 +26,20 @@ export type EventConverterModel = Event & {
   financial?: EventFinancial | null;
   weddingDetail?: EventWeddingDetail | null;
   gifts?: Gift[];
+  handbooks?: EventHandbook[] | null;
 };
 
+interface EventDetailInclude {
+  hasGifts: boolean;
+  hasInvitations: boolean;
+  hasHandbooks: boolean;
+}
+
 export const eventConverter = {
-  modelToSlugViewModel: (
+  modelDetailViewModel: (
     model: EventConverterModel,
-    { hasGifts, hasInvitations }: { hasGifts: boolean; hasInvitations: boolean }
-  ): EventBySlugViewModel => ({
+    { hasGifts, hasInvitations, hasHandbooks }: EventDetailInclude
+  ): EventDetailViewModel => ({
     id: Number(model.id),
     eventType: model.eventType,
     date: model.date,
@@ -56,6 +63,8 @@ export const eventConverter = {
 
     gifts: model.gifts?.map(giftConverter.modelToViewModel),
 
+    handbooks: model.handbooks?.map(eventHandbookConverter.modelToViewModel),
+
     createdAt: model.createdAt,
 
     titleDescription: {
@@ -68,7 +77,8 @@ export const eventConverter = {
     }[model.eventType],
 
     hasGifts,
-    hasInvitations
+    hasInvitations,
+    hasHandbooks
   }),
 
   modelViewModel: (model: EventConverterModel): EventViewModel => ({

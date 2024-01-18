@@ -3,6 +3,13 @@ import dayjs from 'dayjs';
 const prisma = new PrismaClient();
 
 async function main() {
+  await prisma.guest.deleteMany({});
+  await prisma.gift.deleteMany({});
+  await prisma.eventContentImage.deleteMany({});
+  await prisma.eventHandbook.deleteMany({});
+  await prisma.invitation.deleteMany({});
+  await prisma.event.deleteMany({});
+
   const event = await prisma.event.create({
     data: {
       eventType: 'WEDDING',
@@ -17,7 +24,7 @@ async function main() {
       },
       content: {
         create: {
-          primaryColor: '#687FF9',
+          primaryColor: '#1E3A8A',
           bannerImage:
             'https://www.weddinggownpreservationkit.com/blog-images/zoom-virtual-wedding-background-lg.jpg',
           logoImage:
@@ -208,6 +215,31 @@ async function main() {
           },
           {
             description: 'João e Mili'
+          }
+        ]
+      },
+      handbooks: {
+        create: [
+          {
+            title: 'Manual de Padrinhos',
+            description:
+              'Guia para nossos padrinhos, com dicas para tornar nosso casamento especial',
+            content:
+              '<div><ul><li><strong>Vista-se elegantemente</strong> e de acordo com o estilo da cerimônia.<br><li>A cor do evento é: <span style="background-color: #1E3A8A; color: white;">#1E3A8A</span>. Recomendamos que você incorpore essa cor em sua vestimenta, seja em uma gravata, vestido, ou acessório.</li><li><strong>Esteja pronto</strong> para ajudar e apoiar os noivos em todas as fases do casamento.</li><li><strong>Celebre conosco</strong> e divirta-se na festa de casamento!</li></ul><p>Se você tiver alguma dúvida ou precisar de mais informações, entre em contato conosco. Agradecemos por fazer parte deste dia especial!</p></div>'
+          },
+          {
+            title: 'Manual das Daminhas',
+            description:
+              'Guia para nossas daminhas, com dicas sobre vestimenta e comportamento',
+            content:
+              '<div><ul><li>Use o vestido de dama de honra que foi escolhido para você. Ele é lindo!</li><li>Lembre-se de sorrir enquanto caminha pelo corredor. Sua alegria é contagiante.</li><li>Aproveite o momento e divirta-se na festa. Haverá uma pista de dança esperando por você!</li><li>Se precisar de ajuda ou tiver alguma pergunta, fale com um adulto de confiança.</li></ul><p>Estamos gratos por você fazer parte deste dia. Vamos criar memórias incríveis juntos!</p></div>'
+          },
+          {
+            title: 'Manual de Convidados',
+            description:
+              'Guia para nossos convidados, com informações essenciais sobre o evento',
+            content:
+              '<div><ul><li>Data do Evento: [Inserir Data]</li><li>Local: [Inserir Local]</li><li>Vestimenta: [Inserir Código de Vestimenta]</li><li>Horário: [Inserir Horário]</li></ul><p>Por favor, confirme a sua presença até [Inserir Data de Confirmação]. Se você tiver alguma dúvida, entre em contato conosco. Esperamos vê-lo lá!</p></div>'
           }
         ]
       }

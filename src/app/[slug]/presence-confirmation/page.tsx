@@ -4,6 +4,7 @@ import PresenceConfirmationContent from './components/PageContent/PageContent';
 import { createEventService } from '../../../app-services/event.service';
 import PresenceConfirmationProvider from './components/PageContent/contexts/PresenceConfirmationContext';
 import ToastProvider from '../../../contexts/ToastContext';
+import EventPage from '../components/EventPage/EventPage';
 
 export const revalidate = 3600;
 
@@ -32,11 +33,11 @@ export default async function PresenceConfirmation({
 
   return (
     <ToastProvider>
-      <div className="p-5 pt-12 bg-gray-100">
+      <EventPage>
         <PresenceConfirmationProvider event={event}>
           <PresenceConfirmationContent />
         </PresenceConfirmationProvider>
-      </div>
+      </EventPage>
     </ToastProvider>
   );
 }

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { MenuSVGIcon } from '@react-md/material-icons';
-import { EventBySlugViewModel } from '../../../../models/view-models/event-by-slug.view-model';
+import { EventDetailViewModel } from '../../../../models/view-models/event-detail.view-model';
 import Button from '../../../../components/Button/Button';
 import InitialsIcon from '../../../../components/InitialsIcon/InitialsIcon';
 import { EventType } from '@prisma/client';
@@ -18,7 +18,7 @@ interface LinkItem {
 }
 
 interface EventNavbarProps {
-  event: EventBySlugViewModel;
+  event: EventDetailViewModel;
 }
 
 export function EventNavbar({ event }: EventNavbarProps) {
@@ -38,6 +38,10 @@ export function EventNavbar({ event }: EventNavbarProps) {
     event.hasInvitations && {
       path: `/${event.slug}/presence-confirmation`,
       label: 'Confirmação de presença'
+    },
+    event.hasHandbooks && {
+      path: `/${event.slug}/handbooks`,
+      label: 'Manuais'
     }
   ].filter(Boolean) as LinkItem[];
 

@@ -4,8 +4,9 @@ import { EventFinancialViewModel } from './event-financial.view-model';
 import { EventWeddingDetailViewModel } from './event-wedding-detail.view-model';
 import { GiftViewModel } from './gift.view-model';
 import { EventAddressViewModel } from './event-address.view-model';
+import { EventHandbookViewModel } from './event-handbook.view-model';
 
-export interface EventBySlugViewModel {
+export interface EventDetailViewModel {
   id: number;
   eventType: EventType;
   date: Date;
@@ -15,9 +16,11 @@ export interface EventBySlugViewModel {
   financial?: EventFinancialViewModel | null;
   weddingDetail?: EventWeddingDetailViewModel | null;
   gifts?: GiftViewModel[];
+  handbooks?: EventHandbookViewModel[] | null;
   createdAt: Date;
 
   titleDescription: string;
-  hasGifts: boolean;
-  hasInvitations: boolean;
+  hasGifts?: boolean | null;
+  hasInvitations?: boolean | null;
+  hasHandbooks?: boolean | null;
 }

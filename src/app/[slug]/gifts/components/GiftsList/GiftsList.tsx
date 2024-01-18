@@ -1,10 +1,10 @@
 'use client';
 
 import Gift from './components/Gift/Gift';
-import { EventBySlugViewModel } from '../../../../../models/view-models/event-by-slug.view-model';
+import { EventDetailViewModel } from '../../../../../models/view-models/event-detail.view-model';
 
 interface GiftsListProps {
-  event: EventBySlugViewModel;
+  event: EventDetailViewModel;
   // categories: GiftCategoryViewModel[];
 }
 
