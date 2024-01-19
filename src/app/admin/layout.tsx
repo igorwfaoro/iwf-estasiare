@@ -6,6 +6,7 @@ import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import ProviderComposer from '../../components/ProviderCompose';
 import ToastProvider from '../../contexts/ToastContext';
+import LoaderProvider from '../../contexts/LoaderContext';
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -16,6 +17,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     <ProviderComposer
       components={[
         { Component: ToastProvider },
+        { Component: LoaderProvider },
         { Component: SessionProvider }
       ]}
     >

@@ -10,12 +10,14 @@ interface EventCardProps {
   event: EventViewModel;
   scrollingCardItemRef?: RefObject<HTMLDivElement>;
   eventUrlPrefix?: string;
+  className?: string;
 }
 
 export default function EventCard({
   event,
   scrollingCardItemRef,
-  eventUrlPrefix
+  eventUrlPrefix,
+  className
 }: EventCardProps) {
   const eventUrl = `${eventUrlPrefix || ''}/${event.slug}`;
 
@@ -33,7 +35,7 @@ export default function EventCard({
   return (
     <Link
       href={eventUrl}
-      className="min-w-[60%] max-w-[60%] md:min-w-[25%] md:max-w-[25%]"
+      className={className}
     >
       <Card
         className="event-card h-52 bg-cover bg-center relative flex flex-col items-end justify-end transition-all ease-in-out before:absolute before:top-0 before:left-0 before:w-full before:h-full before:rounded-[inherit] before:bg-gradient-to-t before:from-black before:to-60% hover:brightness-125"

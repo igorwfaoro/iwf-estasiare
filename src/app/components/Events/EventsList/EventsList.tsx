@@ -3,17 +3,11 @@
 import { useEffect, useRef, useState } from 'react';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import { onlyNumbers } from '../../../../util/helpers/string.helper';
-
-import Card from '../../../../components/Card/Card';
-import dayjs from 'dayjs';
-import Link from 'next/link';
 import { EventViewModel } from '../../../../models/view-models/event.view-model';
-import { eventTypeLabel } from '../../../../util/helpers/event-type.helper';
-import { EventType } from '@prisma/client';
 import { twMerge } from 'tailwind-merge';
 import ListControls from './components/ListControls/ListControls';
-import EventItem from './components/EventItem/EventItem';
 import Skeleton from '../../../../components/Skeleton/Skeleton';
+import EventCard from '../../../../components/EventCard/EventCard';
 
 const CONTROL_BUTTON_WIDTH = 42;
 
@@ -130,10 +124,11 @@ export default function EventsList({ items, isLoading }: EventsListProps) {
       >
         {!!items.length
           ? items.map((item, i) => (
-              <EventItem
+              <EventCard
                 key={i}
-                item={item}
+                event={item}
                 scrollingCardItemRef={scrollingCardItemRef}
+                className="min-w-[60%] max-w-[60%] md:min-w-[25%] md:max-w-[25%]"
               />
             ))
           : renderLoading()}

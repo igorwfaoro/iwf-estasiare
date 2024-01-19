@@ -4,6 +4,7 @@ import { eventConverter } from '../converters/event.converter';
 import { SearchEventsInputModel } from '../models/input-models/search-events.input-model';
 import { EventViewModel } from '../models/view-models/event.view-model';
 import { getServerSession } from 'next-auth';
+import { AuthUser } from '../auth/auth-user';
 
 interface ExtraIncludes {
   gifts?: boolean;
@@ -137,12 +138,23 @@ export const createEventService = () => {
     return events.map(eventConverter.modelViewModel);
   };
 
-  const getByUser = async (): Promise<EventViewModel[]> => {
-    const session = await getServerSession();
+  const getByUser = async (user: AuthUser): Promise<EventViewModel[]> => {
+    const userEvents = await prisma.userEvent.findMany({
+      where: {
+        userId: user.id
+      },
+      include: {
+        event: {
+          include: {
+            address: true,
+            content: true,
+            weddingDetail: true
+          }
+        }
+      }
+    });
 
-    console.log({session})
-
-    return [];
+    return userEvents.map((ue) => eventConverter.modelViewModel(ue.event));
   };
 
   return {

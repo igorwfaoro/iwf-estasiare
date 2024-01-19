@@ -1,11 +1,12 @@
 import { cache } from 'react';
-import { createEventService } from '../../../../app-services/event.service';
 import EventCard from '../../../../components/EventCard/EventCard';
-
-export const revalidate = 3600;
+import AdminPageBase from '../AdminPageBase/AdminPageBase';
+import { createEventService } from '../../../../app-services/event.service';
+import { getAuthUser } from '../../../../auth/auth-config';
 
 const getEvents = cache(async () => {
-  return await createEventService().getByUser();
+  const user = await getAuthUser();
+  return await createEventService().getByUser(user);
 });
 
 interface EventsListProps {}
@@ -14,11 +15,9 @@ export default async function EventsList({}: EventsListProps) {
   const events = await getEvents();
 
   return (
-    <div>
-      <h1>Meus Eventos</h1>
-
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
       {events.map((event, i) => (
-        <EventCard key={i} event={event} eventUrlPrefix="/admin" />
+        <EventCard key={i} event={event} eventUrlPrefix="/admin/events" />
       ))}
     </div>
   );

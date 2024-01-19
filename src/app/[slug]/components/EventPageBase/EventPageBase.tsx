@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
 
-interface EventPageProps {
+interface EventPageBaseProps {
   children: ReactNode;
 }
 
-export default function EventPage({ children }: EventPageProps) {
+export default function EventPageBase({ children }: EventPageBaseProps) {
   return <div className="p-5 pt-12 bg-gray-100">{children}</div>;
 }

@@ -1,20 +1,13 @@
-'use client';
-
-import { useSession } from 'next-auth/react';
+import AdminPageBase from './components/AdminPageBase/AdminPageBase';
 import EventsList from './components/EventsList/EventsList';
 
 interface AdminPageProps {}
 
-export default function AdminPage({}: AdminPageProps) {
-  const session = useSession();
-
-  if (session.status === 'loading') {
-    return <div>Loading...</div>;
-  }
-
+export default async function AdminPage({}: AdminPageProps) {
   return (
-    <div>
+    <AdminPageBase>
+      <AdminPageBase.Title>Meus Eventos</AdminPageBase.Title>
       <EventsList />
-    </div>
+    </AdminPageBase>
   );
 }

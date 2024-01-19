@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { createEventService } from '../../../app-services/event.service';
 import Header from './components/Header/Header';
 import HandbooksList from './components/HandbooksList/HandbooksList';
-import EventPage from '../components/EventPage/EventPage';
+import EventPageBase from '../components/EventPageBase/EventPageBase';
 
 export const revalidate = 3600;
 
@@ -31,9 +31,9 @@ export default async function Handbooks({
   const event = await getEvent(params.slug);
 
   return (
-    <EventPage>
+    <EventPageBase>
       <Header event={event} />
       <HandbooksList event={event} />
-    </EventPage>
+    </EventPageBase>
   );
 }
