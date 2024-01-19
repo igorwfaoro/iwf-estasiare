@@ -3,6 +3,7 @@ import { EventDetailViewModel } from '../models/view-models/event-detail.view-mo
 import { eventConverter } from '../converters/event.converter';
 import { SearchEventsInputModel } from '../models/input-models/search-events.input-model';
 import { EventViewModel } from '../models/view-models/event.view-model';
+import { getServerSession } from 'next-auth';
 
 interface ExtraIncludes {
   gifts?: boolean;
@@ -136,9 +137,18 @@ export const createEventService = () => {
     return events.map(eventConverter.modelViewModel);
   };
 
+  const getByUser = async (): Promise<EventViewModel[]> => {
+    const session = await getServerSession();
+
+    console.log({session})
+
+    return [];
+  };
+
   return {
     getBySlug,
     search,
-    recommended
+    recommended,
+    getByUser
   };
 };

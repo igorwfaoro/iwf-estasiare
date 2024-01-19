@@ -26,8 +26,12 @@ export const createEventClientService = () => {
       })}`
     ).then((response) => response.json());
 
+  const getByUser = (): Promise<EventViewModel[]> =>
+    fetch(API_URLS.events.getByUser()).then((response) => response.json());
+
   return {
     search,
-    recommended
+    recommended,
+    getByUser
   };
 };
