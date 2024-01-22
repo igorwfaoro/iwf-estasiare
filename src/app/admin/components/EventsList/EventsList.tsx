@@ -1,6 +1,5 @@
 import { cache } from 'react';
 import EventCard from '../../../../components/EventCard/EventCard';
-import AdminPageBase from '../AdminPageBase/AdminPageBase';
 import { createEventService } from '../../../../app-services/event.service';
 import { getAuthUser } from '../../../../auth/auth-config';
 

@@ -37,4 +37,3 @@ next-env.d.ts
 
 # others
 prisma/db.ts
-src/auth
