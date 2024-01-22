@@ -1,10 +1,10 @@
 import { User } from '@prisma/client';
-import { UserViewModel } from '../models/view-models/user.view-model';
+import { AuthUser } from '../auth/auth-user';
 
 export type UserConverterModel = User & {};
 
 export const userConverter = {
-  modelToViewModel: (model: UserConverterModel): UserViewModel => ({
+  modelToAuthUser: (model: UserConverterModel): AuthUser => ({
     id: Number(model.id),
     name: model.name,
     email: model.email

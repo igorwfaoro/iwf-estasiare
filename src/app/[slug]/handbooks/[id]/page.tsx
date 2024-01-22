@@ -1,7 +1,7 @@
 import { cache } from 'react';
 import { createHandbookService } from '../../../../app-services/handbook.service';
 import { createEventService } from '../../../../app-services/event.service';
-import EventPage from '../../components/EventPage/EventPage';
+import EventPageBase from '../../components/EventPageBase/EventPageBase';
 import { Metadata } from 'next';
 import Header from './components/Header/header';
 
@@ -37,9 +37,9 @@ export default async function HandbookPage({ params }: HandbookPageProps) {
   const handbook = await getHandbook(params.id);
 
   return (
-    <EventPage>
+    <EventPageBase>
       <Header event={event} handbook={handbook} />
       <div className='text-center' dangerouslySetInnerHTML={{ __html: handbook.content }} />
-    </EventPage>
+    </EventPageBase>
   );
 }

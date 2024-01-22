@@ -4,7 +4,7 @@ import Header from './components/Header/Header';
 import GiftsList from './components/GiftsList/GiftsList';
 import ModalProvider from '../../../contexts/ModalContext';
 import { createEventService } from '../../../app-services/event.service';
-import EventPage from '../components/EventPage/EventPage';
+import EventPageBase from '../components/EventPageBase/EventPageBase';
 
 export const revalidate = 3600;
 
@@ -32,10 +32,10 @@ export default async function Gifts({ params }: { params: { slug: string } }) {
 
   return (
     <ModalProvider>
-      <EventPage>
+      <EventPageBase>
         <Header event={event} />
         <GiftsList event={event} />
-      </EventPage>
+      </EventPageBase>
     </ModalProvider>
   );
 }

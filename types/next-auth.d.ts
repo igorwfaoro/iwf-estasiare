@@ -1,8 +1,8 @@
 import NextAuth from 'next-auth';
-import { UserViewModel } from '../src/models/view-models/user.view-model';
+import { AuthUser } from '../src/auth/auth-user';
 
 declare module 'next-auth' {
   interface Session {
-    user: UserViewModel;
+    user: AuthUser;
   }
 }

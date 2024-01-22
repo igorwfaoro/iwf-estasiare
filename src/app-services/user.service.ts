@@ -1,7 +1,7 @@
 import { prisma } from '../data/db';
-import { UserViewModel } from '../models/view-models/user.view-model';
 import { userConverter } from '../converters/user.converter';
 import { Profile } from 'next-auth';
+import { AuthUser } from '../auth/auth-user';
 
 export const createUserService = () => {
   const verify = async (profile: Profile): Promise<boolean> => {
@@ -23,12 +23,12 @@ export const createUserService = () => {
     return true;
   };
 
-  const getByEmail = async (email: string): Promise<UserViewModel> => {
+  const getByEmail = async (email: string): Promise<AuthUser> => {
     const user = await prisma.user.findFirstOrThrow({
       where: { email }
     });
 
-    return userConverter.modelToViewModel(user);
+    return userConverter.modelToAuthUser(user);
   };
 
   return {
