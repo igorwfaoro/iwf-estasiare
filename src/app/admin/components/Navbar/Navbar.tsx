@@ -3,11 +3,12 @@
 import { MenuSVGIcon } from '@react-md/material-icons';
 import Link from 'next/link';
 import { useState } from 'react';
-import Button from '../../../../components/Button/Button';
+import Button, { ButtonTheme } from '../../../../components/Button/Button';
 import DropdownMenu, {
   DropdownMenuItem
 } from '../../../../components/DropdownMenu/DropdownMenu';
 import { signOut, useSession } from 'next-auth/react';
+import { twMerge } from 'tailwind-merge';
 
 interface LinkItem {
   label: string;
@@ -21,7 +22,16 @@ export default function Navbar({}: NavbarProps) {
 
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
-  const links: LinkItem[] = [];
+  const links: LinkItem[] = [
+    {
+      label: 'Dashboard',
+      path: '/admin'
+    },
+    {
+      label: 'Novo evento',
+      path: '/new-event'
+    }
+  ];
 
   const dropdownMenuitems: DropdownMenuItem[] = [
     {
@@ -32,6 +42,16 @@ export default function Navbar({}: NavbarProps) {
 
   const toggleMenu = () => setMenuIsOpen((mio) => !mio);
   const closeMenu = () => setMenuIsOpen(false);
+
+  const UserButton = ({ theme = 'light' }: { theme?: ButtonTheme }) =>
+    session.data?.user && (
+      <DropdownMenu
+        className="py-1"
+        label={session.data?.user.name}
+        theme={theme}
+        items={dropdownMenuitems}
+      />
+    );
 
   return (
     <nav className="fixed z-[999] flex h-12 w-full flex-col items-end justify-center bg-neutral-50 shadow-sm md:items-center">
@@ -62,6 +82,10 @@ export default function Navbar({}: NavbarProps) {
               </Link>
             </li>
           ))}
+
+          <div className="py-4">
+            <UserButton theme="primary" />
+          </div>
         </ul>
       )}
 
@@ -80,15 +104,8 @@ export default function Navbar({}: NavbarProps) {
       </ul>
 
       {/* right items */}
-      <div className="absolute right-3 top-2">
-        {session.data?.user && (
-          <DropdownMenu
-            className="py-1"
-            label={session.data?.user.name}
-            theme='light'
-            items={dropdownMenuitems}
-          />
-        )}
+      <div className="absolute right-3 top-2 hidden md:block">
+        <UserButton />
       </div>
     </nav>
   );

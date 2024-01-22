@@ -17,6 +17,14 @@ export default function GiftPaymentModal({
 
   return (
     <div className="text-center p-6 flex flex-col gap-4">
+      <div className='flex flex-col items-center'>
+        <img
+          src={gift.image}
+          alt={`image ${gift.description}`}
+          className="max-h-52 md:max-h-96"
+        />
+      </div>
+
       <h1 className="text-xl font-bold">{gift.description}</h1>
       <h3
         className="text-lg font-bold"

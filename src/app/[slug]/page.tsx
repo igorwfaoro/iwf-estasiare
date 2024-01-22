@@ -39,7 +39,6 @@ export default async function Event({ params }: { params: { slug: string } }) {
       buttonText: 'Lista de presentes',
       imageSrc: '/images/event/banner1.jpg',
       buttonLink: `/${event.slug}/gifts`,
-      direction: 'row'
     } as EventBannerProps,
     presenceConfirmation: {
       title: 'Confirmação de Presença',
@@ -48,7 +47,6 @@ export default async function Event({ params }: { params: { slug: string } }) {
       buttonText: 'Confirmação',
       imageSrc: '/images/event/banner2.jpg',
       buttonLink: `/${event.slug}/presence-confirmation`,
-      direction: 'row'
     } as EventBannerProps
   };
 

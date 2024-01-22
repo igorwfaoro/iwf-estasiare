@@ -41,7 +41,7 @@ export default function EventHeader({ event }: EventHeaderProps) {
           <h2 className="font-bold text-neutral-50 text-2xl">
             {eventTypeText}
           </h2>
-          <h1 className="font-bold text-neutral-50 text-6xl">{titleText}</h1>
+          <h1 className="font-bold text-neutral-50 text-5xl md:text-6xl text-center">{titleText}</h1>
           <span className="text-neutral-50">{dateFormatted}</span>
         </div>
       </header>

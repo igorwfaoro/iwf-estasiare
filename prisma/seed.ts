@@ -27,8 +27,7 @@ async function main() {
           primaryColor: '#1E3A8A',
           bannerImage:
             'https://www.weddinggownpreservationkit.com/blog-images/zoom-virtual-wedding-background-lg.jpg',
-          logoImage:
-            'https://svgur.com/i/126V.svg',
+          logoImage: 'https://svgur.com/i/126V.svg',
           spotifyPlaylistUrl:
             'https://open.spotify.com/embed/playlist/4repDc6kVmb39JvP5uq4Eb?utm_source=generator'
         }
@@ -115,7 +114,7 @@ async function main() {
             description:
               'Curso preparatório de aspirantes a pais - Quer um bebê? Pague um curso para nós',
             image:
-              'https://paisefilhos.uol.com.br/wp-content/uploads/2019/02/quiroprata-bebe.jpg',
+              'https://scontent.fcxj2-1.fna.fbcdn.net/v/t1.6435-9/118086190_1048303282293835_5282848733607424251_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=dd63ad&_nc_eui2=AeGXebP_Lp60as1OKFkTPv7WaXp8KAXL6FVpenwoBcvoVeqx2v03F4cHnR_OgMUpFQj5TiAdWNEg5KCweKaUfNLX&_nc_ohc=LUZWB3rYaggAX8pcOv-&_nc_ht=scontent.fcxj2-1.fna&oh=00_AfC5f7ZVd2H3BduhdsXoGN9T8zvMQOf2uvXsJqs8n5GRRQ&oe=65D646D7',
             price: 800
           },
           {
@@ -303,7 +302,20 @@ async function main() {
     });
   }
 
-  // TODO: create users events
+  await prisma.userEvent.create({
+    data: {
+      role: 'ADMIN',
+      event: {
+        connect: { id: event.id }
+      },
+      user: {
+        create: {
+          name: 'Igor Wilian Faoro',
+          email: 'igor.faoro17@gmail.com'
+        }
+      }
+    }
+  });
 }
 
 main()
