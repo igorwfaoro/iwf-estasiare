@@ -28,10 +28,10 @@ export default function HomeNavbar({}: HomeNavbarProps) {
       label: 'Sobre',
       path: '#about'
     },
-    {
-      label: 'Acessar Painel',
-      path: '/admin'
-    }
+    // {
+    //   label: 'Acessar Painel',
+    //   path: '/admin'
+    // }
   ];
 
   const toggleMenu = () => setMenuIsOpen((mio) => !mio);

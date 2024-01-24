@@ -4,6 +4,7 @@ import { createEventService } from '../../../../app-services/event.service';
 import EventPageBase from '../../components/EventPageBase/EventPageBase';
 import { Metadata } from 'next';
 import Header from './components/Header/header';
+import Markdown from 'react-markdown';
 
 interface HandbookPageProps {
   params: { id: number; slug: string };
@@ -39,7 +40,7 @@ export default async function HandbookPage({ params }: HandbookPageProps) {
   return (
     <EventPageBase>
       <Header event={event} handbook={handbook} />
-      <div className='text-center' dangerouslySetInnerHTML={{ __html: handbook.content }} />
+      <Markdown className="prose">{handbook.content}</Markdown>
     </EventPageBase>
   );
 }
