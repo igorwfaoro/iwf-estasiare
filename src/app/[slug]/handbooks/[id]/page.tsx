@@ -40,7 +40,10 @@ export default async function HandbookPage({ params }: HandbookPageProps) {
   return (
     <EventPageBase>
       <Header event={event} handbook={handbook} />
-      <Markdown className="prose">{handbook.content}</Markdown>
+
+      <div className="flex flex-col items-center">
+        <Markdown className="prose">{handbook.content}</Markdown>
+      </div>
     </EventPageBase>
   );
 }
