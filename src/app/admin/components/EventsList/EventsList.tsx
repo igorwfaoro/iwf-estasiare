@@ -1,11 +1,6 @@
 import { cache } from 'react';
 import EventCard from '../../../../components/EventCard/EventCard';
-<<<<<<< Updated upstream
-import AdminPageBase from '../AdminPageBase/AdminPageBase';
-import { createEventService } from '../../../../app-services/event.service';
-=======
 import { createEventServerService } from '../../../../services/server/event.server-service';
->>>>>>> Stashed changes
 import { getAuthUser } from '../../../../auth/auth-config';
 
 const getEvents = cache(async () => {
