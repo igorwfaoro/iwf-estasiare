@@ -1,10 +1,12 @@
 import { CSSProperties } from 'react';
 import Button from '../../../../components/Button/Button';
+import { twMerge } from 'tailwind-merge';
 
 export interface EventBannerProps {
   title: string;
   description: string;
-  direction?: 'row' | 'column';
+  contentClassName?: string;
+  textClassName?: string;
   buttonText: string;
   buttonLink: string;
   imageSrc: string;
@@ -13,7 +15,8 @@ export interface EventBannerProps {
 export default function EventBanner({
   title,
   description,
-  direction = 'column',
+  contentClassName,
+  textClassName,
   buttonText,
   buttonLink,
   imageSrc
@@ -22,21 +25,15 @@ export default function EventBanner({
     backgroundImage: `url(${imageSrc})`
   };
 
-  const contentStyle: CSSProperties = {
-    flexDirection: direction
-  };
-
-  const textStyle: CSSProperties = {
-    textAlign: direction === 'row' ? 'left' : 'center'
-  };
-
   return (
     <div className="bg-center bg-cover" style={wrapperStyle}>
       <div
-        className="p-16 md:py-16 md:px-64 flex flex-col md:flex-row items-center justify-center backdrop-blur-sm backdrop-brightness-50 gap-x-24 gap-y-6"
-        style={contentStyle}
+        className={twMerge(
+          'p-16 md:py-16 md:px-64 flex flex-col md:flex-row items-center justify-center backdrop-blur-sm backdrop-brightness-50 gap-x-24 gap-y-6',
+          contentClassName
+        )}
       >
-        <div className="sm:text-center" style={textStyle}>
+        <div className={twMerge('text-center md:text-left', textClassName)}>
           <h2 className="text-xl text-white font-bold">{title}</h2>
           <p className="text-lg text-white">{description}</p>
         </div>

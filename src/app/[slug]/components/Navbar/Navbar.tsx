@@ -65,13 +65,13 @@ export function EventNavbar({ event }: EventNavbarProps) {
   return (
     <nav className="fixed z-[999] flex h-12 w-full flex-col items-end justify-center bg-neutral-50 shadow-sm md:items-center">
       {/* logo */}
-      <Link href="/" className="absolute left-3 top-2">
+      <Link href={`/${event.slug}`} className="absolute left-3 top-2">
         {renderInitialsIcon()}
       </Link>
 
       {/* mobile button menu */}
       <Button
-        className="z-20 md:hidden w-16 border-neutral-400 bg-neutral-50 px-4"
+        className="z-20 md:hidden w-16 border-neutral-400 bg-neutral-50 px-4 py-1 fill-gray-500"
         onClick={toggleMenu}
         icon={MenuSVGIcon}
         theme="light"

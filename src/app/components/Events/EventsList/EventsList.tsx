@@ -108,8 +108,11 @@ export default function EventsList({ items, isLoading }: EventsListProps) {
   })();
 
   const renderLoading = () =>
-    Array.from({ length: 8 }).map(() => (
-      <Skeleton className="h-52 rounded-xl min-w-[60%] max-w-[60%] md:min-w-[25%] md:max-w-[25%]" />
+    Array.from({ length: 8 }).map((_, i) => (
+      <Skeleton
+        key={i}
+        className="h-52 rounded-xl min-w-[60%] max-w-[60%] md:min-w-[25%] md:max-w-[25%]"
+      />
     ));
 
   return (
@@ -118,6 +121,7 @@ export default function EventsList({ items, isLoading }: EventsListProps) {
         className={twMerge(
           'events-list-items',
           'flex gap-10 scroll-smooth py-3',
+          items.length === 1 && 'justify-center',
           gradientClass
         )}
         ref={itemsScrollRef as any}

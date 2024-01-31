@@ -38,8 +38,7 @@ export default async function Event({ params }: { params: { slug: string } }) {
         'Nossa celebração está se aproximando, e estamos felizes em compartilhá-la com vocês. Se desejarem nos presentear de maneira simbólica, confiram nossa lista de presentes especiais',
       buttonText: 'Lista de presentes',
       imageSrc: '/images/event/banner1.jpg',
-      buttonLink: `/${event.slug}/gifts`,
-      direction: 'row'
+      buttonLink: `/${event.slug}/gifts`
     } as EventBannerProps,
     presenceConfirmation: {
       title: 'Confirmação de Presença',
@@ -47,8 +46,15 @@ export default async function Event({ params }: { params: { slug: string } }) {
         'Confirme sua presença em nossa celebração especial. Estamos ansiosos para compartilhar este momento com você!',
       buttonText: 'Confirmação',
       imageSrc: '/images/event/banner2.jpg',
-      buttonLink: `/${event.slug}/presence-confirmation`,
-      direction: 'row'
+      buttonLink: `/${event.slug}/presence-confirmation`
+    } as EventBannerProps,
+    handbooks: {
+      title: 'Manuais',
+      description:
+        'Aqui, você encontrará uma coleção de guias úteis para diversos aspectos do nosso evento especial',
+      buttonText: 'Acessar',
+      imageSrc: '/images/event/banner3.jpg',
+      buttonLink: `/${event.slug}/handbooks`
     } as EventBannerProps
   };
 
@@ -70,6 +76,8 @@ export default async function Event({ params }: { params: { slug: string } }) {
       {event.content?.spotifyPlaylistUrl && (
         <EventPlaylist spotifyPlaylistUrl={event.content.spotifyPlaylistUrl} />
       )}
+
+      {event.hasHandbooks && <EventBanner {...banners.handbooks} />}
 
       <EventMap addressDescription={event.address?.fullDescription!} />
     </div>

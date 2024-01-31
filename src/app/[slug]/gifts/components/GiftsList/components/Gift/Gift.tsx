@@ -2,35 +2,21 @@
 
 import Button from '../../../../../../../components/Button/Button';
 import Card from '../../../../../../../components/Card/Card';
-import { useModal } from '../../../../../../../contexts/ModalContext';
 import { EventDetailViewModel } from '../../../../../../../models/view-models/event-detail.view-model';
 import { GiftViewModel } from '../../../../../../../models/view-models/gift.view-model';
 import { toCurrency } from '../../../../../../../util/helpers/number.helper';
-import GiftPaymentModal, {
-  GiftPaymentModalProps
-} from './components/GiftPaymentModal/GiftPaymentModal';
 
 interface GiftProps {
   event: EventDetailViewModel;
   gift: GiftViewModel;
+  onClickOpen: (gift: GiftViewModel) => void;
 }
 
-export default function Gift({ event, gift }: GiftProps) {
-  const modal = useModal();
-
-  const openPaymentModal = () => {
-    modal.open({
-      component: GiftPaymentModal,
-      title: 'Presentear',
-      props: { event, gift } as GiftPaymentModalProps,
-      width: window.innerWidth < 768 ? '90%' : '30%'
-    });
-  };
-
+export default function Gift({ event, gift, onClickOpen }: GiftProps) {
   return (
     <Card className="bg-white overflow-hidden relative">
       <img
-        className="h-96 w-full object-cover"
+        className="h-52 md:h-96 w-full object-cover"
         src={gift.image}
         alt={gift.description}
       />
@@ -48,13 +34,13 @@ export default function Gift({ event, gift }: GiftProps) {
       </div>
 
       <Button
-          className="absolute w-full bottom-0 rounded-none"
-          onClick={openPaymentModal}
-          theme="primary"
-          color={event.content?.primaryColor}
-        >
-          Presentear
-        </Button>
+        className="absolute w-full bottom-0 rounded-none"
+        onClick={() => onClickOpen(gift)}
+        theme="primary"
+        color={event.content?.primaryColor}
+      >
+        Presentear
+      </Button>
     </Card>
   );
 }

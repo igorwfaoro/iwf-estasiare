@@ -4,6 +4,7 @@ import { createEventServerService } from '../../../../services/server/event.serv
 import EventPageBase from '../../components/EventPageBase/EventPageBase';
 import { Metadata } from 'next';
 import Header from './components/Header/header';
+import Markdown from 'react-markdown';
 
 interface HandbookPageProps {
   params: { id: number; slug: string };
@@ -39,7 +40,10 @@ export default async function HandbookPage({ params }: HandbookPageProps) {
   return (
     <EventPageBase>
       <Header event={event} handbook={handbook} />
-      <div className='text-center' dangerouslySetInnerHTML={{ __html: handbook.content }} />
+
+      <div className="flex flex-col items-center">
+        <Markdown className="prose">{handbook.content}</Markdown>
+      </div>
     </EventPageBase>
   );
 }

@@ -2,30 +2,75 @@
 
 import Gift from './components/Gift/Gift';
 import { EventDetailViewModel } from '../../../../../models/view-models/event-detail.view-model';
+import { useModal } from '../../../../../contexts/ModalContext';
+import GiftPaymentModal, {
+  GiftPaymentModalProps
+} from './components/Gift/components/GiftPaymentModal/GiftPaymentModal';
+import { GiftViewModel } from '../../../../../models/view-models/gift.view-model';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+import { boolean } from 'zod';
+
+const GIFT_QUERY_KEY = 'giftId';
+
+type GiftListItem = GiftViewModel & { loading?: boolean };
 
 interface GiftsListProps {
   event: EventDetailViewModel;
-  // categories: GiftCategoryViewModel[];
 }
 
 export default function GiftsList({ event }: GiftsListProps) {
-  // const [selectedCategory, setSelectedCategory] =
-  // useState<GiftCategoryViewModel | null>(null);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const modal = useModal();
 
-  // const filteredGifts = gifts.filter((g) =>
-  //   selectedCategory ? g.category.id === selectedCategory.id : true
-  // );
+  const gifts: GiftListItem[] = event.gifts || [];
+
+  useEffect(() => {
+    const giftId = searchParams.get(GIFT_QUERY_KEY);
+    if (giftId) {
+      const gift = event.gifts?.find((g) => g.id === Number(giftId));
+      if (gift) {
+        openPaymentModal(gift);
+      }
+    }
+  }, [searchParams]);
+
+  const openPaymentModal = (gift: GiftViewModel) => {
+    modal.open({
+      component: GiftPaymentModal,
+      title: 'Presentear',
+      props: { event, gift } as GiftPaymentModalProps,
+      width: window.innerWidth < 768 ? '90%' : '30%',
+      onClose() {
+        removeQueryParam(GIFT_QUERY_KEY);
+      }
+    });
+  };
+
+  const setQueryParam = (key: string, value: any) => {
+    const params = new URLSearchParams(searchParams as any);
+    params.set(key, String(value));
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
+  const removeQueryParam = (key: string) => {
+    const params = new URLSearchParams(searchParams as any);
+    params.delete(key);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
+  const handleClickOpen = (gift: GiftViewModel) => {
+    setQueryParam(GIFT_QUERY_KEY, gift.id);
+  };
 
   return (
     <div id="gifts-list">
-      {/* <GiftsCategories
-        categories={categories}
-        onSelectCategory={setSelectedCategory}
-        selectedCategory={selectedCategory}
-      /> */}
-
-      <div className="mt-4 gap-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
-        {event.gifts?.map((g, i) => <Gift key={i} event={event} gift={g} />)}
+      <div className="mt-4 gap-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {gifts.map((g, i) => (
+          <Gift key={i} event={event} gift={g} onClickOpen={handleClickOpen} />
+        ))}
       </div>
     </div>
   );
