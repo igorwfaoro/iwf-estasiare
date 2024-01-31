@@ -10,5 +10,12 @@ export const API_URLS = {
     getByDescription: () => `${API_BASE_URL}/invitations/get-by-description`,
     updateGuestsConfirmations: () =>
       `${API_BASE_URL}/invitations/update-guests-confirmations`
+  },
+  gifts: {
+    getAllByEvent: (eventId: number) => `${API_BASE_URL}/events/${eventId}/gifts`,
+    getById: (eventId: number, id: number) => `${API_BASE_URL}/events/${eventId}/gifts/${id}`,
+    create: (eventId: number) => `${API_BASE_URL}/events/${eventId}/gifts`,
+    update: (eventId: number, id: number) => `${API_BASE_URL}/events/${eventId}/gifts/${id}`,
+    delete: (eventId: number, id: number) => `${API_BASE_URL}/events/${eventId}/gifts/${id}`,
   }
 };

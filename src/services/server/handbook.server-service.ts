@@ -1,8 +1,8 @@
-import { eventHandbookConverter } from '../converters/event-handbook.converter';
-import { prisma } from '../data/db';
-import { EventHandbookDetailViewModel } from '../models/view-models/event-handbook-detail.view-model';
+import { eventHandbookConverter } from '../../converters/event-handbook.converter';
+import { prisma } from '../../data/db';
+import { EventHandbookDetailViewModel } from '../../models/view-models/event-handbook-detail.view-model';
 
-export const createHandbookService = () => {
+export const createHandbookServerService = () => {
   const getById = async (id: number): Promise<EventHandbookDetailViewModel> => {
     const handbook = await prisma.eventHandbook.findUniqueOrThrow({
       where: {

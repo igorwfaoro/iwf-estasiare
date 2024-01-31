@@ -1,6 +1,6 @@
 import { cache } from 'react';
 import { Metadata } from 'next';
-import { createEventService } from '../../../app-services/event.service';
+import { createEventServerService } from '../../../services/server/event.server-service';
 import Header from './components/Header/Header';
 import HandbooksList from './components/HandbooksList/HandbooksList';
 import EventPageBase from '../components/EventPageBase/EventPageBase';
@@ -8,7 +8,7 @@ import EventPageBase from '../components/EventPageBase/EventPageBase';
 export const revalidate = 3600;
 
 const getEvent = cache(async (slug: string) => {
-  return await createEventService().getBySlug(slug, { handbooks: true });
+  return await createEventServerService().getBySlug(slug, { handbooks: true });
 });
 
 export async function generateMetadata({

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { createInvitationService } from '../../../../app-services/invitation.service';
+import { createInvitationServerService } from '../../../../services/server/invitation.server-service';
 
-const invitationService = createInvitationService();
+const invitationService = createInvitationServerService();
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);

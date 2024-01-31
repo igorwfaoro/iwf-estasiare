@@ -1,10 +1,9 @@
-import { prisma } from '../data/db';
-import { EventDetailViewModel } from '../models/view-models/event-detail.view-model';
-import { eventConverter } from '../converters/event.converter';
-import { SearchEventsInputModel } from '../models/input-models/search-events.input-model';
-import { EventViewModel } from '../models/view-models/event.view-model';
-import { getServerSession } from 'next-auth';
-import { AuthUser } from '../auth/auth-user';
+import { prisma } from '../../data/db';
+import { EventDetailViewModel } from '../../models/view-models/event-detail.view-model';
+import { eventConverter } from '../../converters/event.converter';
+import { SearchEventsInputModel } from '../../models/input-models/search-events.input-model';
+import { EventViewModel } from '../../models/view-models/event.view-model';
+import { AuthUser } from '../../auth/auth-user';
 
 interface ExtraIncludes {
   gifts?: boolean;
@@ -12,39 +11,31 @@ interface ExtraIncludes {
   handbooks?: boolean;
 }
 
-export const createEventService = () => {
-  const getBySlug = async (
-    slug: string,
+export const createEventServerService = () => {
+  const get = async (
+    eventWhere: any,
     extraIncludes: ExtraIncludes = {}
   ): Promise<EventDetailViewModel> => {
     const giftsCount = await prisma.gift.count({
       where: {
-        event: {
-          slug
-        }
+        event: eventWhere
       }
     });
 
     const invitationsCount = await prisma.invitation.count({
       where: {
-        event: {
-          slug
-        }
+        event: eventWhere
       }
     });
 
     const handbooksCount = await prisma.eventHandbook.count({
       where: {
-        event: {
-          slug
-        }
+        event: eventWhere
       }
     });
 
     const event = await prisma.event.findFirstOrThrow({
-      where: {
-        slug
-      },
+      where: eventWhere,
       include: {
         address: true,
         content: {
@@ -71,6 +62,20 @@ export const createEventService = () => {
       hasInvitations: !!invitationsCount,
       hasHandbooks: !!handbooksCount
     });
+  };
+
+  const getBySlug = async (
+    slug: string,
+    extraIncludes: ExtraIncludes = {}
+  ): Promise<EventDetailViewModel> => {
+    return get({ slug }, extraIncludes);
+  };
+
+  const getById = async (
+    id: number,
+    extraIncludes: ExtraIncludes = {}
+  ): Promise<EventDetailViewModel> => {
+    return get({ id }, extraIncludes);
   };
 
   const search = async ({
@@ -159,6 +164,7 @@ export const createEventService = () => {
 
   return {
     getBySlug,
+    getById,
     search,
     recommended,
     getByUser

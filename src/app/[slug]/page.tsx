@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import EventBanner, {
   EventBannerProps
 } from './components/EventBanner/EventBanner';
-import { createEventService } from '../../app-services/event.service';
+import { createEventServerService } from '../../services/server/event.server-service';
 import EventHeader from './components/EventHeader/EventHeader';
 import EventInfo from './components/EventInfo/EventInfo';
 import EventPhotoAlbum from './components/EventPhotoAlbum/EventPhotoAlbum';
@@ -13,7 +13,7 @@ import EventMap from './components/EventMap/EventMap';
 export const revalidate = 3600;
 
 const getEvent = cache(async (slug: string) => {
-  return await createEventService().getBySlug(slug);
+  return await createEventServerService().getBySlug(slug);
 });
 
 export async function generateMetadata({

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { createEventService } from '../../../../app-services/event.service';
+import { createEventServerService } from '../../../../services/server/event.server-service';
 
-const eventService = createEventService();
+const eventService = createEventServerService();
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);

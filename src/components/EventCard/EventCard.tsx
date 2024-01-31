@@ -11,15 +11,19 @@ interface EventCardProps {
   scrollingCardItemRef?: RefObject<HTMLDivElement>;
   eventUrlPrefix?: string;
   className?: string;
+  getEventKey?: (event: EventViewModel) => string | number;
 }
 
 export default function EventCard({
   event,
   scrollingCardItemRef,
   eventUrlPrefix,
-  className
+  className,
+  getEventKey
 }: EventCardProps) {
-  const eventUrl = `${eventUrlPrefix || ''}/${event.slug}`;
+  const eventUrl = `${eventUrlPrefix || ''}/${
+    getEventKey ? getEventKey(event) : event.slug
+  }`;
 
   const eventTitle = {
     [EventType.WEDDING]: [
@@ -33,10 +37,7 @@ export default function EventCard({
   const date = dayjs(event.date).format('DD/MM/YYYY');
 
   return (
-    <Link
-      href={eventUrl}
-      className={className}
-    >
+    <Link href={eventUrl} className={className}>
       <Card
         className="event-card h-52 bg-cover bg-center relative flex flex-col items-end justify-end transition-all ease-in-out before:absolute before:top-0 before:left-0 before:w-full before:h-full before:rounded-[inherit] before:bg-gradient-to-t before:from-black before:to-60% hover:brightness-125"
         bgImageUrl={event.content?.bannerImage}
