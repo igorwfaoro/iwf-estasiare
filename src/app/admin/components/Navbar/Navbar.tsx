@@ -29,7 +29,7 @@ export default function Navbar({}: NavbarProps) {
     },
     {
       label: 'Novo evento',
-      path: '/new-event'
+      path: '/admin/new-event'
     }
   ];
 
