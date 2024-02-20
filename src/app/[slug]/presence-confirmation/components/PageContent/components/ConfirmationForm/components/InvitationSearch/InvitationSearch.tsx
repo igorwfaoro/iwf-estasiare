@@ -1,6 +1,6 @@
 import { KeyboardEvent, useState } from 'react';
 import Button from '../../../../../../../../../components/Button/Button';
-import Input from '../../../../../../../../../components/Input/Input';
+import Field from '../../../../../../../../../components/Field/Field';
 import { usePresenceConfirmationContext } from '../../../../contexts/PresenceConfirmationContext';
 
 export default function InvitationSearch() {
@@ -36,21 +36,29 @@ export default function InvitationSearch() {
 
   return (
     <div className="w-full">
-      <Input
-        label="Nomes que estão no convite"
-        helpText="Escreva exatamente como está escrito no convite"
-        inputClassName="text-xl p-3 font-bold"
-        value={invitationDescriptionValue}
-        onChange={(e) => setInvitationDescriptionValue(e.target.value)}
-        errorMessage={inputErrorMessage}
-        onKeyUp={handleInputKeyup}
-      />
+      <Field>
+        <Field.Label>Nomes que estão no convite</Field.Label>
+        <Field.HelpText>
+          Escreva exatamente como está escrito no convite
+        </Field.HelpText>
+        <Field.Input
+          className="text-xl p-3 font-bold"
+          value={invitationDescriptionValue}
+          onChange={(e) => setInvitationDescriptionValue(e.target.value)}
+          onKeyUp={handleInputKeyup}
+        />
+        {inputErrorMessage && <Field.Error>{inputErrorMessage}</Field.Error>}
+      </Field>
+
       <Button
         className="w-full bg-transparent border"
         onClick={handleGetInvitation}
         disabled={gettingInvitation}
         theme="primary"
-        style={{ borderColor: event.content?.primaryColor, color: event.content?.primaryColor }}
+        style={{
+          borderColor: event.content?.primaryColor,
+          color: event.content?.primaryColor
+        }}
       >
         {buttonText}
       </Button>
