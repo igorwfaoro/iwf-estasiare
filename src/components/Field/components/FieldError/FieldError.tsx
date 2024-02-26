@@ -3,13 +3,15 @@ import { twMerge } from 'tailwind-merge';
 
 interface FieldErrorProps {
   className?: string;
-  children: ReactNode;
+  children: ReactNode | any;
 }
 
 export default function FieldError({ className, children }: FieldErrorProps) {
-  return (
+  return children ? (
     <span className={twMerge('text-sm text-red-600', className)}>
       {children}
     </span>
+  ) : (
+    <></>
   );
 }

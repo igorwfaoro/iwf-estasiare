@@ -5,6 +5,7 @@ import FieldInput from './components/FieldInput/FieldInput';
 import FieldSelect from './components/FieldSelect/FieldSelect';
 import FieldHelpText from './components/FieldHelpText/FieldHelpText';
 import FieldError from './components/FieldError/FieldError';
+import FieldSelectOption from './components/FieldSelect/components/FieldSelectOption/FieldSelectOption';
 
 interface FieldProps {
   className?: string;
@@ -22,5 +23,6 @@ export default function Field({ className, children }: FieldProps) {
 Field.Label = FieldLabel;
 Field.Input = FieldInput;
 Field.Select = FieldSelect;
+Field.SelectOption = FieldSelectOption;
 Field.HelpText = FieldHelpText;
 Field.Error = FieldError;

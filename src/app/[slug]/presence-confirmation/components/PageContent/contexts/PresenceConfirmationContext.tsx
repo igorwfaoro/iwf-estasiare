@@ -11,8 +11,8 @@ import {
 import { InvitationViewModel } from '../../../../../../models/view-models/invitation.view-model';
 import { GuestViewModel } from '../../../../../../models/view-models/guest.view-model';
 import { useToast } from '../../../../../../contexts/ToastContext';
-import { createInvitationClientService } from '../../../../../../client-services/invitation.client-service';
 import { EventDetailViewModel } from '../../../../../../models/view-models/event-detail.view-model';
+import { createInvitationClientService } from '../../../../../../services/client/invitation.client-service';
 
 export interface IPresenceConfirmationProvider {
   invitation?: InvitationViewModel;
