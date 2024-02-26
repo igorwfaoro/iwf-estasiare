@@ -1,6 +1,6 @@
 import { FavoriteSVGIcon as HeartIcon } from '@react-md/material-icons';
 
-interface InitialsIconProps {
+export interface InitialsIconProps {
   name: string | [string, string];
   color?: string;
   size?: number;
@@ -26,10 +26,15 @@ export default function InitialsIcon({
       }}
     >
       {initials.map((x, i) => (
-        <div key={i} className='flex'>
+        <div key={i} className="flex">
           <div className="text-white font-bold">{x}</div>
+
           {initials.length > 1 && i < initials.length - 1 && (
-            <HeartIcon className="fill-white" style={{ width: size / 4 }} />
+            // <HeartIcon className="fill-white" style={{ width: size / 4 }} />
+            <div
+              className="bg-white"
+              style={{ width: size / 4, height: size / 4 }}
+            />
           )}
         </div>
       ))}

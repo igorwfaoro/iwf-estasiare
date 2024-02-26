@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 import Button from '../../../../../../../components/Button/Button';
 import { EventCreateInputModel } from '../../../../../../../models/input-models/event-create.input-model';
 import { eventTitleDescription } from '../../../../../../../util/helpers/event-title-description.helper';
-import { eventTypeLabel } from '../../../../../../../util/helpers/event-type.helper';
 import { useNewEventContext } from '../../../../contexts/NewEventContext';
+import InitialsIcon from '../../../../../../../components/InitialsIcon/InitialsIcon';
 import { renderInitialsIcon } from '../../../../../../../util/helpers/initials-icon.helper';
 
 interface StepConfirmProps {

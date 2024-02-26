@@ -1,4 +1,5 @@
-import { ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 interface AdminPageBaseProps {
   children: ReactNode;
@@ -11,11 +12,16 @@ export default function AdminPageBase({ children }: AdminPageBaseProps) {
 // ---------------------------
 
 interface AdminPageTitleProps {
-  children: string;
+  children: ReactElement | ReactElement[] | string;
+  className?: string;
 }
 
-function AdminPageTitle({ children }: AdminPageTitleProps) {
-  return <h1 className="text-3xl font-bold mb-3">{children}</h1>;
+function AdminPageTitle({ children, className }: AdminPageTitleProps) {
+  return (
+    <h1 className={twMerge('text-3xl font-bold mb-3', className)}>
+      {children}
+    </h1>
+  );
 }
 
 AdminPageBase.Title = AdminPageTitle;

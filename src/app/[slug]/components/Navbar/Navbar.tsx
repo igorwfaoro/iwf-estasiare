@@ -6,10 +6,9 @@ import { usePathname } from 'next/navigation';
 import { MenuSVGIcon } from '@react-md/material-icons';
 import { EventDetailViewModel } from '../../../../models/view-models/event-detail.view-model';
 import Button from '../../../../components/Button/Button';
-import InitialsIcon from '../../../../components/InitialsIcon/InitialsIcon';
-import { EventType } from '@prisma/client';
 import { twMerge } from 'tailwind-merge';
 import classNames from 'classnames';
+import InitialsIcon from '../../../../components/InitialsIcon/InitialsIcon';
 import { renderInitialsIcon } from '../../../../util/helpers/initials-icon.helper';
 
 interface LinkItem {

@@ -1,6 +1,6 @@
 import { EventType } from '@prisma/client';
 import { GenericEventParams } from '../types/generic-event';
-import InitialsIcon from '../../components/InitialsIcon/InitialsIcon';
+import InitialsIcon, { InitialsIconProps } from '../../components/InitialsIcon/InitialsIcon';
 
 export const renderInitialsIcon = (
   { eventType, weddingDetail, content }: GenericEventParams,
