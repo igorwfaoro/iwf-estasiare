@@ -1,5 +1,6 @@
 import { API_URLS } from '../../constants/api-urls';
 import { http } from '../../http/http';
+import { EventCreateInputModel } from '../../models/input-models/event-create.input-model';
 import { EventViewModel } from '../../models/view-models/event.view-model';
 
 export const createEventClientService = () => {
@@ -36,9 +37,15 @@ export const createEventClientService = () => {
       .get(API_URLS.events.getByUser())
       .then((response) => response.data);
 
+  const create = (input: EventCreateInputModel): Promise<EventViewModel> =>
+    http()
+      .post(API_URLS.events.create(), input)
+      .then((response) => response.data);
+
   return {
     search,
     recommended,
-    getByUser
+    getByUser,
+    create
   };
 };

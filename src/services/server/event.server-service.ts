@@ -169,6 +169,7 @@ export const createEventServerService = () => {
     user: AuthUser,
     input: EventCreateInputModel
   ): Promise<EventViewModel> => {
+    
     const event = await prisma.event.create({
       data: {
         slug: eventSlug(input),

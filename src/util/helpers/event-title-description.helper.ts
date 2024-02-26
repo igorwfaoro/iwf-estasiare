@@ -1,18 +1,11 @@
 import { EventType } from '.prisma/client';
 import { eventTypeLabel } from './event-type.helper';
-
-export interface EventTitleDescriptionParams {
-  eventType: EventType;
-  weddingDetail?: {
-    groomName: string;
-    brideName: string;
-  } | null;
-}
+import { GenericEventParams } from '../types/generic-event';
 
 export const eventTitleDescription = ({
   eventType,
   weddingDetail
-}: EventTitleDescriptionParams): string =>
+}: GenericEventParams): string =>
   ({
     [EventType.WEDDING]: `${eventTypeLabel[EventType.WEDDING]} ${[
       weddingDetail?.groomName,

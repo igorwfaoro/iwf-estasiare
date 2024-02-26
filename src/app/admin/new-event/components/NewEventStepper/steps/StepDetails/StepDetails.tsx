@@ -1,5 +1,19 @@
-interface StepDetailsProps {}
+import { EventType } from '.prisma/client';
+import { useNewEventContext } from '../../../../contexts/NewEventContext';
+import WeddingDetail from './components/WeddingDetail/WeddingDetail';
 
-export default function StepDetails({}: StepDetailsProps) {
-  return <h1>details</h1>;
+interface StepDetailsProps {
+  index: number;
+}
+
+export default function StepDetails({ index }: StepDetailsProps) {
+  const { eventCreateData } = useNewEventContext();
+
+  if (!eventCreateData?.eventType) return <></>;
+
+  const detailComponent = {
+    [EventType.WEDDING]: <WeddingDetail index={index} />
+  }[eventCreateData?.eventType];
+
+  return <>{detailComponent}</>;
 }

@@ -1,7 +1,7 @@
-import { EventType, EventWeddingDetail } from '.prisma/client';
-import { EventTitleDescriptionParams, eventTitleDescription } from './event-title-description.helper';
+import { eventTitleDescription } from './event-title-description.helper';
+import { GenericEventParams } from '../types/generic-event';
 
-export const eventSlug = (params: EventTitleDescriptionParams): string => {
+export const eventSlug = (params: GenericEventParams): string => {
   const description = eventTitleDescription(params);
 
   return description

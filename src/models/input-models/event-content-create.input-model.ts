@@ -1,5 +1,5 @@
 export interface EventContentCreateInputModel {
-    primaryColor: string;
-    bannerImage: string;
-    logoImage?: string;
-  }
+  primaryColor: string;
+  bannerImage: string;
+  logoImage?: string;
+}

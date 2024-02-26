@@ -10,6 +10,7 @@ import InitialsIcon from '../../../../components/InitialsIcon/InitialsIcon';
 import { EventType } from '@prisma/client';
 import { twMerge } from 'tailwind-merge';
 import classNames from 'classnames';
+import { renderInitialsIcon } from '../../../../util/helpers/initials-icon.helper';
 
 interface LinkItem {
   path: string;
@@ -48,25 +49,11 @@ export function EventNavbar({ event }: EventNavbarProps) {
   const toggleMenu = () => setMenuIsOpen((mio) => !mio);
   const closeMenu = () => setMenuIsOpen(false);
 
-  const renderInitialsIcon = () =>
-    ({
-      [EventType.WEDDING]: (
-        <InitialsIcon
-          name={[
-            event.weddingDetail?.groomName!,
-            event.weddingDetail?.brideName!
-          ]}
-          size={34}
-          color={event.content?.primaryColor}
-        />
-      )
-    })[event.eventType];
-
   return (
     <nav className="fixed z-[999] flex h-12 w-full flex-col items-end justify-center bg-neutral-50 shadow-sm md:items-center">
       {/* logo */}
       <Link href={`/${event.slug}`} className="absolute left-3 top-2">
-        {renderInitialsIcon()}
+        {renderInitialsIcon(event, 34)}
       </Link>
 
       {/* mobile button menu */}

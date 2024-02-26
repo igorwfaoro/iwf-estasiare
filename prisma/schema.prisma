@@ -29,7 +29,7 @@ model Event {
   addressId BigInt       @unique
   address   EventAddress @relation(fields: [addressId], references: [id])
 
-  contentId BigInt       @unique
+  contentId BigInt       @unique 
   content   EventContent @relation(fields: [contentId], references: [id])
 
   financialId BigInt?         @unique
