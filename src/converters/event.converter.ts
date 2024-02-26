@@ -19,6 +19,7 @@ import {
 import { eventFinancialConverter } from './event-financial.converter';
 import { EventViewModel } from '../models/view-models/event.view-model';
 import { eventHandbookConverter } from './event-handbook.converter';
+import { eventTitleDescription } from '../util/helpers/event-title-description.helper';
 
 export type EventConverterModel = Event & {
   content?: EventContentConverterModel;
@@ -67,14 +68,7 @@ export const eventConverter = {
 
     createdAt: model.createdAt,
 
-    titleDescription: {
-      [EventType.WEDDING]: `${eventTypeLabel[EventType.WEDDING]} ${[
-        model.weddingDetail?.groomName,
-        model.weddingDetail?.brideName
-      ]
-        .sort()
-        .join(' & ')}`
-    }[model.eventType],
+    titleDescription: eventTitleDescription(model),
 
     hasGifts,
     hasInvitations,

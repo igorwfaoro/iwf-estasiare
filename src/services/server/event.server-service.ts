@@ -4,6 +4,9 @@ import { eventConverter } from '../../converters/event.converter';
 import { SearchEventsInputModel } from '../../models/input-models/search-events.input-model';
 import { EventViewModel } from '../../models/view-models/event.view-model';
 import { AuthUser } from '../../auth/auth-user';
+import { EventCreateInputModel } from '../../models/input-models/event-create.input-model';
+import dayjs from 'dayjs';
+import { eventSlug } from '../../util/helpers/event-slug.helper';
 
 interface ExtraIncludes {
   gifts?: boolean;
@@ -162,11 +165,42 @@ export const createEventServerService = () => {
     return userEvents.map((ue) => eventConverter.modelViewModel(ue.event));
   };
 
+  const create = async (
+    user: AuthUser,
+    input: EventCreateInputModel
+  ): Promise<EventViewModel> => {
+    const event = await prisma.event.create({
+      data: {
+        slug: eventSlug(input),
+        eventType: input.eventType,
+        date: dayjs(input.date).toDate(),
+        address: {
+          create: input.address
+        },
+        content: {
+          create: input.content
+        },
+        weddingDetail: {
+          create: input.weddingDetail
+        },
+        usersEvent: {
+          create: {
+            userId: user.id,
+            role: 'ADMIN'
+          }
+        }
+      }
+    });
+
+    return get({ id: event.id });
+  };
+
   return {
     getBySlug,
     getById,
     search,
     recommended,
-    getByUser
+    getByUser,
+    create
   };
 };
