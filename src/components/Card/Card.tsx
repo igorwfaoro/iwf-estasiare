@@ -16,7 +16,6 @@ export default function Card({
 }: CardProps) {
   return (
     <div
-      // className={twMerge('rounded-2xl shadow-lg', className)}
       className={twMerge('rounded-2xl border', className)}
       ref={elementRef}
       style={{ backgroundImage: bgImageUrl ? `url(${bgImageUrl})` : '' }}

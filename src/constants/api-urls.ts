@@ -5,6 +5,7 @@ export const API_URLS = {
     search: () => `${API_BASE_URL}/events/search`,
     recommended: () => `${API_BASE_URL}/events/recommended`,
     getByUser: () => `${API_BASE_URL}/events/getByUser`,
+    getById: (id: number) => `${API_BASE_URL}/events/${id}`,
     create: () => `${API_BASE_URL}/events`
   },
   invitations: {

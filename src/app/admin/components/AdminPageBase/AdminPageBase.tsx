@@ -3,10 +3,16 @@ import { twMerge } from 'tailwind-merge';
 
 interface AdminPageBaseProps {
   children: ReactNode;
+  className?: string;
 }
 
-export default function AdminPageBase({ children }: AdminPageBaseProps) {
-  return <div className="p-5 pt-7 bg-gray-100">{children}</div>;
+export default function AdminPageBase({
+  children,
+  className
+}: AdminPageBaseProps) {
+  return (
+    <div className={twMerge('p-5 pt-7 bg-gray-100', className)}>{children}</div>
+  );
 }
 
 // ---------------------------
