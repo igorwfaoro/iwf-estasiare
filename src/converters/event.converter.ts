@@ -20,6 +20,7 @@ import { eventFinancialConverter } from './event-financial.converter';
 import { EventViewModel } from '../models/view-models/event.view-model';
 import { eventHandbookConverter } from './event-handbook.converter';
 import { eventTitleDescription } from '../util/helpers/event-title-description.helper';
+import dayjs from 'dayjs';
 
 export type EventConverterModel = Event & {
   content?: EventContentConverterModel;
@@ -43,7 +44,7 @@ export const eventConverter = {
   ): EventDetailViewModel => ({
     id: Number(model.id),
     eventType: model.eventType,
-    date: model.date,
+    date: dayjs(model.date).toISOString(),
     slug: model.slug,
 
     address: model.address
@@ -66,7 +67,7 @@ export const eventConverter = {
 
     handbooks: model.handbooks?.map(eventHandbookConverter.modelToViewModel),
 
-    createdAt: model.createdAt,
+    createdAt: dayjs(model.createdAt).toISOString(),
 
     titleDescription: eventTitleDescription(model),
 
@@ -78,7 +79,7 @@ export const eventConverter = {
   modelViewModel: (model: EventConverterModel): EventViewModel => ({
     id: Number(model.id),
     eventType: model.eventType,
-    date: model.date,
+    date: dayjs(model.date).toISOString(),
     slug: model.slug,
 
     address: model.address
@@ -97,7 +98,7 @@ export const eventConverter = {
       ? eventWeddingDetailConverter.modelToViewModel(model.weddingDetail)
       : undefined,
 
-    createdAt: model.createdAt,
+    createdAt: dayjs(model.createdAt).toISOString(),
 
     titleDescription: {
       [EventType.WEDDING]: `${eventTypeLabel[EventType.WEDDING]} ${model

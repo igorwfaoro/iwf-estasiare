@@ -1,6 +1,7 @@
 import { API_URLS } from '../../constants/api-urls';
 import { http } from '../../http/http';
 import { EventCreateInputModel } from '../../models/input-models/event-create.input-model';
+import { ExtraIncludesInputModel } from '../../models/input-models/extra-includes.input-model';
 import { EventDetailViewModel } from '../../models/view-models/event-detail.view-model';
 import { EventViewModel } from '../../models/view-models/event.view-model';
 
@@ -48,11 +49,22 @@ export const createEventClientService = () => {
       .get(API_URLS.events.getById(id))
       .then((response) => response.data);
 
+  const getBySlug = (
+    slug: string,
+    extraIncludes: ExtraIncludesInputModel = {}
+  ): Promise<EventDetailViewModel> =>
+    http()
+      .get(API_URLS.events.getBySlug(slug), {
+        params: extraIncludes
+      })
+      .then((response) => response.data);
+
   return {
     search,
     recommended,
     getByUser,
     create,
-    getById
+    getById,
+    getBySlug
   };
 };

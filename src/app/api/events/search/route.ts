@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server';
 import { createEventServerService } from '../../../../services/server/event.server-service';
 
+interface Params {}
+
 const eventService = createEventServerService();
 
-export async function GET(req: Request) {
+export async function GET(req: Request, {}: Params) {
   const { searchParams } = new URL(req.url);
 
   const response = await eventService.search({

@@ -8,13 +8,13 @@ import { EventHandbookViewModel } from './event-handbook.view-model';
 export interface EventViewModel {
   id: number;
   eventType: EventType;
-  date: Date;
+  date: string;
   slug: string;
   address?: EventAddressViewModel;
   content?: EventContentViewModel;
   financial?: EventFinancialViewModel | null;
   weddingDetail?: EventWeddingDetailViewModel | null;
-  createdAt: Date;
+  createdAt: string;
 
   titleDescription: string;
 }

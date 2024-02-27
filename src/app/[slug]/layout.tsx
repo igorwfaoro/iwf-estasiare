@@ -1,8 +1,8 @@
 import { ReactNode, cache } from 'react';
-import { createEventServerService } from '../../services/server/event.server-service';
 import { EventNavbar } from './components/Navbar/Navbar';
 import { EventFooter } from './components/Footer/Footer';
 import { Metadata } from 'next';
+import { createEventClientService } from '../../services/client/event.client-service';
 
 interface LayoutProps {
   params: { slug: string };
@@ -10,7 +10,7 @@ interface LayoutProps {
 }
 
 const getEvent = cache(async (slug: string) => {
-  return await createEventServerService().getBySlug(slug);
+  return await createEventClientService().getBySlug(slug);
 });
 
 export async function generateMetadata({

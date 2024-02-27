@@ -3,13 +3,13 @@ import { Metadata } from 'next';
 import Header from './components/Header/Header';
 import GiftsList from './components/GiftsList/GiftsList';
 import ModalProvider from '../../../contexts/ModalContext';
-import { createEventServerService } from '../../../services/server/event.server-service';
 import EventPageBase from '../components/EventPageBase/EventPageBase';
+import { createEventClientService } from '../../../services/client/event.client-service';
 
 export const revalidate = 3600;
 
 const getEvent = cache(async (slug: string) => {
-  return await createEventServerService().getBySlug(slug, {
+  return await createEventClientService().getBySlug(slug, {
     gifts: true,
     financial: true
   });

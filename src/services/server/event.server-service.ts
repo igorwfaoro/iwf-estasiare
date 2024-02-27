@@ -7,17 +7,12 @@ import { AuthUser } from '../../auth/auth-user';
 import { EventCreateInputModel } from '../../models/input-models/event-create.input-model';
 import dayjs from 'dayjs';
 import { eventSlug } from '../../util/helpers/event-slug.helper';
-
-interface ExtraIncludes {
-  gifts?: boolean;
-  financial?: boolean;
-  handbooks?: boolean;
-}
+import { ExtraIncludesInputModel } from '../../models/input-models/extra-includes.input-model';
 
 export const createEventServerService = () => {
   const get = async (
     eventWhere: any,
-    extraIncludes: ExtraIncludes = {}
+    extraIncludes: ExtraIncludesInputModel = {}
   ): Promise<EventDetailViewModel> => {
     const giftsCount = await prisma.gift.count({
       where: {
@@ -69,14 +64,14 @@ export const createEventServerService = () => {
 
   const getBySlug = async (
     slug: string,
-    extraIncludes: ExtraIncludes = {}
+    extraIncludes: ExtraIncludesInputModel = {}
   ): Promise<EventDetailViewModel> => {
     return get({ slug }, extraIncludes);
   };
 
   const getById = async (
     id: number,
-    extraIncludes: ExtraIncludes = {}
+    extraIncludes: ExtraIncludesInputModel = {}
   ): Promise<EventDetailViewModel> => {
     return get({ id }, extraIncludes);
   };

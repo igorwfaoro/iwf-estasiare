@@ -1,15 +1,15 @@
 import { cache } from 'react';
 import { Metadata } from 'next';
 import PresenceConfirmationContent from './components/PageContent/PageContent';
-import { createEventServerService } from '../../../services/server/event.server-service';
 import PresenceConfirmationProvider from './components/PageContent/contexts/PresenceConfirmationContext';
 import ToastProvider from '../../../contexts/ToastContext';
 import EventPageBase from '../components/EventPageBase/EventPageBase';
+import { createEventClientService } from '../../../services/client/event.client-service';
 
 export const revalidate = 3600;
 
 const getEvent = cache(async (slug: string) => {
-  return await createEventServerService().getBySlug(slug);
+  return await createEventClientService().getBySlug(slug);
 });
 
 export async function generateMetadata({

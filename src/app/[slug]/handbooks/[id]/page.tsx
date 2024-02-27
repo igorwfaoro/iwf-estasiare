@@ -1,10 +1,10 @@
 import { cache } from 'react';
-import { createHandbookServerService } from '../../../../services/server/handbook.server-service';
-import { createEventServerService } from '../../../../services/server/event.server-service';
 import EventPageBase from '../../components/EventPageBase/EventPageBase';
 import { Metadata } from 'next';
 import Header from './components/Header/header';
 import Markdown from 'react-markdown';
+import { createEventClientService } from '../../../../services/client/event.client-service';
+import { createHandbookClientService } from '../../../../services/client/handbook.client-service';
 
 interface HandbookPageProps {
   params: { id: number; slug: string };
@@ -12,12 +12,17 @@ interface HandbookPageProps {
 
 export const revalidate = 3600;
 
-const getEvent = cache(async (slug: string) => {
-  return await createEventServerService().getBySlug(slug, { handbooks: true });
-});
+const getData = cache(async (slug: string, id: number) => {
+  const event = await createEventClientService().getBySlug(slug, {
+    handbooks: true
+  });
 
-const getHandbook = cache(async (id: number) => {
-  return await createHandbookServerService().getById(id);
+  const handbook = await createHandbookClientService().getById(event.id, id);
+
+  return {
+    event,
+    handbook
+  };
 });
 
 export async function generateMetadata({
@@ -25,8 +30,7 @@ export async function generateMetadata({
 }: {
   params: { id: number; slug: string };
 }): Promise<Metadata> {
-  const event = await getEvent(params.slug);
-  const handbook = await getHandbook(params.id);
+  const { event, handbook } = await getData(params.slug, params.id);
 
   return {
     title: `${handbook.title} | ${event.titleDescription}`
@@ -34,8 +38,7 @@ export async function generateMetadata({
 }
 
 export default async function HandbookPage({ params }: HandbookPageProps) {
-  const event = await getEvent(params.slug);
-  const handbook = await getHandbook(params.id);
+  const { event, handbook } = await getData(params.slug, params.id);
 
   return (
     <EventPageBase>

@@ -8,19 +8,19 @@ export const createInvitationClientService = () => {
     description: string
   ): Promise<InvitationViewModel> =>
     http()
-      .get(API_URLS.invitations.getByDescription(), {
+      .get(API_URLS.invitations.getByDescription(eventId), {
         params: {
-          eventId: String(eventId),
           description
         }
       })
       .then((response) => response.data);
 
   const updateGuestsConfirmations = (
+    eventId: number,
     invitationId: number,
     guests: { id: number; isConfirmed: boolean }[]
   ) =>
-    http().patch(API_URLS.invitations.updateGuestsConfirmations(), {
+    http().patch(API_URLS.invitations.updateGuestsConfirmations(eventId), {
       invitationId,
       guests
     });
