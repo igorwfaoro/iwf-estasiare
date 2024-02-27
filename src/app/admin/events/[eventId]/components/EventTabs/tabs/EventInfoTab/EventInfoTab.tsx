@@ -9,7 +9,10 @@ import { eventTypeLabel } from '../../../../../../../../util/helpers/event-type.
 import dayjs from 'dayjs';
 import Skeleton from '../../../../../../../../components/Skeleton/Skeleton';
 import { useModal } from '../../../../../../../../contexts/ModalContext';
-import EventInfoEditModal from './components/EventInfoEditModal/EventInfoEditModal';
+import EventInfoEditModal, {
+  EventInfoEditModalProps,
+  EventInfoEditModalResult
+} from './components/EventInfoEditModal/EventInfoEditModal';
 
 interface EventInfoTabProps {
   eventId: number;
@@ -42,7 +45,13 @@ export default function EventInfoTab({ eventId }: EventInfoTabProps) {
   const openEditModal = () => {
     modal.open({
       component: EventInfoEditModal,
-      title: 'Editar evento'
+      title: 'Editar evento',
+      props: { event } as EventInfoEditModalProps,
+      onClose: (result: EventInfoEditModalResult | undefined) => {
+        if (result?.edited) {
+          getEvent();
+        }
+      }
     });
   };
 

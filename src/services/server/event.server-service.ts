@@ -168,7 +168,7 @@ export const createEventServerService = () => {
   const create = async (
     user: AuthUser,
     input: EventCreateInputModel
-  ): Promise<EventViewModel> => {
+  ): Promise<EventDetailViewModel> => {
     
     const event = await prisma.event.create({
       data: {

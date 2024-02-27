@@ -9,7 +9,7 @@ import { EventHandbookViewModel } from './event-handbook.view-model';
 export interface EventDetailViewModel {
   id: number;
   eventType: EventType;
-  date: Date;
+  date: Date | string;
   slug: string;
   address?: EventAddressViewModel;
   content?: EventContentViewModel;
@@ -17,7 +17,7 @@ export interface EventDetailViewModel {
   weddingDetail?: EventWeddingDetailViewModel | null;
   gifts?: GiftViewModel[];
   handbooks?: EventHandbookViewModel[] | null;
-  createdAt: Date;
+  createdAt: Date | string;
 
   titleDescription: string;
   hasGifts?: boolean | null;
