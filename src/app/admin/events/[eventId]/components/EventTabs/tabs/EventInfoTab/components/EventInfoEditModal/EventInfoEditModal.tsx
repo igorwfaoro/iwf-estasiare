@@ -10,6 +10,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import Field from '../../../../../../../../../../components/Field/Field';
 import Button from '../../../../../../../../../../components/Button/Button';
+import { createEventClientService } from '../../../../../../../../../../services/client/event.client-service';
+import { useLoader } from '../../../../../../../../../../contexts/LoaderContext';
+import { useToast } from '../../../../../../../../../../contexts/ToastContext';
+import { dateStringToInput } from '../../../../../../../../../../util/helpers/date.helper';
 
 export interface EventInfoEditModalProps extends ModalRefPropType {
   event: EventDetailViewModel;
@@ -23,8 +27,7 @@ const formGeneralSchema = z.object({
   eventType: z.enum(eventTypeList as any, {
     required_error: 'Informe o tipo do evento'
   }),
-  date: z.string().min(1, 'Informe a data do evento'),
-  address: z.string().min(1, 'Informe o endereço')
+  date: z.string().min(1, 'Informe a data do evento')
 });
 
 type FormGeneralSchema = z.infer<typeof formGeneralSchema>;
@@ -33,6 +36,10 @@ export default function EventInfoEditModal({
   event,
   modalRef
 }: EventInfoEditModalProps) {
+  const eventClientService = createEventClientService();
+  const loader = useLoader();
+  const toast = useToast();
+
   const {
     register,
     handleSubmit,
@@ -44,20 +51,32 @@ export default function EventInfoEditModal({
 
   useEffect(() => {
     setValue('eventType', event.eventType);
-    setValue('date', event.date as string);
-    setValue('address', event.address?.fullDescription || '');
+    setValue('date', dateStringToInput(event.date));
   }, []);
 
   const handleFormSubmit = (data: FormGeneralSchema) => {
-    console.log(data);
-    console.log('TODO: save');
-    modalRef.close({ edited: true });
+    loader.show();
+
+    eventClientService
+      .update(event.id, {
+        eventType: data.eventType,
+        date: data.date
+      })
+      .then(() => {
+        toast.open('Evento editado', 'success');
+        modalRef.close({ edited: true });
+      })
+      .catch((error) => {
+        toast.open('Erro ao editar evento', 'error');
+        console.error(error);
+      })
+      .finally(() => loader.hide());
   };
 
   return (
     <form
       onSubmit={handleSubmit(handleFormSubmit)}
-      className="mt-4 flex flex-col gap-2"
+      className="mt-4 flex flex-col gap-2 w-full"
     >
       <Field>
         <Field.Label>Tipo de evento?</Field.Label>
@@ -75,12 +94,6 @@ export default function EventInfoEditModal({
         <Field.Label>Data</Field.Label>
         <Field.Input {...register('date')} type="datetime-local" />
         <Field.Error>{errors.date?.message}</Field.Error>
-      </Field>
-
-      <Field>
-        <Field.Label>Local</Field.Label>
-        <Field.Input {...register('address')} />
-        <Field.Error>{errors.address?.message}</Field.Error>
       </Field>
 
       <Button type="submit">Salvar</Button>

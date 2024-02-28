@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import { eventSlug } from '../../util/helpers/event-slug.helper';
 import { ExtraIncludesInputModel } from '../../models/input-models/extra-includes.input-model';
 import { getAuthUser } from '../../auth/auth-config';
+import { EventUpdateInputModel } from '../../models/input-models/event-update.input-model';
 
 export const createEventServerService = () => {
   const get = async (
@@ -193,12 +194,39 @@ export const createEventServerService = () => {
     return get({ id: event.id });
   };
 
+  const update = async (
+    id: number,
+    input: EventUpdateInputModel
+  ): Promise<EventDetailViewModel> => {
+    const user = await getAuthUser();
+
+    const event = await prisma.event.update({
+      where: { id, usersEvent: { some: { userId: user.id } } },
+      data: {
+        eventType: input.eventType,
+        date: dayjs(input.date).toDate(),
+        address: {
+          update: input.address
+        },
+        content: {
+          update: input.content
+        },
+        weddingDetail: {
+          update: input.weddingDetail
+        }
+      }
+    });
+
+    return get({ id: event.id });
+  };
+
   return {
     getBySlug,
     getById,
     search,
     recommended,
     getByUser,
-    create
+    create,
+    update
   };
 };

@@ -8,11 +8,15 @@ import EventCardInfo from '../../components/EventCardInfo/EventCardInfo';
 import { eventTypeLabel } from '../../../../../../../../util/helpers/event-type.helper';
 import dayjs from 'dayjs';
 import Skeleton from '../../../../../../../../components/Skeleton/Skeleton';
-import { useModal } from '../../../../../../../../contexts/ModalContext';
+import {
+  ModalOptions,
+  useModal
+} from '../../../../../../../../contexts/ModalContext';
 import EventInfoEditModal, {
   EventInfoEditModalProps,
   EventInfoEditModalResult
 } from './components/EventInfoEditModal/EventInfoEditModal';
+import { isMobile } from '../../../../../../../../util/helpers/is-mobile.helper';
 
 interface EventInfoTabProps {
   eventId: number;
@@ -25,6 +29,31 @@ export default function EventInfoTab({ eventId }: EventInfoTabProps) {
 
   const [event, setEvent] = useState<EventDetailViewModel>();
   const [eventIsLoading, setEventIsLoading] = useState(false);
+
+  const editModals = {
+    general: {
+      component: EventInfoEditModal,
+      title: 'Editar evento',
+      props: { event } as EventInfoEditModalProps,
+      width: isMobile() ? '90%' : '50%',
+      onClose: (result: EventInfoEditModalResult | undefined) => {
+        if (result?.edited) {
+          getEvent();
+        }
+      }
+    } as ModalOptions,
+    address: {
+      component: EventInfoEditModal,
+      title: 'Editar evento',
+      props: { event } as EventInfoEditModalProps,
+      width: isMobile() ? '90%' : '50%',
+      onClose: (result: EventInfoEditModalResult | undefined) => {
+        if (result?.edited) {
+          getEvent();
+        }
+      }
+    } as ModalOptions
+  };
 
   useEffect(() => {
     getEvent();
@@ -42,17 +71,8 @@ export default function EventInfoTab({ eventId }: EventInfoTabProps) {
       .finally(() => setEventIsLoading(false));
   };
 
-  const openEditModal = () => {
-    modal.open({
-      component: EventInfoEditModal,
-      title: 'Editar evento',
-      props: { event } as EventInfoEditModalProps,
-      onClose: (result: EventInfoEditModalResult | undefined) => {
-        if (result?.edited) {
-          getEvent();
-        }
-      }
-    });
+  const openEditModal = (config: ModalOptions) => {
+    modal.open(config);
   };
 
   const dateFormatted = dayjs(event?.date).format('DD/MM/YYYY HH:mm');
@@ -64,7 +84,6 @@ export default function EventInfoTab({ eventId }: EventInfoTabProps) {
           <Skeleton className="h-5 w-40" />
           <Skeleton className="h-4 w-28" />
           <Skeleton className="h-4 w-20" />
-          <Skeleton className="h-4 w-24" />
         </div>
       </EventCardInfo>
     );
@@ -73,11 +92,35 @@ export default function EventInfoTab({ eventId }: EventInfoTabProps) {
   return !event ? (
     <></>
   ) : (
-    <div>
-      <EventCardInfo title="Geral" handleClickEdit={openEditModal}>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <EventCardInfo
+        title="Geral"
+        handleClickEdit={() => openEditModal(editModals.general)}
+      >
         <div className="font-bold">{eventTypeLabel[event.eventType]}</div>
-        <div className="text-gray-500">{event.address?.shortDescription}</div>
         <div>{dateFormatted}</div>
+      </EventCardInfo>
+
+      <EventCardInfo
+        title="Local"
+        handleClickEdit={() => openEditModal(editModals.address)}
+      >
+        <div>{event.address?.fullDescription}</div>
+      </EventCardInfo>
+
+      <EventCardInfo
+        title="Conteúdo"
+        handleClickEdit={() => openEditModal(editModals.address)}
+      >
+        <div>{event.address?.fullDescription}</div>
+      </EventCardInfo>
+
+      <EventCardInfo
+        title="Casamento"
+        handleClickEdit={() => openEditModal(editModals.address)}
+      >
+        <div>{event.weddingDetail?.groomName}</div>
+        <div>{event.weddingDetail?.brideName}</div>
       </EventCardInfo>
     </div>
   );

@@ -1,4 +1,4 @@
-export const API_BASE_URL = `${process.env.API_URL}/api`;
+export const API_BASE_URL = '/api';
 
 export const API_URLS = {
   events: {
@@ -6,7 +6,8 @@ export const API_URLS = {
     recommended: () => `${API_BASE_URL}/events/recommended`,
     getByUser: () => `${API_BASE_URL}/events/by-user`,
     getById: (id: number) => `${API_BASE_URL}/events/${id}`,
-    create: () => `${API_BASE_URL}/events`
+    create: () => `${API_BASE_URL}/events`,
+    update: (id: number) => `${API_BASE_URL}/events/${id}`,
   },
   invitations: {
     getByDescription: (eventId: number) =>

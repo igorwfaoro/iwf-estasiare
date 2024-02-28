@@ -9,6 +9,7 @@ import { useNewEventContext } from '../../../../contexts/NewEventContext';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
+import { dateStringToInput } from '../../../../../../../util/helpers/date.helper';
 
 interface StepGeneralProps {
   index: number;
@@ -40,7 +41,7 @@ export default function StepGeneral({ index }: StepGeneralProps) {
   useEffect(() => {
     if (eventCreateData?.date) {
       setValue('eventType', eventCreateData.eventType);
-      setValue('date', eventCreateData.date);
+      setValue('date', dateStringToInput(eventCreateData.date));
       setValue('address', eventCreateData.address?.fullDescription || '');
     }
   }, []);

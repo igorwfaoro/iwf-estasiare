@@ -1,11 +1,14 @@
 import { EventType } from '.prisma/client';
 
-export interface EventCreateInputModel {
-  eventType: EventType;
-  date: string;
-  address: Address;
-  content: Content;
-  weddingDetail?: WeddingDetail;
+export type EventUpdateInputModel = Partial<Event>;
+
+interface Event {
+  eventType?: EventType;
+  date?: string;
+
+  address?: Partial<Address>;
+  content?: Partial<Content>;
+  weddingDetail?: Partial<WeddingDetail>;
 }
 
 interface Address {
