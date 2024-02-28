@@ -3,8 +3,8 @@ import EventPageBase from '../../components/EventPageBase/EventPageBase';
 import { Metadata } from 'next';
 import Header from './components/Header/header';
 import Markdown from 'react-markdown';
-import { createEventClientService } from '../../../../services/client/event.client-service';
-import { createHandbookClientService } from '../../../../services/client/handbook.client-service';
+import { createEventServerService } from '../../../../services/server/event.server-service';
+import { createHandbookServerService } from '../../../../services/server/handbook.server-service';
 
 interface HandbookPageProps {
   params: { id: number; slug: string };
@@ -13,11 +13,11 @@ interface HandbookPageProps {
 export const revalidate = 3600;
 
 const getData = cache(async (slug: string, id: number) => {
-  const event = await createEventClientService().getBySlug(slug, {
+  const event = await createEventServerService().getBySlug(slug, {
     handbooks: true
   });
 
-  const handbook = await createHandbookClientService().getById(event.id, id);
+  const handbook = await createHandbookServerService().getById(id);
 
   return {
     event,

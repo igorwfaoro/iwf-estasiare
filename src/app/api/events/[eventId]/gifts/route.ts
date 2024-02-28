@@ -1,5 +1,4 @@
 import { createGiftServerService } from '../../../../../services/server/gift.server-service';
-import { getAuthUser } from '../../../../../auth/auth-config';
 import { NextResponse } from 'next/server';
 
 interface Params {
@@ -15,14 +14,9 @@ export async function GET(_: Request, { params }: Params) {
 }
 
 export async function POST(req: Request, { params }: Params) {
-  const user = await getAuthUser();
   const input = await req.json();
 
-  const response = await giftService.create({
-    eventId: Number(params.eventId),
-    input,
-    user
-  });
+  const response = await giftService.create(Number(params.eventId), input);
 
   return NextResponse.json(response);
 }

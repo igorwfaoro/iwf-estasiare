@@ -3,6 +3,7 @@ import { GiftViewModel } from '../../models/view-models/gift.view-model';
 import { giftConverter } from '../../converters/gift.converter';
 import { GiftInputModel } from '../../models/input-models/gift.input-model';
 import { AuthUser } from '../../auth/auth-user';
+import { getAuthUser } from '../../auth/auth-config';
 
 interface ExtraIncludes {
   gifts?: boolean;
@@ -39,15 +40,12 @@ export const createGiftServerService = () => {
     return giftConverter.modelToViewModel(gift);
   };
 
-  const create = async ({
-    eventId,
-    input,
-    user
-  }: {
-    eventId: number;
-    input: GiftInputModel;
-    user: AuthUser;
-  }): Promise<GiftViewModel> => {
+  const create = async (
+    eventId: number,
+    input: GiftInputModel
+  ): Promise<GiftViewModel> => {
+    const user = await getAuthUser();
+
     const userEvent = await prisma.userEvent.findFirst({
       where: {
         eventId,
@@ -72,14 +70,14 @@ export const createGiftServerService = () => {
   const update = async ({
     eventId,
     id,
-    input,
-    user
+    input
   }: {
     eventId: number;
     id: number;
     input: GiftInputModel;
-    user: AuthUser;
   }): Promise<GiftViewModel> => {
+    const user = await getAuthUser();
+
     const userEvent = await prisma.userEvent.findFirst({
       where: {
         eventId,
@@ -104,15 +102,9 @@ export const createGiftServerService = () => {
     return giftConverter.modelToViewModel(gift);
   };
 
-  const remove = async ({
-    eventId,
-    id,
-    user
-  }: {
-    eventId: number;
-    id: number;
-    user: AuthUser;
-  }): Promise<void> => {
+  const remove = async (eventId: number, id: number): Promise<void> => {
+    const user = await getAuthUser();
+
     const userEvent = await prisma.userEvent.findFirst({
       where: {
         eventId,

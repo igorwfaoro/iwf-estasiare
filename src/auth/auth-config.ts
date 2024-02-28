@@ -57,9 +57,11 @@ export const getAuthSession = async (
       : await getServerSession(authOptions);
 
   if (!session) {
-    (res as unknown as NextApiResponse)
-      .status(401)
-      .json({ message: 'Unauthorized' });
+    res &&
+      (res as unknown as NextApiResponse)
+        .status(401)
+        .json({ message: 'Unauthorized' });
+
     throw new Error('Unauthorized');
   }
 

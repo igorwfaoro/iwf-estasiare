@@ -1,10 +1,9 @@
 import { cache } from 'react';
 import EventCard from '../../../../components/EventCard/EventCard';
-import { getAuthUser } from '../../../../auth/auth-config';
-import { createEventClientService } from '../../../../services/client/event.client-service';
+import { createEventServerService } from '../../../../services/server/event.server-service';
 
 const getEvents = cache(async () => {
-  return await createEventClientService().getByUser();
+  return await createEventServerService().getByUser();
 });
 
 interface EventsListProps {}

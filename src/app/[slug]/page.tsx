@@ -8,12 +8,12 @@ import EventInfo from './components/EventInfo/EventInfo';
 import EventPhotoAlbum from './components/EventPhotoAlbum/EventPhotoAlbum';
 import EventPlaylist from './components/EventPlaylist/EventPlaylist';
 import EventMap from './components/EventMap/EventMap';
-import { createEventClientService } from '../../services/client/event.client-service';
+import { createEventServerService } from '../../services/server/event.server-service';
 
 export const revalidate = 3600;
 
 const getEvent = cache(async (slug: string) => {
-  return await createEventClientService().getBySlug(slug);
+  return await createEventServerService().getBySlug(slug);
 });
 
 export async function generateMetadata({

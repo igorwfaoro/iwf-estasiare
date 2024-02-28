@@ -4,12 +4,12 @@ import Header from './components/Header/Header';
 import GiftsList from './components/GiftsList/GiftsList';
 import ModalProvider from '../../../contexts/ModalContext';
 import EventPageBase from '../components/EventPageBase/EventPageBase';
-import { createEventClientService } from '../../../services/client/event.client-service';
+import { createEventServerService } from '../../../services/server/event.server-service';
 
 export const revalidate = 3600;
 
 const getEvent = cache(async (slug: string) => {
-  return await createEventClientService().getBySlug(slug, {
+  return await createEventServerService().getBySlug(slug, {
     gifts: true,
     financial: true
   });

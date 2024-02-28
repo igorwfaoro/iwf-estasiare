@@ -2,12 +2,12 @@ import { cache } from 'react';
 import AdminPageBase from '../../components/AdminPageBase/AdminPageBase';
 import Header from './components/Header/Header';
 import EventTabs from './components/EventTabs/EventTabs';
-import { createEventClientService } from '../../../../services/client/event.client-service';
+import { createEventServerService } from '../../../../services/server/event.server-service';
 
 export const revalidate = 3600;
 
 const getEvent = cache(async (id: number) => {
-  return await createEventClientService().getById(id);
+  return await createEventServerService().getById(id);
 });
 
 interface AdminEventPageProps {

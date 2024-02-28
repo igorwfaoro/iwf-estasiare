@@ -3,11 +3,11 @@ import { EventDetailViewModel } from '../../models/view-models/event-detail.view
 import { eventConverter } from '../../converters/event.converter';
 import { SearchEventsInputModel } from '../../models/input-models/search-events.input-model';
 import { EventViewModel } from '../../models/view-models/event.view-model';
-import { AuthUser } from '../../auth/auth-user';
 import { EventCreateInputModel } from '../../models/input-models/event-create.input-model';
 import dayjs from 'dayjs';
 import { eventSlug } from '../../util/helpers/event-slug.helper';
 import { ExtraIncludesInputModel } from '../../models/input-models/extra-includes.input-model';
+import { getAuthUser } from '../../auth/auth-config';
 
 export const createEventServerService = () => {
   const get = async (
@@ -141,7 +141,9 @@ export const createEventServerService = () => {
     return events.map(eventConverter.modelViewModel);
   };
 
-  const getByUser = async (user: AuthUser): Promise<EventViewModel[]> => {
+  const getByUser = async (): Promise<EventViewModel[]> => {
+    const user = await getAuthUser();
+
     const userEvents = await prisma.userEvent.findMany({
       where: {
         userId: user.id
@@ -161,10 +163,10 @@ export const createEventServerService = () => {
   };
 
   const create = async (
-    user: AuthUser,
     input: EventCreateInputModel
   ): Promise<EventDetailViewModel> => {
-    
+    const user = await getAuthUser();
+
     const event = await prisma.event.create({
       data: {
         slug: eventSlug(input),

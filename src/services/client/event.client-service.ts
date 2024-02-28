@@ -49,22 +49,11 @@ export const createEventClientService = () => {
       .get(API_URLS.events.getById(id))
       .then((response) => response.data);
 
-  const getBySlug = (
-    slug: string,
-    extraIncludes: ExtraIncludesInputModel = {}
-  ): Promise<EventDetailViewModel> =>
-    http()
-      .get(API_URLS.events.getBySlug(slug), {
-        params: extraIncludes
-      })
-      .then((response) => response.data);
-
   return {
     search,
     recommended,
     getByUser,
     create,
-    getById,
-    getBySlug
+    getById
   };
 };

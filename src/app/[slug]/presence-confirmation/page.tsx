@@ -4,12 +4,12 @@ import PresenceConfirmationContent from './components/PageContent/PageContent';
 import PresenceConfirmationProvider from './components/PageContent/contexts/PresenceConfirmationContext';
 import ToastProvider from '../../../contexts/ToastContext';
 import EventPageBase from '../components/EventPageBase/EventPageBase';
-import { createEventClientService } from '../../../services/client/event.client-service';
+import { createEventServerService } from '../../../services/server/event.server-service';
 
 export const revalidate = 3600;
 
 const getEvent = cache(async (slug: string) => {
-  return await createEventClientService().getBySlug(slug);
+  return await createEventServerService().getBySlug(slug);
 });
 
 export async function generateMetadata({
