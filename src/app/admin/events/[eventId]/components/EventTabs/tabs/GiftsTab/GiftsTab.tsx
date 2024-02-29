@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import { useToast } from '../../../../../../../../contexts/ToastContext';
 import { createGiftClientService } from '../../../../../../../../services/client/gift.client-service';
