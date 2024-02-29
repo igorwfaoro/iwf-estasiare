@@ -1,3 +1,6 @@
+'use client';
+
+import Button from '../../../../../../../../components/Button/Button';
 import Card from '../../../../../../../../components/Card/Card';
 import Skeleton from '../../../../../../../../components/Skeleton/Skeleton';
 import HandbookItem from './components/HandbookItem/HandbookItem';
@@ -9,7 +12,7 @@ export default function HandBooksTab({}: HandBooksTabProps) {
   const { isLoading, openForm, remove, handbooks } = useHandbooksTabContext();
 
   const renderLoading = () =>
-    Array.from({ length: 6 }).map((_, i) => (
+    Array.from({ length: 3 }).map((_, i) => (
       <Card key={i} className="space-y-2 p-4">
         <Skeleton className="h-5 w-40" />
         <Skeleton className="h-4 w-28" />
@@ -17,16 +20,21 @@ export default function HandBooksTab({}: HandBooksTabProps) {
     ));
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {isLoading
-        ? renderLoading()
-        : handbooks.map((handbook) => (
-            <HandbookItem
-              handbook={handbook}
-              handleEdit={openForm}
-              handleDelete={remove}
-            />
-          ))}
-    </div>
+    <>
+      <div className="mb-4 flex justify-end w-full">
+        <Button onClick={() => openForm()}>Novo</Button>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {isLoading
+          ? renderLoading()
+          : handbooks.map((handbook) => (
+              <HandbookItem
+                handbook={handbook}
+                handleEdit={openForm}
+                handleDelete={remove}
+              />
+            ))}
+      </div>
+    </>
   );
 }

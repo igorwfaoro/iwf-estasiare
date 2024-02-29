@@ -1,19 +1,10 @@
 'use client';
 
-import {
-  Dispatch,
-  SetStateAction,
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState
-} from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useLoader } from '../../../../../../../../../contexts/LoaderContext';
 import { useToast } from '../../../../../../../../../contexts/ToastContext';
 import { useAlert } from '../../../../../../../../../contexts/AlertContext';
 import { useModal } from '../../../../../../../../../contexts/ModalContext';
-import { isMobile } from '../../../../../../../../../util/helpers/is-mobile.helper';
 import { createHandbookClientService } from '../../../../../../../../../services/client/handbook.client-service';
 import HandbookFormModal, {
   HandbookFormModalProps,
@@ -89,8 +80,8 @@ const HandbooksTabProvider = ({
     modal.open({
       component: HandbookFormModal,
       title: `${handbook ? 'Editar' : 'Novo'} manual`,
-      props: { handbook } as HandbookFormModalProps,
-      width: isMobile() ? '90%' : '50%',
+      props: { handbook: handbookDetail } as HandbookFormModalProps,
+      width: '90%',
       onClose: (result?: HandbookFormModalResult) => {
         if (result?.handbook) {
           const serviceApi = handbook

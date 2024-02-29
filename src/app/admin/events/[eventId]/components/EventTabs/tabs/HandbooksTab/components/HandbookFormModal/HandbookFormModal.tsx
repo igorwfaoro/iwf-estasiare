@@ -3,13 +3,14 @@
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Field from '../../../../../../../../../../components/Field/Field';
 import Button from '../../../../../../../../../../components/Button/Button';
 import { ModalRefPropType } from '../../../../../../../../../../contexts/ModalContext';
 import { HandbookInputModel } from '../../../../../../../../../../models/input-models/handbook.input-model';
 import { EventHandbookDetailViewModel } from '../../../../../../../../../../models/view-models/event-handbook-detail.view-model';
-import MDEditor from '@uiw/react-md-editor';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 export interface HandbookFormModalProps extends ModalRefPropType {
   handbook?: EventHandbookDetailViewModel;
@@ -35,23 +36,47 @@ export default function HandbookFormModal({
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
-    getValues
+    setValue
   } = useForm<FormSchema>({
     resolver: zodResolver(formSchema)
   });
 
+  const [content, setContent] = useState('');
+
   useEffect(() => {
+    console.log(handbook)
     if (handbook) {
       setValue('title', handbook.title);
       setValue('description', handbook.description);
-      setValue('content', handbook.content);
+      setContent(handbook.content);
     }
   }, []);
 
+  useEffect(() => {
+    setValue('content', content);
+  }, [content]);
+
   const handleFormSubmit = (data: FormSchema) => {
-    modalRef.close({ gift: data } as HandbookFormModalResult);
+    modalRef.close({ handbook: data } as HandbookFormModalResult);
   };
+
+  var toolbarOptions = [
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    ['blockquote', 'code-block'],
+
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    [{ script: 'sub' }, { script: 'super' }],
+    [{ indent: '-1' }, { indent: '+1' }],
+    [{ direction: 'rtl' }],
+
+    [{ size: ['small', false, 'large', 'huge'] }],
+    ['link', 'image'],
+    [{ color: [] }, { background: [] }],
+    [{ align: [] }],
+
+    ['clean']
+  ];
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -69,14 +94,19 @@ export default function HandbookFormModal({
 
       <Field>
         <Field.Label>Conteúdo</Field.Label>
-        <MDEditor
-          value={getValues().content}
-          onChange={(value) => setValue('content', value || '')}
+        <ReactQuill
+          theme="snow"
+          value={content}
+          onChange={setContent}
+          modules={{
+            toolbar: toolbarOptions
+          }}
+          className="min-h-52 flex flex-col relative bg-white"
         />
         <Field.Error>{errors.content?.message}</Field.Error>
       </Field>
 
-      <div className="flex justify-end">
+      <div className="flex justify-end z-[99999]">
         <Button type="submit">Salvar</Button>
       </div>
     </form>

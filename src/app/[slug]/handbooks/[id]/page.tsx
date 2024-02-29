@@ -2,7 +2,6 @@ import { cache } from 'react';
 import EventPageBase from '../../components/EventPageBase/EventPageBase';
 import { Metadata } from 'next';
 import Header from './components/Header/header';
-import Markdown from 'react-markdown';
 import { createEventServerService } from '../../../../services/server/event.server-service';
 import { createHandbookServerService } from '../../../../services/server/handbook.server-service';
 
@@ -44,8 +43,11 @@ export default async function HandbookPage({ params }: HandbookPageProps) {
     <EventPageBase>
       <Header event={event} handbook={handbook} />
 
-      <div className="flex flex-col items-center">
-        <Markdown className="prose">{handbook.content}</Markdown>
+      <div className='flex flex-col items-center'>
+        <div
+          className="prose max-w-2xl w-full"
+          dangerouslySetInnerHTML={{ __html: handbook.content }}
+        />
       </div>
     </EventPageBase>
   );

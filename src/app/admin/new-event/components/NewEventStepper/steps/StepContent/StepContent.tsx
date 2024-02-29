@@ -81,13 +81,13 @@ export default function StepContent({ index }: StepContentProps) {
       </Field>
 
       <Field>
-        <Field.Label>Escolha uma imagem para seu evento</Field.Label>
+        <Field.Label>Escolha uma imagem para seu evento - URL da Imagem</Field.Label>
         <Field.Input {...register('bannerImage')} />
         <Field.Error>{errors.bannerImage?.message}</Field.Error>
       </Field>
 
       <Field>
-        <Field.Label>Escolha uma logo para seu evento (opcional)</Field.Label>
+        <Field.Label>Escolha uma logo para seu evento - URL da Imagem (opcional)</Field.Label>
         <Field.Input {...register('logoImage')} />
         <Field.Error>{errors.logoImage?.message}</Field.Error>
       </Field>

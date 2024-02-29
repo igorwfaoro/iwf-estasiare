@@ -8,7 +8,6 @@ import DropdownMenu, {
   DropdownMenuItem
 } from '../../../../components/DropdownMenu/DropdownMenu';
 import { signOut, useSession } from 'next-auth/react';
-import { twMerge } from 'tailwind-merge';
 
 interface LinkItem {
   label: string;
@@ -24,7 +23,7 @@ export default function Navbar({}: NavbarProps) {
 
   const links: LinkItem[] = [
     {
-      label: 'Dashboard',
+      label: 'Meus Eventos',
       path: '/admin'
     },
     {
