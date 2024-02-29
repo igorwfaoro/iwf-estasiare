@@ -220,6 +220,19 @@ export const createEventServerService = () => {
     return get({ id: event.id });
   };
 
+  const verifyUser = async (eventId: number): Promise<void> => {
+    const user = await getAuthUser();
+
+    const userEvent = await prisma.userEvent.findFirst({
+      where: {
+        eventId,
+        userId: user.id
+      }
+    });
+
+    if (!userEvent) throw new Error('User is not a participant of this event');
+  };
+
   return {
     getBySlug,
     getById,
@@ -227,6 +240,7 @@ export const createEventServerService = () => {
     recommended,
     getByUser,
     create,
-    update
+    update,
+    verifyUser
   };
 };

@@ -8,10 +8,7 @@ interface Params {
 const giftService = createGiftServerService();
 
 export async function GET(_: Request, { params }: Params) {
-  const gift = await giftService.getById(
-    Number(params.eventId),
-    Number(params.giftId)
-  );
+  const gift = await giftService.getById(Number(params.giftId));
 
   return NextResponse.json(gift);
 }

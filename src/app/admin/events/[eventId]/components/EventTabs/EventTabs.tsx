@@ -4,7 +4,8 @@ import { EventDetailViewModel } from '../../../../../../models/view-models/event
 import EventInfoTab from './tabs/EventInfoTab/EventInfoTab';
 import GiftsTab from './tabs/GiftsTab/GiftsTab';
 import GiftsTabProvider from './tabs/GiftsTab/contexts/GiftsTabContext';
-import HandBooksTab from './tabs/HandBooksTab/HandBooksTab';
+import HandBooksTab from './tabs/HandbooksTab/HandbooksTab';
+import HandbooksTabProvider from './tabs/HandbooksTab/contexts/HandbooksTabContext';
 import PresenceConfirmationTab from './tabs/PresenceConfirmationTab/PresenceConfirmationTab';
 
 interface EventTabsProps {
@@ -31,7 +32,11 @@ export default function EventTabs({ event }: EventTabsProps) {
     },
     {
       label: 'Manuais',
-      component: <HandBooksTab />
+      component: (
+        <HandbooksTabProvider eventId={event.id}>
+          <HandBooksTab />
+        </HandbooksTabProvider>
+      )
     }
   ];
 

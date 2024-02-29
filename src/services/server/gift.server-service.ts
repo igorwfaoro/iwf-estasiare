@@ -2,8 +2,7 @@ import { prisma } from '../../data/db';
 import { GiftViewModel } from '../../models/view-models/gift.view-model';
 import { giftConverter } from '../../converters/gift.converter';
 import { GiftInputModel } from '../../models/input-models/gift.input-model';
-import { AuthUser } from '../../auth/auth-user';
-import { getAuthUser } from '../../auth/auth-config';
+import { createEventServerService } from './event.server-service';
 
 interface ExtraIncludes {
   gifts?: boolean;
@@ -12,6 +11,8 @@ interface ExtraIncludes {
 }
 
 export const createGiftServerService = () => {
+  const eventService = createEventServerService();
+
   const getAllByEvent = async (eventId: number): Promise<GiftViewModel[]> => {
     const gifts = await prisma.gift.findMany({
       where: {
@@ -22,13 +23,9 @@ export const createGiftServerService = () => {
     return gifts.map(giftConverter.modelToViewModel);
   };
 
-  const getById = async (
-    eventId: number,
-    id: number
-  ): Promise<GiftViewModel> => {
+  const getById = async (id: number): Promise<GiftViewModel> => {
     const gift = await prisma.gift.findUnique({
       where: {
-        eventId,
         id
       }
     });
@@ -44,16 +41,7 @@ export const createGiftServerService = () => {
     eventId: number,
     input: GiftInputModel
   ): Promise<GiftViewModel> => {
-    const user = await getAuthUser();
-
-    const userEvent = await prisma.userEvent.findFirst({
-      where: {
-        eventId,
-        userId: user.id
-      }
-    });
-
-    if (!userEvent) throw new Error('User is not a participant of this event');
+    await eventService.verifyUser(eventId);
 
     const gift = await prisma.gift.create({
       data: {
@@ -76,16 +64,7 @@ export const createGiftServerService = () => {
     id: number;
     input: GiftInputModel;
   }): Promise<GiftViewModel> => {
-    const user = await getAuthUser();
-
-    const userEvent = await prisma.userEvent.findFirst({
-      where: {
-        eventId,
-        userId: user.id
-      }
-    });
-
-    if (!userEvent) throw new Error('User is not a participant of this event');
+    await eventService.verifyUser(eventId);
 
     const gift = await prisma.gift.update({
       where: {
@@ -103,16 +82,7 @@ export const createGiftServerService = () => {
   };
 
   const remove = async (eventId: number, id: number): Promise<void> => {
-    const user = await getAuthUser();
-
-    const userEvent = await prisma.userEvent.findFirst({
-      where: {
-        eventId,
-        userId: user.id
-      }
-    });
-
-    if (!userEvent) throw new Error('User is not a participant of this event');
+    await eventService.verifyUser(eventId);
 
     await prisma.gift.delete({
       where: {

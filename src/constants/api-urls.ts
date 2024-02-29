@@ -7,7 +7,7 @@ export const API_URLS = {
     getByUser: () => `${API_BASE_URL}/events/by-user`,
     getById: (id: number) => `${API_BASE_URL}/events/${id}`,
     create: () => `${API_BASE_URL}/events`,
-    update: (id: number) => `${API_BASE_URL}/events/${id}`,
+    update: (id: number) => `${API_BASE_URL}/events/${id}`
   },
   invitations: {
     getByDescription: (eventId: number) =>
@@ -27,7 +27,14 @@ export const API_URLS = {
       `${API_BASE_URL}/events/${eventId}/gifts/${id}`
   },
   handbooks: {
+    getAllByEvent: (eventId: number) =>
+      `${API_BASE_URL}/events/${eventId}/handbooks`,
     getById: (eventId: number, id: number) =>
+      `${API_BASE_URL}/events/${eventId}/handbooks/${id}`,
+    create: (eventId: number) => `${API_BASE_URL}/events/${eventId}/handbooks`,
+    update: (eventId: number, id: number) =>
+      `${API_BASE_URL}/events/${eventId}/handbooks/${id}`,
+    delete: (eventId: number, id: number) =>
       `${API_BASE_URL}/events/${eventId}/handbooks/${id}`
   }
 };
