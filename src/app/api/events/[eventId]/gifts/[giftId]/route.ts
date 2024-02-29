@@ -16,7 +16,7 @@ export async function GET(_: Request, { params }: Params) {
   return NextResponse.json(gift);
 }
 
-export async function UPDATE(req: Request, { params }: Params) {
+export async function PUT(req: Request, { params }: Params) {
   const input = await req.json();
 
   const gift = await giftService.update({
