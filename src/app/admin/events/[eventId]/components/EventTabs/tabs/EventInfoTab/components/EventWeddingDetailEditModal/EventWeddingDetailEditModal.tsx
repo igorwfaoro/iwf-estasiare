@@ -1,10 +1,4 @@
 import { z } from 'zod';
-import { ModalRefPropType } from '../../../../../../../../../../contexts/ModalContext';
-import { EventDetailViewModel } from '../../../../../../../../../../models/view-models/event-detail.view-model';
-import {
-  eventTypeLabel,
-  eventTypeList
-} from '../../../../../../../../../../util/helpers/event-type.helper';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
@@ -13,26 +7,23 @@ import Button from '../../../../../../../../../../components/Button/Button';
 import { createEventClientService } from '../../../../../../../../../../services/client/event.client-service';
 import { useLoader } from '../../../../../../../../../../contexts/LoaderContext';
 import { useToast } from '../../../../../../../../../../contexts/ToastContext';
-import { dateStringToInput } from '../../../../../../../../../../util/helpers/date.helper';
-import { EditModalProps } from '../../types/edit-modal-props';
 import { EditModalResult } from '../../types/edit-modal-result';
+import { EditModalProps } from '../../types/edit-modal-props';
 
-interface EventInfoEditModalProps extends EditModalProps {}
-interface EventInfoEditModalResult extends EditModalResult {}
+interface EventWeddingDetailEditModalProps extends EditModalProps {}
+interface EventWeddingDetailEditModalResult extends EditModalResult {}
 
 const formSchema = z.object({
-  eventType: z.enum(eventTypeList as any, {
-    required_error: 'Informe o tipo do evento'
-  }),
-  date: z.string().min(1, 'Informe a data do evento')
+  groomName: z.string().min(1, 'Informe o nome do noivo'),
+  brideName: z.string().min(1, 'Informe o nome da noiva')
 });
 
 type FormSchema = z.infer<typeof formSchema>;
 
-export default function EventInfoEditModal({
+export default function EventWeddingDetailEditModal({
   event,
   modalRef
-}: EventInfoEditModalProps) {
+}: EventWeddingDetailEditModalProps) {
   const eventClientService = createEventClientService();
   const loader = useLoader();
   const toast = useToast();
@@ -47,8 +38,8 @@ export default function EventInfoEditModal({
   });
 
   useEffect(() => {
-    setValue('eventType', event.eventType);
-    setValue('date', dateStringToInput(event.date));
+    setValue('groomName', event.weddingDetail!.groomName);
+    setValue('brideName', event.weddingDetail!.brideName);
   }, []);
 
   const handleFormSubmit = (data: FormSchema) => {
@@ -56,12 +47,14 @@ export default function EventInfoEditModal({
 
     eventClientService
       .update(event.id, {
-        eventType: data.eventType,
-        date: data.date
+        weddingDetail: {
+          groomName: data.groomName,
+          brideName: data.brideName
+        }
       })
       .then(() => {
         toast.open('Salvo', 'success');
-        modalRef.close({ edited: true } as EventInfoEditModalResult);
+        modalRef.close({ edited: true } as EventWeddingDetailEditModalResult);
       })
       .catch((error) => {
         toast.open('Erro ao salvar', 'error');
@@ -76,21 +69,15 @@ export default function EventInfoEditModal({
       className="mt-4 flex flex-col gap-2 w-full"
     >
       <Field>
-        <Field.Label>Tipo de evento?</Field.Label>
-        <Field.Select {...register('eventType')}>
-          {eventTypeList.map((eventType) => (
-            <Field.SelectOption key={eventType} value={eventType}>
-              {(eventTypeLabel as any)[eventType]}
-            </Field.SelectOption>
-          ))}
-        </Field.Select>
-        <Field.Error>{errors.eventType?.message}</Field.Error>
+        <Field.Label>Nome do Noivo</Field.Label>
+        <Field.Input {...register('groomName')} />
+        <Field.Error>{errors.groomName?.message}</Field.Error>
       </Field>
 
       <Field>
-        <Field.Label>Data</Field.Label>
-        <Field.Input {...register('date')} type="datetime-local" />
-        <Field.Error>{errors.date?.message}</Field.Error>
+        <Field.Label>Nome da Noiva</Field.Label>
+        <Field.Input {...register('brideName')} />
+        <Field.Error>{errors.brideName?.message}</Field.Error>
       </Field>
 
       <Button type="submit">Salvar</Button>
