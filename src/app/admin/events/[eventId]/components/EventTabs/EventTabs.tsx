@@ -26,10 +26,10 @@ export default function EventTabs({ event }: EventTabsProps) {
         </GiftsTabProvider>
       )
     },
-    {
-      label: 'Presença',
-      component: <PresenceConfirmationTab />
-    },
+    // {
+    //   label: 'Presença',
+    //   component: <PresenceConfirmationTab />
+    // },
     {
       label: 'Manuais',
       component: (
