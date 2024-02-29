@@ -29,10 +29,7 @@ export async function PUT(req: Request, { params }: Params) {
 }
 
 export async function DELETE(_: Request, { params }: Params) {
-  const gift = await giftService.remove(
-    Number(params.eventId),
-    Number(params.giftId)
-  );
+  await giftService.remove(Number(params.eventId), Number(params.giftId));
 
-  return NextResponse.json(gift);
+  return NextResponse.json({ ok: true });
 }

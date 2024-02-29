@@ -6,7 +6,13 @@ import {
 import Link from 'next/link';
 import { tv, VariantProps } from 'tailwind-variants';
 
-export type ButtonTheme = 'primary' | 'secondary' | 'light' | 'highlight';
+export type ButtonTheme =
+  | 'primary'
+  | 'secondary'
+  | 'light'
+  | 'highlight'
+  | 'danger'
+  | 'warning';
 
 const button = tv({
   base: 'rounded-lg px-4 py-3 h-auto font-bold text-center uppercase shadow-sm transition-all ease-in-out hover:brightness-90 disabled:cursor-not-allowed disabled:border-none disabled:bg-gray-400 disabled:text-gray-300 [text-wrap:nowrap]',
@@ -15,7 +21,9 @@ const button = tv({
       primary: 'bg-primary text-white',
       secondary: 'bg-secondary text-white',
       light: 'bg-neutral-100 text-neutral-950',
-      highlight: 'bg-highlight text-white'
+      highlight: 'bg-highlight text-white',
+      danger: 'bg-red-600 text-white',
+      warning: 'bg-yellow-500 text-white'
     } as { [key in ButtonTheme]: string }
   },
   defaultVariants: {

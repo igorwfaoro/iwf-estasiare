@@ -3,6 +3,7 @@ import Tabs, { TabItem } from '../../../../../../components/Tabs/Tabs';
 import { EventDetailViewModel } from '../../../../../../models/view-models/event-detail.view-model';
 import EventInfoTab from './tabs/EventInfoTab/EventInfoTab';
 import GiftsTab from './tabs/GiftsTab/GiftsTab';
+import GiftsTabProvider from './tabs/GiftsTab/contexts/GiftsTabContext';
 import HandBooksTab from './tabs/HandBooksTab/HandBooksTab';
 import PresenceConfirmationTab from './tabs/PresenceConfirmationTab/PresenceConfirmationTab';
 
@@ -18,7 +19,11 @@ export default function EventTabs({ event }: EventTabsProps) {
     },
     {
       label: 'Presentes',
-      component: <GiftsTab />
+      component: (
+        <GiftsTabProvider eventId={event.id}>
+          <GiftsTab />
+        </GiftsTabProvider>
+      )
     },
     {
       label: 'Presença',

@@ -8,6 +8,7 @@ import ProviderComposer from '../../components/ProviderCompose';
 import ToastProvider from '../../contexts/ToastContext';
 import LoaderProvider from '../../contexts/LoaderContext';
 import ModalProvider from '../../contexts/ModalContext';
+import AlertProvider from '../../contexts/AlertContext';
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -20,7 +21,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         { Component: ToastProvider },
         { Component: LoaderProvider },
         { Component: SessionProvider },
-        { Component: ModalProvider }
+        { Component: ModalProvider },
+        { Component: AlertProvider }
       ]}
     >
       <Navbar />

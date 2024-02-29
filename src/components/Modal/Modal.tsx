@@ -31,7 +31,7 @@ const CustomModal = (props: ModalProps) => {
       padding: '0',
       border: 'none',
       width: props.width || 'auto',
-      backgroundColor: '#ffffff'
+      backgroundColor: '#f3f4f6'
     }
   };
 
