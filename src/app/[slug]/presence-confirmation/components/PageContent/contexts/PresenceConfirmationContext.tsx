@@ -78,6 +78,7 @@ const PresenceConfirmationProvider = (
     setLoadingConfirmGuests(true);
     invitationClientService
       .updateGuestsConfirmations(
+        props.event.id,
         invitation!.id,
         guestsSelects.map((g) => ({
           id: g.id,
