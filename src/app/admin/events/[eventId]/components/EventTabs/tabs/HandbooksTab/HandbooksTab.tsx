@@ -12,7 +12,7 @@ export default function HandBooksTab({}: HandBooksTabProps) {
   const { isLoading, openForm, remove, handbooks } = useHandbooksTabContext();
 
   const renderLoading = () =>
-    Array.from({ length: 3 }).map((_, i) => (
+    Array.from({ length: 4 }).map((_, i) => (
       <Card key={i} className="space-y-2 p-4">
         <Skeleton className="h-5 w-40" />
         <Skeleton className="h-4 w-28" />
@@ -22,7 +22,9 @@ export default function HandBooksTab({}: HandBooksTabProps) {
   return (
     <>
       <div className="mb-4 flex justify-end w-full">
-        <Button onClick={() => openForm()}>Novo</Button>
+        <Button onClick={() => openForm()} className="px-4 md:px-10">
+          Novo
+        </Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {isLoading

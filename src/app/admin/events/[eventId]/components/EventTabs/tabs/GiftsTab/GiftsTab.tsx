@@ -26,19 +26,18 @@ export default function GiftsTab({}: GiftsTabProps) {
 
   return (
     <>
-      <div className="mb-4 flex justify-between w-full">
-        <div className="space-x-4">
-          <Field.Input
-            placeholder="Digite sua busca"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <Button theme="light" className="border border-primary">
-            Buscar
-          </Button>
-        </div>
+      <div className="mb-4 flex justify-between gap-2 w-full">
+        <Field.Input
+          placeholder="Digite sua busca"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          containerClassName="w-full"
+          handleClickSearchButton={() => true}
+        />
 
-        <Button onClick={() => openForm()}>Novo</Button>
+        <Button onClick={() => openForm()} className="px-4 md:px-10">
+          Novo
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

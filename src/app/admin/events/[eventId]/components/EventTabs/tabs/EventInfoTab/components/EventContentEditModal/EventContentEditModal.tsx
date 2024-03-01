@@ -34,7 +34,7 @@ export default function EventContentEditModal({
     handleSubmit,
     formState: { errors, dirtyFields },
     setValue,
-    getValues
+    watch
   } = useForm<FormSchema>({
     resolver: zodResolver(formSchema)
   });
@@ -67,7 +67,7 @@ export default function EventContentEditModal({
       .finally(() => loader.hide());
   };
 
-  const color = getValues().primaryColor || event.content?.primaryColor;
+  const color = watch().primaryColor || event.content?.primaryColor;
 
   return (
     <form

@@ -30,7 +30,7 @@ export default function GiftFormModal({ gift, modalRef }: GiftFormModalProps) {
     handleSubmit,
     formState: { errors },
     setValue,
-    getValues
+    watch
   } = useForm<FormSchema>({
     resolver: zodResolver(formSchema)
   });
@@ -47,7 +47,7 @@ export default function GiftFormModal({ gift, modalRef }: GiftFormModalProps) {
     modalRef.close({ gift: data } as GiftFormModalResult);
   };
 
-  const image = getValues().image;
+  const image = watch().image;
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>

@@ -4,6 +4,7 @@ import { MenuSVGIcon } from '@react-md/material-icons';
 import Link from 'next/link';
 import { useState } from 'react';
 import Button from '../../../components/Button/Button';
+import ButtonRegister from '../ButtonRegister/ButtonRegister';
 
 interface LinkItem {
   label: string;
@@ -27,21 +28,11 @@ export default function HomeNavbar({}: HomeNavbarProps) {
     {
       label: 'Sobre',
       path: '#about'
-    },
-    // {
-    //   label: 'Acessar Painel',
-    //   path: '/admin'
-    // }
+    }
   ];
 
   const toggleMenu = () => setMenuIsOpen((mio) => !mio);
   const closeMenu = () => setMenuIsOpen(false);
-
-  const ButtonRegister = ({ className }: { className?: string }) => (
-    <Button className={className} theme="highlight">
-      Crie seu evento!
-    </Button>
-  );
 
   return (
     <nav className="fixed z-[999] flex h-12 w-full flex-col items-end justify-center bg-neutral-50 shadow-sm md:items-center">
@@ -72,7 +63,16 @@ export default function HomeNavbar({}: HomeNavbarProps) {
               </Link>
             </li>
           ))}
-          <ButtonRegister className="mb-4 px-2 py-1" />
+
+          <li className="w-full border-b border-neutral-100 p-3 ps-7">
+            <Link
+              className="text-neutral-950 no-underline"
+              href="/admin"
+              onClick={closeMenu}
+            >
+              Acessar Painel
+            </Link>
+          </li>
         </ul>
       )}
 
@@ -91,7 +91,14 @@ export default function HomeNavbar({}: HomeNavbarProps) {
       </ul>
 
       {/* right items */}
-      <div className="absolute right-3 top-2">
+      <div className="absolute right-3 top-2 flex items-center gap-4">
+        <Link
+          className="text-neutral-950 no-underline transition-all hidden md:block"
+          href="/admin"
+        >
+          Acessar Painel
+        </Link>
+
         <ButtonRegister className="px-2 py-1 hidden md:block" />
       </div>
     </nav>

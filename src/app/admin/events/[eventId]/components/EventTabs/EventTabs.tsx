@@ -6,7 +6,6 @@ import GiftsTab from './tabs/GiftsTab/GiftsTab';
 import GiftsTabProvider from './tabs/GiftsTab/contexts/GiftsTabContext';
 import HandBooksTab from './tabs/HandbooksTab/HandbooksTab';
 import HandbooksTabProvider from './tabs/HandbooksTab/contexts/HandbooksTabContext';
-import PresenceConfirmationTab from './tabs/PresenceConfirmationTab/PresenceConfirmationTab';
 
 interface EventTabsProps {
   event: EventDetailViewModel;

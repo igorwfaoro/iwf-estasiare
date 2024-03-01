@@ -1,4 +1,4 @@
-import { set, z } from 'zod';
+import { z } from 'zod';
 import Button from '../../../../../../../components/Button/Button';
 import Field from '../../../../../../../components/Field/Field';
 import { useNewEventContext } from '../../../../contexts/NewEventContext';
@@ -32,7 +32,7 @@ export default function StepContent({ index }: StepContentProps) {
     handleSubmit,
     formState: { errors, dirtyFields },
     setValue,
-    getValues
+    watch
   } = useForm<FormContentSchema>({
     resolver: zodResolver(formContentSchema)
   });
@@ -59,7 +59,9 @@ export default function StepContent({ index }: StepContentProps) {
     stepNext();
   };
 
-  const color = getValues().primaryColor;
+  const color = watch().primaryColor;
+  const bannerImage = watch().bannerImage;
+  const logoImage = watch().logoImage;
 
   return (
     <form
@@ -81,16 +83,26 @@ export default function StepContent({ index }: StepContentProps) {
       </Field>
 
       <Field>
-        <Field.Label>Escolha uma imagem para seu evento - URL da Imagem</Field.Label>
+        <Field.Label>
+          Escolha uma imagem para seu evento - URL da Imagem
+        </Field.Label>
         <Field.Input {...register('bannerImage')} />
         <Field.Error>{errors.bannerImage?.message}</Field.Error>
       </Field>
 
+      <div>
+        {bannerImage && <img src={bannerImage} className="h-28 mb-6" />}
+      </div>
+
       <Field>
-        <Field.Label>Escolha uma logo para seu evento - URL da Imagem (opcional)</Field.Label>
+        <Field.Label>
+          Escolha uma logo para seu evento - URL da Imagem (opcional)
+        </Field.Label>
         <Field.Input {...register('logoImage')} />
         <Field.Error>{errors.logoImage?.message}</Field.Error>
       </Field>
+
+      <div>{logoImage && <img src={logoImage} className="h-28 mb-6" />}</div>
 
       <div className="flex justify-between">
         <Button theme="light" type="button" onClick={stepPrev}>

@@ -1,3 +1,5 @@
+import ButtonRegister from '../ButtonRegister/ButtonRegister';
+
 interface AboutProps {}
 
 export default function About({}: AboutProps) {
@@ -26,6 +28,8 @@ export default function About({}: AboutProps) {
           Celebre a vida com a Eventy!
         </p>
       </div>
+
+      <ButtonRegister className="px-2 py-1 block md:hidden mt-6" />
     </section>
   );
 }

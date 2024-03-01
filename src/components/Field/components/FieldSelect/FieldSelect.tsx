@@ -22,7 +22,7 @@ const FieldSelect = forwardRef(
       <select
         ref={ref}
         className={twMerge(
-          'border-gray-300 rounded-md focus:outline-none p-4 text-md',
+          'border-gray-300 rounded-md focus:outline-none p-4 text-md w-full',
           className
         )}
         {...props}
