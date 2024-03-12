@@ -15,7 +15,7 @@ interface EventContentEditModalResult extends EditModalResult {}
 
 const formSchema = z.object({
   primaryColor: z.string().min(1, 'Informe a cor principal do evento'),
-  bannerImage: z.string().min(1, 'Informe a imagem do banner do evento'),
+  bannerImage: z.string().optional(),
   logoImage: z.string().optional()
 });
 
@@ -41,7 +41,7 @@ export default function EventContentEditModal({
 
   useEffect(() => {
     setValue('primaryColor', event.content!.primaryColor);
-    setValue('bannerImage', event.content!.bannerImage);
+    setValue('bannerImage', event.content!.bannerImage || '');
     setValue('logoImage', event.content!.logoImage || '');
   }, []);
 
@@ -89,7 +89,7 @@ export default function EventContentEditModal({
       </Field>
 
       <Field>
-        <Field.Label>Escolha uma imagem para seu evento</Field.Label>
+        <Field.Label>Escolha uma imagem para seu evento (opcional)</Field.Label>
         <Field.Input {...register('bannerImage')} />
         <Field.Error>{errors.bannerImage?.message}</Field.Error>
       </Field>

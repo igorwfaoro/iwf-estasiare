@@ -9,6 +9,18 @@ import { eventSlug } from '../../util/helpers/event-slug.helper';
 import { ExtraIncludesInputModel } from '../../models/input-models/extra-includes.input-model';
 import { getAuthUser } from '../../auth/auth-config';
 import { EventUpdateInputModel } from '../../models/input-models/event-update.input-model';
+import {
+  UploadFileResult,
+  createFileServerService
+} from './file.server-service';
+
+export interface CreateEventParams {
+  inputData: EventCreateInputModel;
+  inputFiles: {
+    fileBannerImage?: File;
+    fileLogoImage?: File;
+  };
+}
 
 export const createEventServerService = () => {
   const get = async (
@@ -163,24 +175,41 @@ export const createEventServerService = () => {
     return userEvents.map((ue) => eventConverter.modelViewModel(ue.event));
   };
 
-  const create = async (
-    input: EventCreateInputModel
-  ): Promise<EventDetailViewModel> => {
+  const create = async ({
+    inputData,
+    inputFiles
+  }: CreateEventParams): Promise<EventDetailViewModel> => {
+    const fileService = createFileServerService();
+
     const user = await getAuthUser();
+
+    let bannerImage: string | undefined = undefined;
+    if (inputFiles.fileBannerImage)
+      bannerImage = (await fileService.uploadFile(inputFiles.fileBannerImage))
+        .fileLocation;
+
+    let logoImage: string | undefined = undefined;
+    if (inputFiles.fileLogoImage)
+      logoImage = (await fileService.uploadFile(inputFiles.fileLogoImage))
+        .fileLocation;
 
     const event = await prisma.event.create({
       data: {
-        slug: eventSlug(input),
-        eventType: input.eventType,
-        date: dayjs(input.date).toDate(),
+        slug: eventSlug(inputData),
+        eventType: inputData.eventType,
+        date: dayjs(inputData.date).toDate(),
         address: {
-          create: input.address
+          create: inputData.address
         },
         content: {
-          create: input.content
+          create: {
+            ...inputData.content,
+            bannerImage,
+            logoImage
+          }
         },
         weddingDetail: {
-          create: input.weddingDetail
+          create: inputData.weddingDetail
         },
         usersEvent: {
           create: {

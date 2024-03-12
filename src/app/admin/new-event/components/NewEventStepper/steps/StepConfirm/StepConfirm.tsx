@@ -35,7 +35,10 @@ export default function StepConfirm({ index }: StepConfirmProps) {
     <div className="space-y-4 my-4">
       <div
         className="w-full h-32 bg-cover bg-center"
-        style={{ backgroundImage: `url(${data.content.bannerImage})` }}
+        style={{
+          backgroundImage: `url(${data.content.bannerImage})`,
+          backgroundColor: data.content.primaryColor
+        }}
       />
 
       <div>

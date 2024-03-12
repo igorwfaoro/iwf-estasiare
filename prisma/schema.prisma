@@ -29,7 +29,7 @@ model Event {
   addressId BigInt       @unique
   address   EventAddress @relation(fields: [addressId], references: [id])
 
-  contentId BigInt       @unique 
+  contentId BigInt       @unique
   content   EventContent @relation(fields: [contentId], references: [id])
 
   financialId BigInt?         @unique
@@ -51,7 +51,7 @@ model EventAddress {
 model EventContent {
   id                 BigInt              @id @default(autoincrement())
   primaryColor       String              @db.VarChar(7)
-  bannerImage        String              @db.VarChar(500)
+  bannerImage        String?             @db.VarChar(500)
   logoImage          String?             @db.VarChar(500)
   spotifyPlaylistUrl String?             @db.VarChar(100)
   images             EventContentImage[]

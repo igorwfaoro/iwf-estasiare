@@ -6,19 +6,24 @@ interface CardProps {
   className?: string;
   elementRef?: RefObject<HTMLDivElement>;
   bgImageUrl?: string;
+  bgColor?: string;
 }
 
 export default function Card({
   children,
   className,
   elementRef,
-  bgImageUrl
+  bgImageUrl,
+  bgColor
 }: CardProps) {
   return (
     <div
       className={twMerge('rounded-2xl border', className)}
       ref={elementRef}
-      style={{ backgroundImage: bgImageUrl ? `url(${bgImageUrl})` : '' }}
+      style={{
+        backgroundImage: bgImageUrl ? `url(${bgImageUrl})` : '',
+        backgroundColor: bgColor
+      }}
     >
       {children}
     </div>

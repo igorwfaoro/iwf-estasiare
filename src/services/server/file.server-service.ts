@@ -1,8 +1,12 @@
 import { v4 as uuidV4 } from 'uuid';
 import * as AWS from 'aws-sdk';
-import * as fileType from 'file-type';
+import { fileTypeFromBuffer } from 'file-type';
 
-const createFileServerService = () => {
+export interface UploadFileResult {
+  fileLocation: string;
+}
+
+export const createFileServerService = () => {
   const s3: AWS.S3 = new AWS.S3({
     apiVersion: process.env.S3_API_VERSION,
     credentials: {
@@ -11,25 +15,24 @@ const createFileServerService = () => {
     }
   });
 
-  const uploadFromUploadedFile = async (
-    file: UploadedFile,
-  ): Promise<{ fileLocation: string }> => {
-    const type = await fileType.fromBuffer(file.data);
-
-    const fileName = `${Date.now()}_${uuidV4()}.${type.ext}`;
-    return uploadFile(file.data, fileName);
-  };
-
   const uploadFile = async (
-    file: Buffer,
-    fileName: string
-  ): Promise<{ fileLocation: string }> => {
+    file: Buffer | File,
+    fileName?: string
+  ): Promise<UploadFileResult> => {
+    const fileBuffer =
+      file instanceof Buffer ? file : Buffer.from(await file.arrayBuffer());
+
+    const fileType = await fileTypeFromBuffer(fileBuffer);
+
+    if (!fileName)
+      fileName = `${Date.now()}_${uuidV4()}.${fileType?.ext || 'jpg'}`;
+
     try {
       const result = await s3
         .upload({
           Bucket: process.env.S3_BUCKET,
           Key: `${fileName}`,
-          Body: file
+          Body: fileBuffer
         })
         .promise();
 
@@ -55,7 +58,6 @@ const createFileServerService = () => {
   };
 
   return {
-    uploadFromUploadedFile,
     uploadFile,
     deleteFile
   };

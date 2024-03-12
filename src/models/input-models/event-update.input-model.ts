@@ -18,7 +18,7 @@ interface Address {
 
 interface Content {
   primaryColor: string;
-  bannerImage: string;
+  bannerImage?: string;
   logoImage?: string;
 }
 

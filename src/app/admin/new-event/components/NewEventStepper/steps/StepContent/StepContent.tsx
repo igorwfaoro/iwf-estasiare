@@ -12,7 +12,7 @@ interface StepContentProps {
 
 const formContentSchema = z.object({
   primaryColor: z.string().min(1, 'Informe a cor principal do evento'),
-  bannerImage: z.string().min(1, 'Informe a imagem do banner do evento'),
+  bannerImage: z.string().optional(),
   logoImage: z.string().optional()
 });
 
@@ -59,9 +59,9 @@ export default function StepContent({ index }: StepContentProps) {
     stepNext();
   };
 
-  const color = watch().primaryColor;
-  const bannerImage = watch().bannerImage;
-  const logoImage = watch().logoImage;
+  const color = watch('primaryColor');
+  const bannerImage = watch('bannerImage');
+  const logoImage = watch('logoImage');
 
   return (
     <form
@@ -84,7 +84,7 @@ export default function StepContent({ index }: StepContentProps) {
 
       <Field>
         <Field.Label>
-          Escolha uma imagem para seu evento - URL da Imagem
+          Escolha uma imagem para seu evento - URL da Imagem (opcional)
         </Field.Label>
         <Field.Input {...register('bannerImage')} />
         <Field.Error>{errors.bannerImage?.message}</Field.Error>

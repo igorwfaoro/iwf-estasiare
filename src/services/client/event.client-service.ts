@@ -46,10 +46,15 @@ export const createEventClientService = () => {
 
   const create = (
     input: EventCreateInputModel
-  ): Promise<EventDetailViewModel> =>
-    http()
-      .post(API_URLS.events.create(), input)
+  ): Promise<EventDetailViewModel> => {
+    const body = new FormData();
+
+    body.append('data', JSON.stringify(input));
+
+    return http()
+      .post(API_URLS.events.create(), body)
       .then((response) => response.data);
+  };
 
   const update = (
     id: number,
