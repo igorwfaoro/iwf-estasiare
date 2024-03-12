@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
 import {
-  CreateEventParams,
+  CreateUpdateEventParams,
   createEventServerService
 } from '../../../services/server/event.server-service';
+import { EventCreateInputModel } from '../../../models/input-models/event-create.input-model';
 
 interface Params {}
 
@@ -11,7 +12,7 @@ const eventService = createEventServerService();
 export async function POST(req: Request, {}: Params) {
   const formData = await req.formData();
 
-  const params: CreateEventParams = {
+  const params: CreateUpdateEventParams<EventCreateInputModel> = {
     inputData: JSON.parse(formData.get('data') as string),
     inputFiles: {
       fileBannerImage: formData.get('fileBannerImage') as File | undefined,

@@ -1,26 +1,23 @@
 import Card from '../../../../../../components/Card/Card';
 import Tabs, { TabItem } from '../../../../../../components/Tabs/Tabs';
-import { EventDetailViewModel } from '../../../../../../models/view-models/event-detail.view-model';
 import EventInfoTab from './tabs/EventInfoTab/EventInfoTab';
 import GiftsTab from './tabs/GiftsTab/GiftsTab';
 import GiftsTabProvider from './tabs/GiftsTab/contexts/GiftsTabContext';
 import HandBooksTab from './tabs/HandbooksTab/HandbooksTab';
 import HandbooksTabProvider from './tabs/HandbooksTab/contexts/HandbooksTabContext';
 
-interface EventTabsProps {
-  event: EventDetailViewModel;
-}
+interface EventTabsProps {}
 
-export default function EventTabs({ event }: EventTabsProps) {
+export default function EventTabs({}: EventTabsProps) {
   const tabs: TabItem[] = [
     {
       label: 'Evento',
-      component: <EventInfoTab eventId={event.id} />
+      component: <EventInfoTab />
     },
     {
       label: 'Presentes',
       component: (
-        <GiftsTabProvider eventId={event.id}>
+        <GiftsTabProvider>
           <GiftsTab />
         </GiftsTabProvider>
       )
@@ -32,7 +29,7 @@ export default function EventTabs({ event }: EventTabsProps) {
     {
       label: 'Manuais',
       component: (
-        <HandbooksTabProvider eventId={event.id}>
+        <HandbooksTabProvider>
           <HandBooksTab />
         </HandbooksTabProvider>
       )

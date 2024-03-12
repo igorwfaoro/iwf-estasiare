@@ -15,8 +15,6 @@ interface Address {
 
 interface Content {
   primaryColor: string;
-  bannerImage?: string;
-  logoImage?: string;
 }
 
 interface WeddingDetail {

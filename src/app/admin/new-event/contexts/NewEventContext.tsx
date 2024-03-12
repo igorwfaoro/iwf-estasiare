@@ -37,6 +37,16 @@ export interface INewEventProvider {
     SetStateAction<Partial<EventCreateInputModel> | undefined>
   >;
   create: () => void;
+
+  bannerImageFile: File | undefined;
+  setBannerImageFile: Dispatch<SetStateAction<File | undefined>>;
+  bannerImageThumbnail: string | undefined;
+  setBannerImageThumbnail: Dispatch<SetStateAction<string | undefined>>;
+
+  logoImageFile: File | undefined;
+  setLogoImageFile: Dispatch<SetStateAction<File | undefined>>;
+  logoImageThumbnail: string | undefined;
+  setLogoImageThumbnail: Dispatch<SetStateAction<string | undefined>>;
 }
 
 interface NewEventProviderProps {
@@ -77,6 +87,12 @@ const NewEventProvider = ({ children }: NewEventProviderProps) => {
   const [eventCreateData, setEventCreateData] =
     useState<Partial<EventCreateInputModel>>();
 
+  const [bannerImageFile, setBannerImageFile] = useState<File>();
+  const [bannerImageThumbnail, setBannerImageThumbnail] = useState<string>();
+
+  const [logoImageFile, setLogoImageFile] = useState<File>();
+  const [logoImageThumbnail, setLogoImageThumbnail] = useState<string>();
+
   const stepPrev = () => stepperRef!.current?.prev();
   const stepNext = () => stepperRef!.current?.next();
 
@@ -90,7 +106,13 @@ const NewEventProvider = ({ children }: NewEventProviderProps) => {
   const create = () => {
     loader.show();
     eventClientService
-      .create(eventCreateData as EventCreateInputModel)
+      .create({
+        inputData: eventCreateData as EventCreateInputModel,
+        inputFiles: {
+          bannerImage: bannerImageFile,
+          logoImage: logoImageFile
+        }
+      })
       .then((response) => {
         toast.open('Evento criado!', 'success');
         router.push(`/admin/events/${response.id}`);
@@ -112,9 +134,27 @@ const NewEventProvider = ({ children }: NewEventProviderProps) => {
       setStepComplete,
       eventCreateData,
       setEventCreateData,
-      create
+      create,
+
+      bannerImageFile,
+      setBannerImageFile,
+      bannerImageThumbnail,
+      setBannerImageThumbnail,
+
+      logoImageFile,
+      setLogoImageFile,
+      logoImageThumbnail,
+      setLogoImageThumbnail
     }),
-    [stepperRef, eventCreateData, steps]
+    [
+      stepperRef,
+      eventCreateData,
+      steps,
+      bannerImageFile,
+      bannerImageThumbnail,
+      logoImageFile,
+      logoImageThumbnail
+    ]
   );
 
   return (

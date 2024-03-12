@@ -5,6 +5,11 @@ import { EventUpdateInputModel } from '../../models/input-models/event-update.in
 import { EventDetailViewModel } from '../../models/view-models/event-detail.view-model';
 import { EventViewModel } from '../../models/view-models/event.view-model';
 
+export interface CreateUpdateEventParams<T> {
+  inputData: T;
+  inputFiles: { bannerImage?: File; logoImage?: File };
+}
+
 export const createEventClientService = () => {
   const search = ({
     q,
@@ -44,12 +49,19 @@ export const createEventClientService = () => {
       .get(API_URLS.events.getById(id))
       .then((response) => response.data);
 
-  const create = (
-    input: EventCreateInputModel
-  ): Promise<EventDetailViewModel> => {
+  const create = ({
+    inputData,
+    inputFiles
+  }: CreateUpdateEventParams<EventCreateInputModel>): Promise<EventDetailViewModel> => {
     const body = new FormData();
 
-    body.append('data', JSON.stringify(input));
+    body.append('data', JSON.stringify(inputData));
+
+    if (inputFiles.bannerImage)
+      body.append('fileBannerImage', inputFiles.bannerImage);
+
+    if (inputFiles.logoImage)
+      body.append('fileLogoImage', inputFiles.logoImage);
 
     return http()
       .post(API_URLS.events.create(), body)
@@ -58,11 +70,22 @@ export const createEventClientService = () => {
 
   const update = (
     id: number,
-    input: EventUpdateInputModel
-  ): Promise<EventDetailViewModel> =>
-    http()
-      .put(API_URLS.events.update(id), input)
+    { inputData, inputFiles }: CreateUpdateEventParams<EventUpdateInputModel>
+  ): Promise<EventDetailViewModel> => {
+    const body = new FormData();
+
+    body.append('data', JSON.stringify(inputData));
+
+    if (inputFiles.bannerImage)
+      body.append('fileBannerImage', inputFiles.bannerImage);
+
+    if (inputFiles.logoImage)
+      body.append('fileLogoImage', inputFiles.logoImage);
+
+    return http()
+      .put(API_URLS.events.update(id), body)
       .then((response) => response.data);
+  };
 
   return {
     search,

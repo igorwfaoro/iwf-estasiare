@@ -17,9 +17,10 @@ import { isMobile } from '../../../../../../../../util/helpers/is-mobile.helper'
 import EventContentEditModal from './components/EventContentEditModal/EventContentEditModal';
 import { EventType } from '@prisma/client';
 import EventWeddingDetailEditModal from './components/EventWeddingDetailEditModal/EventWeddingDetailEditModal';
+import { useAdminEventPageContext } from '../../../../contexts/AdminEventPageContext';
 
 interface EventInfoTabProps {
-  eventId: number;
+  
 }
 
 interface Item {
@@ -31,13 +32,10 @@ interface Item {
   };
 }
 
-export default function EventInfoTab({ eventId }: EventInfoTabProps) {
-  const toast = useToast();
+export default function EventInfoTab({  }: EventInfoTabProps) {
   const modal = useModal();
-  const eventService = createEventClientService();
 
-  const [event, setEvent] = useState<EventDetailViewModel>();
-  const [eventIsLoading, setEventIsLoading] = useState(false);
+  const { event, eventIsLoading, getEvent } = useAdminEventPageContext();
 
   const items: Item[] = [
     {
@@ -69,11 +67,13 @@ export default function EventInfoTab({ eventId }: EventInfoTabProps) {
       title: 'Conteúdo',
       content: (event) => (
         <div className="space-y-4">
-          <img
-            src={event.content!.bannerImage}
-            alt="Banner Image"
-            className="h-20 rounded-lg"
-          />
+          {event.content!.bannerImage && (
+            <img
+              src={event.content!.bannerImage}
+              alt="Banner Image"
+              className="h-20 rounded-lg"
+            />
+          )}
 
           <div className="flex gap-4">
             <div
@@ -115,22 +115,6 @@ export default function EventInfoTab({ eventId }: EventInfoTabProps) {
       }
     }
   ];
-
-  useEffect(() => {
-    getEvent();
-  }, []);
-
-  const getEvent = () => {
-    setEventIsLoading(true);
-    eventService
-      .getById(eventId)
-      .then(setEvent)
-      .catch((error) => {
-        toast.open('Erro ao carregar evento', 'error');
-        console.error(error);
-      })
-      .finally(() => setEventIsLoading(false));
-  };
 
   const openEditModal = (item: Item) => {
     modal.open({

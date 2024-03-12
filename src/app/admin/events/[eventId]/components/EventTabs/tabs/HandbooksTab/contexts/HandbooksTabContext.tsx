@@ -12,6 +12,7 @@ import HandbookFormModal, {
 } from '../components/HandbookFormModal/HandbookFormModal';
 import { EventHandbookViewModel } from '../../../../../../../../../models/view-models/event-handbook.view-model';
 import { EventHandbookDetailViewModel } from '../../../../../../../../../models/view-models/event-handbook-detail.view-model';
+import { useAdminEventPageContext } from '../../../../../contexts/AdminEventPageContext';
 
 export interface IHandbooksTabProvider {
   isLoading: boolean;
@@ -22,17 +23,15 @@ export interface IHandbooksTabProvider {
 
 interface HandbooksTabProviderProps {
   children: any;
-  eventId: number;
 }
 
 const HandbooksTabContext = createContext<IHandbooksTabProvider | undefined>(
   undefined
 );
 
-const HandbooksTabProvider = ({
-  children,
-  eventId
-}: HandbooksTabProviderProps) => {
+const HandbooksTabProvider = ({ children }: HandbooksTabProviderProps) => {
+  const { event } = useAdminEventPageContext();
+
   const handbookService = createHandbookClientService();
 
   const loader = useLoader();
@@ -44,13 +43,13 @@ const HandbooksTabProvider = ({
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    getHandbooks();
-  }, []);
+    if (event) getHandbooks();
+  }, [event]);
 
   const getHandbooks = () => {
     setIsLoading(true);
     handbookService
-      .getAllByEvent(eventId)
+      .getAllByEvent(event!.id)
       .then(setHandbooks)
       .catch((error) => {
         toast.open('Erro ao carregar manuais', 'error');
@@ -64,7 +63,7 @@ const HandbooksTabProvider = ({
   ): Promise<EventHandbookDetailViewModel> => {
     loader.show();
     return handbookService
-      .getById(eventId, id)
+      .getById(event!.id, id)
       .catch((error) => {
         toast.open('Erro ao carregar detalhes', 'error');
         console.error(error);
@@ -85,8 +84,8 @@ const HandbooksTabProvider = ({
       onClose: (result?: HandbookFormModalResult) => {
         if (result?.handbook) {
           const serviceApi = handbook
-            ? handbookService.update(eventId, handbook.id, result.handbook)
-            : handbookService.create(eventId, result.handbook);
+            ? handbookService.update(event!.id, handbook.id, result.handbook)
+            : handbookService.create(event!.id, result.handbook);
 
           loader.show();
           serviceApi
@@ -123,7 +122,7 @@ const HandbooksTabProvider = ({
           onClick: (modalRef) => {
             loader.show();
             handbookService
-              .remove(eventId, handbook.id)
+              .remove(event!.id, handbook.id)
               .then(() => {
                 toast.open('Removido com sucesso', 'success');
                 getHandbooks();

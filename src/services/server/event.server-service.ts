@@ -14,8 +14,8 @@ import {
   createFileServerService
 } from './file.server-service';
 
-export interface CreateEventParams {
-  inputData: EventCreateInputModel;
+export interface CreateUpdateEventParams<T> {
+  inputData: T;
   inputFiles: {
     fileBannerImage?: File;
     fileLogoImage?: File;
@@ -178,20 +178,26 @@ export const createEventServerService = () => {
   const create = async ({
     inputData,
     inputFiles
-  }: CreateEventParams): Promise<EventDetailViewModel> => {
+  }: CreateUpdateEventParams<EventCreateInputModel>): Promise<EventDetailViewModel> => {
     const fileService = createFileServerService();
 
     const user = await getAuthUser();
 
     let bannerImage: string | undefined = undefined;
     if (inputFiles.fileBannerImage)
-      bannerImage = (await fileService.uploadFile(inputFiles.fileBannerImage))
-        .fileLocation;
+      bannerImage = (
+        await fileService.uploadFile(inputFiles.fileBannerImage, {
+          fileExt: 'png'
+        })
+      ).fileLocation;
 
     let logoImage: string | undefined = undefined;
     if (inputFiles.fileLogoImage)
-      logoImage = (await fileService.uploadFile(inputFiles.fileLogoImage))
-        .fileLocation;
+      logoImage = (
+        await fileService.uploadFile(inputFiles.fileLogoImage, {
+          fileExt: 'png'
+        })
+      ).fileLocation;
 
     const event = await prisma.event.create({
       data: {
@@ -225,28 +231,65 @@ export const createEventServerService = () => {
 
   const update = async (
     id: number,
-    input: EventUpdateInputModel
+    { inputData, inputFiles }: CreateUpdateEventParams<EventUpdateInputModel>
   ): Promise<EventDetailViewModel> => {
+    const fileService = createFileServerService();
+
     const user = await getAuthUser();
 
-    const event = await prisma.event.update({
-      where: { id, usersEvent: { some: { userId: user.id } } },
+    const eventWhere = { id, usersEvent: { some: { userId: user.id } } };
+
+    const event = await prisma.event.findFirstOrThrow({
+      where: eventWhere,
+      include: {
+        content: true
+      }
+    });
+
+    let bannerImage: string | undefined = undefined;
+    if (inputFiles.fileBannerImage) {
+      await fileService.deleteFile(event.content.bannerImage);
+
+      bannerImage = (
+        await fileService.uploadFile(inputFiles.fileBannerImage, {
+          fileExt: 'png'
+        })
+      ).fileLocation;
+    }
+
+    let logoImage: string | undefined = undefined;
+    if (inputFiles.fileLogoImage) {
+      await fileService.deleteFile(event.content.logoImage);
+
+      logoImage = (
+        await fileService.uploadFile(inputFiles.fileLogoImage, {
+          fileExt: 'png'
+        })
+      ).fileLocation;
+    }
+
+    await prisma.event.update({
+      where: eventWhere,
       data: {
-        eventType: input.eventType,
-        date: dayjs(input.date).toDate(),
+        eventType: inputData.eventType,
+        date: dayjs(inputData.date).toDate(),
         address: {
-          update: input.address
+          update: inputData.address
         },
         content: {
-          update: input.content
+          update: {
+            ...inputData.content,
+            bannerImage,
+            logoImage
+          }
         },
         weddingDetail: {
-          update: input.weddingDetail
+          update: inputData.weddingDetail
         }
       }
     });
 
-    return get({ id: event.id });
+    return get({ id });
   };
 
   const verifyUser = async (eventId: number): Promise<void> => {

@@ -11,8 +11,14 @@ interface StepConfirmProps {
 }
 
 export default function StepConfirm({ index }: StepConfirmProps) {
-  const { create, stepPrev, eventCreateData, setStepComplete } =
-    useNewEventContext();
+  const {
+    create,
+    stepPrev,
+    eventCreateData,
+    setStepComplete,
+    bannerImageThumbnail,
+    logoImageThumbnail
+  } = useNewEventContext();
 
   const confirm = () => {
     setStepComplete(index);
@@ -25,8 +31,8 @@ export default function StepConfirm({ index }: StepConfirmProps) {
 
   const dateFormatted = dayjs(data.date).format('DD/MM/YYYY HH:mm');
 
-  const logo = data.content.logoImage ? (
-    <img className="h-7" src={data.content.logoImage} />
+  const logo = logoImageThumbnail ? (
+    <img className="h-7" src={logoImageThumbnail} />
   ) : (
     renderInitialsIcon(data, 28)
   );
@@ -36,7 +42,7 @@ export default function StepConfirm({ index }: StepConfirmProps) {
       <div
         className="w-full h-32 bg-cover bg-center"
         style={{
-          backgroundImage: `url(${data.content.bannerImage})`,
+          backgroundImage: `url(${bannerImageThumbnail})`,
           backgroundColor: data.content.primaryColor
         }}
       />

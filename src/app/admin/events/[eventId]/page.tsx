@@ -1,26 +1,21 @@
-import { cache } from 'react';
+'use client';
+
 import AdminPageBase from '../../components/AdminPageBase/AdminPageBase';
 import Header from './components/Header/Header';
 import EventTabs from './components/EventTabs/EventTabs';
-import { createEventServerService } from '../../../../services/server/event.server-service';
-
-export const revalidate = 3600;
-
-const getEvent = cache(async (id: number) => {
-  return await createEventServerService().getById(id);
-});
+import AdminEventPageProvider from './contexts/AdminEventPageContext';
 
 interface AdminEventPageProps {
   params: { eventId: number };
 }
 
-export default async function AdminEventPage({ params }: AdminEventPageProps) {
-  const event = await getEvent(params.eventId);
-
+export default function AdminEventPage({ params }: AdminEventPageProps) {
   return (
-    <AdminPageBase className="space-y-4">
-      <Header event={event} />
-      <EventTabs event={event} />
-    </AdminPageBase>
+    <AdminEventPageProvider eventId={params.eventId}>
+      <AdminPageBase className="space-y-4">
+        <Header />
+        <EventTabs />
+      </AdminPageBase>
+    </AdminEventPageProvider>
   );
 }

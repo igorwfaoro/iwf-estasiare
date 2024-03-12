@@ -4,16 +4,21 @@ import Field from '../../../../../../../components/Field/Field';
 import { useNewEventContext } from '../../../../contexts/NewEventContext';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState
+} from 'react';
+import { fileToDataURL } from '../../../../../../../util/helpers/file.helper';
 
 interface StepContentProps {
   index: number;
 }
 
 const formContentSchema = z.object({
-  primaryColor: z.string().min(1, 'Informe a cor principal do evento'),
-  bannerImage: z.string().optional(),
-  logoImage: z.string().optional()
+  primaryColor: z.string().min(1, 'Informe a cor principal do evento')
 });
 
 type FormContentSchema = z.infer<typeof formContentSchema>;
@@ -24,7 +29,17 @@ export default function StepContent({ index }: StepContentProps) {
     stepPrev,
     setEventCreateData,
     eventCreateData,
-    setStepComplete
+    setStepComplete,
+
+    bannerImageFile,
+    setBannerImageFile,
+    bannerImageThumbnail,
+    setBannerImageThumbnail,
+
+    logoImageFile,
+    setLogoImageFile,
+    logoImageThumbnail,
+    setLogoImageThumbnail
   } = useNewEventContext();
 
   const {
@@ -40,18 +55,30 @@ export default function StepContent({ index }: StepContentProps) {
   useEffect(() => {
     if (eventCreateData?.content?.primaryColor) {
       setValue('primaryColor', eventCreateData.content.primaryColor);
-      setValue('bannerImage', eventCreateData.content.bannerImage);
-      setValue('logoImage', eventCreateData.content.logoImage);
+
+      setBannerImageThumbnail(bannerImageFile?.name);
+      setLogoImageThumbnail(logoImageFile?.name);
     }
   }, []);
+
+  const handleInputFileChange = async (
+    event: ChangeEvent<HTMLInputElement>,
+    setFileState: Dispatch<SetStateAction<File | undefined>>,
+    setThumbnailState: Dispatch<SetStateAction<string | undefined>>
+  ) => {
+    if (!event.target.files || event.target.files.length === 0) return;
+
+    const file = event.target.files[0];
+
+    setFileState(file);
+    setThumbnailState(await fileToDataURL(file));
+  };
 
   const handleFormSubmit = (data: FormContentSchema) => {
     setEventCreateData((curr) => ({
       ...curr,
       content: {
-        primaryColor: data.primaryColor,
-        bannerImage: data.bannerImage,
-        logoImage: data.logoImage
+        primaryColor: data.primaryColor
       }
     }));
 
@@ -60,8 +87,6 @@ export default function StepContent({ index }: StepContentProps) {
   };
 
   const color = watch('primaryColor');
-  const bannerImage = watch('bannerImage');
-  const logoImage = watch('logoImage');
 
   return (
     <form
@@ -83,26 +108,52 @@ export default function StepContent({ index }: StepContentProps) {
       </Field>
 
       <Field>
-        <Field.Label>
-          Escolha uma imagem para seu evento - URL da Imagem (opcional)
-        </Field.Label>
-        <Field.Input {...register('bannerImage')} />
-        <Field.Error>{errors.bannerImage?.message}</Field.Error>
+        <Field.Label>Escolha um banner para seu evento (opcional)</Field.Label>
+        <Field.HelpText>
+          Você pode definir isso depois se preferir
+        </Field.HelpText>
+        <Field.Input
+          type="file"
+          accept=".jpg, .jpeg, .png"
+          onChange={(event) =>
+            handleInputFileChange(
+              event,
+              setBannerImageFile,
+              setBannerImageThumbnail
+            )
+          }
+        />
       </Field>
 
       <div>
-        {bannerImage && <img src={bannerImage} className="h-28 mb-6" />}
+        {bannerImageThumbnail && (
+          <img src={bannerImageThumbnail} className="h-28 mb-6" />
+        )}
       </div>
 
       <Field>
-        <Field.Label>
-          Escolha uma logo para seu evento - URL da Imagem (opcional)
-        </Field.Label>
-        <Field.Input {...register('logoImage')} />
-        <Field.Error>{errors.logoImage?.message}</Field.Error>
+        <Field.Label>Escolha uma logo para seu evento (opcional)</Field.Label>
+        <Field.HelpText>
+          Você pode definir isso depois se preferir
+        </Field.HelpText>
+        <Field.Input
+          type="file"
+          accept=".jpg, .jpeg, .png"
+          onChange={(event) =>
+            handleInputFileChange(
+              event,
+              setLogoImageFile,
+              setLogoImageThumbnail
+            )
+          }
+        />
       </Field>
 
-      <div>{logoImage && <img src={logoImage} className="h-28 mb-6" />}</div>
+      <div>
+        {logoImageThumbnail && (
+          <img src={logoImageThumbnail} className="h-28 mb-6" />
+        )}
+      </div>
 
       <div className="flex justify-between">
         <Button theme="light" type="button" onClick={stepPrev}>

@@ -20,6 +20,7 @@ import GiftFormModal, {
   GiftFormModalResult
 } from '../components/GiftFormModal/GiftFormModal';
 import { isMobile } from '../../../../../../../../../util/helpers/is-mobile.helper';
+import { useAdminEventPageContext } from '../../../../../contexts/AdminEventPageContext';
 
 export interface IGiftsTabProvider {
   search: string;
@@ -32,12 +33,13 @@ export interface IGiftsTabProvider {
 
 interface GiftsTabProviderProps {
   children: any;
-  eventId: number;
 }
 
 const GiftsTabContext = createContext<IGiftsTabProvider | undefined>(undefined);
 
-const GiftsTabProvider = ({ children, eventId }: GiftsTabProviderProps) => {
+const GiftsTabProvider = ({ children }: GiftsTabProviderProps) => {
+  const { event } = useAdminEventPageContext();
+
   const giftService = createGiftClientService();
 
   const loader = useLoader();
@@ -50,13 +52,13 @@ const GiftsTabProvider = ({ children, eventId }: GiftsTabProviderProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    getGifts();
-  }, []);
+    if (event) getGifts();
+  }, [event]);
 
   const getGifts = () => {
     setIsLoading(true);
     giftService
-      .getAllByEvent(eventId)
+      .getAllByEvent(event!.id)
       .then(setGifts)
       .catch((error) => {
         toast.open('Erro ao carregar lista de presentes', 'error');
@@ -74,8 +76,8 @@ const GiftsTabProvider = ({ children, eventId }: GiftsTabProviderProps) => {
       onClose: (result?: GiftFormModalResult) => {
         if (result?.gift) {
           const serviceApi = gift
-            ? giftService.update(eventId, gift.id, result.gift)
-            : giftService.create(eventId, result.gift);
+            ? giftService.update(event!.id, gift.id, result.gift)
+            : giftService.create(event!.id, result.gift);
 
           loader.show();
           serviceApi
@@ -112,7 +114,7 @@ const GiftsTabProvider = ({ children, eventId }: GiftsTabProviderProps) => {
           onClick: (modalRef) => {
             loader.show();
             giftService
-              .remove(eventId, gift.id)
+              .remove(event!.id, gift.id)
               .then(() => {
                 toast.open('Removido com sucesso', 'success');
                 getGifts();

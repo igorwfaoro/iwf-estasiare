@@ -1,7 +1,13 @@
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState
+} from 'react';
 import Field from '../../../../../../../../../../components/Field/Field';
 import Button from '../../../../../../../../../../components/Button/Button';
 import { createEventClientService } from '../../../../../../../../../../services/client/event.client-service';
@@ -9,14 +15,13 @@ import { useLoader } from '../../../../../../../../../../contexts/LoaderContext'
 import { useToast } from '../../../../../../../../../../contexts/ToastContext';
 import { EditModalResult } from '../../types/edit-modal-result';
 import { EditModalProps } from '../../types/edit-modal-props';
+import { fileToDataURL } from '../../../../../../../../../../util/helpers/file.helper';
 
 interface EventContentEditModalProps extends EditModalProps {}
 interface EventContentEditModalResult extends EditModalResult {}
 
 const formSchema = z.object({
-  primaryColor: z.string().min(1, 'Informe a cor principal do evento'),
-  bannerImage: z.string().optional(),
-  logoImage: z.string().optional()
+  primaryColor: z.string().min(1, 'Informe a cor principal do evento')
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -39,21 +44,45 @@ export default function EventContentEditModal({
     resolver: zodResolver(formSchema)
   });
 
+  const [bannerImageFile, setBannerImageFile] = useState<File>();
+  const [bannerImageThumbnail, setBannerImageThumbnail] = useState<string>();
+
+  const [logoImageFile, setLogoImageFile] = useState<File>();
+  const [logoImageThumbnail, setLogoImageThumbnail] = useState<string>();
+
   useEffect(() => {
     setValue('primaryColor', event.content!.primaryColor);
-    setValue('bannerImage', event.content!.bannerImage || '');
-    setValue('logoImage', event.content!.logoImage || '');
+
+    setBannerImageThumbnail(event.content?.bannerImage || undefined);
+    setLogoImageThumbnail(event.content?.logoImage || undefined);
   }, []);
+
+  const handleInputFileChange = async (
+    event: ChangeEvent<HTMLInputElement>,
+    setFileState: Dispatch<SetStateAction<File | undefined>>,
+    setThumbnailState: Dispatch<SetStateAction<string | undefined>>
+  ) => {
+    if (!event.target.files || event.target.files.length === 0) return;
+
+    const file = event.target.files[0];
+
+    setFileState(file);
+    setThumbnailState(await fileToDataURL(file));
+  };
 
   const handleFormSubmit = (data: FormSchema) => {
     loader.show();
 
     eventClientService
       .update(event.id, {
-        content: {
-          primaryColor: data.primaryColor,
-          bannerImage: data.bannerImage,
-          logoImage: data.logoImage
+        inputData: {
+          content: {
+            primaryColor: data.primaryColor
+          }
+        },
+        inputFiles: {
+          bannerImage: bannerImageFile,
+          logoImage: logoImageFile
         }
       })
       .then(() => {
@@ -89,16 +118,52 @@ export default function EventContentEditModal({
       </Field>
 
       <Field>
-        <Field.Label>Escolha uma imagem para seu evento (opcional)</Field.Label>
-        <Field.Input {...register('bannerImage')} />
-        <Field.Error>{errors.bannerImage?.message}</Field.Error>
+        <Field.Label>Escolha um banner para seu evento (opcional)</Field.Label>
+        <Field.HelpText>
+          Você pode definir isso depois se preferir
+        </Field.HelpText>
+        <Field.Input
+          type="file"
+          accept=".jpg, .jpeg, .png"
+          onChange={(event) =>
+            handleInputFileChange(
+              event,
+              setBannerImageFile,
+              setBannerImageThumbnail
+            )
+          }
+        />
       </Field>
+
+      <div>
+        {bannerImageThumbnail && (
+          <img src={bannerImageThumbnail} className="h-28 mb-6" />
+        )}
+      </div>
 
       <Field>
         <Field.Label>Escolha uma logo para seu evento (opcional)</Field.Label>
-        <Field.Input {...register('logoImage')} />
-        <Field.Error>{errors.logoImage?.message}</Field.Error>
+        <Field.HelpText>
+          Você pode definir isso depois se preferir
+        </Field.HelpText>
+        <Field.Input
+          type="file"
+          accept=".jpg, .jpeg, .png"
+          onChange={(event) =>
+            handleInputFileChange(
+              event,
+              setLogoImageFile,
+              setLogoImageThumbnail
+            )
+          }
+        />
       </Field>
+
+      <div>
+        {logoImageThumbnail && (
+          <img src={logoImageThumbnail} className="h-28 mb-6" />
+        )}
+      </div>
 
       <Button type="submit">Salvar</Button>
     </form>

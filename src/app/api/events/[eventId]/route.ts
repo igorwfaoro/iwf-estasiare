@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server';
-import { createEventServerService } from '../../../../services/server/event.server-service';
+import {
+  CreateUpdateEventParams,
+  createEventServerService
+} from '../../../../services/server/event.server-service';
+import { EventUpdateInputModel } from '../../../../models/input-models/event-update.input-model';
 
 interface Params {
   params: { eventId: string };
@@ -14,9 +18,17 @@ export async function GET(_: Request, { params }: Params) {
 }
 
 export async function PUT(req: Request, { params }: Params) {
-  const input = await req.json();
+  const formData = await req.formData();
 
-  const event = await eventService.update(Number(params.eventId), input);
+  const inputParams: CreateUpdateEventParams<EventUpdateInputModel> = {
+    inputData: JSON.parse(formData.get('data') as string),
+    inputFiles: {
+      fileBannerImage: formData.get('fileBannerImage') as File | undefined,
+      fileLogoImage: formData.get('fileLogoImage') as File | undefined
+    }
+  };
+
+  const event = await eventService.update(Number(params.eventId), inputParams);
 
   return NextResponse.json(event);
 }

@@ -1,6 +1,7 @@
 import { v4 as uuidV4 } from 'uuid';
 import * as AWS from 'aws-sdk';
 import { fileTypeFromBuffer } from 'file-type';
+import dayjs from 'dayjs';
 
 export interface UploadFileResult {
   fileLocation: string;
@@ -17,7 +18,7 @@ export const createFileServerService = () => {
 
   const uploadFile = async (
     file: Buffer | File,
-    fileName?: string
+    { fileName, fileExt }: { fileName?: string; fileExt?: string } = {}
   ): Promise<UploadFileResult> => {
     const fileBuffer =
       file instanceof Buffer ? file : Buffer.from(await file.arrayBuffer());
@@ -25,7 +26,9 @@ export const createFileServerService = () => {
     const fileType = await fileTypeFromBuffer(fileBuffer);
 
     if (!fileName)
-      fileName = `${Date.now()}_${uuidV4()}.${fileType?.ext || 'jpg'}`;
+      fileName = `${dayjs().format('YYYYMMDD-HHmmss.sss')}_${uuidV4()}.${
+        fileExt || fileType?.ext || 'bin'
+      }`;
 
     try {
       const result = await s3
@@ -44,7 +47,11 @@ export const createFileServerService = () => {
     }
   };
 
-  const deleteFile = async (fileLocation: string): Promise<void> => {
+  const deleteFile = async (
+    fileLocation: string | undefined | null
+  ): Promise<void> => {
+    if (!fileLocation) return;
+
     try {
       await s3
         .deleteObject({
