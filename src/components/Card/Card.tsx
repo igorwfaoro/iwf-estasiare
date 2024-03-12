@@ -5,7 +5,7 @@ interface CardProps {
   children?: ReactNode | ReactNode[];
   className?: string;
   elementRef?: RefObject<HTMLDivElement>;
-  bgImageUrl?: string;
+  bgImageUrl?: string | null;
   bgColor?: string;
 }
 

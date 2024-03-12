@@ -70,16 +70,19 @@ export const createEventClientService = () => {
 
   const update = (
     id: number,
-    { inputData, inputFiles }: CreateUpdateEventParams<EventUpdateInputModel>
+    {
+      inputData,
+      inputFiles
+    }: Partial<CreateUpdateEventParams<EventUpdateInputModel>>
   ): Promise<EventDetailViewModel> => {
     const body = new FormData();
 
-    body.append('data', JSON.stringify(inputData));
+    body.append('data', JSON.stringify(inputData || {}));
 
-    if (inputFiles.bannerImage)
+    if (inputFiles?.bannerImage)
       body.append('fileBannerImage', inputFiles.bannerImage);
 
-    if (inputFiles.logoImage)
+    if (inputFiles?.logoImage)
       body.append('fileLogoImage', inputFiles.logoImage);
 
     return http()

@@ -47,9 +47,11 @@ export default function EventWeddingDetailEditModal({
 
     eventClientService
       .update(event.id, {
-        weddingDetail: {
-          groomName: data.groomName,
-          brideName: data.brideName
+        inputData: {
+          weddingDetail: {
+            groomName: data.groomName,
+            brideName: data.brideName
+          }
         }
       })
       .then(() => {

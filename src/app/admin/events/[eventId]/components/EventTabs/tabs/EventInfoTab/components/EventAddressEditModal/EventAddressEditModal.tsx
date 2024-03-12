@@ -45,9 +45,11 @@ export default function EventAddressEditModal({
 
     eventClientService
       .update(event.id, {
-        address: {
-          fullDescription: data.address,
-          shortDescription: data.address
+        inputData: {
+          address: {
+            fullDescription: data.address,
+            shortDescription: data.address
+          }
         }
       })
       .then(() => {

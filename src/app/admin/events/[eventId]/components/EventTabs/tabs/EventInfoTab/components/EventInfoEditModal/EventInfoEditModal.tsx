@@ -56,8 +56,10 @@ export default function EventInfoEditModal({
 
     eventClientService
       .update(event.id, {
-        eventType: data.eventType,
-        date: data.date
+        inputData: {
+          eventType: data.eventType,
+          date: data.date
+        }
       })
       .then(() => {
         toast.open('Salvo', 'success');
