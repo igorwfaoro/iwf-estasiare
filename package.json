@@ -40,6 +40,7 @@
     "react-dom": "^18.2.0",
     "react-dom-confetti": "^0.2.0",
     "react-draft-wysiwyg": "^1.15.0",
+    "react-google-autocomplete": "^2.7.3",
     "react-hook-form": "^7.50.1",
     "react-icons": "^4.10.1",
     "react-indiana-drag-scroll": "^2.2.0",
