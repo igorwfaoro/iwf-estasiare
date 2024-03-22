@@ -5,15 +5,10 @@ export type EventUpdateInputModel = Partial<Event>;
 interface Event {
   eventType?: EventType;
   date?: string;
+  address?: string;
 
-  address?: Partial<Address>;
   content?: Partial<Content>;
   weddingDetail?: Partial<WeddingDetail>;
-}
-
-interface Address {
-  shortDescription: string;
-  fullDescription: string;
 }
 
 interface Content {

@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { dateStringToInput } from '../../../../../../../util/helpers/date.helper';
-import { usePlacesWidget } from 'react-google-autocomplete';
+import useAddressAutocomplete from '../../../../../../../hooks/useAddressAutocomplete';
 
 interface StepGeneralProps {
   index: number;
@@ -21,15 +21,7 @@ const formGeneralSchema = z.object({
     required_error: 'Informe o tipo do evento'
   }),
   date: z.string().min(1, 'Informe a data do evento'),
-  address: z
-    .object({
-      fullDescription: z.string().min(1),
-      shortDescription: z.string().min(1)
-    })
-    .refine((value) => !value.fullDescription || !value.shortDescription, {
-      message: 'Informe o endereço',
-      path: ['address']
-    })
+  address: z.string().min(1, 'Informe a data do evento')
 });
 
 type FormGeneralSchema = z.infer<typeof formGeneralSchema>;
@@ -47,19 +39,17 @@ export default function StepGeneral({ index }: StepGeneralProps) {
     resolver: zodResolver(formGeneralSchema)
   });
 
-  const { ref } = usePlacesWidget<HTMLInputElement>({
-    apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
-    onPlaceSelected: (place) => console.log(place),
-    options: {
-      types: ['address', 'establishment']
-    }
-  });
+  const { ref: addressAutocompleteRef } =
+    useAddressAutocomplete<HTMLInputElement>({
+      onPlaceSelected: (place: { formatted_address: string }) =>
+        setValue('address', place.formatted_address)
+    });
 
   useEffect(() => {
     if (eventCreateData?.date) {
       setValue('eventType', eventCreateData.eventType);
       setValue('date', dateStringToInput(eventCreateData.date));
-      setValue('address', eventCreateData.address as any);
+      setValue('address', eventCreateData.address || '');
     }
   }, []);
 
@@ -68,10 +58,7 @@ export default function StepGeneral({ index }: StepGeneralProps) {
       ...curr,
       eventType: data.eventType,
       date: data.date,
-      address: {
-        fullDescription: data.address.fullDescription,
-        shortDescription: data.address.shortDescription
-      }
+      address: data.address
     }));
 
     setStepComplete(index);
@@ -103,9 +90,8 @@ export default function StepGeneral({ index }: StepGeneralProps) {
 
       <Field>
         <Field.Label>Onde vai ser?</Field.Label>
-        <Field.Input ref={ref} />
-        {/* <Field.Input {...register('address')} /> */}
-        {/* <Field.Error>{errors.address?.message}</Field.Error> */}
+        <Field.Input ref={addressAutocompleteRef} />
+        <Field.Error>{errors.address?.message}</Field.Error>
       </Field>
 
       <Button type="submit">Próximo</Button>

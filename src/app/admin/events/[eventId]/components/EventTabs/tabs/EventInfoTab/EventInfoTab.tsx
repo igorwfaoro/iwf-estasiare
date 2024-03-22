@@ -57,7 +57,7 @@ export default function EventInfoTab({  }: EventInfoTabProps) {
     },
     {
       title: 'Local',
-      content: (event) => <div>{event!.address?.fullDescription}</div>,
+      content: (event) => <div>{event!.address}</div>,
       editModal: {
         title: 'Editar local',
         component: () => EventAddressEditModal

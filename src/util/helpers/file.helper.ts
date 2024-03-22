@@ -1,5 +1,7 @@
 export const getFilePublicUrl = (fileName: string): string => {
-  return `${process.env.S3_URL}/${fileName}`;
+  return fileName.startsWith('http')
+    ? fileName
+    : `${process.env.S3_URL}/${fileName}`;
 };
 
 export const getFilePublicUrlOrNull = (

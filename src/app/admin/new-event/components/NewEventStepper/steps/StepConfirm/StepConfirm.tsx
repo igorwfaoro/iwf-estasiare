@@ -59,7 +59,7 @@ export default function StepConfirm({ index }: StepConfirmProps) {
       </div>
 
       <div>
-        <div className="text-gray-600">{data.address.fullDescription}</div>
+        <div className="text-gray-600">{data.address}</div>
         <div className="text-gray-600 font-bold">{dateFormatted}</div>
       </div>
 

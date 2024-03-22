@@ -48,7 +48,6 @@ export const createEventServerService = () => {
     const event = await prisma.event.findFirstOrThrow({
       where: eventWhere,
       include: {
-        address: true,
         content: {
           include: {
             images: true
@@ -103,10 +102,8 @@ export const createEventServerService = () => {
         OR: [
           {
             address: {
-              fullDescription: {
-                contains: searchQuery,
-                mode: 'insensitive'
-              }
+              contains: searchQuery,
+              mode: 'insensitive'
             }
           },
           {
@@ -128,7 +125,6 @@ export const createEventServerService = () => {
         ]
       },
       include: {
-        address: true,
         content: true,
         weddingDetail: true
       },
@@ -144,7 +140,6 @@ export const createEventServerService = () => {
   const recommended = async (limit: number = 10): Promise<EventViewModel[]> => {
     const events = await prisma.event.findMany({
       include: {
-        address: true,
         content: true,
         weddingDetail: true
       },
@@ -164,7 +159,6 @@ export const createEventServerService = () => {
       include: {
         event: {
           include: {
-            address: true,
             content: true,
             weddingDetail: true
           }
@@ -204,9 +198,7 @@ export const createEventServerService = () => {
         slug: eventSlug(inputData),
         eventType: inputData.eventType,
         date: dayjs(inputData.date).toDate(),
-        address: {
-          create: inputData.address
-        },
+        address: inputData.address,
         content: {
           create: {
             ...inputData.content,
@@ -273,9 +265,7 @@ export const createEventServerService = () => {
       data: {
         eventType: inputData.eventType,
         date: dayjs(inputData.date).toDate(),
-        address: {
-          update: inputData.address
-        },
+        address: inputData.address,
         content: {
           update: {
             ...inputData.content,

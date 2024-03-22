@@ -3,14 +3,9 @@ import { EventType } from '.prisma/client';
 export interface EventCreateInputModel {
   eventType: EventType;
   date: string;
-  address: Address;
+  address: string;
   content: Content;
   weddingDetail?: WeddingDetail;
-}
-
-interface Address {
-  shortDescription: string;
-  fullDescription: string;
 }
 
 interface Content {

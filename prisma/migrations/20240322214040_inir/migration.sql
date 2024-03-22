@@ -9,8 +9,8 @@ CREATE TABLE "Event" (
     "id" BIGSERIAL NOT NULL,
     "eventType" "EventType" NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
+    "address" VARCHAR(500) NOT NULL,
     "slug" VARCHAR(100) NOT NULL,
-    "addressId" BIGINT NOT NULL,
     "contentId" BIGINT NOT NULL,
     "financialId" BIGINT,
     "weddingDetailId" BIGINT,
@@ -20,19 +20,10 @@ CREATE TABLE "Event" (
 );
 
 -- CreateTable
-CREATE TABLE "EventAddress" (
-    "id" BIGSERIAL NOT NULL,
-    "shortDescription" VARCHAR(300) NOT NULL,
-    "fullDescription" VARCHAR(500) NOT NULL,
-
-    CONSTRAINT "EventAddress_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "EventContent" (
     "id" BIGSERIAL NOT NULL,
     "primaryColor" VARCHAR(7) NOT NULL,
-    "bannerImage" VARCHAR(500) NOT NULL,
+    "bannerImage" VARCHAR(500),
     "logoImage" VARCHAR(500),
     "spotifyPlaylistUrl" VARCHAR(100),
 
@@ -134,9 +125,6 @@ CREATE TABLE "UserEvent" (
 CREATE UNIQUE INDEX "Event_slug_key" ON "Event"("slug");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Event_addressId_key" ON "Event"("addressId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Event_contentId_key" ON "Event"("contentId");
 
 -- CreateIndex
@@ -147,9 +135,6 @@ CREATE UNIQUE INDEX "Event_weddingDetailId_key" ON "Event"("weddingDetailId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
-
--- AddForeignKey
-ALTER TABLE "Event" ADD CONSTRAINT "Event_addressId_fkey" FOREIGN KEY ("addressId") REFERENCES "EventAddress"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Event" ADD CONSTRAINT "Event_contentId_fkey" FOREIGN KEY ("contentId") REFERENCES "EventContent"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

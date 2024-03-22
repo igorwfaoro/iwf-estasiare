@@ -79,7 +79,7 @@ export default async function Event({ params }: { params: { slug: string } }) {
 
       {event.hasHandbooks && <EventBanner {...banners.handbooks} />}
 
-      <EventMap addressDescription={event.address?.fullDescription!} />
+      <EventMap addressDescription={event.address} />
     </div>
   );
 }

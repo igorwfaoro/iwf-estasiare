@@ -9,6 +9,7 @@ import { useLoader } from '../../../../../../../../../../contexts/LoaderContext'
 import { useToast } from '../../../../../../../../../../contexts/ToastContext';
 import { EditModalResult } from '../../types/edit-modal-result';
 import { EditModalProps } from '../../types/edit-modal-props';
+import useAddressAutocomplete from '../../../../../../../../../../hooks/useAddressAutocomplete';
 
 interface EventAddressEditModalProps extends EditModalProps {}
 interface EventAddressEditModalResult extends EditModalResult {}
@@ -36,8 +37,14 @@ export default function EventAddressEditModal({
     resolver: zodResolver(formSchema)
   });
 
+  const { ref: addressAutocompleteRef } =
+    useAddressAutocomplete<HTMLInputElement>({
+      onPlaceSelected: (place: { formatted_address: string }) =>
+        setValue('address', place.formatted_address)
+    });
+
   useEffect(() => {
-    setValue('address', event.address!.fullDescription);
+    setValue('address', event.address);
   }, []);
 
   const handleFormSubmit = (data: FormSchema) => {
@@ -46,10 +53,7 @@ export default function EventAddressEditModal({
     eventClientService
       .update(event.id, {
         inputData: {
-          address: {
-            fullDescription: data.address,
-            shortDescription: data.address
-          }
+          address: data.address
         }
       })
       .then(() => {
@@ -69,8 +73,8 @@ export default function EventAddressEditModal({
       className="mt-4 flex flex-col gap-2 w-full"
     >
       <Field>
-        <Field.Label>Endereço</Field.Label>
-        <Field.Input {...register('address')} />
+        <Field.Label>Onde vai ser?</Field.Label>
+        <Field.Input ref={addressAutocompleteRef} />
         <Field.Error>{errors.address?.message}</Field.Error>
       </Field>
 
