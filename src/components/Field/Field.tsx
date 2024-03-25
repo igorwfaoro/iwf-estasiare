@@ -6,6 +6,7 @@ import FieldSelect from './components/FieldSelect/FieldSelect';
 import FieldHelpText from './components/FieldHelpText/FieldHelpText';
 import FieldError from './components/FieldError/FieldError';
 import FieldSelectOption from './components/FieldSelect/components/FieldSelectOption/FieldSelectOption';
+import FieldInputAddressAutocomplete from './components/FieldInputAddressAutocomplete/FieldInputAddressAutocomplete';
 
 interface FieldProps {
   className?: string;
@@ -24,5 +25,6 @@ Field.Label = FieldLabel;
 Field.Input = FieldInput;
 Field.Select = FieldSelect;
 Field.SelectOption = FieldSelectOption;
+Field.AddressAutocomplete = FieldInputAddressAutocomplete;
 Field.HelpText = FieldHelpText;
 Field.Error = FieldError;

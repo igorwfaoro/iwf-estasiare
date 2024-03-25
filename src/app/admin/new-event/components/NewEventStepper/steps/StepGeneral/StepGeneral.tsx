@@ -8,9 +8,8 @@ import {
 import { useNewEventContext } from '../../../../contexts/NewEventContext';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { dateStringToInput } from '../../../../../../../util/helpers/date.helper';
-import useAddressAutocomplete from '../../../../../../../hooks/useAddressAutocomplete';
 
 interface StepGeneralProps {
   index: number;
@@ -39,17 +38,15 @@ export default function StepGeneral({ index }: StepGeneralProps) {
     resolver: zodResolver(formGeneralSchema)
   });
 
-  const { ref: addressAutocompleteRef } =
-    useAddressAutocomplete<HTMLInputElement>({
-      onPlaceSelected: (place: { formatted_address: string }) =>
-        setValue('address', place.formatted_address)
-    });
+  const [addressInitialValue, setAddressInitialValue] = useState('');
 
   useEffect(() => {
     if (eventCreateData?.date) {
       setValue('eventType', eventCreateData.eventType);
       setValue('date', dateStringToInput(eventCreateData.date));
+
       setValue('address', eventCreateData.address || '');
+      setAddressInitialValue(eventCreateData.address || '');
     }
   }, []);
 
@@ -90,7 +87,10 @@ export default function StepGeneral({ index }: StepGeneralProps) {
 
       <Field>
         <Field.Label>Onde vai ser?</Field.Label>
-        <Field.Input ref={addressAutocompleteRef} />
+        <Field.AddressAutocomplete
+          initialValue={addressInitialValue}
+          onAddressSelected={(value) => setValue('address', value)}
+        />
         <Field.Error>{errors.address?.message}</Field.Error>
       </Field>
 

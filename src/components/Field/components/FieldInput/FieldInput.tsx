@@ -2,7 +2,7 @@ import { ForwardedRef, InputHTMLAttributes, forwardRef } from 'react';
 import { MdSearch } from 'react-icons/md';
 import { twMerge } from 'tailwind-merge';
 
-interface FieldInputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface FieldInputProps extends InputHTMLAttributes<HTMLInputElement> {
   containerClassName?: string;
   handleClickSearchButton?: () => void;
 }
