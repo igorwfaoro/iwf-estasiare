@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Field from '../../../../../../../../../../components/Field/Field';
 import Button from '../../../../../../../../../../components/Button/Button';
 import { createEventClientService } from '../../../../../../../../../../services/client/event.client-service';
@@ -9,7 +9,6 @@ import { useLoader } from '../../../../../../../../../../contexts/LoaderContext'
 import { useToast } from '../../../../../../../../../../contexts/ToastContext';
 import { EditModalResult } from '../../types/edit-modal-result';
 import { EditModalProps } from '../../types/edit-modal-props';
-import useAddressAutocomplete from '../../../../../../../../../../hooks/useAddressAutocomplete';
 
 interface EventAddressEditModalProps extends EditModalProps {}
 interface EventAddressEditModalResult extends EditModalResult {}
@@ -37,12 +36,6 @@ export default function EventAddressEditModal({
     resolver: zodResolver(formSchema)
   });
 
-  const { ref: addressAutocompleteRef } =
-    useAddressAutocomplete<HTMLInputElement>({
-      onPlaceSelected: (place: { formatted_address: string }) =>
-        setValue('address', place.formatted_address)
-    });
-
   useEffect(() => {
     setValue('address', event.address);
   }, []);
@@ -67,6 +60,8 @@ export default function EventAddressEditModal({
       .finally(() => loader.hide());
   };
 
+  const addressInitialValue = event.address;
+
   return (
     <form
       onSubmit={handleSubmit(handleFormSubmit)}
@@ -74,7 +69,10 @@ export default function EventAddressEditModal({
     >
       <Field>
         <Field.Label>Onde vai ser?</Field.Label>
-        <Field.Input ref={addressAutocompleteRef} />
+        <Field.AddressAutocomplete
+          initialValue={addressInitialValue}
+          onAddressSelected={(value) => setValue('address', value)}
+        />
         <Field.Error>{errors.address?.message}</Field.Error>
       </Field>
 
