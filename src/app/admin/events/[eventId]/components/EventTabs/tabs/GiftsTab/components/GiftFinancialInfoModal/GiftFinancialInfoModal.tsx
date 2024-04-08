@@ -49,7 +49,7 @@ export default function GiftFinancialInfoModal({
   };
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)}>
+    <form onSubmit={handleSubmit(handleFormSubmit)} className='my-4 space-y-4'>
       <div>
         Os valores recebidos vão para sua conta do Paypal. Você deve criar uma
         conta ou usar uma já existente.

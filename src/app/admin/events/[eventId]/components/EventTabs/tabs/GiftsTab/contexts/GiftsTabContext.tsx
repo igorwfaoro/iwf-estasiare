@@ -21,7 +21,11 @@ import GiftFormModal, {
 } from '../components/GiftFormModal/GiftFormModal';
 import { isMobile } from '../../../../../../../../../util/helpers/is-mobile.helper';
 import { useAdminEventPageContext } from '../../../../../contexts/AdminEventPageContext';
-import GiftFinancialInfoModal, { GiftFinancialInfoModalProps, GiftFinancialInfoModalResult } from '../components/GiftFinancialInfoModal/GiftFinancialInfoModal';
+import GiftFinancialInfoModal, {
+  GiftFinancialInfoModalProps,
+  GiftFinancialInfoModalResult
+} from '../components/GiftFinancialInfoModal/GiftFinancialInfoModal';
+import { createEventClientService } from '../../../../../../../../../services/client/event.client-service';
 
 export interface IGiftsTabProvider {
   search: string;
@@ -43,6 +47,7 @@ const GiftsTabContext = createContext<IGiftsTabProvider | undefined>(undefined);
 const GiftsTabProvider = ({ children }: GiftsTabProviderProps) => {
   const { event } = useAdminEventPageContext();
 
+  const eventClientService = createEventClientService();
   const giftService = createGiftClientService();
 
   const loader = useLoader();
@@ -78,14 +83,31 @@ const GiftsTabProvider = ({ children }: GiftsTabProviderProps) => {
     modal.open({
       component: GiftFinancialInfoModal,
       title: 'Informações Financeiras',
-      props: {financial: event?.financial} as GiftFinancialInfoModalProps,
+      props: { financial: event?.financial } as GiftFinancialInfoModalProps,
       width: isMobile() ? '90%' : '50%',
       onClose: (result: GiftFinancialInfoModalResult) => {
-        if(result?.financial) {
-          
+        if (result?.financial) {
+          loader.show();
+
+          eventClientService
+            .update(event!.id, {
+              inputData: {
+                financial: {
+                  paypalBusinessCode: result.financial.paypalBusinessCode
+                }
+              }
+            })
+            .then(() => {
+              toast.open('Salvo', 'success');
+            })
+            .catch((error) => {
+              toast.open('Erro ao salvar', 'error');
+              console.error(error);
+            })
+            .finally(() => loader.hide());
         }
       }
-    })
+    });
   };
 
   const openForm = (gift?: GiftViewModel) => {

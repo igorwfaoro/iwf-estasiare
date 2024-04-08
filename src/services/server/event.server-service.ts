@@ -53,6 +53,7 @@ export const createEventServerService = () => {
             images: true
           }
         },
+        financial: true,
         weddingDetail: true,
         handbooks: extraIncludes.handbooks
           ? {
@@ -206,6 +207,7 @@ export const createEventServerService = () => {
             logoImage
           }
         },
+        financial: { create: {} },
         weddingDetail: {
           create: inputData.weddingDetail
         },
@@ -272,6 +274,9 @@ export const createEventServerService = () => {
             bannerImage,
             logoImage
           }
+        },
+        financial: {
+          update: inputData.financial
         },
         weddingDetail: {
           update: inputData.weddingDetail
