@@ -1,6 +1,6 @@
 import Card from '../../../../../../components/Card/Card';
 import Tabs, { TabItem } from '../../../../../../components/Tabs/Tabs';
-import EventInfoTab from './tabs/EventInfoTab/EventInfoTab';
+import EventGeneralTab from './tabs/EventGeneralTab/EventGeneralTab';
 import GiftsTab from './tabs/GiftsTab/GiftsTab';
 import GiftsTabProvider from './tabs/GiftsTab/contexts/GiftsTabContext';
 import HandBooksTab from './tabs/HandbooksTab/HandbooksTab';
@@ -12,7 +12,7 @@ export default function EventTabs({}: EventTabsProps) {
   const tabs: TabItem[] = [
     {
       label: 'Evento',
-      component: <EventInfoTab />
+      component: <EventGeneralTab />
     },
     {
       label: 'Presentes',

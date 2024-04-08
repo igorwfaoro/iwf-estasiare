@@ -21,11 +21,11 @@ import GiftFormModal, {
 } from '../components/GiftFormModal/GiftFormModal';
 import { isMobile } from '../../../../../../../../../util/helpers/is-mobile.helper';
 import { useAdminEventPageContext } from '../../../../../contexts/AdminEventPageContext';
-import GiftFinancialInfoModal, {
-  GiftFinancialInfoModalProps,
-  GiftFinancialInfoModalResult
-} from '../components/GiftFinancialInfoModal/GiftFinancialInfoModal';
 import { createEventClientService } from '../../../../../../../../../services/client/event.client-service';
+import EventFinancialEditModal, {
+  EventFinancialEditModalProps,
+  EventFinancialEditModalResult
+} from '../../EventGeneralTab/components/EventFinancialEditModal/EventFinancialEditModal';
 
 export interface IGiftsTabProvider {
   search: string;
@@ -81,30 +81,14 @@ const GiftsTabProvider = ({ children }: GiftsTabProviderProps) => {
 
   const handleOpenFinancialInfo = () => {
     modal.open({
-      component: GiftFinancialInfoModal,
+      component: EventFinancialEditModal,
       title: 'Informações Financeiras',
-      props: { financial: event?.financial } as GiftFinancialInfoModalProps,
+      props: { event } as EventFinancialEditModalProps,
       width: isMobile() ? '90%' : '50%',
-      onClose: (result: GiftFinancialInfoModalResult) => {
-        if (result?.financial) {
-          loader.show();
-
-          eventClientService
-            .update(event!.id, {
-              inputData: {
-                financial: {
-                  paypalBusinessCode: result.financial.paypalBusinessCode
-                }
-              }
-            })
-            .then(() => {
-              toast.open('Salvo', 'success');
-            })
-            .catch((error) => {
-              toast.open('Erro ao salvar', 'error');
-              console.error(error);
-            })
-            .finally(() => loader.hide());
+      onClose: (result: EventFinancialEditModalResult) => {
+        if (result.edited) {
+          setShowEmptyFinancialInfoMessage(false);
+          getGifts();
         }
       }
     });
