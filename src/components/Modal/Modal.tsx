@@ -36,7 +36,7 @@ const CustomModal = (props: ModalProps) => {
   };
 
   return (
-    <Modal isOpen={true} style={customStyles} ariaHideApp={false}>
+    <Modal isOpen={true} style={customStyles} ariaHideApp={false}>      
       <div className="p-4">
         <header className="flex justify-between">
           <h1 className="text-2xl font-bold">{props.title}</h1>
