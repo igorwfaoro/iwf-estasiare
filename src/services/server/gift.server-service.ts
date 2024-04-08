@@ -1,13 +1,14 @@
 import { prisma } from '../../data/db';
 import { GiftViewModel } from '../../models/view-models/gift.view-model';
 import { giftConverter } from '../../converters/gift.converter';
-import { GiftInputModel } from '../../models/input-models/gift.input-model';
 import { createEventServerService } from './event.server-service';
+import { createFileServerService } from './file.server-service';
 
-interface ExtraIncludes {
-  gifts?: boolean;
-  financial?: boolean;
-  handbooks?: boolean;
+export interface CreateUpdateGiftParams<T> {
+  inputData: T;
+  inputFiles: {
+    fileImage: File | undefined;
+  };
 }
 
 export const createGiftServerService = () => {
@@ -39,16 +40,26 @@ export const createGiftServerService = () => {
 
   const create = async (
     eventId: number,
-    input: GiftInputModel
+    { inputData, inputFiles }: CreateUpdateGiftParams<GiftInputModel>
   ): Promise<GiftViewModel> => {
     await eventService.verifyUser(eventId);
+
+    const fileService = createFileServerService();
+
+    if (!inputFiles.fileImage) throw new Error('Image is required');
+
+    const image = (
+      await fileService.uploadFile(inputFiles.fileImage, {
+        fileExt: 'png'
+      })
+    ).fileLocation;
 
     const gift = await prisma.gift.create({
       data: {
         eventId,
-        description: input.description,
-        image: input.image,
-        price: input.price
+        description: inputData.description,
+        price: inputData.price,
+        image
       }
     });
 
@@ -58,13 +69,23 @@ export const createGiftServerService = () => {
   const update = async ({
     eventId,
     id,
-    input
+    inputParams: { inputData, inputFiles }
   }: {
     eventId: number;
     id: number;
-    input: GiftInputModel;
+    inputParams: CreateUpdateGiftParams<Partial<GiftInputModel>>;
   }): Promise<GiftViewModel> => {
     await eventService.verifyUser(eventId);
+
+    const fileService = createFileServerService();
+
+    let image: string | undefined = undefined;
+    if (inputFiles.fileImage)
+      image = (
+        await fileService.uploadFile(inputFiles.fileImage, {
+          fileExt: 'png'
+        })
+      ).fileLocation;
 
     const gift = await prisma.gift.update({
       where: {
@@ -72,9 +93,9 @@ export const createGiftServerService = () => {
         id
       },
       data: {
-        description: input.description,
-        image: input.image,
-        price: input.price
+        description: inputData.description,
+        price: inputData.price,
+        image
       }
     });
 

@@ -38,15 +38,11 @@ export default function StepGeneral({ index }: StepGeneralProps) {
     resolver: zodResolver(formGeneralSchema)
   });
 
-  const [addressInitialValue, setAddressInitialValue] = useState('');
-
   useEffect(() => {
     if (eventCreateData?.date) {
       setValue('eventType', eventCreateData.eventType);
       setValue('date', dateStringToInput(eventCreateData.date));
-
       setValue('address', eventCreateData.address || '');
-      setAddressInitialValue(eventCreateData.address || '');
     }
   }, []);
 
@@ -88,7 +84,7 @@ export default function StepGeneral({ index }: StepGeneralProps) {
       <Field>
         <Field.Label>Onde vai ser?</Field.Label>
         <Field.AddressAutocomplete
-          initialValue={addressInitialValue}
+          defaultValue={eventCreateData?.address}
           onAddressSelected={(value) => setValue('address', value)}
         />
         <Field.Error>{errors.address?.message}</Field.Error>

@@ -1,6 +1,5 @@
 import { API_URLS } from '../../constants/api-urls';
 import { http } from '../../http/http';
-import { GiftInputModel } from '../../models/input-models/gift.input-model';
 import { GiftViewModel } from '../../models/view-models/gift.view-model';
 
 export const createGiftClientService = () => {
@@ -16,20 +15,35 @@ export const createGiftClientService = () => {
 
   const create = (
     eventId: number,
-    gift: GiftInputModel
-  ): Promise<GiftViewModel> =>
-    http()
-      .post(API_URLS.gifts.create(eventId), gift)
+    gift: GiftInputModel,
+    imageFile: File
+  ): Promise<GiftViewModel> => {
+    const body = new FormData();
+
+    body.append('data', JSON.stringify(gift));
+    body.append('fileImage', imageFile);
+
+    return http()
+      .post(API_URLS.gifts.create(eventId), body)
       .then((response) => response.data);
+  };
 
   const update = (
     eventId: number,
     id: number,
-    gift: GiftInputModel
-  ): Promise<GiftViewModel> =>
-    http()
-      .put(API_URLS.gifts.update(eventId, id), gift)
+    gift: GiftInputModel,
+    imageFile: File | undefined
+  ): Promise<GiftViewModel> => {
+    const body = new FormData();
+
+    body.append('data', JSON.stringify(gift));
+
+    if (imageFile) body.append('fileImage', imageFile);
+
+    return http()
+      .put(API_URLS.gifts.update(eventId, id), body)
       .then((response) => response.data);
+  };
 
   const remove = (eventId: number, id: number): Promise<void> =>
     http()

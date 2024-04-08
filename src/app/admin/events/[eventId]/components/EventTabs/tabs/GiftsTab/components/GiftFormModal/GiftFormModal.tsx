@@ -1,25 +1,28 @@
-import { GiftInputModel } from '../../../../../../../../../../models/input-models/gift.input-model';
 import { GiftViewModel } from '../../../../../../../../../../models/view-models/gift.view-model';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import Field from '../../../../../../../../../../components/Field/Field';
 import Button from '../../../../../../../../../../components/Button/Button';
 import { ModalRefPropType } from '../../../../../../../../../../contexts/ModalContext';
+import { DEFAULT_INPUT_ACCEPT_FILE_TYPES } from '../../../../../../../../../../constants/file-types';
+import { fileToDataURL } from '../../../../../../../../../../util/helpers/file.helper';
 
 export interface GiftFormModalProps extends ModalRefPropType {
   gift?: GiftViewModel;
 }
 
 export interface GiftFormModalResult {
-  gift?: GiftInputModel;
+  data: {
+    gift: GiftInputModel;
+    imageFile: File;
+  };
 }
 
 const formSchema = z.object({
   description: z.string().min(1, 'Informe a descrição'),
-  price: z.number().min(0.1, 'Informe o preço'),
-  image: z.string().min(1, 'Informe a URL da imagem')
+  price: z.number().min(0.1, 'Informe o preço')
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -35,19 +38,33 @@ export default function GiftFormModal({ gift, modalRef }: GiftFormModalProps) {
     resolver: zodResolver(formSchema)
   });
 
+  const [imageFile, setImageFile] = useState<File>();
+  const [imageThumbnail, setImageThumbnail] = useState<string>();
+
   useEffect(() => {
     if (gift) {
       setValue('description', gift.description);
       setValue('price', gift.price);
-      setValue('image', gift.image);
+      setImageThumbnail(gift.image);
     }
   }, []);
 
   const handleFormSubmit = (data: FormSchema) => {
-    modalRef.close({ gift: data } as GiftFormModalResult);
+    modalRef.close({
+      data: { gift: data, imageFile: imageFile }
+    } as GiftFormModalResult);
   };
 
-  const image = watch().image;
+  const handleInputFileChange = async (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    if (!event.target.files || event.target.files.length === 0) return;
+
+    const file = event.target.files[0];
+
+    setImageFile(file);
+    setImageThumbnail(await fileToDataURL(file));
+  };
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -68,12 +85,17 @@ export default function GiftFormModal({ gift, modalRef }: GiftFormModalProps) {
       </Field>
 
       <Field>
-        <Field.Label>URL Imagem</Field.Label>
-        <Field.Input {...register('image')} />
-        <Field.Error>{errors.image?.message}</Field.Error>
+        <Field.Label>Imagem</Field.Label>
+        <Field.Input
+          type="file"
+          accept={DEFAULT_INPUT_ACCEPT_FILE_TYPES.join(', ')}
+          onChange={(event) => handleInputFileChange(event)}
+        />
       </Field>
 
-      {image && <img src={image} className="h-28" />}
+      <div>
+        {imageThumbnail && <img src={imageThumbnail} className="h-28 mb-6" />}
+      </div>
 
       <div className="flex justify-end">
         <Button type="submit">Salvar</Button>

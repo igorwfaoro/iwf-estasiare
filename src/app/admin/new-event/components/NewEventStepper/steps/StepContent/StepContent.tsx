@@ -12,6 +12,7 @@ import {
   useState
 } from 'react';
 import { fileToDataURL } from '../../../../../../../util/helpers/file.helper';
+import { DEFAULT_INPUT_ACCEPT_FILE_TYPES } from '../../../../../../../constants/file-types';
 
 interface StepContentProps {
   index: number;
@@ -56,10 +57,18 @@ export default function StepContent({ index }: StepContentProps) {
     if (eventCreateData?.content?.primaryColor) {
       setValue('primaryColor', eventCreateData.content.primaryColor);
 
-      setBannerImageThumbnail(bannerImageFile?.name);
-      setLogoImageThumbnail(logoImageFile?.name);
+      setStateFileData(setBannerImageThumbnail, bannerImageFile);
+      setStateFileData(setLogoImageThumbnail, logoImageFile);
     }
   }, []);
+
+  const setStateFileData = async (
+    setState: (value: SetStateAction<string | undefined>) => void,
+    file: File | undefined
+  ) => {
+    if (!file) return;
+    setState(await fileToDataURL(file));
+  };
 
   const handleInputFileChange = async (
     event: ChangeEvent<HTMLInputElement>,
@@ -71,7 +80,7 @@ export default function StepContent({ index }: StepContentProps) {
     const file = event.target.files[0];
 
     setFileState(file);
-    setThumbnailState(await fileToDataURL(file));
+    setStateFileData(setThumbnailState, file);
   };
 
   const handleFormSubmit = (data: FormContentSchema) => {
@@ -90,7 +99,7 @@ export default function StepContent({ index }: StepContentProps) {
 
   return (
     <form
-      onSubmit={handleSubmit(handleFormSubmit)}
+      onSubmit={handleSubmit(handleFormSubmit, console.log)}
       className="mt-4 flex flex-col gap-2"
     >
       <Field>
@@ -114,7 +123,7 @@ export default function StepContent({ index }: StepContentProps) {
         </Field.HelpText>
         <Field.Input
           type="file"
-          accept=".jpg, .jpeg, .png"
+          accept={DEFAULT_INPUT_ACCEPT_FILE_TYPES.join(', ')}
           onChange={(event) =>
             handleInputFileChange(
               event,
@@ -138,7 +147,7 @@ export default function StepContent({ index }: StepContentProps) {
         </Field.HelpText>
         <Field.Input
           type="file"
-          accept=".jpg, .jpeg, .png"
+          accept={DEFAULT_INPUT_ACCEPT_FILE_TYPES.join(', ')}
           onChange={(event) =>
             handleInputFileChange(
               event,

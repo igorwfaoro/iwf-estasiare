@@ -3,18 +3,23 @@ import { EventType } from '.prisma/client';
 export type EventUpdateInputModel = Partial<Event>;
 
 interface Event {
-  eventType?: EventType;
-  date?: string;
-  address?: string;
+  eventType: EventType;
+  date: string;
+  address: string;
 
-  content?: Partial<Content>;
-  weddingDetail?: Partial<WeddingDetail>;
+  content: Partial<Content>;
+  financial: Partial<Financial>;
+  weddingDetail: Partial<WeddingDetail>;
+}
+
+interface Financial {
+  paypalBusinessCode: string;
 }
 
 interface Content {
   primaryColor: string;
-  bannerImage?: string;
-  logoImage?: string;
+  bannerImage: string;
+  logoImage: string;
 }
 
 interface WeddingDetail {

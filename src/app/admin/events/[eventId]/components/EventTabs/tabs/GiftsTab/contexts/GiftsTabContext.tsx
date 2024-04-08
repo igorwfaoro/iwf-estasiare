@@ -21,11 +21,14 @@ import GiftFormModal, {
 } from '../components/GiftFormModal/GiftFormModal';
 import { isMobile } from '../../../../../../../../../util/helpers/is-mobile.helper';
 import { useAdminEventPageContext } from '../../../../../contexts/AdminEventPageContext';
+import GiftFinancialInfoModal, { GiftFinancialInfoModalProps, GiftFinancialInfoModalResult } from '../components/GiftFinancialInfoModal/GiftFinancialInfoModal';
 
 export interface IGiftsTabProvider {
   search: string;
   setSearch: Dispatch<SetStateAction<string>>;
   isLoading: boolean;
+  showEmptyFinancialInfoMessage: boolean;
+  handleOpenFinancialInfo: () => void;
   openForm: (gift?: GiftViewModel) => void;
   remove: (gift: GiftViewModel) => void;
   filteredGifts: GiftViewModel[];
@@ -51,8 +54,12 @@ const GiftsTabProvider = ({ children }: GiftsTabProviderProps) => {
   const [gifts, setGifts] = useState<GiftViewModel[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [showEmptyFinancialInfoMessage, setShowEmptyFinancialInfoMessage] =
+    useState(false);
+
   useEffect(() => {
-    if (event) getGifts();
+    if (event?.financial?.paypalBusinessCode) getGifts();
+    else setShowEmptyFinancialInfoMessage(true);
   }, [event]);
 
   const getGifts = () => {
@@ -67,6 +74,20 @@ const GiftsTabProvider = ({ children }: GiftsTabProviderProps) => {
       .finally(() => setIsLoading(false));
   };
 
+  const handleOpenFinancialInfo = () => {
+    modal.open({
+      component: GiftFinancialInfoModal,
+      title: 'Informações Financeiras',
+      props: {financial: event?.financial} as GiftFinancialInfoModalProps,
+      width: isMobile() ? '90%' : '50%',
+      onClose: (result: GiftFinancialInfoModalResult) => {
+        if(result?.financial) {
+          
+        }
+      }
+    })
+  };
+
   const openForm = (gift?: GiftViewModel) => {
     modal.open({
       component: GiftFormModal,
@@ -74,10 +95,19 @@ const GiftsTabProvider = ({ children }: GiftsTabProviderProps) => {
       props: { gift } as GiftFormModalProps,
       width: isMobile() ? '90%' : '50%',
       onClose: (result?: GiftFormModalResult) => {
-        if (result?.gift) {
+        if (result?.data) {
           const serviceApi = gift
-            ? giftService.update(event!.id, gift.id, result.gift)
-            : giftService.create(event!.id, result.gift);
+            ? giftService.update(
+                event!.id,
+                gift.id,
+                result.data.gift,
+                result.data.imageFile
+              )
+            : giftService.create(
+                event!.id,
+                result.data.gift,
+                result.data.imageFile
+              );
 
           loader.show();
           serviceApi
@@ -140,11 +170,13 @@ const GiftsTabProvider = ({ children }: GiftsTabProviderProps) => {
       search,
       setSearch,
       isLoading,
+      showEmptyFinancialInfoMessage,
+      handleOpenFinancialInfo,
       openForm,
       remove,
       filteredGifts
     }),
-    [search, isLoading, filteredGifts]
+    [search, isLoading, showEmptyFinancialInfoMessage, filteredGifts]
   );
 
   return (

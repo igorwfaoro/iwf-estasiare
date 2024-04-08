@@ -60,8 +60,6 @@ export default function EventAddressEditModal({
       .finally(() => loader.hide());
   };
 
-  const addressInitialValue = event.address;
-
   return (
     <form
       onSubmit={handleSubmit(handleFormSubmit)}
@@ -70,7 +68,7 @@ export default function EventAddressEditModal({
       <Field>
         <Field.Label>Onde vai ser?</Field.Label>
         <Field.AddressAutocomplete
-          initialValue={addressInitialValue}
+          defaultValue={event.address}
           onAddressSelected={(value) => setValue('address', value)}
         />
         <Field.Error>{errors.address?.message}</Field.Error>

@@ -10,8 +10,16 @@ import { useGiftsTabContext } from './contexts/GiftsTabContext';
 interface GiftsTabProps {}
 
 export default function GiftsTab({}: GiftsTabProps) {
-  const { search, setSearch, isLoading, filteredGifts, openForm, remove } =
-    useGiftsTabContext();
+  const {
+    search,
+    setSearch,
+    isLoading,
+    showEmptyFinancialInfoMessage,
+    handleOpenFinancialInfo,
+    filteredGifts,
+    openForm,
+    remove
+  } = useGiftsTabContext();
 
   const renderLoading = () =>
     Array.from({ length: 6 }).map((_, i) => (
@@ -24,33 +32,51 @@ export default function GiftsTab({}: GiftsTabProps) {
       </Card>
     ));
 
+  const render = () => {
+    if (isLoading) return renderLoading();
+    else if (showEmptyFinancialInfoMessage)
+      return (
+        <div className="text-center space-y-4 my-8">
+          <div className="text-xl font-bold">
+            Para cadastrar presentes, você precisa configurar o recebimento dos
+            valores antes
+          </div>
+          <Button onClick={handleOpenFinancialInfo}>Configurar agora</Button>
+        </div>
+      );
+    else if (!filteredGifts.length)
+      return <div>Nenhum presente encontrado</div>;
+    else
+      return (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {filteredGifts.map((gift) => (
+            <GiftItem gift={gift} handleEdit={openForm} handleDelete={remove} />
+          ))}
+        </div>
+      );
+  };
+
+  const showHeader = !isLoading && !showEmptyFinancialInfoMessage;
+
   return (
     <>
-      <div className="mb-4 flex justify-between gap-2 w-full">
-        <Field.Input
-          placeholder="Digite sua busca"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          containerClassName="w-full"
-          handleClickSearchButton={() => true}
-        />
+      {showHeader && (
+        <div className="mb-4 flex justify-between gap-2 w-full">
+          <Field.Input
+            placeholder="Digite sua busca"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            containerClassName="w-full"
+            handleClickSearchButton={() => true}
+          />
 
-        <Button onClick={() => openForm()} className="px-4 md:px-10">
-          Novo
-        </Button>
-      </div>
+          <Button onClick={() => openForm()} className="px-4 md:px-10">
+            Novo
+          </Button>
+        </div>
+      )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {isLoading
-          ? renderLoading()
-          : filteredGifts.map((gift) => (
-              <GiftItem
-                gift={gift}
-                handleEdit={openForm}
-                handleDelete={remove}
-              />
-            ))}
-      </div>
+      {render()}
     </>
   );
 }

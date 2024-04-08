@@ -1,4 +1,7 @@
-import { createGiftServerService } from '../../../../../services/server/gift.server-service';
+import {
+  CreateUpdateGiftParams,
+  createGiftServerService
+} from '../../../../../services/server/gift.server-service';
 import { NextResponse } from 'next/server';
 
 interface Params {
@@ -14,9 +17,16 @@ export async function GET(_: Request, { params }: Params) {
 }
 
 export async function POST(req: Request, { params }: Params) {
-  const input = await req.json();
+  const formData = await req.formData();
 
-  const response = await giftService.create(Number(params.eventId), input);
+  const inputParams: CreateUpdateGiftParams<GiftInputModel> = {
+    inputData: JSON.parse(formData.get('data') as string),
+    inputFiles: {
+      fileImage: formData.get('fileImage') as File
+    }
+  };
+
+  const response = await giftService.create(Number(params.eventId), inputParams);
 
   return NextResponse.json(response);
 }
