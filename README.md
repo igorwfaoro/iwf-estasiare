@@ -1,2 +1,2 @@
 Demo App
-https://iwf-eventy.vercel.app
+https://iwf-estasiare.vercel.app
