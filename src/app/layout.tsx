@@ -7,7 +7,7 @@ import { locale } from '../util/locale';
 dayjs.locale(locale.id);
 
 export const metadata: Metadata = {
-  title: 'Eventy'
+  title: 'Estasiare'
 };
 
 interface RootLayoutProps {

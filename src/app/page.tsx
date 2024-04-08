@@ -13,11 +13,11 @@ export const metadata: Metadata = {
   //   description: event.titleDescription,
   //   ...(event.content.logoImage && { images: event.content.logoImage }),
   //   type: 'website',
-  //   siteName: `Eventy`,
+  //   siteName: `Estasiare`,
   // },
   // twitter: {
   //   title: event.titleDescription,
-  //   description: `${event.titleDescription} | Eventy`,
+  //   description: `${event.titleDescription} | Estasiare`,
   //   card: 'summary',
   //   ...(event.content.logoImage && { images: event.content.logoImage }),
   // },

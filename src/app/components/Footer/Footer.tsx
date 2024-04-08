@@ -5,7 +5,7 @@ export default function Footer() {
 
   return (
     <div className="flex justify-center p-3 text-sm text-neutral-400">
-      <div>Eventy | {year}</div>
+      <div>Estasiare | {year}</div>
     </div>
   );
 }
