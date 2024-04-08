@@ -4,6 +4,7 @@ namespace NodeJS {
 
     GOOGLE_API_KEY: string;
     NEXT_PUBLIC_GOOGLE_API_KEY: string;
+    NEXT_PUBLIC_GTAG: string;
 
     GOOGLE_CLIENT_ID: string;
     GOOGLE_CLIENT_SECRET: string;
