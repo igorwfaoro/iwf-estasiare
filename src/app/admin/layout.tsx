@@ -1,7 +1,7 @@
 'use client';
 
 import { SessionProvider } from 'next-auth/react';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import ProviderComposer from '../../components/ProviderCompose';
@@ -9,12 +9,15 @@ import ToastProvider from '../../contexts/ToastContext';
 import LoaderProvider from '../../contexts/LoaderContext';
 import ModalProvider from '../../contexts/ModalContext';
 import AlertProvider from '../../contexts/AlertContext';
-
 interface AdminLayoutProps {
   children: ReactNode;
 }
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
+  useEffect(() => {
+    document.title = 'Admin | Estasiare';
+  }, []);
+
   return (
     <ProviderComposer
       components={[

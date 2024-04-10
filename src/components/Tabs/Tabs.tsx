@@ -3,6 +3,7 @@
 import classNames from 'classnames';
 import { ReactElement, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
+import Skeleton from '../Skeleton/Skeleton';
 
 export interface TabItem {
   label?: string;
@@ -13,9 +14,15 @@ interface TabsProps {
   tabs: TabItem[];
   className?: string;
   contentClassName?: string;
+  isLoading?: boolean;
 }
 
-export default function Tabs({ tabs, className, contentClassName }: TabsProps) {
+export default function Tabs({
+  tabs,
+  className,
+  contentClassName,
+  isLoading
+}: TabsProps) {
   const [index, setIndex] = useState(0);
 
   const currentTab = tabs[index];
@@ -32,8 +39,9 @@ export default function Tabs({ tabs, className, contentClassName }: TabsProps) {
               classNames({ 'border-b-0 bg-transparent': i === index })
             )}
             style={{ width: `${100 / tabs.length}%` }}
+            disabled={isLoading}
           >
-            {step.label}
+            {isLoading ? <div className='flex justify-center'><Skeleton className="h-4 w-40 rounded" /></div> : step.label}
           </button>
         ))}
       </div>

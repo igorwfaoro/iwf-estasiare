@@ -21,7 +21,8 @@ interface EventContentEditModalProps extends EditModalProps {}
 interface EventContentEditModalResult extends EditModalResult {}
 
 const formSchema = z.object({
-  primaryColor: z.string().min(1, 'Informe a cor principal do evento')
+  primaryColor: z.string().min(1, 'Informe a cor principal do evento'),
+  spotifyPlaylistUrl: z.string().url('Informe uma URl válida').optional()
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -77,7 +78,8 @@ export default function EventContentEditModal({
       .update(event.id, {
         inputData: {
           content: {
-            primaryColor: data.primaryColor
+            primaryColor: data.primaryColor,
+            spotifyPlaylistUrl: data.spotifyPlaylistUrl
           }
         },
         inputFiles: {
@@ -164,6 +166,19 @@ export default function EventContentEditModal({
           <img src={logoImageThumbnail} className="h-28 mb-6" />
         )}
       </div>
+
+      <Field>
+        <Field.Label>URL da sua playlist de casamento</Field.Label>
+        <Field.HelpText>
+          Você pode usar a URL de incorporação de sua playlist do Spotify
+        </Field.HelpText>
+        <Field.HelpText>
+          Exemplo:
+          https://open.spotify.com/embed/playlist/4repDc6kVmb39JvP5uq4Eb?utm_source=generator
+        </Field.HelpText>
+        <Field.Input {...register('spotifyPlaylistUrl')} type="url" />
+        <Field.Error>{errors.spotifyPlaylistUrl?.message}</Field.Error>
+      </Field>
 
       <Button type="submit">Salvar</Button>
     </form>

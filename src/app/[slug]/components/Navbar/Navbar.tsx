@@ -27,7 +27,7 @@ export function EventNavbar({ event }: EventNavbarProps) {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
   const links = [
-    (event.hasGifts || event.hasInvitations) && {
+    {
       path: `/${event.slug}`,
       label: 'Home'
     },

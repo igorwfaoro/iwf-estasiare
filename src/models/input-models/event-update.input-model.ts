@@ -20,6 +20,7 @@ interface Content {
   primaryColor: string;
   bannerImage: string;
   logoImage: string;
+  spotifyPlaylistUrl: string;
 }
 
 interface WeddingDetail {

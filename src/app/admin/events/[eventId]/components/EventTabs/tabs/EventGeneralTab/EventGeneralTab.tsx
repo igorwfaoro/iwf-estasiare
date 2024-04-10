@@ -19,6 +19,8 @@ import { EventType } from '@prisma/client';
 import EventWeddingDetailEditModal from './components/EventWeddingDetailEditModal/EventWeddingDetailEditModal';
 import { useAdminEventPageContext } from '../../../../contexts/AdminEventPageContext';
 import EventFinancialEditModal from './components/EventFinancialEditModal/EventFinancialEditModal';
+import { FaSpotify } from 'react-icons/fa';
+import Link from 'next/link';
 
 interface EventGeneralTabProps {}
 
@@ -75,27 +77,50 @@ export default function EventGeneralTab({}: EventGeneralTabProps) {
         title: 'Conteúdo',
         content: (event) => (
           <div className="space-y-4">
-            {event.content!.bannerImage && (
-              <img
-                src={event.content!.bannerImage}
-                alt="Banner Image"
-                className="h-20 rounded-lg"
-              />
-            )}
-
-            <div className="flex gap-4">
-              <div
-                className="h-6 w-12 rounded-xl"
-                style={{ backgroundColor: event.content!.primaryColor }}
-              />
-              {event.content!.logoImage && (
-                <img
-                  src={event.content!.logoImage}
-                  alt="Logo Image"
-                  className="h-16"
-                />
+            <div className="space-y-2">
+              {(event.content?.bannerImage || event.content?.logoImage) && (
+                <div>Imagens:</div>
               )}
+              <div className="flex gap-4">
+                {event.content!.bannerImage && (
+                  <img
+                    src={event.content!.bannerImage}
+                    alt="Banner Image"
+                    className="h-20 rounded-lg"
+                  />
+                )}
+                {event.content!.logoImage && (
+                  <img
+                    src={event.content!.logoImage}
+                    alt="Logo Image"
+                    className="h-16"
+                  />
+                )}
+              </div>
             </div>
+
+            <div>
+              <span>Cor: </span>
+              <span
+                className="rounded-xl py-1 px-2 font-bold text-white"
+                style={{ backgroundColor: event.content!.primaryColor }}
+              >
+                {event.content?.primaryColor}
+              </span>
+            </div>
+
+            {event.content?.spotifyPlaylistUrl && (
+              <Link
+                href={event.content.spotifyPlaylistUrl}
+                target="_blank"
+                className="flex gap-1 items-center underline"
+              >
+                <FaSpotify className="text-green-600 font-bold" />
+                <span className="text-green-600 font-bold">
+                  Playlist Spotify
+                </span>
+              </Link>
+            )}
           </div>
         ),
         editModal: {
