@@ -53,6 +53,10 @@ export default function EventContentEditModal({
 
   useEffect(() => {
     setValue('primaryColor', event.content!.primaryColor);
+    setValue(
+      'spotifyPlaylistUrl',
+      event.content!.spotifyPlaylistUrl || undefined
+    );
 
     setBannerImageThumbnail(event.content?.bannerImage || undefined);
     setLogoImageThumbnail(event.content?.logoImage || undefined);
