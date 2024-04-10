@@ -27,8 +27,8 @@ export async function generateMetadata({
     themeColor: event.content?.primaryColor,
     openGraph: {
       description: event.titleDescription,
-      ...(event.content?.logoImage && {
-        images: event.content.logoImage
+      ...(event.content?.bannerImage && {
+        images: event.content.bannerImage
       }),
       type: 'website',
       siteName: `Estasiare`
