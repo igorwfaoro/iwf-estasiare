@@ -37,7 +37,7 @@ export async function generateMetadata({
       title: event.titleDescription,
       description: `${event.titleDescription} | Estasiare`,
       card: 'summary',
-      ...(event.content?.logoImage && { images: event.content.logoImage })
+      ...(event.content?.bannerImage && { images: event.content.bannerImage })
     }
   };
 }
