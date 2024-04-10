@@ -9,12 +9,12 @@ import Button from '../../../../../../../../../../components/Button/Button';
 import { ModalRefPropType } from '../../../../../../../../../../contexts/ModalContext';
 import { HandbookInputModel } from '../../../../../../../../../../models/input-models/handbook.input-model';
 import { EventHandbookDetailViewModel } from '../../../../../../../../../../models/view-models/event-handbook-detail.view-model';
-import ReactQuill from 'react-quill';
-import * as Quill from 'quill';
+import ReactQuill, { Quill } from 'react-quill';
+import { ImageResize } from 'quill-image-resize-module-ts';
 import 'react-quill/dist/quill.snow.css';
+import '../../../../../../../../../../util/quillEditor/QuillImageResizeToolbarOnCreate';
 
-// import ImageResize from 'quill-image-resize-module-ts';
-// Quill.default.register('modules/imageResize', ImageResize);
+Quill.register('modules/imageResize', ImageResize);
 
 export interface HandbookFormModalProps extends ModalRefPropType {
   handbook?: EventHandbookDetailViewModel;
@@ -63,23 +63,36 @@ export default function HandbookFormModal({
     modalRef.close({ handbook: data } as HandbookFormModalResult);
   };
 
-  var toolbarOptions = [
-    [{ header: [1, 2, 3, 4, 5, 6, false] }],
-    ['bold', 'italic', 'underline', 'strike'],
-    ['blockquote', 'code-block'],
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      ['blockquote', 'code-block'],
 
-    [{ list: 'ordered' }, { list: 'bullet' }],
-    [{ script: 'sub' }, { script: 'super' }],
-    [{ indent: '-1' }, { indent: '+1' }],
-    [{ direction: 'rtl' }],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      [{ script: 'sub' }, { script: 'super' }],
+      [{ indent: '-1' }, { indent: '+1' }],
+      [{ direction: 'rtl' }],
 
-    [{ size: ['small', false, 'large', 'huge'] }],
-    ['link', 'image'],
-    [{ color: [] }, { background: [] }],
-    [{ align: [] }],
+      [{ size: ['small', false, 'large', 'huge'] }],
+      ['link', 'image'],
+      [{ color: [] }, { background: [] }],
+      [{ align: [] }],
 
-    ['clean']
-  ];
+      ['clean']
+    ],
+    imageResize: {
+      parchment: Quill.import('parchment'),
+      modules: ['Resize', 'DisplaySize', 'Toolbar'],
+      toolbarStyles: {
+        backgroundColor: 'black',
+        border: 'none',
+        color: 'white'
+      },
+      toolbarButtonStyles: {},
+      toolbarButtonSvgStyles: {}
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -101,9 +114,7 @@ export default function HandbookFormModal({
           theme="snow"
           value={content}
           onChange={setContent}
-          modules={{
-            toolbar: toolbarOptions
-          }}
+          modules={modules}
           className="min-h-52 flex flex-col relative bg-white"
         />
         <Field.Error>{errors.content?.message}</Field.Error>

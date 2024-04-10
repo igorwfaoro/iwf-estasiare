@@ -31,6 +31,7 @@ export default function HandBooksTab({}: HandBooksTabProps) {
           ? renderLoading()
           : handbooks.map((handbook) => (
               <HandbookItem
+                key={handbook.id}
                 handbook={handbook}
                 handleEdit={openForm}
                 handleDelete={remove}

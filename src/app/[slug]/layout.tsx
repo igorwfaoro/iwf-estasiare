@@ -49,7 +49,7 @@ export default async function EventLayout({ params, children }: LayoutProps) {
     <>
       <EventNavbar event={event} />
       <Suspense fallback={<Loading />}>{children}</Suspense>
-      <EventFooter />
+      <EventFooter event={event} />
     </>
   );
 }

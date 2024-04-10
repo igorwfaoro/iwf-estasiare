@@ -1,12 +1,12 @@
-export const getFilePublicUrl = (fileName: string): string => {
-  return fileName.startsWith('http')
-    ? fileName
-    : `${process.env.S3_URL}/${fileName}`;
-};
+export const getFileBucketUrl = (fileName: string) =>
+  `${process.env.S3_URL}/${fileName}`;
 
-export const getFilePublicUrlOrNull = (
+export const getFileApiUrl = (fileName: string): string =>
+  fileName.startsWith('http') ? fileName : `/api/file/${fileName}`;
+
+export const getFileApiUrlOrNull = (
   fileName: string | undefined | null
-): string | null => (fileName ? getFilePublicUrl(fileName) : null);
+): string | null => (fileName ? getFileApiUrl(fileName) : null);
 
 export const fileToDataURL = (file: File): Promise<string> => {
   const reader = new FileReader();
