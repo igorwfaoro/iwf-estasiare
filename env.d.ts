@@ -2,6 +2,8 @@ namespace NodeJS {
   interface ProcessEnv {
     DATABASE_URL: string;
 
+    NEXT_PUBLIC_SITE_URL: string;
+
     GOOGLE_API_KEY: string;
     NEXT_PUBLIC_GOOGLE_API_KEY: string;
     NEXT_PUBLIC_GTAG: string;

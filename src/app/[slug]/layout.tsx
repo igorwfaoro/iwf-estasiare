@@ -1,8 +1,9 @@
-import { ReactNode, cache } from 'react';
+import { ReactNode, Suspense, cache } from 'react';
 import { EventNavbar } from './components/Navbar/Navbar';
 import { EventFooter } from './components/Footer/Footer';
 import { Metadata } from 'next';
 import { createEventServerService } from '../../services/server/event.server-service';
+import Loading from '../loading';
 
 interface LayoutProps {
   params: { slug: string };
@@ -47,7 +48,7 @@ export default async function EventLayout({ params, children }: LayoutProps) {
   return (
     <>
       <EventNavbar event={event} />
-      {children}
+      <Suspense fallback={<Loading />}>{children}</Suspense>
       <EventFooter />
     </>
   );

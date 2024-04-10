@@ -10,7 +10,11 @@ import { ModalRefPropType } from '../../../../../../../../../../contexts/ModalCo
 import { HandbookInputModel } from '../../../../../../../../../../models/input-models/handbook.input-model';
 import { EventHandbookDetailViewModel } from '../../../../../../../../../../models/view-models/event-handbook-detail.view-model';
 import ReactQuill from 'react-quill';
+import * as Quill from 'quill';
 import 'react-quill/dist/quill.snow.css';
+
+// import ImageResize from 'quill-image-resize-module-ts';
+// Quill.default.register('modules/imageResize', ImageResize);
 
 export interface HandbookFormModalProps extends ModalRefPropType {
   handbook?: EventHandbookDetailViewModel;
@@ -44,7 +48,6 @@ export default function HandbookFormModal({
   const [content, setContent] = useState('');
 
   useEffect(() => {
-    console.log(handbook)
     if (handbook) {
       setValue('title', handbook.title);
       setValue('description', handbook.description);

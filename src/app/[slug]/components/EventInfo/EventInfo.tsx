@@ -10,8 +10,8 @@ export default function EventInfo({ event }: EventInfoProps) {
 
   return (
     <section className="bg-[url(/images/event/home-1.jpg)] bg-cover bg-bottom flex flex-col py-24 px-[2%] items-center gap-3">
+      <span className="text-xl">Reserve esta data</span>
       <span className="text-3xl font-bold">{dateFormatted}</span>
-      <span className="text-xl">{event.address}</span>
     </section>
   );
 }

@@ -25,7 +25,7 @@ import { createEventClientService } from '../../../../../../../../../services/cl
 import EventFinancialEditModal, {
   EventFinancialEditModalProps,
   EventFinancialEditModalResult
-} from '../../EventGeneralTab/components/EventFinancialEditModal/EventFinancialEditModal';
+} from '../../EventInfoTab/edit-modals/EventFinancialEditModal/EventFinancialEditModal';
 
 export interface IGiftsTabProvider {
   search: string;
