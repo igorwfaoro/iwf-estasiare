@@ -31,7 +31,7 @@ export default function EventHeader({ event }: EventHeaderProps) {
 
       <header
         id="event-header"
-        className="w-full h-screen before:bg-cover before:bg-top before:bg-[url(/images/banner-home.jpg)] before:absolute before:top-0 before:right-0 before:bottom-0 before:left-0 before:brightness-50"
+        className="w-full h-dvh before:bg-cover before:bg-top before:bg-[url(/images/banner-home.jpg)] before:absolute before:top-0 before:right-0 before:bottom-0 before:left-0 before:brightness-50"
       >
         <div className="absolute w-full h-screen flex flex-col items-center justify-center gap-6">
           {event.content?.logoImage && (
