@@ -42,7 +42,7 @@ export const createGiftServerService = () => {
     eventId: number,
     { inputData, inputFiles }: CreateUpdateGiftParams<GiftInputModel>
   ): Promise<GiftViewModel> => {
-    await eventService.verifyUser(eventId);
+    await eventService.verifyUserEvent(eventId);
 
     const fileService = createFileServerService();
 
@@ -75,7 +75,7 @@ export const createGiftServerService = () => {
     id: number;
     inputParams: CreateUpdateGiftParams<Partial<GiftInputModel>>;
   }): Promise<GiftViewModel> => {
-    await eventService.verifyUser(eventId);
+    await eventService.verifyUserEvent(eventId);
 
     const fileService = createFileServerService();
 
@@ -103,7 +103,7 @@ export const createGiftServerService = () => {
   };
 
   const remove = async (eventId: number, id: number): Promise<void> => {
-    await eventService.verifyUser(eventId);
+    await eventService.verifyUserEvent(eventId);
 
     await prisma.gift.delete({
       where: {

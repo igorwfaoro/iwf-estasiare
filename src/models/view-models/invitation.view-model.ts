@@ -2,6 +2,6 @@ import { GuestViewModel } from './guest.view-model';
 
 export interface InvitationViewModel {
   id: number;
-  description: string | null;
+  description: string;
   guests?: GuestViewModel[];
 }

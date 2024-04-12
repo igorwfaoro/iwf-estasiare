@@ -6,6 +6,8 @@ import GiftsTab from './tabs/GiftsTab/GiftsTab';
 import GiftsTabProvider from './tabs/GiftsTab/contexts/GiftsTabContext';
 import HandBooksTab from './tabs/HandbooksTab/HandbooksTab';
 import HandbooksTabProvider from './tabs/HandbooksTab/contexts/HandbooksTabContext';
+import PresenceConfirmationTab from './tabs/PresenceConfirmationTab/PresenceConfirmationTab';
+import PresenceConfirmationTabProvider from './tabs/PresenceConfirmationTab/contexts/PresenceConfirmationTabContext';
 
 interface EventTabsProps {}
 
@@ -25,10 +27,14 @@ export default function EventTabs({}: EventTabsProps) {
         </GiftsTabProvider>
       )
     },
-    // {
-    //   label: 'Presença',
-    //   component: <PresenceConfirmationTab />
-    // },
+    {
+      label: 'Presença',
+      component: (
+        <PresenceConfirmationTabProvider>
+          <PresenceConfirmationTab />
+        </PresenceConfirmationTabProvider>
+      )
+    },
     {
       label: 'Manuais',
       component: (

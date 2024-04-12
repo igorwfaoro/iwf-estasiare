@@ -308,6 +308,6 @@ export const createEventServerService = () => {
     getByUser,
     create,
     update,
-    verifyUser
+    verifyUserEvent: verifyUser
   };
 };

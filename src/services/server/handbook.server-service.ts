@@ -34,7 +34,7 @@ export const createHandbookServerService = () => {
     eventId: number,
     input: HandbookInputModel
   ): Promise<EventHandbookDetailViewModel> => {
-    await eventService.verifyUser(eventId);
+    await eventService.verifyUserEvent(eventId);
 
     const handbook = await prisma.eventHandbook.create({
       data: {
@@ -57,7 +57,7 @@ export const createHandbookServerService = () => {
     id: number;
     input: HandbookInputModel;
   }): Promise<EventHandbookDetailViewModel> => {
-    await eventService.verifyUser(eventId);
+    await eventService.verifyUserEvent(eventId);
 
     const handbook = await prisma.eventHandbook.update({
       where: {
@@ -75,7 +75,7 @@ export const createHandbookServerService = () => {
   };
 
   const remove = async (eventId: number, id: number): Promise<void> => {
-    await eventService.verifyUser(eventId);
+    await eventService.verifyUserEvent(eventId);
 
     await prisma.eventHandbook.delete({
       where: {
