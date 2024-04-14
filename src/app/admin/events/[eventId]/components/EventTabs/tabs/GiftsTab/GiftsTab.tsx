@@ -50,7 +50,12 @@ export default function GiftsTab({}: GiftsTabProps) {
       return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filteredGifts.map((gift) => (
-            <GiftItem gift={gift} handleEdit={openForm} handleDelete={remove} />
+            <GiftItem
+              key={gift.id}
+              gift={gift}
+              handleEdit={openForm}
+              handleDelete={remove}
+            />
           ))}
         </div>
       );

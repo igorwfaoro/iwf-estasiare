@@ -1,105 +1,90 @@
-import { GiftViewModel } from '../../../../../../../../../../models/view-models/gift.view-model';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Field from '../../../../../../../../../../components/Field/Field';
 import Button from '../../../../../../../../../../components/Button/Button';
 import { ModalRefPropType } from '../../../../../../../../../../contexts/ModalContext';
-import { DEFAULT_INPUT_ACCEPT_FILE_TYPES } from '../../../../../../../../../../constants/file-types';
-import { fileToDataURL } from '../../../../../../../../../../util/helpers/file.helper';
+import { InvitationInputModel } from '../../../../../../../../../../models/input-models/invitation-create.input-model';
+import { InvitationFormGuest } from './types/invitation-form-guest';
+import Guests from './components/Guests/Guests';
+import { InvitationDetailViewModel } from '../../../../../../../../../../models/view-models/invitation-detail.view-model';
 
 export interface InvitationFormModalProps extends ModalRefPropType {
-  gift?: GiftViewModel;
+  invitation?: InvitationDetailViewModel;
 }
 
 export interface InvitationFormModalResult {
-  data: {
-    gift: GiftInputModel;
-    imageFile: File;
-  };
+  invitation: InvitationInputModel;
 }
 
 const formSchema = z.object({
-  description: z.string().min(1, 'Informe a descrição'),
-  price: z.number().min(0.1, 'Informe o preço')
+  description: z.string().min(1, 'Informe a descrição')
 });
 
 type FormSchema = z.infer<typeof formSchema>;
 
-export default function InvitationFormModal({ gift, modalRef }: InvitationFormModalProps) {
+export default function InvitationFormModal({
+  invitation,
+  modalRef
+}: InvitationFormModalProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
-    watch
+    setValue
   } = useForm<FormSchema>({
     resolver: zodResolver(formSchema)
   });
 
-  const [imageFile, setImageFile] = useState<File>();
-  const [imageThumbnail, setImageThumbnail] = useState<string>();
+  const [guests, setGuests] = useState<InvitationFormGuest[]>([]);
 
   useEffect(() => {
-    if (gift) {
-      setValue('description', gift.description);
-      setValue('price', gift.price);
-      setImageThumbnail(gift.image);
+    if (invitation) {
+      setValue('description', invitation.description);
+      setGuests(invitation.guests || []);
     }
   }, []);
 
-  const handleFormSubmit = (data: FormSchema) => {
-    modalRef.close({
-      data: { gift: data, imageFile: imageFile }
-    } as InvitationFormModalResult);
+  useEffect(() => {
+    setDescriptionByGuests();
+  }, [guests]);
+
+  const setDescriptionByGuests = () => {
+    let text = '';
+
+    if (guests.length === 1) {
+      text = guests[0].name.split(' ')[0];
+    } else {
+      const names = guests.map((g) => g.name.split(' ')[0]);
+
+      const firstPart = names.slice(0, -1).join(', ');
+      const lastPart = names[names.length - 1];
+      
+      text = `${firstPart} e ${lastPart}`;
+    }
+
+    setValue('description', text);
   };
 
-  const handleInputFileChange = async (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
-    if (!event.target.files || event.target.files.length === 0) return;
-
-    const file = event.target.files[0];
-
-    setImageFile(file);
-    setImageThumbnail(await fileToDataURL(file));
+  const handleFormSubmit = (data: FormSchema) => {
+    modalRef.close({ invitation: data } as InvitationFormModalResult);
   };
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)}>
-      <Field>
-        <Field.Label>Descrição</Field.Label>
-        <Field.Input {...register('description')} />
-        <Field.Error>{errors.description?.message}</Field.Error>
-      </Field>
+    <div>
+      <Guests guests={guests} setGuests={setGuests} />
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
+        <Field>
+          <Field.Label>Descrição</Field.Label>
+          <Field.Input {...register('description')} />
+          <Field.Error>{errors.description?.message}</Field.Error>
+        </Field>
 
-      <Field>
-        <Field.Label>Preço</Field.Label>
-        <Field.Input
-          {...register('price', { valueAsNumber: true })}
-          type="number"
-          step="0.01"
-        />
-        <Field.Error>{errors.price?.message}</Field.Error>
-      </Field>
-
-      <Field>
-        <Field.Label>Imagem</Field.Label>
-        <Field.Input
-          type="file"
-          accept={DEFAULT_INPUT_ACCEPT_FILE_TYPES.join(', ')}
-          onChange={(event) => handleInputFileChange(event)}
-        />
-      </Field>
-
-      <div>
-        {imageThumbnail && <img src={imageThumbnail} className="h-28 mb-6" />}
-      </div>
-
-      <div className="flex justify-end">
-        <Button type="submit">Salvar</Button>
-      </div>
-    </form>
+        <div className="flex justify-end">
+          <Button type="submit">Salvar</Button>
+        </div>
+      </form>
+    </div>
   );
 }

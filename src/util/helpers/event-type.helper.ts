@@ -1,6 +1,6 @@
 import { EventType } from '@prisma/client';
 
-export const eventTypeLabel = {
+export const eventTypeLabel: { [key in EventType]: string } = {
   [EventType.WEDDING]: 'Casamento'
 };
 

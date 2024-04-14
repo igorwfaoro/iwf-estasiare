@@ -1,37 +1,35 @@
 import { MdDelete, MdEdit } from 'react-icons/md';
 import Card from '../../../../../../../../../../components/Card/Card';
-import { GiftViewModel } from '../../../../../../../../../../models/view-models/gift.view-model';
-import { toCurrency } from '../../../../../../../../../../util/helpers/number.helper';
+import { InvitationViewModel } from '../../../../../../../../../../models/view-models/invitation.view-model';
 
 interface InvitationItemProps {
-  gift: GiftViewModel;
-  handleEdit: (gift: GiftViewModel) => void;
-  handleDelete: (gift: GiftViewModel) => void;
+  invitation: InvitationViewModel;
+  handleEdit: () => void;
+  handleDelete: () => void;
 }
 
 export default function InvitationItem({
-  gift,
+  invitation,
   handleEdit,
   handleDelete
 }: InvitationItemProps) {
   return (
-    <Card key={gift.id} className="flex gap-2">
-      <div
-        className="h-20 w-28 bg-center bg-cover rounded-xl m-3"
-        style={{ backgroundImage: `url(${gift.image})` }}
-      />
-
+    <Card className="flex gap-2 cursor-pointer bg-white" onClick={handleEdit}>
       <div className="flex justify-between w-full p-2">
         <div>
-          <h1 className="font-bold">{gift.description}</h1>
-          <div>{toCurrency(gift.price)}</div>
+          <h1 className="font-bold">{invitation.description}</h1>
         </div>
 
         <div className="flex gap-1 text-xl ml-3 items-start">
-          <button onClick={() => handleEdit(gift)}>
+          <button onClick={handleEdit}>
             <MdEdit />
           </button>
-          <button onClick={() => handleDelete(gift)}>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDelete();
+            }}
+          >
             <MdDelete />
           </button>
         </div>

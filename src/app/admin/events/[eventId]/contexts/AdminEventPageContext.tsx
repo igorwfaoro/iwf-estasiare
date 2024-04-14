@@ -41,7 +41,6 @@ const AdminEventPageProvider = ({
       .then(setEvent)
       .catch((error) => {
         toast.open('Erro ao carregar evento', 'error');
-        console.error(error);
       })
       .finally(() => setEventIsLoading(false));
   };

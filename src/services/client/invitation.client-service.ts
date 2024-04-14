@@ -3,7 +3,8 @@ import { API_URLS } from '../../constants/api-urls';
 import { http } from '../../http/http';
 import { InvitationViewModel } from '../../models/view-models/invitation.view-model';
 import { GuestInputModel } from '../../models/input-models/guest.input-model';
-import { InvitationInputModel } from '../../models/input-models/invitation.input-model';
+import { InvitationInputModel } from '../../models/input-models/invitation-create.input-model';
+import { InvitationDetailViewModel } from '../../models/view-models/invitation-detail.view-model';
 
 export const createInvitationClientService = () => {
   const getByDescription = (
@@ -18,19 +19,12 @@ export const createInvitationClientService = () => {
       })
       .then((response) => response.data);
 
-  const getAllByEvent = (
-    eventId: number,
-    description: string
-  ): Promise<InvitationViewModel> =>
+  const getAllByEvent = (eventId: number): Promise<InvitationViewModel[]> =>
     http()
-      .get(API_URLS.invitations.getByDescription(eventId), {
-        params: {
-          description
-        }
-      })
+      .get(API_URLS.invitations.getAllByEvent(eventId))
       .then((response) => response.data);
 
-  const getById = (eventId: number, id: number): Promise<InvitationViewModel> =>
+  const getById = (eventId: number, id: number): Promise<InvitationDetailViewModel> =>
     http()
       .get(API_URLS.invitations.getById(eventId, id))
       .then((response) => response.data);
@@ -38,7 +32,7 @@ export const createInvitationClientService = () => {
   const create = (
     eventId: number,
     data: InvitationInputModel
-  ): Promise<InvitationViewModel> =>
+  ): Promise<InvitationDetailViewModel> =>
     http()
       .post(API_URLS.invitations.create(eventId), data)
       .then((response) => response.data);
@@ -47,7 +41,7 @@ export const createInvitationClientService = () => {
     eventId: number,
     id: number,
     data: InvitationInputModel
-  ): Promise<InvitationViewModel> =>
+  ): Promise<InvitationDetailViewModel> =>
     http()
       .put(API_URLS.invitations.update(eventId, id), data)
       .then((response) => response.data);

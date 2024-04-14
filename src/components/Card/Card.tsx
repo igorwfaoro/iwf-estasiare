@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, RefObject } from 'react';
+import { CSSProperties, MouseEventHandler, ReactNode, RefObject } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 interface CardProps {
@@ -7,6 +7,7 @@ interface CardProps {
   elementRef?: RefObject<HTMLDivElement>;
   bgImageUrl?: string | null;
   bgColor?: string;
+  onClick?: MouseEventHandler<HTMLDivElement>;
 }
 
 export default function Card({
@@ -14,7 +15,8 @@ export default function Card({
   className,
   elementRef,
   bgImageUrl,
-  bgColor
+  bgColor,
+  onClick
 }: CardProps) {
   return (
     <div
@@ -24,6 +26,7 @@ export default function Card({
         backgroundImage: bgImageUrl ? `url(${bgImageUrl})` : '',
         backgroundColor: bgColor
       }}
+      onClick={onClick}
     >
       {children}
     </div>

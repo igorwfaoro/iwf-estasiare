@@ -16,10 +16,12 @@ export default function EventTabs({}: EventTabsProps) {
 
   const tabs: TabItem[] = [
     {
+      key: 'event',
       label: 'Evento',
       component: <EventInfoTab />
     },
     {
+      key: 'gifts',
       label: 'Presentes',
       component: (
         <GiftsTabProvider>
@@ -28,7 +30,8 @@ export default function EventTabs({}: EventTabsProps) {
       )
     },
     {
-      label: 'Presença',
+      key: 'invitations',
+      label: 'Convites',
       component: (
         <PresenceConfirmationTabProvider>
           <PresenceConfirmationTab />
@@ -36,6 +39,7 @@ export default function EventTabs({}: EventTabsProps) {
       )
     },
     {
+      key: 'handbooks',
       label: 'Manuais',
       component: (
         <HandbooksTabProvider>

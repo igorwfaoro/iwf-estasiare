@@ -9,42 +9,44 @@ import {
   useMemo,
   useState
 } from 'react';
-import { createGiftClientService } from '../../../../../../../../../services/client/gift.client-service';
 import { useLoader } from '../../../../../../../../../contexts/LoaderContext';
 import { useToast } from '../../../../../../../../../contexts/ToastContext';
 import { useAlert } from '../../../../../../../../../contexts/AlertContext';
 import { useModal } from '../../../../../../../../../contexts/ModalContext';
-import { GiftViewModel } from '../../../../../../../../../models/view-models/gift.view-model';
 import { isMobile } from '../../../../../../../../../util/helpers/is-mobile.helper';
 import { useAdminEventPageContext } from '../../../../../contexts/AdminEventPageContext';
-import { createEventClientService } from '../../../../../../../../../services/client/event.client-service';
-import EventFinancialEditModal, {
-  EventFinancialEditModalProps,
-  EventFinancialEditModalResult
-} from '../../EventInfoTab/edit-modals/EventFinancialEditModal/EventFinancialEditModal';
 import { createInvitationClientService } from '../../../../../../../../../services/client/invitation.client-service';
+import { InvitationViewModel } from '../../../../../../../../../models/view-models/invitation.view-model';
+import InvitationFormModal, {
+  InvitationFormModalProps,
+  InvitationFormModalResult
+} from '../components/InvitationFormModal/InvitationFormModal';
+import { InvitationInputModel } from '../../../../../../../../../models/input-models/invitation-create.input-model';
+import { InvitationDetailViewModel } from '../../../../../../../../../models/view-models/invitation-detail.view-model';
 
 export interface IPresenceConfirmationTabProvider {
   search: string;
   setSearch: Dispatch<SetStateAction<string>>;
   isLoading: boolean;
-  showEmptyFinancialInfoMessage: boolean;
-  handleOpenFinancialInfo: () => void;
-  openForm: (gift?: GiftViewModel) => void;
-  remove: (gift: GiftViewModel) => void;
-  filteredGifts: GiftViewModel[];
+  openForm: (invitationId?: number) => void;
+  remove: (invitationId: number) => void;
+  filteredInvitations: InvitationViewModel[];
 }
 
 interface PresenceConfirmationTabProviderProps {
   children: any;
 }
 
-const PresenceConfirmationTabContext = createContext<IPresenceConfirmationTabProvider | undefined>(undefined);
+const PresenceConfirmationTabContext = createContext<
+  IPresenceConfirmationTabProvider | undefined
+>(undefined);
 
-const PresenceConfirmationTabProvider = ({ children }: PresenceConfirmationTabProviderProps) => {
+const PresenceConfirmationTabProvider = ({
+  children
+}: PresenceConfirmationTabProviderProps) => {
   const { event } = useAdminEventPageContext();
 
-  const invitationService = createInvitationClientService()
+  const invitationService = createInvitationClientService();
 
   const loader = useLoader();
   const toast = useToast();
@@ -52,86 +54,78 @@ const PresenceConfirmationTabProvider = ({ children }: PresenceConfirmationTabPr
   const modal = useModal();
 
   const [search, setSearch] = useState<string>('');
-  const [gifts, setGifts] = useState<GiftViewModel[]>([]);
+  const [invitations, setInvitations] = useState<InvitationViewModel[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-
   useEffect(() => {
-    if (event?.financial?.paypalBusinessCode) getGifts();
-    else setShowEmptyFinancialInfoMessage(true);
+    if (event) getInvitations();
   }, [event]);
 
-  const getGifts = () => {
+  const getInvitations = () => {
     setIsLoading(true);
-    giftService
+    invitationService
       .getAllByEvent(event!.id)
-      .then(setGifts)
+      .then(setInvitations)
       .catch((error) => {
-        toast.open('Erro ao carregar lista de presentes', 'error');
+        toast.open('Erro ao carregar convites', 'error');
         console.error(error);
       })
       .finally(() => setIsLoading(false));
   };
 
-  const handleOpenFinancialInfo = () => {
+  const openForm = async (invitationId?: number) => {
+    let invitation: InvitationDetailViewModel | undefined = undefined;
+    if (invitationId) {
+      try {
+        loader.show();
+        invitation = await invitationService.getById(event!.id, invitationId);
+      } catch (error) {
+        toast.open('Erro ao carregar convite', 'error');
+        console.error(error);
+      } finally {
+        loader.hide();
+      }
+    }
+
     modal.open({
-      component: EventFinancialEditModal,
-      title: 'Informações Financeiras',
-      props: { event } as EventFinancialEditModalProps,
+      component: InvitationFormModal,
+      title: `${invitationId ? 'Editar' : 'Novo'} convite`,
+      props: { invitation } as InvitationFormModalProps,
       width: isMobile() ? '90%' : '50%',
-      onClose: (result: EventFinancialEditModalResult) => {
-        if (result.edited) {
-          setShowEmptyFinancialInfoMessage(false);
-          getGifts();
-        }
+      onClose: (result?: InvitationFormModalResult) => {
+        if (result?.invitation) saveInvitation(result.invitation, invitationId);
       }
     });
   };
 
-  const openForm = (gift?: GiftViewModel) => {
-    modal.open({
-      component: GiftFormModal,
-      title: `${gift ? 'Editar' : 'Novo'} presente`,
-      props: { gift } as GiftFormModalProps,
-      width: isMobile() ? '90%' : '50%',
-      onClose: (result?: GiftFormModalResult) => {
-        if (result?.data) {
-          const serviceApi = gift
-            ? giftService.update(
-                event!.id,
-                gift.id,
-                result.data.gift,
-                result.data.imageFile
-              )
-            : giftService.create(
-                event!.id,
-                result.data.gift,
-                result.data.imageFile
-              );
+  const saveInvitation = (
+    invitation: InvitationInputModel,
+    invitationId?: number
+  ) => {
+    const serviceApi = invitationId
+      ? invitationService.update(event!.id, invitationId, invitation)
+      : invitationService.create(event!.id, invitation);
 
-          loader.show();
-          serviceApi
-            .then(() => {
-              toast.open(
-                `${gift ? 'Editado' : 'Criado'} com sucesso`,
-                'success'
-              );
-              getGifts();
-            })
-            .catch((error) => {
-              toast.open(`Erro ao ${gift ? 'editar' : 'criar'}`, 'error');
-              console.error(error);
-            })
-            .finally(() => loader.hide());
-        }
-      }
-    });
+    loader.show();
+    serviceApi
+      .then(() => {
+        toast.open(
+          `${invitation ? 'Editado' : 'Criado'} com sucesso`,
+          'success'
+        );
+        getInvitations();
+      })
+      .catch((error) => {
+        toast.open(`Erro ao ${invitation ? 'editar' : 'criar'}`, 'error');
+        console.error(error);
+      })
+      .finally(() => loader.hide());
   };
 
-  const remove = (gift: GiftViewModel) => {
+  const remove = (invitationId: number) => {
     alert.open({
-      title: 'Remover presente',
-      message: 'Remover este presente?',
+      title: 'Remover convite',
+      message: 'Remover este convite?',
       buttons: [
         {
           text: 'Cancelar',
@@ -143,11 +137,11 @@ const PresenceConfirmationTabProvider = ({ children }: PresenceConfirmationTabPr
           closeOnClick: false,
           onClick: (modalRef) => {
             loader.show();
-            giftService
-              .remove(event!.id, gift.id)
+            invitationService
+              .remove(event!.id, invitationId)
               .then(() => {
                 toast.open('Removido com sucesso', 'success');
-                getGifts();
+                getInvitations();
                 modalRef.close();
               })
               .catch((error) => {
@@ -161,8 +155,8 @@ const PresenceConfirmationTabProvider = ({ children }: PresenceConfirmationTabPr
     });
   };
 
-  const filteredGifts = gifts.filter((gift) =>
-    gift.description.toLowerCase().includes(search.toLowerCase())
+  const filteredInvitations = invitations.filter((invitation) =>
+    invitation.description.toLowerCase().includes(search.toLowerCase())
   );
 
   const returnValue = useMemo(
@@ -170,13 +164,11 @@ const PresenceConfirmationTabProvider = ({ children }: PresenceConfirmationTabPr
       search,
       setSearch,
       isLoading,
-      showEmptyFinancialInfoMessage,
-      handleOpenFinancialInfo,
       openForm,
       remove,
-      filteredGifts
+      filteredInvitations
     }),
-    [search, isLoading, showEmptyFinancialInfoMessage, filteredGifts]
+    [search, isLoading, filteredInvitations]
   );
 
   return (
@@ -188,4 +180,5 @@ const PresenceConfirmationTabProvider = ({ children }: PresenceConfirmationTabPr
 
 export default PresenceConfirmationTabProvider;
 
-export const useGiftsTabContext = () => useContext(PresenceConfirmationTabContext)!;
+export const usePresenceConfirmationTabContext = () =>
+  useContext(PresenceConfirmationTabContext)!;

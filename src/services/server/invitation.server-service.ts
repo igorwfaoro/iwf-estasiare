@@ -1,12 +1,17 @@
 import dayjs from 'dayjs';
 import { invitationConverter } from '../../converters/invitation.converter';
 import { prisma } from '../../data/db';
-import { InvitationInputModel } from '../../models/input-models/invitation.input-model';
+import { InvitationInputModel } from '../../models/input-models/invitation-create.input-model';
 import { UpdateGuestsConfirmationInputModel } from '../../models/input-models/update-guests-confirmation.input-model';
 import { InvitationViewModel } from '../../models/view-models/invitation.view-model';
 import { createEventServerService } from './event.server-service';
 import { GuestInputModel } from '../../models/input-models/guest.input-model';
 import { guestConverter } from '../../converters/guest.converter';
+import {
+  InvitationGuestUpdateInputModel,
+  InvitationUpdateInputModel
+} from '../../models/input-models/invitation-update.input-model';
+import { InvitationDetailViewModel } from '../../models/view-models/invitation-detail.view-model';
 
 export const createInvitationServerService = () => {
   const eventService = createEventServerService();
@@ -14,7 +19,7 @@ export const createInvitationServerService = () => {
   const getByDescription = async (
     eventId: number,
     description: string
-  ): Promise<InvitationViewModel> => {
+  ): Promise<InvitationDetailViewModel> => {
     const invitation = await prisma.invitation.findFirstOrThrow({
       where: {
         eventId,
@@ -28,7 +33,7 @@ export const createInvitationServerService = () => {
       }
     });
 
-    return invitationConverter.modelToViewModel(invitation);
+    return invitationConverter.modelToDetailViewModel(invitation);
   };
 
   const getAllByEvent = async (
@@ -48,7 +53,7 @@ export const createInvitationServerService = () => {
   const getById = async (
     eventId: number,
     id: number
-  ): Promise<InvitationViewModel> => {
+  ): Promise<InvitationDetailViewModel> => {
     await eventService.verifyUserEvent(eventId);
 
     const invitation = await prisma.invitation.findUniqueOrThrow({
@@ -60,23 +65,36 @@ export const createInvitationServerService = () => {
       }
     });
 
-    return invitationConverter.modelToViewModel(invitation);
+    return invitationConverter.modelToDetailViewModel(invitation);
   };
 
   const create = async (
     eventId: number,
     input: InvitationInputModel
-  ): Promise<InvitationViewModel> => {
+  ): Promise<InvitationDetailViewModel> => {
     await eventService.verifyUserEvent(eventId);
 
     const invitation = await prisma.invitation.create({
       data: {
         eventId,
-        description: input.description
+        description: input.description,
+        guests: {
+          createMany: {
+            data: input.guests
+              ? input.guests.map((g) => ({
+                  name: g.name,
+                  status: g.status
+                }))
+              : []
+          }
+        }
+      },
+      include: {
+        guests: true
       }
     });
 
-    return invitationConverter.modelToViewModel(invitation);
+    return invitationConverter.modelToDetailViewModel(invitation);
   };
 
   const update = async ({
@@ -86,9 +104,17 @@ export const createInvitationServerService = () => {
   }: {
     eventId: number;
     id: number;
-    input: Partial<InvitationInputModel>;
-  }): Promise<InvitationViewModel> => {
+    input: InvitationUpdateInputModel;
+  }): Promise<InvitationDetailViewModel> => {
     await eventService.verifyUserEvent(eventId);
+
+    if (input.guests) {
+      updateInvitationGuests({
+        eventId,
+        invitationId: id,
+        guests: input.guests
+      });
+    }
 
     const invitation = await prisma.invitation.update({
       where: {
@@ -97,10 +123,69 @@ export const createInvitationServerService = () => {
       },
       data: {
         description: input.description
+      },
+      include: {
+        guests: true
       }
     });
 
-    return invitationConverter.modelToViewModel(invitation);
+    return invitationConverter.modelToDetailViewModel(invitation);
+  };
+
+  const updateInvitationGuests = async ({
+    eventId,
+    invitationId,
+    guests
+  }: {
+    eventId: number;
+    invitationId: number;
+    guests: InvitationGuestUpdateInputModel[];
+  }) => {
+    if (!guests) return;
+
+    const currentGuests = await prisma.guest.findMany({
+      where: {
+        invitation: { eventId },
+        invitationId
+      }
+    });
+
+    const guestsIdsToRemove = currentGuests
+      .filter((g) => guests.find((x) => Number(x.id) == Number(g.id)))
+      .map((g) => g.id);
+
+    const guestsToAdd = guests.filter((g) => !g.id);
+
+    const guestsToUpdate = guests.filter((g) => !!g.id);
+
+    return prisma.invitation.update({
+      where: {
+        eventId,
+        id: invitationId
+      },
+      data: {
+        guests: {
+          deleteMany: {
+            id: { in: guestsIdsToRemove }
+          },
+          createMany: {
+            data: guestsToAdd.map((g) => ({
+              name: g.name!,
+              status: g.status
+            }))
+          },
+          updateMany: {
+            where: {
+              id: { in: guestsToUpdate.map((g) => g.id!) }
+            },
+            data: guestsToUpdate.map((g) => ({
+              name: g.name,
+              status: g.status
+            }))
+          }
+        }
+      }
+    });
   };
 
   const remove = async (eventId: number, id: number): Promise<void> => {
