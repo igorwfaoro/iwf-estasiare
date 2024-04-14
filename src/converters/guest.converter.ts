@@ -8,8 +8,7 @@ export const guestConverter = {
   modelToViewModel: (model: GuestConverterModel): GuestViewModel => ({
     id: Number(model.id),
     name: model.name,
-    isConfirmed: model.isConfirmed,
-    confirmationDate: model.confirmationDate,
+    status: model.status,
     invitation: model.invitation
       ? invitationConverter.modelToViewModel(model.invitation)
       : undefined

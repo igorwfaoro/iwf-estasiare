@@ -1,4 +1,5 @@
+import { GuestStatus } from "@prisma/client";
+
 export interface UpdateGuestsConfirmationInputModel {
-  invitationId: number;
-  guests: { id: number; isConfirmed: boolean }[];
+  guests: { id: number; status: GuestStatus }[];
 }

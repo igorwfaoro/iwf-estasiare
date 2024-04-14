@@ -15,10 +15,6 @@ import { useToast } from '../../../../../../../../../contexts/ToastContext';
 import { useAlert } from '../../../../../../../../../contexts/AlertContext';
 import { useModal } from '../../../../../../../../../contexts/ModalContext';
 import { GiftViewModel } from '../../../../../../../../../models/view-models/gift.view-model';
-import GiftFormModal, {
-  GiftFormModalProps,
-  GiftFormModalResult
-} from '../components/GiftFormModal/GiftFormModal';
 import { isMobile } from '../../../../../../../../../util/helpers/is-mobile.helper';
 import { useAdminEventPageContext } from '../../../../../contexts/AdminEventPageContext';
 import { createEventClientService } from '../../../../../../../../../services/client/event.client-service';
@@ -26,6 +22,7 @@ import EventFinancialEditModal, {
   EventFinancialEditModalProps,
   EventFinancialEditModalResult
 } from '../../EventInfoTab/edit-modals/EventFinancialEditModal/EventFinancialEditModal';
+import { createInvitationClientService } from '../../../../../../../../../services/client/invitation.client-service';
 
 export interface IPresenceConfirmationTabProvider {
   search: string;
@@ -47,8 +44,7 @@ const PresenceConfirmationTabContext = createContext<IPresenceConfirmationTabPro
 const PresenceConfirmationTabProvider = ({ children }: PresenceConfirmationTabProviderProps) => {
   const { event } = useAdminEventPageContext();
 
-  const eventClientService = createEventClientService();
-  const giftService = createGiftClientService();
+  const invitationService = createInvitationClientService()
 
   const loader = useLoader();
   const toast = useToast();
@@ -59,8 +55,6 @@ const PresenceConfirmationTabProvider = ({ children }: PresenceConfirmationTabPr
   const [gifts, setGifts] = useState<GiftViewModel[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [showEmptyFinancialInfoMessage, setShowEmptyFinancialInfoMessage] =
-    useState(false);
 
   useEffect(() => {
     if (event?.financial?.paypalBusinessCode) getGifts();

@@ -16,6 +16,12 @@ enum UserEventRole {
   EDITOR
 }
 
+enum GuestStatus {
+  PENDING
+  CONFIRMED
+  DECLINED
+}
+
 model Event {
   id          BigInt          @id @default(autoincrement())
   eventType   EventType
@@ -72,7 +78,7 @@ model EventFinancial {
 
 model Invitation {
   id          BigInt  @id @default(autoincrement())
-  description String @db.VarChar(200)
+  description String  @db.VarChar(200)
   guests      Guest[]
 
   eventId BigInt
@@ -82,10 +88,9 @@ model Invitation {
 }
 
 model Guest {
-  id               BigInt    @id @default(autoincrement())
-  name             String    @db.VarChar(120)
-  isConfirmed      Boolean   @default(false)
-  confirmationDate DateTime?
+  id               BigInt      @id @default(autoincrement())
+  name             String      @db.VarChar(120)
+  status           GuestStatus @default(PENDING)
 
   invitationId BigInt
   invitation   Invitation @relation(fields: [invitationId], references: [id])

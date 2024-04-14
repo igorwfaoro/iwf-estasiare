@@ -13,6 +13,7 @@ import { GuestViewModel } from '../../../../../../models/view-models/guest.view-
 import { useToast } from '../../../../../../contexts/ToastContext';
 import { EventDetailViewModel } from '../../../../../../models/view-models/event-detail.view-model';
 import { createInvitationClientService } from '../../../../../../services/client/invitation.client-service';
+import { GuestStatus } from '@prisma/client';
 
 export interface IPresenceConfirmationProvider {
   invitation?: InvitationViewModel;
@@ -82,7 +83,7 @@ const PresenceConfirmationProvider = (
         invitation!.id,
         guestsSelects.map((g) => ({
           id: g.id,
-          isConfirmed: g.isConfirmed
+          status: g.status
         }))
       )
       .then(() => {
@@ -92,9 +93,16 @@ const PresenceConfirmationProvider = (
       .finally(() => setLoadingConfirmGuests(false));
   };
 
-  const setGuestsSelectsValue = (guestId: number, isConfirmed: boolean) => {
+  const setGuestsSelectsValue = (guestId: number, selected: boolean) => {
     setGuestsSelects((curr) =>
-      curr.map((g) => (g.id === guestId ? { ...g, isConfirmed } : g))
+      curr.map((g) =>
+        g.id === guestId
+          ? {
+              ...g,
+              status: (selected ? 'CONFIRMED' : 'DECLINED') as GuestStatus
+            }
+          : g
+      )
     );
   };
 

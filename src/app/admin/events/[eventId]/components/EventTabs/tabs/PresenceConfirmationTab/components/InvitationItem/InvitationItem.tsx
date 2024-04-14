@@ -3,17 +3,17 @@ import Card from '../../../../../../../../../../components/Card/Card';
 import { GiftViewModel } from '../../../../../../../../../../models/view-models/gift.view-model';
 import { toCurrency } from '../../../../../../../../../../util/helpers/number.helper';
 
-interface GiftItemProps {
+interface InvitationItemProps {
   gift: GiftViewModel;
   handleEdit: (gift: GiftViewModel) => void;
   handleDelete: (gift: GiftViewModel) => void;
 }
 
-export default function GiftItem({
+export default function InvitationItem({
   gift,
   handleEdit,
   handleDelete
-}: GiftItemProps) {
+}: InvitationItemProps) {
   return (
     <Card key={gift.id} className="flex gap-2">
       <div

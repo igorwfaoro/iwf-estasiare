@@ -9,11 +9,11 @@ import { ModalRefPropType } from '../../../../../../../../../../contexts/ModalCo
 import { DEFAULT_INPUT_ACCEPT_FILE_TYPES } from '../../../../../../../../../../constants/file-types';
 import { fileToDataURL } from '../../../../../../../../../../util/helpers/file.helper';
 
-export interface GiftFormModalProps extends ModalRefPropType {
+export interface InvitationFormModalProps extends ModalRefPropType {
   gift?: GiftViewModel;
 }
 
-export interface GiftFormModalResult {
+export interface InvitationFormModalResult {
   data: {
     gift: GiftInputModel;
     imageFile: File;
@@ -27,7 +27,7 @@ const formSchema = z.object({
 
 type FormSchema = z.infer<typeof formSchema>;
 
-export default function GiftFormModal({ gift, modalRef }: GiftFormModalProps) {
+export default function InvitationFormModal({ gift, modalRef }: InvitationFormModalProps) {
   const {
     register,
     handleSubmit,
@@ -52,7 +52,7 @@ export default function GiftFormModal({ gift, modalRef }: GiftFormModalProps) {
   const handleFormSubmit = (data: FormSchema) => {
     modalRef.close({
       data: { gift: data, imageFile: imageFile }
-    } as GiftFormModalResult);
+    } as InvitationFormModalResult);
   };
 
   const handleInputFileChange = async (

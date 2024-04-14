@@ -12,8 +12,24 @@ export const API_URLS = {
   invitations: {
     getByDescription: (eventId: number) =>
       `${API_BASE_URL}/events/${eventId}/invitations/by-description`,
-    updateGuestsConfirmations: (eventId: number) =>
-      `${API_BASE_URL}/events/${eventId}/invitations/guests-confirmations`
+    getAllByEvent: (eventId: number) =>
+      `${API_BASE_URL}/events/${eventId}/invitations`,
+    getById: (eventId: number, id: number) =>
+      `${API_BASE_URL}/events/${eventId}/invitations/${id}`,
+    create: (eventId: number) =>
+      `${API_BASE_URL}/events/${eventId}/invitations`,
+    update: (eventId: number, id: number) =>
+      `${API_BASE_URL}/events/${eventId}/invitations/${id}`,
+    delete: (eventId: number, id: number) =>
+      `${API_BASE_URL}/events/${eventId}/invitations/${id}`,
+    updateGuestsConfirmations: (eventId: number, invitationId: number) =>
+      `${API_BASE_URL}/events/${eventId}/invitations/${invitationId}/guests/confirmations`,
+    addGuest: (eventId: number, invitationId: number) =>
+      `${API_BASE_URL}/events/${eventId}/invitations/${invitationId}`,
+    updateGuest: (eventId: number, invitationId: number, guestId: number) =>
+      `${API_BASE_URL}/events/${eventId}/invitations/${invitationId}/guests/${guestId}`,
+    removeGuest: (eventId: number, invitationId: number, guestId: number) =>
+      `${API_BASE_URL}/events/${eventId}/invitations/${invitationId}/guests/${guestId}`
   },
   gifts: {
     getAllByEvent: (eventId: number) =>

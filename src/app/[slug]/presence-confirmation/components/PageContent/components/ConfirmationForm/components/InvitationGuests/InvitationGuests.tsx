@@ -19,7 +19,7 @@ export default function InvitationGuests() {
           key={g.id}
           label={g.name}
           onChange={(e) => setGuestsSelectsValue(g.id, e.target.checked)}
-          checked={g.isConfirmed}
+          checked={g.status === 'CONFIRMED'}
           color={event.content?.primaryColor}
         />
       ))}

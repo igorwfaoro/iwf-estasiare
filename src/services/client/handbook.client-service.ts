@@ -17,19 +17,19 @@ export const createHandbookClientService = () => {
 
   const create = (
     eventId: number,
-    gift: HandbookInputModel
+    data: HandbookInputModel
   ): Promise<EventHandbookDetailViewModel> =>
     http()
-      .post(API_URLS.handbooks.create(eventId), gift)
+      .post(API_URLS.handbooks.create(eventId), data)
       .then((response) => response.data);
 
   const update = (
     eventId: number,
     id: number,
-    gift: HandbookInputModel
+    data: HandbookInputModel
   ): Promise<EventHandbookDetailViewModel> =>
     http()
-      .put(API_URLS.handbooks.update(eventId, id), gift)
+      .put(API_URLS.handbooks.update(eventId, id), data)
       .then((response) => response.data);
 
   const remove = (eventId: number, id: number): Promise<void> =>

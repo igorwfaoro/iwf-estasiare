@@ -55,7 +55,7 @@ export const createHandbookServerService = () => {
   }: {
     eventId: number;
     id: number;
-    input: HandbookInputModel;
+    input: Partial<HandbookInputModel>;
   }): Promise<EventHandbookDetailViewModel> => {
     await eventService.verifyUserEvent(eventId);
 
