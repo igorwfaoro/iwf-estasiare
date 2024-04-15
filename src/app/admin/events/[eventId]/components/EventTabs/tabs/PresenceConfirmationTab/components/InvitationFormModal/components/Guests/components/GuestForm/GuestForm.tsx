@@ -38,7 +38,8 @@ export default function GuestForm({
     register,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
+    setFocus
   } = useForm<FormSchema>({
     resolver: zodResolver(formSchema)
   });
@@ -47,6 +48,8 @@ export default function GuestForm({
     if (guest) {
       setValue('name', guest.name);
       setValue('status', guest.status);
+    } else {
+      setFocus('name');
     }
   });
 

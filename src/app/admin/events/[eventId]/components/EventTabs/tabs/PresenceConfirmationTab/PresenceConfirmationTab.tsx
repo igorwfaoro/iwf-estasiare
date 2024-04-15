@@ -17,16 +17,15 @@ export default function PresenceConfirmationTab({}: PresenceConfirmationTabProps
     openForm
   } = usePresenceConfirmationTabContext();
 
-  const renderLoading = () =>
-    Array.from({ length: 6 }).map((_, i) => (
-      <Card key={i} className="flex gap-2">
-        <Skeleton className="h-20 w-28 bg-center bg-cover rounded-xl m-3" />
-        <div className="space-y-2 p-4">
-          <Skeleton className="h-4 w-40" />
-          <Skeleton className="h-4 w-28" />
-        </div>
-      </Card>
-    ));
+  const renderLoading = () => (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Card key={i} className="p-3">
+          <Skeleton className="h-5 w-52 rounded-xl" />
+        </Card>
+      ))}
+    </div>
+  );
 
   const enableHeader = !isLoading;
 
@@ -55,14 +54,18 @@ export default function PresenceConfirmationTab({}: PresenceConfirmationTabProps
         renderLoading()
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {filteredInvitations.map((invitation) => (
-            <InvitationItem
-              key={invitation.id}
-              invitation={invitation}
-              handleEdit={() => openForm(invitation.id)}
-              handleDelete={() => remove(invitation.id)}
-            />
-          ))}
+          {filteredInvitations.length ? (
+            filteredInvitations.map((invitation) => (
+              <InvitationItem
+                key={invitation.id}
+                invitation={invitation}
+                handleEdit={() => openForm(invitation.id)}
+                handleDelete={() => remove(invitation.id)}
+              />
+            ))
+          ) : (
+            <div>Nenhum convite encontrado</div>
+          )}
         </div>
       )}
     </>

@@ -9,6 +9,7 @@ import { InvitationInputModel } from '../../../../../../../../../../models/input
 import { InvitationFormGuest } from './types/invitation-form-guest';
 import Guests from './components/Guests/Guests';
 import { InvitationDetailViewModel } from '../../../../../../../../../../models/view-models/invitation-detail.view-model';
+import { useToast } from '../../../../../../../../../../contexts/ToastContext';
 
 export interface InvitationFormModalProps extends ModalRefPropType {
   invitation?: InvitationDetailViewModel;
@@ -28,6 +29,8 @@ export default function InvitationFormModal({
   invitation,
   modalRef
 }: InvitationFormModalProps) {
+  const toast = useToast();
+
   const {
     register,
     handleSubmit,
@@ -46,34 +49,48 @@ export default function InvitationFormModal({
     }
   }, []);
 
-  useEffect(() => {
-    setDescriptionByGuests();
-  }, [guests]);
+  const setDescriptionByGuests = (guestsList: InvitationFormGuest[]) => {
 
-  const setDescriptionByGuests = () => {
+    // TODO: set new description only if names change
+
     let text = '';
 
-    if (guests.length === 1) {
-      text = guests[0].name.split(' ')[0];
+    if (guestsList.length === 1) {
+      text = guestsList[0].name.split(' ')[0];
     } else {
-      const names = guests.map((g) => g.name.split(' ')[0]);
+      const names = guestsList.map((g) => g.name.split(' ')[0]);
 
       const firstPart = names.slice(0, -1).join(', ');
       const lastPart = names[names.length - 1];
-      
+
       text = `${firstPart} e ${lastPart}`;
     }
 
     setValue('description', text);
   };
 
+  const handleSetGuests = (guestsList: InvitationFormGuest[]) => {
+    setDescriptionByGuests(guestsList)
+    setGuests(guestsList);
+  };
+
   const handleFormSubmit = (data: FormSchema) => {
-    modalRef.close({ invitation: data } as InvitationFormModalResult);
+    if (!guests.length) {
+      toast.open('Informe pelo menos um convidado', 'error');
+      return;
+    }
+
+    modalRef.close({
+      invitation: {
+        ...data,
+        guests
+      }
+    } as InvitationFormModalResult);
   };
 
   return (
     <div>
-      <Guests guests={guests} setGuests={setGuests} />
+      <Guests guests={guests} setGuests={handleSetGuests} />
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <Field>
           <Field.Label>Descrição</Field.Label>

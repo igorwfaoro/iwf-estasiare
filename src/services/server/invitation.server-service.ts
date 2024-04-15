@@ -109,7 +109,7 @@ export const createInvitationServerService = () => {
     await eventService.verifyUserEvent(eventId);
 
     if (input.guests) {
-      updateInvitationGuests({
+      await updateInvitationGuests({
         eventId,
         invitationId: id,
         guests: input.guests
@@ -151,41 +151,42 @@ export const createInvitationServerService = () => {
     });
 
     const guestsIdsToRemove = currentGuests
-      .filter((g) => guests.find((x) => Number(x.id) == Number(g.id)))
+      .filter((g) => !guests.find((x) => Number(x.id) == Number(g.id)))
       .map((g) => g.id);
 
     const guestsToAdd = guests.filter((g) => !g.id);
 
     const guestsToUpdate = guests.filter((g) => !!g.id);
 
-    return prisma.invitation.update({
-      where: {
-        eventId,
-        id: invitationId
-      },
-      data: {
-        guests: {
-          deleteMany: {
-            id: { in: guestsIdsToRemove }
-          },
-          createMany: {
-            data: guestsToAdd.map((g) => ({
-              name: g.name!,
-              status: g.status
-            }))
-          },
-          updateMany: {
-            where: {
-              id: { in: guestsToUpdate.map((g) => g.id!) }
-            },
-            data: guestsToUpdate.map((g) => ({
-              name: g.name,
-              status: g.status
-            }))
-          }
+    await prisma.$transaction([
+      prisma.guest.deleteMany({
+        where: {
+          invitation: { eventId },
+          invitationId,
+          id: { in: guestsIdsToRemove }
         }
-      }
-    });
+      }),
+      prisma.guest.createMany({
+        data: guestsToAdd.map((g) => ({
+          invitationId,
+          name: g.name!,
+          status: g.status
+        }))
+      }),
+      ...guestsToUpdate.map((g) =>
+        prisma.guest.update({
+          where: {
+            invitation: { eventId },
+            invitationId,
+            id: g.id
+          },
+          data: {
+            name: g.name,
+            status: g.status
+          }
+        })
+      )
+    ]);
   };
 
   const remove = async (eventId: number, id: number): Promise<void> => {
@@ -231,77 +232,6 @@ export const createInvitationServerService = () => {
     ]);
   };
 
-  const addGuest = async ({
-    eventId,
-    invitationId,
-    input
-  }: {
-    eventId: number;
-    invitationId: number;
-    input: GuestInputModel;
-  }) => {
-    await eventService.verifyUserEvent(eventId);
-
-    const guest = await prisma.guest.create({
-      data: {
-        invitationId,
-        name: input.name,
-        status: input.status
-      }
-    });
-
-    return guestConverter.modelToViewModel(guest);
-  };
-
-  const updateGuest = async ({
-    eventId,
-    invitationId,
-    guestId,
-    input
-  }: {
-    eventId: number;
-    invitationId: number;
-    guestId: number;
-    input: Partial<GuestInputModel>;
-  }) => {
-    await eventService.verifyUserEvent(eventId);
-
-    const guest = await prisma.guest.update({
-      where: {
-        invitation: { eventId },
-        invitationId,
-        id: guestId
-      },
-      data: {
-        invitationId,
-        name: input.name,
-        status: input.status
-      }
-    });
-
-    return guestConverter.modelToViewModel(guest);
-  };
-
-  const removeGuest = async ({
-    eventId,
-    invitationId,
-    guestId
-  }: {
-    eventId: number;
-    invitationId: number;
-    guestId: number;
-  }) => {
-    await eventService.verifyUserEvent(eventId);
-
-    await prisma.guest.delete({
-      where: {
-        invitation: { eventId },
-        invitationId,
-        id: guestId
-      }
-    });
-  };
-
   return {
     getByDescription,
     getAllByEvent,
@@ -309,9 +239,6 @@ export const createInvitationServerService = () => {
     create,
     update,
     remove,
-    updateGuestsConfirmation,
-    addGuest,
-    updateGuest,
-    removeGuest
+    updateGuestsConfirmation
   };
 };
