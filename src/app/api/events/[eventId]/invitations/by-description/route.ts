@@ -7,11 +7,11 @@ interface Params {
 
 const invitationService = createInvitationServerService();
 
-export async function GET(req: Request, {}: Params) {
+export async function GET(req: Request, { params }: Params) {
   const { searchParams } = new URL(req.url);
 
   const response = await invitationService.getByDescription(
-    Number(searchParams.get('eventId')),
+    Number(Number(params.eventId)),
     String(searchParams.get('description'))
   );
   return NextResponse.json(response);

@@ -24,7 +24,7 @@ import InvitationFormModal, {
 import { InvitationInputModel } from '../../../../../../../../../models/input-models/invitation-create.input-model';
 import { InvitationDetailViewModel } from '../../../../../../../../../models/view-models/invitation-detail.view-model';
 
-export interface IPresenceConfirmationTabProvider {
+export interface IInvitationsTabProvider {
   search: string;
   setSearch: Dispatch<SetStateAction<string>>;
   isLoading: boolean;
@@ -33,17 +33,17 @@ export interface IPresenceConfirmationTabProvider {
   filteredInvitations: InvitationViewModel[];
 }
 
-interface PresenceConfirmationTabProviderProps {
+interface InvitationsTabProviderProps {
   children: any;
 }
 
-const PresenceConfirmationTabContext = createContext<
-  IPresenceConfirmationTabProvider | undefined
+const InvitationsTabContext = createContext<
+  IInvitationsTabProvider | undefined
 >(undefined);
 
-const PresenceConfirmationTabProvider = ({
+const InvitationsTabProvider = ({
   children
-}: PresenceConfirmationTabProviderProps) => {
+}: InvitationsTabProviderProps) => {
   const { event } = useAdminEventPageContext();
 
   const invitationService = createInvitationClientService();
@@ -172,13 +172,13 @@ const PresenceConfirmationTabProvider = ({
   );
 
   return (
-    <PresenceConfirmationTabContext.Provider value={returnValue}>
+    <InvitationsTabContext.Provider value={returnValue}>
       {children}
-    </PresenceConfirmationTabContext.Provider>
+    </InvitationsTabContext.Provider>
   );
 };
 
-export default PresenceConfirmationTabProvider;
+export default InvitationsTabProvider;
 
-export const usePresenceConfirmationTabContext = () =>
-  useContext(PresenceConfirmationTabContext)!;
+export const useInvitationsTabContext = () =>
+  useContext(InvitationsTabContext)!;

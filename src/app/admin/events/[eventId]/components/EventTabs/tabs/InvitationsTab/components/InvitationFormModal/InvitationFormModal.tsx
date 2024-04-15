@@ -10,6 +10,8 @@ import { InvitationFormGuest } from './types/invitation-form-guest';
 import Guests from './components/Guests/Guests';
 import { InvitationDetailViewModel } from '../../../../../../../../../../models/view-models/invitation-detail.view-model';
 import { useToast } from '../../../../../../../../../../contexts/ToastContext';
+import { usePrevious } from '@uidotdev/usehooks';
+import { arrayEquals } from '../../../../../../../../../../util/helpers/array.helper';
 
 export interface InvitationFormModalProps extends ModalRefPropType {
   invitation?: InvitationDetailViewModel;
@@ -41,6 +43,7 @@ export default function InvitationFormModal({
   });
 
   const [guests, setGuests] = useState<InvitationFormGuest[]>([]);
+  const previousGuests = usePrevious(guests);
 
   useEffect(() => {
     if (invitation) {
@@ -49,16 +52,26 @@ export default function InvitationFormModal({
     }
   }, []);
 
-  const setDescriptionByGuests = (guestsList: InvitationFormGuest[]) => {
+  useEffect(() => {
+    setDescriptionByGuests();
+  }, [guests]);
 
-    // TODO: set new description only if names change
+  const setDescriptionByGuests = () => {
+    if (!previousGuests) return;
+
+    const guestsNamesHasChanges = !arrayEquals(
+      previousGuests.map((g) => g.name),
+      guests.map((g) => g.name)
+    );
+
+    if (!guestsNamesHasChanges) return;
 
     let text = '';
 
-    if (guestsList.length === 1) {
-      text = guestsList[0].name.split(' ')[0];
+    if (guests.length === 1) {
+      text = guests[0].name.split(' ')[0];
     } else {
-      const names = guestsList.map((g) => g.name.split(' ')[0]);
+      const names = guests.map((g) => g.name.split(' ')[0]);
 
       const firstPart = names.slice(0, -1).join(', ');
       const lastPart = names[names.length - 1];
@@ -67,11 +80,6 @@ export default function InvitationFormModal({
     }
 
     setValue('description', text);
-  };
-
-  const handleSetGuests = (guestsList: InvitationFormGuest[]) => {
-    setDescriptionByGuests(guestsList)
-    setGuests(guestsList);
   };
 
   const handleFormSubmit = (data: FormSchema) => {
@@ -90,8 +98,8 @@ export default function InvitationFormModal({
 
   return (
     <div>
-      <Guests guests={guests} setGuests={handleSetGuests} />
-      <form onSubmit={handleSubmit(handleFormSubmit)}>
+      <Guests guests={guests} setGuests={setGuests} />
+      <form onSubmit={handleSubmit(handleFormSubmit)} className="mt-4">
         <Field>
           <Field.Label>Descrição</Field.Label>
           <Field.Input {...register('description')} />

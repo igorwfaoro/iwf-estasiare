@@ -23,13 +23,7 @@ export const API_URLS = {
     delete: (eventId: number, id: number) =>
       `${API_BASE_URL}/events/${eventId}/invitations/${id}`,
     updateGuestsConfirmations: (eventId: number, invitationId: number) =>
-      `${API_BASE_URL}/events/${eventId}/invitations/${invitationId}/guests/confirmations`,
-    addGuest: (eventId: number, invitationId: number) =>
-      `${API_BASE_URL}/events/${eventId}/invitations/${invitationId}`,
-    updateGuest: (eventId: number, invitationId: number, guestId: number) =>
-      `${API_BASE_URL}/events/${eventId}/invitations/${invitationId}/guests/${guestId}`,
-    removeGuest: (eventId: number, invitationId: number, guestId: number) =>
-      `${API_BASE_URL}/events/${eventId}/invitations/${invitationId}/guests/${guestId}`
+      `${API_BASE_URL}/events/${eventId}/invitations/${invitationId}/guests/confirmations`
   },
   gifts: {
     getAllByEvent: (eventId: number) =>

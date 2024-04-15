@@ -7,9 +7,17 @@ export type InvitationConverterModel = Invitation;
 export type InvitationConverterDetailModel = Invitation & { guests: Guest[] };
 
 export const invitationConverter = {
-  modelToViewModel: (model: InvitationConverterModel): InvitationViewModel => ({
+  modelToViewModel: (
+    model: InvitationConverterModel,
+    {
+      guestsCount,
+      guestsConfirmed
+    }: { guestsCount?: number; guestsConfirmed?: number } = {}
+  ): InvitationViewModel => ({
     id: Number(model.id),
-    description: model.description
+    description: model.description,
+    guestsCount,
+    guestsConfirmed
   }),
   modelToDetailViewModel: (
     model: InvitationConverterDetailModel

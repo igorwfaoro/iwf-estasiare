@@ -44,10 +44,20 @@ export const createInvitationServerService = () => {
     const invitations = await prisma.invitation.findMany({
       where: {
         eventId
+      },
+      include: {
+        guests: true
       }
     });
 
-    return invitations.map(invitationConverter.modelToViewModel);
+    return invitations.map((invitation) =>
+      invitationConverter.modelToViewModel(invitation, {
+        guestsCount: invitation.guests.length,
+        guestsConfirmed: invitation.guests.filter(
+          (x) => x.status === 'CONFIRMED'
+        ).length
+      })
+    );
   };
 
   const getById = async (

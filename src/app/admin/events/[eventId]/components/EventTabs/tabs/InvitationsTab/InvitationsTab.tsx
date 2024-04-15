@@ -2,12 +2,15 @@ import Button from '../../../../../../../../components/Button/Button';
 import Card from '../../../../../../../../components/Card/Card';
 import Field from '../../../../../../../../components/Field/Field';
 import Skeleton from '../../../../../../../../components/Skeleton/Skeleton';
+import { useAdminEventPageContext } from '../../../../contexts/AdminEventPageContext';
 import InvitationItem from './components/InvitationItem/InvitationItem';
-import { usePresenceConfirmationTabContext } from './contexts/PresenceConfirmationTabContext';
+import { useInvitationsTabContext } from './contexts/InvitationsTabContext';
 
-interface PresenceConfirmationTabProps {}
+interface InvitationsTabProps {}
 
-export default function PresenceConfirmationTab({}: PresenceConfirmationTabProps) {
+export default function InvitationsTab({}: InvitationsTabProps) {
+  const { event } = useAdminEventPageContext();
+
   const {
     search,
     setSearch,
@@ -15,7 +18,7 @@ export default function PresenceConfirmationTab({}: PresenceConfirmationTabProps
     remove,
     filteredInvitations,
     openForm
-  } = usePresenceConfirmationTabContext();
+  } = useInvitationsTabContext();
 
   const renderLoading = () => (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -27,7 +30,7 @@ export default function PresenceConfirmationTab({}: PresenceConfirmationTabProps
     </div>
   );
 
-  const enableHeader = !isLoading;
+  const enableHeader = !!event && !isLoading;
 
   return (
     <>
@@ -50,7 +53,7 @@ export default function PresenceConfirmationTab({}: PresenceConfirmationTabProps
         </Button>
       </div>
 
-      {isLoading ? (
+      {!event || isLoading ? (
         renderLoading()
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

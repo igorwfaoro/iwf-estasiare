@@ -67,7 +67,7 @@ const PresenceConfirmationProvider = (
       })
       .catch(() => {
         toast.open(
-          'Convite não encontrado 😥 Verifique se o código está correto',
+          'Convite não encontrado 😥 Verifique se os nomes estão corretos',
           'error'
         );
         setInvitation(undefined);

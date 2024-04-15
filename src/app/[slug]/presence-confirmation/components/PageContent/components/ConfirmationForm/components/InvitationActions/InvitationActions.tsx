@@ -10,9 +10,6 @@ export default function InvitationActions() {
     event
   } = usePresenceConfirmationContext();
 
-  const disableConfirmButton =
-    !guestsSelects.some((g) => g.isConfirmed) || loadingConfirmGuests;
-
   const buttonText = loadingConfirmGuests
     ? 'Confirmando...'
     : 'Confirmar convidados';
@@ -24,7 +21,6 @@ export default function InvitationActions() {
       {!!guestsSelects.length && (
         <Button
           className="w-full"
-          disabled={disableConfirmButton}
           onClick={confirmGuests}
           color={event.content?.primaryColor}
         >

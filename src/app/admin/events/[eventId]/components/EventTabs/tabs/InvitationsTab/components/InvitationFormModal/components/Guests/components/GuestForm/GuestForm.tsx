@@ -63,28 +63,32 @@ export default function GuestForm({
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
-      <Card className="flex justify-between gap-3 bg-white p-3">
-        <Field className="w-full">
-          <Field.Input
-            {...register('name')}
-            placeholder="Nome"
-            className="border border-gray-500 h-8 py-1"
-          />
-          {errors.name && <Field.Error>{errors.name.message}</Field.Error>}
-        </Field>
+      <Card className="flex flex-col md:flex-row gap-1 md:gap-3 md:justify-between bg-white p-3">
+        <div className="flex gap-3 w-full">
+          <Field className="w-full">
+            <Field.Input
+              {...register('name')}
+              placeholder="Nome"
+              className="border border-gray-500 h-8 py-1"
+            />
+            {errors.name && <Field.Error>{errors.name.message}</Field.Error>}
+          </Field>
 
-        <Field className="w-full md:w-52">
-          <Field.Select {...register('status')} className="h-8 py-1">
-            {guestStatusList.map((item) => (
-              <Field.SelectOption key={item} value={item}>
-                {(guestStatusLabel as any)[item]}
-              </Field.SelectOption>
-            ))}
-          </Field.Select>
-          {errors.status && <Field.Error>{errors.status.message}</Field.Error>}
-        </Field>
+          <Field className="w-full md:w-64">
+            <Field.Select {...register('status')} className="h-8 py-1">
+              {guestStatusList.map((item) => (
+                <Field.SelectOption key={item} value={item}>
+                  {(guestStatusLabel as any)[item]}
+                </Field.SelectOption>
+              ))}
+            </Field.Select>
+            {errors.status && (
+              <Field.Error>{errors.status.message}</Field.Error>
+            )}
+          </Field>
+        </div>
 
-        <div className="flex gap-2">
+        <div className="flex justify-end gap-2">
           <Button
             type="button"
             className="h-8 py-1 bg-transparent border border-gray-300 text-gray-600"

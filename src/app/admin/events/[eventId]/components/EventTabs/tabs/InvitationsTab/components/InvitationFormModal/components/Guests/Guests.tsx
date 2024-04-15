@@ -12,7 +12,7 @@ import { FaPlusCircle } from 'react-icons/fa';
 
 interface GuestsProps {
   guests: InvitationFormGuest[];
-  setGuests: (guests: InvitationFormGuest[]) => void;
+  setGuests: Dispatch<SetStateAction<InvitationFormGuest[]>>
 }
 
 export default function Guests({ guests, setGuests }: GuestsProps) {
@@ -29,9 +29,9 @@ export default function Guests({ guests, setGuests }: GuestsProps) {
 
   const handleSave = (guest: InvitationFormGuest) => {
     if (guest.id) {
-      setGuests(guests.map((g) => (g.id === guest.id ? guest : g)));
+      setGuests(prev => prev.map((g) => (g.id === guest.id ? guest : g)));
     } else {
-      setGuests([...guests, guest]);
+      setGuests(prev => [...prev, guest]);
     }
 
     setGuestFormIndex(null);

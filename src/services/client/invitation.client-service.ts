@@ -10,7 +10,7 @@ export const createInvitationClientService = () => {
   const getByDescription = (
     eventId: number,
     description: string
-  ): Promise<InvitationViewModel> =>
+  ): Promise<InvitationDetailViewModel> =>
     http()
       .get(API_URLS.invitations.getByDescription(eventId), {
         params: {
@@ -64,37 +64,6 @@ export const createInvitationClientService = () => {
       }
     );
 
-  const addGuest = (
-    eventId: number,
-    invitationId: number,
-    data: GuestInputModel
-  ): Promise<InvitationViewModel> =>
-    http()
-      .post(API_URLS.invitations.addGuest(eventId, invitationId), data)
-      .then((response) => response.data);
-
-  const updateGuest = (
-    eventId: number,
-    invitationId: number,
-    guestId: number,
-    data: GuestInputModel
-  ): Promise<InvitationViewModel> =>
-    http()
-      .put(
-        API_URLS.invitations.updateGuest(eventId, invitationId, guestId),
-        data
-      )
-      .then((response) => response.data);
-
-  const removeGuest = (
-    eventId: number,
-    invitationId: number,
-    guestId: number
-  ): Promise<InvitationViewModel> =>
-    http()
-      .delete(API_URLS.invitations.updateGuest(eventId, invitationId, guestId))
-      .then((response) => response.data);
-
   return {
     getByDescription,
     getAllByEvent,
@@ -102,9 +71,6 @@ export const createInvitationClientService = () => {
     create,
     update,
     remove,
-    updateGuestsConfirmations,
-    addGuest,
-    updateGuest,
-    removeGuest
+    updateGuestsConfirmations
   };
 };
