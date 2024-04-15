@@ -14,18 +14,21 @@ import { useToast } from '../../../../../../contexts/ToastContext';
 import { EventDetailViewModel } from '../../../../../../models/view-models/event-detail.view-model';
 import { createInvitationClientService } from '../../../../../../services/client/invitation.client-service';
 import { GuestStatus } from '@prisma/client';
+import { InvitationDetailViewModel } from '../../../../../../models/view-models/invitation-detail.view-model';
 
 export interface IPresenceConfirmationProvider {
   invitation?: InvitationViewModel;
-  gettingInvitation: boolean;
-  getInvitation: (description: string) => void;
+  gettingInvitations: boolean;
+  searchInvitations: (description: string) => void;
   guestsSelects: GuestViewModel[];
   setGuestsSelectsValue: (guestId: number, selected: boolean) => void;
   confirmGuests: () => void;
+  selectInvitation: (invitation: InvitationDetailViewModel) => void;
   loadingConfirmGuests: boolean;
   isAlreadyConfirmed: boolean;
   guestsListRef: RefObject<HTMLDivElement>;
   event: EventDetailViewModel;
+  invitations: InvitationDetailViewModel[];
 }
 
 interface PresenceConfirmationProviderProps {
@@ -44,8 +47,11 @@ const PresenceConfirmationProvider = (
 
   const toast = useToast();
 
-  const [invitation, setInvitation] = useState<InvitationViewModel>();
-  const [gettingInvitation, setGettingInvitation] = useState(false);
+  const [invitations, setInvitations] = useState<InvitationDetailViewModel[]>([]);
+
+  const [selectedInvitation, setSelectedInvitation] =
+    useState<InvitationViewModel>();
+  const [gettingInvitations, setGettingInvitations] = useState(false);
 
   const [guestsSelects, setGuestsSelects] = useState<GuestViewModel[]>([]);
 
@@ -54,25 +60,29 @@ const PresenceConfirmationProvider = (
 
   const guestsListRef = useRef<HTMLDivElement>(null);
 
-  const getInvitation = (description: string) => {
-    setGettingInvitation(true);
+  const searchInvitations = (query: string) => {
+    setGettingInvitations(true);
     invitationClientService
-      .getByDescription(props.event.id, description)
+      .searchByGuestName(props.event.id, query)
       .then((response) => {
-        setInvitation(response);
-        setGuestsSelects(
-          response.guests?.map((g) => ({ ...g, selected: false })) ?? []
-        );
-        guestsListRef.current?.scrollIntoView();
+        setInvitations(response);
       })
       .catch(() => {
         toast.open(
-          'Convite não encontrado 😥 Verifique se os nomes estão corretos',
+          'Nenhum convite encontrado 😥 Verifique se a busca está correta',
           'error'
         );
-        setInvitation(undefined);
+        setSelectedInvitation(undefined);
       })
-      .finally(() => setGettingInvitation(false));
+      .finally(() => setGettingInvitations(false));
+  };
+
+  const selectInvitation = (invitation: InvitationDetailViewModel) => {
+    setSelectedInvitation(invitation);
+    setGuestsSelects(
+      invitation.guests.map((g) => ({ ...g, selected: false })) ?? []
+    );
+    guestsListRef.current?.scrollIntoView();
   };
 
   const confirmGuests = () => {
@@ -80,7 +90,7 @@ const PresenceConfirmationProvider = (
     invitationClientService
       .updateGuestsConfirmations(
         props.event.id,
-        invitation!.id,
+        selectedInvitation!.id,
         guestsSelects.map((g) => ({
           id: g.id,
           status: g.status
@@ -108,24 +118,27 @@ const PresenceConfirmationProvider = (
 
   const returnValue = useMemo(
     () => ({
-      invitation,
-      gettingInvitation,
-      getInvitation,
+      selectedInvitation,
+      gettingInvitations,
+      searchInvitations,
       guestsSelects,
       setGuestsSelectsValue,
       confirmGuests,
+      selectInvitation,
       loadingConfirmGuests,
       isAlreadyConfirmed,
       guestsListRef,
-      event: props.event
+      event: props.event,
+      invitations
     }),
     [
-      invitation,
-      gettingInvitation,
+      selectedInvitation,
+      gettingInvitations,
       guestsSelects,
       loadingConfirmGuests,
       isAlreadyConfirmed,
-      guestsListRef
+      guestsListRef,
+      invitations
     ]
   );
 

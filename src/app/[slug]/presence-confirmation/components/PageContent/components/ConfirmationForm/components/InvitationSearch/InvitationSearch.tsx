@@ -2,18 +2,27 @@ import { KeyboardEvent, useState } from 'react';
 import Button from '../../../../../../../../../components/Button/Button';
 import Field from '../../../../../../../../../components/Field/Field';
 import { usePresenceConfirmationContext } from '../../../../contexts/PresenceConfirmationContext';
+import Card from '../../../../../../../../../components/Card/Card';
+import { InvitationDetailViewModel } from '../../../../../../../../../models/view-models/invitation-detail.view-model';
 
 export default function InvitationSearch() {
-  const { getInvitation, gettingInvitation, isAlreadyConfirmed, event } =
-    usePresenceConfirmationContext();
+  const {
+    searchInvitations,
+    gettingInvitations,
+    selectInvitation,
+    isAlreadyConfirmed,
+    event,
+    invitations
+  } = usePresenceConfirmationContext();
 
   const [invitationDescriptionValue, setInvitationDescriptionValue] =
     useState<string>();
+
   const [alreadyTrySearch, setAlreadyTrySearch] = useState(false);
 
   const inputErrorMessage =
     alreadyTrySearch && !invitationDescriptionValue
-      ? 'Insira a descrição do convite'
+      ? 'Busque pelo seu nome'
       : null;
 
   const handleGetInvitation = () => {
@@ -21,7 +30,7 @@ export default function InvitationSearch() {
 
     if (!invitationDescriptionValue) return;
 
-    getInvitation(invitationDescriptionValue!);
+    searchInvitations(invitationDescriptionValue!);
   };
 
   const handleInputKeyup = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -30,17 +39,18 @@ export default function InvitationSearch() {
     }
   };
 
-  const buttonText = gettingInvitation ? 'Procurando...' : 'Procurar';
+  const handleSelectInvitation = (invitation: InvitationDetailViewModel) =>
+    selectInvitation(invitation);
+
+  const buttonText = gettingInvitations ? 'Procurando...' : 'Procurar';
 
   if (isAlreadyConfirmed) return <></>;
 
   return (
     <div className="w-full">
       <Field>
-        <Field.Label>Nomes que estão no convite</Field.Label>
-        <Field.HelpText>
-          Escreva exatamente como está escrito no convite
-        </Field.HelpText>
+        <Field.Label>Busca</Field.Label>
+        <Field.HelpText>Busque por algum nome do convite</Field.HelpText>
         <Field.Input
           className="text-xl p-3 font-bold"
           value={invitationDescriptionValue}
@@ -53,7 +63,7 @@ export default function InvitationSearch() {
       <Button
         className="w-full bg-transparent border"
         onClick={handleGetInvitation}
-        disabled={gettingInvitation}
+        disabled={gettingInvitations}
         theme="primary"
         style={{
           borderColor: event.content?.primaryColor,
@@ -62,6 +72,17 @@ export default function InvitationSearch() {
       >
         {buttonText}
       </Button>
+
+      <div>
+        {invitations.map((invitation, i) => (
+          <Card className="flex items-center justify-between">
+            <div>{invitation.description}</div>
+            <Button onClick={() => handleSelectInvitation(invitation)}>
+              Selecionar
+            </Button>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 }

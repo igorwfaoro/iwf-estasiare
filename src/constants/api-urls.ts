@@ -10,8 +10,8 @@ export const API_URLS = {
     update: (id: number) => `${API_BASE_URL}/events/${id}`
   },
   invitations: {
-    getByDescription: (eventId: number) =>
-      `${API_BASE_URL}/events/${eventId}/invitations/by-description`,
+    searchByGuestName: (eventId: number) =>
+      `${API_BASE_URL}/events/${eventId}/invitations/by-guest-name`,
     getAllByEvent: (eventId: number) =>
       `${API_BASE_URL}/events/${eventId}/invitations`,
     getById: (eventId: number, id: number) =>

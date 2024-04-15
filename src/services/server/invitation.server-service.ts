@@ -1,12 +1,9 @@
-import dayjs from 'dayjs';
 import { invitationConverter } from '../../converters/invitation.converter';
 import { prisma } from '../../data/db';
 import { InvitationInputModel } from '../../models/input-models/invitation-create.input-model';
 import { UpdateGuestsConfirmationInputModel } from '../../models/input-models/update-guests-confirmation.input-model';
 import { InvitationViewModel } from '../../models/view-models/invitation.view-model';
 import { createEventServerService } from './event.server-service';
-import { GuestInputModel } from '../../models/input-models/guest.input-model';
-import { guestConverter } from '../../converters/guest.converter';
 import {
   InvitationGuestUpdateInputModel,
   InvitationUpdateInputModel
@@ -16,16 +13,17 @@ import { InvitationDetailViewModel } from '../../models/view-models/invitation-d
 export const createInvitationServerService = () => {
   const eventService = createEventServerService();
 
-  const getByDescription = async (
+  const searchByGuestName = async (
     eventId: number,
-    description: string
-  ): Promise<InvitationDetailViewModel> => {
-    const invitation = await prisma.invitation.findFirstOrThrow({
+    query: string
+  ): Promise<InvitationDetailViewModel[]> => {
+    const invitations = await prisma.invitation.findMany({
       where: {
         eventId,
-        description: {
-          equals: description,
-          mode: 'insensitive'
+        guests: {
+          some: {
+            name: { equals: query, mode: 'insensitive' }
+          }
         }
       },
       include: {
@@ -33,7 +31,7 @@ export const createInvitationServerService = () => {
       }
     });
 
-    return invitationConverter.modelToDetailViewModel(invitation);
+    return invitations.map(invitationConverter.modelToDetailViewModel);
   };
 
   const getAllByEvent = async (
@@ -243,7 +241,7 @@ export const createInvitationServerService = () => {
   };
 
   return {
-    getByDescription,
+    searchByGuestName,
     getAllByEvent,
     getById,
     create,
