@@ -13,7 +13,7 @@ export const createInvitationClientService = () => {
     http()
       .get(API_URLS.invitations.searchByGuestName(eventId), {
         params: {
-          description: query
+          q: query
         }
       })
       .then((response) => response.data);

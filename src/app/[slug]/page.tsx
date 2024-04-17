@@ -70,7 +70,10 @@ export default async function Event({ params }: { params: { slug: string } }) {
       )}
 
       {event.hasInvitations && (
-        <EventBanner {...banners.presenceConfirmation} />
+        <EventBanner
+          {...banners.presenceConfirmation}
+          contentClassName="backdrop-brightness-150"
+        />
       )}
 
       {event.content?.spotifyPlaylistUrl && (

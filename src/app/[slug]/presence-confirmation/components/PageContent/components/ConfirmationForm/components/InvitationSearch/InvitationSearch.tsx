@@ -25,7 +25,7 @@ export default function InvitationSearch() {
       ? 'Busque pelo seu nome'
       : null;
 
-  const handleGetInvitation = () => {
+  const handleSearchInvitation = () => {
     setAlreadyTrySearch(true);
 
     if (!invitationDescriptionValue) return;
@@ -35,7 +35,7 @@ export default function InvitationSearch() {
 
   const handleInputKeyup = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      handleGetInvitation();
+      handleSearchInvitation();
     }
   };
 
@@ -62,7 +62,7 @@ export default function InvitationSearch() {
 
       <Button
         className="w-full bg-transparent border"
-        onClick={handleGetInvitation}
+        onClick={handleSearchInvitation}
         disabled={gettingInvitations}
         theme="primary"
         style={{
@@ -73,11 +73,11 @@ export default function InvitationSearch() {
         {buttonText}
       </Button>
 
-      <div>
+      <div className='mt-4 space-y-2'>
         {invitations.map((invitation, i) => (
-          <Card className="flex items-center justify-between">
+          <Card className="flex items-center justify-between bg-white p-3">
             <div>{invitation.description}</div>
-            <Button onClick={() => handleSelectInvitation(invitation)}>
+            <Button onClick={() => handleSelectInvitation(invitation)} className='py-1'>
               Selecionar
             </Button>
           </Card>
