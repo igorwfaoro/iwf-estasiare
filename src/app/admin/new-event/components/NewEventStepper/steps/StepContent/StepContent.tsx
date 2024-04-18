@@ -4,15 +4,10 @@ import Field from '../../../../../../../components/Field/Field';
 import { useNewEventContext } from '../../../../contexts/NewEventContext';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState
-} from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useEffect } from 'react';
 import { fileToDataURL } from '../../../../../../../util/helpers/file.helper';
 import { DEFAULT_INPUT_ACCEPT_FILE_TYPES } from '../../../../../../../constants/file-types';
+import { HexColorPicker } from 'react-colorful';
 
 interface StepContentProps {
   index: number;
@@ -104,11 +99,17 @@ export default function StepContent({ index }: StepContentProps) {
     >
       <Field>
         <Field.Label>Qual é a cor principal do seu evento?</Field.Label>
-        <div className="flex items-center gap-2">
-          <Field.Input {...register('primaryColor')} type="color" />
-          {dirtyFields.primaryColor && color && (
+        <div className="flex items-center gap-12">
+          <HexColorPicker
+            onChange={(c) => {
+              setValue('primaryColor', c);
+              console.log(c);
+            }}
+            color={color}
+          />
+           {color && (
             <div
-              className="w-6 h-6 rounded-full"
+              className="w-28 h-28 rounded-full"
               style={{ backgroundColor: color }}
             />
           )}
@@ -136,7 +137,7 @@ export default function StepContent({ index }: StepContentProps) {
 
       <div>
         {bannerImageThumbnail && (
-          <img src={bannerImageThumbnail} className="h-28 mb-6" />
+          <img src={bannerImageThumbnail} className="h-28 mb-6 rounded-lg" />
         )}
       </div>
 
@@ -160,7 +161,7 @@ export default function StepContent({ index }: StepContentProps) {
 
       <div>
         {logoImageThumbnail && (
-          <img src={logoImageThumbnail} className="h-28 mb-6" />
+          <img src={logoImageThumbnail} className="h-28 mb-6 rounded-lg" />
         )}
       </div>
 
