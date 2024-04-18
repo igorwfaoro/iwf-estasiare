@@ -32,10 +32,6 @@ const GiftsProvider = ({ children, eventId }: GiftsProviderProps) => {
     getGifts();
   }, []);
 
-  useEffect(() => {
-    console.log(gifts);
-  }, [gifts]);
-
   const getGifts = (): void => {
     setGiftsIsLoading(true);
     giftsClientService

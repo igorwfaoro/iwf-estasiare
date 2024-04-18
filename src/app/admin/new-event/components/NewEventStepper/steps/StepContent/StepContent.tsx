@@ -8,6 +8,7 @@ import { ChangeEvent, Dispatch, SetStateAction, useEffect } from 'react';
 import { fileToDataURL } from '../../../../../../../util/helpers/file.helper';
 import { DEFAULT_INPUT_ACCEPT_FILE_TYPES } from '../../../../../../../constants/file-types';
 import { HexColorPicker } from 'react-colorful';
+import { COLORS } from '../../../../../../../util/colors';
 
 interface StepContentProps {
   index: number;
@@ -39,9 +40,8 @@ export default function StepContent({ index }: StepContentProps) {
   } = useNewEventContext();
 
   const {
-    register,
     handleSubmit,
-    formState: { errors, dirtyFields },
+    formState: { errors },
     setValue,
     watch
   } = useForm<FormContentSchema>({
@@ -49,6 +49,9 @@ export default function StepContent({ index }: StepContentProps) {
   });
 
   useEffect(() => {
+    // set default color
+    setValue('primaryColor', COLORS.primary);
+
     if (eventCreateData?.content?.primaryColor) {
       setValue('primaryColor', eventCreateData.content.primaryColor);
 
@@ -101,13 +104,10 @@ export default function StepContent({ index }: StepContentProps) {
         <Field.Label>Qual é a cor principal do seu evento?</Field.Label>
         <div className="flex items-center gap-12">
           <HexColorPicker
-            onChange={(c) => {
-              setValue('primaryColor', c);
-              console.log(c);
-            }}
+            onChange={(c) => setValue('primaryColor', c)}
             color={color}
           />
-           {color && (
+          {color && (
             <div
               className="w-28 h-28 rounded-full"
               style={{ backgroundColor: color }}
