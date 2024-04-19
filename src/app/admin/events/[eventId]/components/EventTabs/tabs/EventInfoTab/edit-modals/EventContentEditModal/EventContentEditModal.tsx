@@ -16,6 +16,7 @@ import { useToast } from '../../../../../../../../../../contexts/ToastContext';
 import { EditModalResult } from '../../types/edit-modal-result';
 import { EditModalProps } from '../../types/edit-modal-props';
 import { fileToDataURL } from '../../../../../../../../../../util/helpers/file.helper';
+import { HexColorPicker } from 'react-colorful';
 
 interface EventContentEditModalProps extends EditModalProps {}
 interface EventContentEditModalResult extends EditModalResult {}
@@ -111,11 +112,14 @@ export default function EventContentEditModal({
     >
       <Field>
         <Field.Label>Qual é a cor principal do seu evento?</Field.Label>
-        <div className="flex items-center gap-2">
-          <Field.Input {...register('primaryColor')} type="color" />
+        <div className="flex items-center gap-12">
+          <HexColorPicker
+            onChange={(c) => setValue('primaryColor', c)}
+            color={color}
+          />
           {color && (
             <div
-              className="w-6 h-6 rounded-full"
+              className="w-28 h-28 rounded-full"
               style={{ backgroundColor: color }}
             />
           )}
