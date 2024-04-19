@@ -5,6 +5,7 @@ import {
   FaChevronLeft as IconArrowLeft,
   FaChevronRight as IconArrowRight
 } from 'react-icons/fa';
+
 import { EventContentImageViewModel } from '../../../../models/view-models/event-content-image.view-model';
 
 interface EventPhotoAlbumProps {

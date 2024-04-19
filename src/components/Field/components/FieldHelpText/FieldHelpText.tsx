@@ -6,7 +6,10 @@ interface FieldHelpTextProps {
   children: ReactNode;
 }
 
-export default function FieldHelpText({ className, children }: FieldHelpTextProps) {
+export default function FieldHelpText({
+  className,
+  children
+}: FieldHelpTextProps) {
   return (
     <small className={twMerge('text-neutral-500', className)}>{children}</small>
   );

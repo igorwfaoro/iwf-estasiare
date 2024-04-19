@@ -1,4 +1,4 @@
-import { CSSProperties, MouseEventHandler, ReactNode, RefObject } from 'react';
+import { MouseEventHandler, ReactNode, RefObject } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 interface CardProps {

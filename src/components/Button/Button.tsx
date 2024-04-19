@@ -1,10 +1,10 @@
+import Link from 'next/link';
 import {
   CSSProperties,
   ComponentProps,
   HTMLAttributeAnchorTarget
 } from 'react';
-import Link from 'next/link';
-import { tv, VariantProps } from 'tailwind-variants';
+import { VariantProps, tv } from 'tailwind-variants';
 
 export type ButtonTheme =
   | 'primary'

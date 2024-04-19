@@ -1,6 +1,7 @@
 import Link from 'next/link';
-import { EventDetailViewModel } from '../../../../../../../../../../models/view-models/event-detail.view-model';
 import { FaSpotify } from 'react-icons/fa';
+
+import { EventDetailViewModel } from '../../../../../../../../../../models/view-models/event-detail.view-model';
 
 interface ContentCardProps {
   event: EventDetailViewModel;

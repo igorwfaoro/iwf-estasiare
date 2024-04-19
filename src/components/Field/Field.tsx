@@ -1,12 +1,13 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { twMerge } from 'tailwind-merge';
-import FieldLabel from './components/FieldLabel/FieldLabel';
-import FieldInput from './components/FieldInput/FieldInput';
-import FieldSelect from './components/FieldSelect/FieldSelect';
-import FieldHelpText from './components/FieldHelpText/FieldHelpText';
+
 import FieldError from './components/FieldError/FieldError';
-import FieldSelectOption from './components/FieldSelect/components/FieldSelectOption/FieldSelectOption';
+import FieldHelpText from './components/FieldHelpText/FieldHelpText';
+import FieldInput from './components/FieldInput/FieldInput';
 import FieldInputAddressAutocomplete from './components/FieldInputAddressAutocomplete/FieldInputAddressAutocomplete';
+import FieldLabel from './components/FieldLabel/FieldLabel';
+import FieldSelect from './components/FieldSelect/FieldSelect';
+import FieldSelectOption from './components/FieldSelect/components/FieldSelectOption/FieldSelectOption';
 
 interface FieldProps {
   className?: string;

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+
 import { getFileBucketUrl } from '../../../../util/helpers/file.helper';
 
 interface Params {

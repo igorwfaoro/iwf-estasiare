@@ -1,14 +1,15 @@
-import { z } from 'zod';
-import Button from '../../../../../../../components/Button/Button';
-import Field from '../../../../../../../components/Field/Field';
-import { useNewEventContext } from '../../../../contexts/NewEventContext';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ChangeEvent, Dispatch, SetStateAction, useEffect } from 'react';
-import { fileToDataURL } from '../../../../../../../util/helpers/file.helper';
-import { DEFAULT_INPUT_ACCEPT_FILE_TYPES } from '../../../../../../../constants/file-types';
 import { HexColorPicker } from 'react-colorful';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+
+import Button from '../../../../../../../components/Button/Button';
+import Field from '../../../../../../../components/Field/Field';
+import { DEFAULT_INPUT_ACCEPT_FILE_TYPES } from '../../../../../../../constants/file-types';
 import { COLORS } from '../../../../../../../util/colors';
+import { fileToDataURL } from '../../../../../../../util/helpers/file.helper';
+import { useNewEventContext } from '../../../../contexts/NewEventContext';
 
 interface StepContentProps {
   index: number;

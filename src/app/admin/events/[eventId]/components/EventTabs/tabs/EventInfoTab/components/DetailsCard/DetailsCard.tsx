@@ -1,4 +1,5 @@
 import { EventType } from '@prisma/client';
+
 import { EventDetailViewModel } from '../../../../../../../../../../models/view-models/event-detail.view-model';
 
 interface DetailsCardProps {

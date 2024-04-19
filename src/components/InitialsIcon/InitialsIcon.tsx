@@ -1,6 +1,7 @@
 import { FaHeart as IconHeart } from 'react-icons/fa';
-import { getContrastColor } from '../../util/helpers/color.helper';
+
 import { COLORS } from '../../util/colors';
+import { getContrastColor } from '../../util/helpers/color.helper';
 
 export interface InitialsIconProps {
   name: string | [string, string];

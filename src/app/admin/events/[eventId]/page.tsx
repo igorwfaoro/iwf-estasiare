@@ -1,8 +1,8 @@
 'use client';
 
 import AdminPageBase from '../../components/AdminPageBase/AdminPageBase';
-import Header from './components/Header/Header';
 import EventTabs from './components/EventTabs/EventTabs';
+import Header from './components/Header/Header';
 import AdminEventPageProvider from './contexts/AdminEventPageContext';
 
 interface AdminEventPageProps {

@@ -1,10 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+
 import { useToast } from '../../../contexts/ToastContext';
-import EventsList from './EventsList/EventsList';
 import { EventViewModel } from '../../../models/view-models/event.view-model';
 import { createEventClientService } from '../../../services/client/event.client-service';
+import EventsList from './EventsList/EventsList';
 
 interface EventsProps {}
 

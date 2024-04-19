@@ -1,10 +1,11 @@
-import { cache } from 'react';
 import { Metadata } from 'next';
+import { cache } from 'react';
+
+import ToastProvider from '../../../contexts/ToastContext';
+import { createEventServerService } from '../../../services/server/event.server-service';
+import EventPageBase from '../components/EventPageBase/EventPageBase';
 import PresenceConfirmationContent from './components/PageContent/PageContent';
 import PresenceConfirmationProvider from './components/PageContent/contexts/PresenceConfirmationContext';
-import ToastProvider from '../../../contexts/ToastContext';
-import EventPageBase from '../components/EventPageBase/EventPageBase';
-import { createEventServerService } from '../../../services/server/event.server-service';
 
 export const revalidate = 3600;
 

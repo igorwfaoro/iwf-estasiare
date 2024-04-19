@@ -1,24 +1,27 @@
 'use client';
 
-import { EventDetailViewModel } from '../../../../../../../../models/view-models/event-detail.view-model';
-import EventCardInfo from '../../components/EventCardInfo/EventCardInfo';
+import { EventType } from '@prisma/client';
+
 import Skeleton from '../../../../../../../../components/Skeleton/Skeleton';
 import { useModal } from '../../../../../../../../contexts/ModalContext';
-import EventInfoEditModal from './edit-modals/EventInfoEditModal/EventInfoEditModal';
-import EventAddressEditModal from './edit-modals/EventAddressEditModal/EventAddressEditModal';
-import { EditModalProps } from './types/edit-modal-props';
-import { EditModalResult } from './types/edit-modal-result';
+import { EventDetailViewModel } from '../../../../../../../../models/view-models/event-detail.view-model';
 import { isMobile } from '../../../../../../../../util/helpers/is-mobile.helper';
-import EventContentEditModal from './edit-modals/EventContentEditModal/EventContentEditModal';
-import { EventType } from '@prisma/client';
-import EventWeddingDetailEditModal from './edit-modals/EventWeddingDetailEditModal/EventWeddingDetailEditModal';
 import { useAdminEventPageContext } from '../../../../contexts/AdminEventPageContext';
-import EventFinancialEditModal from './edit-modals/EventFinancialEditModal/EventFinancialEditModal';
-import GeneralCard from './components/GeneralCard/GeneralCard';
+import EventCardInfo from '../../components/EventCardInfo/EventCardInfo';
 import AddressCard from './components/AddressCard/AddressCard';
+import ContactInfoCard from './components/ContactInfoCard/ContactInfoCard';
 import ContentCard from './components/ContentCard/ContentCard';
 import DetailsCard from './components/DetailsCard/DetailsCard';
 import FinancialCard from './components/FinancialCard/FinancialCard';
+import GeneralCard from './components/GeneralCard/GeneralCard';
+import EventAddressEditModal from './edit-modals/EventAddressEditModal/EventAddressEditModal';
+import EventContactInfoEditModal from './edit-modals/EventContactInfoEditModal/EventContactInfoEditModal';
+import EventContentEditModal from './edit-modals/EventContentEditModal/EventContentEditModal';
+import EventFinancialEditModal from './edit-modals/EventFinancialEditModal/EventFinancialEditModal';
+import EventInfoEditModal from './edit-modals/EventInfoEditModal/EventInfoEditModal';
+import EventWeddingDetailEditModal from './edit-modals/EventWeddingDetailEditModal/EventWeddingDetailEditModal';
+import { EditModalProps } from './types/edit-modal-props';
+import { EditModalResult } from './types/edit-modal-result';
 
 interface EventInfoTabProps {}
 
@@ -71,6 +74,14 @@ export default function EventInfoTab({}: EventInfoTabProps) {
             ({
               [EventType.WEDDING]: EventWeddingDetailEditModal
             })[event.eventType]
+        }
+      },
+      {
+        title: 'Contato',
+        content: (event) => <ContactInfoCard event={event} />,
+        editModal: {
+          title: 'Editar contato',
+          component: () => EventContactInfoEditModal
         }
       },
       !!event?.financial?.paypalBusinessCode && {

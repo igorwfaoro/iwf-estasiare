@@ -1,7 +1,8 @@
-import Card from '../../../../../../../../components/Card/Card';
 import { ReactElement } from 'react';
 import { MdEdit } from 'react-icons/md';
 import { twMerge } from 'tailwind-merge';
+
+import Card from '../../../../../../../../components/Card/Card';
 
 interface EventCardInfoProps {
   children: ReactElement | ReactElement[];

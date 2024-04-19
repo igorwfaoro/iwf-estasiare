@@ -1,9 +1,10 @@
 import Link from 'next/link';
+import { FaExternalLinkAlt } from 'react-icons/fa';
+
+import Skeleton from '../../../../../../components/Skeleton/Skeleton';
 import { eventTitleDescription } from '../../../../../../util/helpers/event-title-description.helper';
 import { renderInitialsIcon } from '../../../../../../util/helpers/initials-icon.helper';
-import { FaExternalLinkAlt } from 'react-icons/fa';
 import { useAdminEventPageContext } from '../../contexts/AdminEventPageContext';
-import Skeleton from '../../../../../../components/Skeleton/Skeleton';
 
 interface HeaderProps {}
 

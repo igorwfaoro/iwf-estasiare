@@ -1,7 +1,8 @@
+import { redirect } from 'next/navigation';
 import { cache } from 'react';
+
 import EventCard from '../../../../components/EventCard/EventCard';
 import { createEventServerService } from '../../../../services/server/event.server-service';
-import { redirect } from 'next/navigation';
 
 const getEvents = cache(async () => {
   return await createEventServerService().getByUser();

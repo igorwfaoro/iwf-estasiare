@@ -1,10 +1,10 @@
 'use client';
 
+import Button from '../../../../../../../../components/Button/Button';
 import Card from '../../../../../../../../components/Card/Card';
+import Field from '../../../../../../../../components/Field/Field';
 import Skeleton from '../../../../../../../../components/Skeleton/Skeleton';
 import GiftItem from './components/GiftItem/GiftItem';
-import Field from '../../../../../../../../components/Field/Field';
-import Button from '../../../../../../../../components/Button/Button';
 import { useGiftsTabContext } from './contexts/GiftsTabContext';
 
 interface GiftsTabProps {}

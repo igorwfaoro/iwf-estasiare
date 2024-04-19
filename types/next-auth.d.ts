@@ -1,4 +1,5 @@
-import NextAuth from 'next-auth';
+import 'next-auth';
+
 import { AuthUser } from '../src/auth/auth-user';
 
 declare module 'next-auth' {

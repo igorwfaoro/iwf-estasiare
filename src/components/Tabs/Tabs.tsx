@@ -1,11 +1,11 @@
 'use client';
 
 import classNames from 'classnames';
-import { ReactElement, useEffect, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { ReactElement } from 'react';
 import { twMerge } from 'tailwind-merge';
+
 import Skeleton from '../Skeleton/Skeleton';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
 
 export interface TabItem {
   key: string;

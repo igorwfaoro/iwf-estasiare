@@ -1,15 +1,16 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+
 import Button from '../../../../../../../components/Button/Button';
 import Field from '../../../../../../../components/Field/Field';
+import { dateStringToInput } from '../../../../../../../util/helpers/date.helper';
 import {
   eventTypeLabel,
   eventTypeList
 } from '../../../../../../../util/helpers/event-type.helper';
 import { useNewEventContext } from '../../../../contexts/NewEventContext';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
-import { dateStringToInput } from '../../../../../../../util/helpers/date.helper';
 
 interface StepGeneralProps {
   index: number;

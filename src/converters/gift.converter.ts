@@ -1,4 +1,5 @@
 import { Gift } from '@prisma/client';
+
 import { GiftViewModel } from '../models/view-models/gift.view-model';
 import { getFileApiUrl } from '../util/helpers/file.helper';
 

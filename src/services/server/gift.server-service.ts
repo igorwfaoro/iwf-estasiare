@@ -1,6 +1,6 @@
+import { giftConverter } from '../../converters/gift.converter';
 import { prisma } from '../../data/db';
 import { GiftViewModel } from '../../models/view-models/gift.view-model';
-import { giftConverter } from '../../converters/gift.converter';
 import { createEventServerService } from './event.server-service';
 import { createFileServerService } from './file.server-service';
 

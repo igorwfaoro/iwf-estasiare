@@ -1,19 +1,18 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { ModalRefPropType } from '../../../../../../../../../../contexts/ModalContext';
-import { EventDetailViewModel } from '../../../../../../../../../../models/view-models/event-detail.view-model';
+
+import Button from '../../../../../../../../../../components/Button/Button';
+import Field from '../../../../../../../../../../components/Field/Field';
+import { useLoader } from '../../../../../../../../../../contexts/LoaderContext';
+import { useToast } from '../../../../../../../../../../contexts/ToastContext';
+import { createEventClientService } from '../../../../../../../../../../services/client/event.client-service';
+import { dateStringToInput } from '../../../../../../../../../../util/helpers/date.helper';
 import {
   eventTypeLabel,
   eventTypeList
 } from '../../../../../../../../../../util/helpers/event-type.helper';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
-import Field from '../../../../../../../../../../components/Field/Field';
-import Button from '../../../../../../../../../../components/Button/Button';
-import { createEventClientService } from '../../../../../../../../../../services/client/event.client-service';
-import { useLoader } from '../../../../../../../../../../contexts/LoaderContext';
-import { useToast } from '../../../../../../../../../../contexts/ToastContext';
-import { dateStringToInput } from '../../../../../../../../../../util/helpers/date.helper';
 import { EditModalProps } from '../../types/edit-modal-props';
 import { EditModalResult } from '../../types/edit-modal-result';
 

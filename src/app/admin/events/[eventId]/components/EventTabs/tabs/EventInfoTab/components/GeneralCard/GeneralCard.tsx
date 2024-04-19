@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+
 import { EventDetailViewModel } from '../../../../../../../../../../models/view-models/event-detail.view-model';
 import { eventTypeLabel } from '../../../../../../../../../../util/helpers/event-type.helper';
 

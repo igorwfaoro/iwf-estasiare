@@ -1,6 +1,7 @@
 import { CSSProperties } from 'react';
-import Button from '../../../../components/Button/Button';
 import { twMerge } from 'tailwind-merge';
+
+import Button from '../../../../components/Button/Button';
 
 export interface EventBannerProps {
   title: string;

@@ -1,15 +1,15 @@
 'use client';
 
-import Gift from './components/Gift/Gift';
-import { EventDetailViewModel } from '../../../../../models/view-models/event-detail.view-model';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+
 import { useModal } from '../../../../../contexts/ModalContext';
+import { EventDetailViewModel } from '../../../../../models/view-models/event-detail.view-model';
+import { GiftViewModel } from '../../../../../models/view-models/gift.view-model';
+import Gift from './components/Gift/Gift';
 import GiftPaymentModal, {
   GiftPaymentModalProps
 } from './components/Gift/components/GiftPaymentModal/GiftPaymentModal';
-import { GiftViewModel } from '../../../../../models/view-models/gift.view-model';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
-import { boolean } from 'zod';
 
 const GIFT_QUERY_KEY = 'giftId';
 

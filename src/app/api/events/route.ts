@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
+
+import { EventCreateInputModel } from '../../../models/input-models/event-create.input-model';
 import {
   CreateUpdateEventParams,
   createEventServerService
 } from '../../../services/server/event.server-service';
-import { EventCreateInputModel } from '../../../models/input-models/event-create.input-model';
 
 interface Params {}
 

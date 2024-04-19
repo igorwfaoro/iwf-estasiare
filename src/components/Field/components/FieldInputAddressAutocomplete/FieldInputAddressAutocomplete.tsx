@@ -1,6 +1,6 @@
 import { usePlacesWidget } from 'react-google-autocomplete';
+
 import FieldInput, { FieldInputProps } from '../FieldInput/FieldInput';
-import { useState } from 'react';
 
 interface FieldInputAddressAutocompleteProps extends FieldInputProps {
   onAddressSelected: (address: string) => void;

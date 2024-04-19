@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+
 import { createHandbookServerService } from '../../../../../services/server/handbook.server-service';
 
 interface Params {

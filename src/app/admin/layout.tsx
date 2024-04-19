@@ -2,14 +2,15 @@
 
 import { SessionProvider } from 'next-auth/react';
 import { ReactNode, Suspense, useEffect } from 'react';
-import Navbar from './components/Navbar/Navbar';
-import Footer from './components/Footer/Footer';
+
 import ProviderComposer from '../../components/ProviderCompose';
-import ToastProvider from '../../contexts/ToastContext';
+import AlertProvider from '../../contexts/AlertContext';
 import LoaderProvider from '../../contexts/LoaderContext';
 import ModalProvider from '../../contexts/ModalContext';
-import AlertProvider from '../../contexts/AlertContext';
+import ToastProvider from '../../contexts/ToastContext';
 import Loading from '../loading';
+import Footer from './components/Footer/Footer';
+import Navbar from './components/Navbar/Navbar';
 
 interface AdminLayoutProps {
   children: ReactNode;

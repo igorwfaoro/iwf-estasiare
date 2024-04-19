@@ -1,4 +1,5 @@
 import { GuestStatus } from '@prisma/client';
+
 import { COLORS } from '../colors';
 
 export const guestStatusLabel: { [key in GuestStatus]: string } = {

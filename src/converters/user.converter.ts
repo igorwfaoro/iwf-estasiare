@@ -1,4 +1,5 @@
 import { User } from '@prisma/client';
+
 import { AuthUser } from '../auth/auth-user';
 
 export type UserConverterModel = User & {};

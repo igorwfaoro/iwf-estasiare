@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+
 import { createEventServerService } from '../../../../services/server/event.server-service';
 
 interface Params {}

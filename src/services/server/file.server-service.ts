@@ -1,7 +1,7 @@
-import { v4 as uuidV4 } from 'uuid';
 import * as AWS from 'aws-sdk';
-import { fileTypeFromBuffer } from 'file-type';
 import dayjs from 'dayjs';
+import { fileTypeFromBuffer } from 'file-type';
+import { v4 as uuidV4 } from 'uuid';
 
 export interface UploadFileResult {
   fileLocation: string;

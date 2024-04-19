@@ -10,7 +10,10 @@ export const createHandbookClientService = () => {
       .get(API_URLS.handbooks.getAllByEvent(eventId))
       .then((response) => response.data);
 
-  const getById = (eventId: number, id: number): Promise<EventHandbookDetailViewModel> =>
+  const getById = (
+    eventId: number,
+    id: number
+  ): Promise<EventHandbookDetailViewModel> =>
     http()
       .get(API_URLS.handbooks.getById(eventId, id))
       .then((response) => response.data);

@@ -1,12 +1,13 @@
-import { GiftViewModel } from '../../../../../../../../../../models/view-models/gift.view-model';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ChangeEvent, useEffect, useState } from 'react';
-import Field from '../../../../../../../../../../components/Field/Field';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+
 import Button from '../../../../../../../../../../components/Button/Button';
-import { ModalRefPropType } from '../../../../../../../../../../contexts/ModalContext';
+import Field from '../../../../../../../../../../components/Field/Field';
 import { DEFAULT_INPUT_ACCEPT_FILE_TYPES } from '../../../../../../../../../../constants/file-types';
+import { ModalRefPropType } from '../../../../../../../../../../contexts/ModalContext';
+import { GiftViewModel } from '../../../../../../../../../../models/view-models/gift.view-model';
 import { fileToDataURL } from '../../../../../../../../../../util/helpers/file.helper';
 
 export interface GiftFormModalProps extends ModalRefPropType {

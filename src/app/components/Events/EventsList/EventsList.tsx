@@ -2,12 +2,13 @@
 
 import { useEffect, useRef, useState } from 'react';
 import ScrollContainer from 'react-indiana-drag-scroll';
-import { onlyNumbers } from '../../../../util/helpers/string.helper';
-import { EventViewModel } from '../../../../models/view-models/event.view-model';
 import { twMerge } from 'tailwind-merge';
-import ListControls from './components/ListControls/ListControls';
-import Skeleton from '../../../../components/Skeleton/Skeleton';
+
 import EventCard from '../../../../components/EventCard/EventCard';
+import Skeleton from '../../../../components/Skeleton/Skeleton';
+import { EventViewModel } from '../../../../models/view-models/event.view-model';
+import { onlyNumbers } from '../../../../util/helpers/string.helper';
+import ListControls from './components/ListControls/ListControls';
 
 const CONTROL_BUTTON_WIDTH = 42;
 

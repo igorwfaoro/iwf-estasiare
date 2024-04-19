@@ -1,13 +1,14 @@
 'use client';
 
 import { MenuSVGIcon } from '@react-md/material-icons';
+import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useState } from 'react';
+
 import Button, { ButtonTheme } from '../../../../components/Button/Button';
 import DropdownMenu, {
   DropdownMenuItem
 } from '../../../../components/DropdownMenu/DropdownMenu';
-import { signOut, useSession } from 'next-auth/react';
 
 interface LinkItem {
   label: string;

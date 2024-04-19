@@ -1,4 +1,5 @@
 import { EventFinancial } from '@prisma/client';
+
 import { EventFinancialViewModel } from '../models/view-models/event-financial.view-model';
 
 export type EventFinancialConverterModel = EventFinancial & {};

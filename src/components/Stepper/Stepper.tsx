@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import {
   Dispatch,
   ReactElement,
@@ -7,7 +8,6 @@ import {
   useState
 } from 'react';
 import { twMerge } from 'tailwind-merge';
-import classNames from 'classnames';
 
 export interface StepItem {
   label?: string;
@@ -54,10 +54,7 @@ const Stepper = forwardRef(
       <div>
         <div className="flex gap-2 md:gap-4 justify-between items-center w-full">
           {steps.map((step, i) => (
-            <div
-              key={i}
-              className="contents"
-            >
+            <div key={i} className="contents">
               <button
                 onClick={() => !disableNavigation && setIndex(i)}
                 className="flex flex-col md:flex-row items-center gap-2 text-gray-500 text-sm hover:bg-gray-200 p-2 rounded-xl"
@@ -74,7 +71,12 @@ const Stepper = forwardRef(
                   {i + 1}
                 </div>
 
-                <div className={twMerge('', classNames({ 'font-bold': i === index }))}>
+                <div
+                  className={twMerge(
+                    '',
+                    classNames({ 'font-bold': i === index })
+                  )}
+                >
                   {step.label}
                 </div>
               </button>

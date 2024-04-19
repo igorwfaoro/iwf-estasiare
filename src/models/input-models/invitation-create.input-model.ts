@@ -1,4 +1,4 @@
-import { GuestStatus } from "@prisma/client";
+import { GuestStatus } from '@prisma/client';
 
 export interface InvitationInputModel {
   description: string;

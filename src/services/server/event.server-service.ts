@@ -1,18 +1,15 @@
-import { prisma } from '../../data/db';
-import { EventDetailViewModel } from '../../models/view-models/event-detail.view-model';
-import { eventConverter } from '../../converters/event.converter';
-import { SearchEventsInputModel } from '../../models/input-models/search-events.input-model';
-import { EventViewModel } from '../../models/view-models/event.view-model';
-import { EventCreateInputModel } from '../../models/input-models/event-create.input-model';
 import dayjs from 'dayjs';
-import { eventSlug } from '../../util/helpers/event-slug.helper';
-import { ExtraIncludesInputModel } from '../../models/input-models/extra-includes.input-model';
 import { getAuthUser } from '../../auth/auth-config';
+import { eventConverter } from '../../converters/event.converter';
+import { prisma } from '../../data/db';
+import { EventCreateInputModel } from '../../models/input-models/event-create.input-model';
 import { EventUpdateInputModel } from '../../models/input-models/event-update.input-model';
-import {
-  UploadFileResult,
-  createFileServerService
-} from './file.server-service';
+import { ExtraIncludesInputModel } from '../../models/input-models/extra-includes.input-model';
+import { SearchEventsInputModel } from '../../models/input-models/search-events.input-model';
+import { EventDetailViewModel } from '../../models/view-models/event-detail.view-model';
+import { EventViewModel } from '../../models/view-models/event.view-model';
+import { eventSlug } from '../../util/helpers/event-slug.helper';
+import { createFileServerService } from './file.server-service';
 
 export interface CreateUpdateEventParams<T> {
   inputData: T;
@@ -54,6 +51,7 @@ export const createEventServerService = () => {
           }
         },
         financial: true,
+        contactInfo: true,
         weddingDetail: true,
         handbooks: extraIncludes.handbooks
           ? {
@@ -208,14 +206,15 @@ export const createEventServerService = () => {
           }
         },
         financial: { create: {} },
-        weddingDetail: {
-          create: inputData.weddingDetail
-        },
+        contactInfo: { create: {} },
         usersEvent: {
           create: {
             userId: user.id,
             role: 'ADMIN'
           }
+        },
+        weddingDetail: {
+          create: inputData.weddingDetail
         }
       }
     });
@@ -277,6 +276,9 @@ export const createEventServerService = () => {
         },
         financial: {
           update: inputData.financial
+        },
+        contactInfo: {
+          update: inputData.contactInfo
         },
         weddingDetail: {
           update: inputData.weddingDetail

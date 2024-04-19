@@ -36,8 +36,11 @@ model Event {
   contentId BigInt       @unique
   content   EventContent @relation(fields: [contentId], references: [id])
 
-  financialId BigInt?         @unique
-  financial   EventFinancial? @relation(fields: [financialId], references: [id])
+  financialId BigInt         @unique
+  financial   EventFinancial @relation(fields: [financialId], references: [id])
+
+  contactInfoId BigInt           @unique
+  contactInfo   EventContactInfo @relation(fields: [contactInfoId], references: [id])
 
   weddingDetailId BigInt?             @unique
   weddingDetail   EventWeddingDetail? @relation(fields: [weddingDetailId], references: [id])
@@ -76,6 +79,15 @@ model EventFinancial {
   event              Event?
 }
 
+model EventContactInfo {
+  id             BigInt  @id @default(autoincrement())
+  description    String? @db.VarChar(100)
+  phoneNumber    String? @db.VarChar(30)
+  whatsAppNumber String? @db.VarChar(30)
+  email          String? @db.VarChar(100)
+  event          Event?
+}
+
 model Invitation {
   id          BigInt  @id @default(autoincrement())
   description String  @db.VarChar(200)
@@ -88,9 +100,9 @@ model Invitation {
 }
 
 model Guest {
-  id               BigInt      @id @default(autoincrement())
-  name             String      @db.VarChar(120)
-  status           GuestStatus @default(PENDING)
+  id     BigInt      @id @default(autoincrement())
+  name   String      @db.VarChar(120)
+  status GuestStatus @default(PENDING)
 
   invitationId BigInt
   invitation   Invitation @relation(fields: [invitationId], references: [id])

@@ -1,12 +1,11 @@
 'use client';
 
-import {
-  useNewEventContext
-} from '../../contexts/NewEventContext';
+import { useEffect, useRef } from 'react';
+
 import Stepper, {
   StepperRefType
 } from '../../../../../components/Stepper/Stepper';
-import { useEffect, useRef } from 'react';
+import { useNewEventContext } from '../../contexts/NewEventContext';
 
 interface NewEventStepperProps {}
 

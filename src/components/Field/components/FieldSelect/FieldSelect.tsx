@@ -5,9 +5,8 @@ import {
   forwardRef
 } from 'react';
 import { twMerge } from 'tailwind-merge';
-import FieldSelectOption, {
-  FieldSelectOptionProps
-} from './components/FieldSelectOption/FieldSelectOption';
+
+import { FieldSelectOptionProps } from './components/FieldSelectOption/FieldSelectOption';
 
 interface FieldSelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   children?: ReactElement<FieldSelectOptionProps>[];

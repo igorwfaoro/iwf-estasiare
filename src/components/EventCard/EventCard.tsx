@@ -1,10 +1,11 @@
-import Link from 'next/link';
-import { RefObject } from 'react';
 import { EventType } from '@prisma/client';
 import dayjs from 'dayjs';
+import Link from 'next/link';
+import { RefObject } from 'react';
+
 import { EventViewModel } from '../../models/view-models/event.view-model';
-import Card from '../Card/Card';
 import { eventTypeLabel } from '../../util/helpers/event-type.helper';
+import Card from '../Card/Card';
 
 interface EventCardProps {
   event: EventViewModel;

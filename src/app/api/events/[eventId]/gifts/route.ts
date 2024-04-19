@@ -1,8 +1,9 @@
+import { NextResponse } from 'next/server';
+
 import {
   CreateUpdateGiftParams,
   createGiftServerService
 } from '../../../../../services/server/gift.server-service';
-import { NextResponse } from 'next/server';
 
 interface Params {
   params: { eventId: string };
@@ -26,7 +27,10 @@ export async function POST(req: Request, { params }: Params) {
     }
   };
 
-  const response = await giftService.create(Number(params.eventId), inputParams);
+  const response = await giftService.create(
+    Number(params.eventId),
+    inputParams
+  );
 
   return NextResponse.json(response);
 }

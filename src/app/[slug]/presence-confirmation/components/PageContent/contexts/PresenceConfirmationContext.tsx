@@ -1,5 +1,6 @@
 'use client';
 
+import { GuestStatus } from '@prisma/client';
 import {
   RefObject,
   createContext,
@@ -8,13 +9,13 @@ import {
   useRef,
   useState
 } from 'react';
-import { InvitationViewModel } from '../../../../../../models/view-models/invitation.view-model';
-import { GuestViewModel } from '../../../../../../models/view-models/guest.view-model';
+
 import { useToast } from '../../../../../../contexts/ToastContext';
 import { EventDetailViewModel } from '../../../../../../models/view-models/event-detail.view-model';
-import { createInvitationClientService } from '../../../../../../services/client/invitation.client-service';
-import { GuestStatus } from '@prisma/client';
+import { GuestViewModel } from '../../../../../../models/view-models/guest.view-model';
 import { InvitationDetailViewModel } from '../../../../../../models/view-models/invitation-detail.view-model';
+import { InvitationViewModel } from '../../../../../../models/view-models/invitation.view-model';
+import { createInvitationClientService } from '../../../../../../services/client/invitation.client-service';
 
 export interface IPresenceConfirmationProvider {
   invitation?: InvitationViewModel;
@@ -47,7 +48,9 @@ const PresenceConfirmationProvider = (
 
   const toast = useToast();
 
-  const [invitations, setInvitations] = useState<InvitationDetailViewModel[]>([]);
+  const [invitations, setInvitations] = useState<InvitationDetailViewModel[]>(
+    []
+  );
 
   const [selectedInvitation, setSelectedInvitation] =
     useState<InvitationViewModel>();

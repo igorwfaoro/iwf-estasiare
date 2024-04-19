@@ -9,6 +9,7 @@ interface Event {
 
   content: Partial<Content>;
   financial: Partial<Financial>;
+  contactInfo: Partial<ContactInfo>;
   weddingDetail: Partial<WeddingDetail>;
 }
 
@@ -20,7 +21,14 @@ interface Content {
   primaryColor: string;
   bannerImage: string;
   logoImage: string;
-  spotifyPlaylistUrl: string;
+  spotifyPlaylistUrl: string | null;
+}
+
+interface ContactInfo {
+  description: string | null;
+  phoneNumber: string | null;
+  whatsAppNumber: string | null;
+  email: string | null;
 }
 
 interface WeddingDetail {

@@ -17,7 +17,7 @@ export default function GiftPaymentModal({
 
   return (
     <div className="text-center p-6 flex flex-col gap-4">
-      <div className='flex flex-col items-center'>
+      <div className="flex flex-col items-center">
         <img
           src={gift.image}
           alt={`image ${gift.description}`}

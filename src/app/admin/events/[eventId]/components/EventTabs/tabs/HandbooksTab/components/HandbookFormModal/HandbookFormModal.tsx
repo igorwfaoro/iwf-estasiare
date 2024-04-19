@@ -1,17 +1,18 @@
 'use client';
 
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ImageResize } from 'quill-image-resize-module-ts';
 import { useEffect, useState } from 'react';
-import Field from '../../../../../../../../../../components/Field/Field';
+import { useForm } from 'react-hook-form';
+import ReactQuill, { Quill } from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { z } from 'zod';
+
 import Button from '../../../../../../../../../../components/Button/Button';
+import Field from '../../../../../../../../../../components/Field/Field';
 import { ModalRefPropType } from '../../../../../../../../../../contexts/ModalContext';
 import { HandbookInputModel } from '../../../../../../../../../../models/input-models/handbook.input-model';
 import { EventHandbookDetailViewModel } from '../../../../../../../../../../models/view-models/event-handbook-detail.view-model';
-import ReactQuill, { Quill } from 'react-quill';
-import { ImageResize } from 'quill-image-resize-module-ts';
-import 'react-quill/dist/quill.snow.css';
 import '../../../../../../../../../../util/quillEditor/QuillImageResizeToolbarOnCreate';
 
 Quill.register('modules/imageResize', ImageResize);

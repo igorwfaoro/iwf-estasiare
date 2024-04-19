@@ -1,9 +1,10 @@
-import { cache } from 'react';
 import { Metadata } from 'next';
-import Header from './components/Header/Header';
-import HandbooksList from './components/HandbooksList/HandbooksList';
-import EventPageBase from '../components/EventPageBase/EventPageBase';
+import { cache } from 'react';
+
 import { createEventServerService } from '../../../services/server/event.server-service';
+import EventPageBase from '../components/EventPageBase/EventPageBase';
+import HandbooksList from './components/HandbooksList/HandbooksList';
+import Header from './components/Header/Header';
 
 export const revalidate = 3600;
 

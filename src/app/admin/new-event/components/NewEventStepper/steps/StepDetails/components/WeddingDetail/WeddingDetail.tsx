@@ -1,10 +1,11 @@
-import { z } from 'zod';
-import { useNewEventContext } from '../../../../../../contexts/NewEventContext';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Field from '../../../../../../../../../components/Field/Field';
-import Button from '../../../../../../../../../components/Button/Button';
 import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+
+import Button from '../../../../../../../../../components/Button/Button';
+import Field from '../../../../../../../../../components/Field/Field';
+import { useNewEventContext } from '../../../../../../contexts/NewEventContext';
 
 interface WeddingDetailProps {
   index: number;

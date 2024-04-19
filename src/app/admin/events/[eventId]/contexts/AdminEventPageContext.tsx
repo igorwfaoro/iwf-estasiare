@@ -1,9 +1,10 @@
 'use client';
 
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+
 import { useToast } from '../../../../../contexts/ToastContext';
-import { createEventClientService } from '../../../../../services/client/event.client-service';
 import { EventDetailViewModel } from '../../../../../models/view-models/event-detail.view-model';
+import { createEventClientService } from '../../../../../services/client/event.client-service';
 
 export interface IAdminEventPageProvider {
   event: EventDetailViewModel | undefined;

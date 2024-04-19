@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import Button, { ButtonTheme } from '../Button/Button';
 import { twMerge } from 'tailwind-merge';
+
+import Button, { ButtonTheme } from '../Button/Button';
 
 export interface DropdownMenuItem {
   label: string;

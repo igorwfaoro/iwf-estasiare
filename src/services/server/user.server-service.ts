@@ -1,7 +1,8 @@
-import { prisma } from '../../data/db';
-import { userConverter } from '../../converters/user.converter';
 import { Profile } from 'next-auth';
+
 import { AuthUser } from '../../auth/auth-user';
+import { userConverter } from '../../converters/user.converter';
+import { prisma } from '../../data/db';
 
 export const createUserServerService = () => {
   const verify = async (profile: Profile): Promise<boolean> => {

@@ -1,14 +1,14 @@
 'use client';
 
-import Link from 'next/link';
-import { useState } from 'react';
-import { usePathname } from 'next/navigation';
 import { MenuSVGIcon } from '@react-md/material-icons';
-import { EventDetailViewModel } from '../../../../models/view-models/event-detail.view-model';
-import Button from '../../../../components/Button/Button';
-import { twMerge } from 'tailwind-merge';
 import classNames from 'classnames';
-import InitialsIcon from '../../../../components/InitialsIcon/InitialsIcon';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import { twMerge } from 'tailwind-merge';
+
+import Button from '../../../../components/Button/Button';
+import { EventDetailViewModel } from '../../../../models/view-models/event-detail.view-model';
 import { renderInitialsIcon } from '../../../../util/helpers/initials-icon.helper';
 
 interface LinkItem {

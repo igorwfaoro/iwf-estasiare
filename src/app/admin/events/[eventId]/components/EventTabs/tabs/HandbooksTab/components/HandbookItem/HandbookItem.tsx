@@ -1,6 +1,7 @@
 import { MdDelete, MdEdit } from 'react-icons/md';
-import { EventHandbookViewModel } from '../../../../../../../../../../models/view-models/event-handbook.view-model';
+
 import Card from '../../../../../../../../../../components/Card/Card';
+import { EventHandbookViewModel } from '../../../../../../../../../../models/view-models/event-handbook.view-model';
 
 interface HandbookItemProps {
   handbook: EventHandbookViewModel;

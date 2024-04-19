@@ -1,7 +1,8 @@
 import { EventContent, EventContentImage } from '@prisma/client';
+
 import { EventContentViewModel } from '../models/view-models/event-content.view-model';
-import { eventContentImageConverter } from './event-content-image.converter';
 import { getFileApiUrlOrNull } from '../util/helpers/file.helper';
+import { eventContentImageConverter } from './event-content-image.converter';
 
 export type EventContentConverterModel = EventContent & {
   images?: EventContentImage[];

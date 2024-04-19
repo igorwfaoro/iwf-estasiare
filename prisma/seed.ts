@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import dayjs from 'dayjs';
+
 const prisma = new PrismaClient();
 
 async function main() {
@@ -15,7 +16,8 @@ async function main() {
       eventType: 'WEDDING',
       date: dayjs('2024-09-21 16:00:00').toDate(),
       slug: 'casamento-igor-gabi',
-      address: 'Espaço de Eventos La Casa Piemont, 240 - Estrada VRS 826 - Linha Boêmios, Farroupilha - RS, 95181-899',
+      address:
+        'Espaço de Eventos La Casa Piemont, 240 - Estrada VRS 826 - Linha Boêmios, Farroupilha - RS, 95181-899',
       content: {
         create: {
           primaryColor: '#1E3A8A',
@@ -217,24 +219,21 @@ async function main() {
             title: 'Manual de Padrinhos',
             description:
               'Guia para nossos padrinhos, com dicas para tornar nosso casamento especial',
-            content:
-              `## Content Manual dos Padrinhos
+            content: `## Content Manual dos Padrinhos
               Esse sit pariatur qui laboris ad Lorem ullamco fugiat deserunt. In Lorem id sunt deserunt ullamco ea deserunt est consectetur. Nostrud nulla sunt nisi ipsum labore consequat do nisi.`
           },
           {
             title: 'Manual das Daminhas',
             description:
               'Guia para nossas daminhas, com dicas sobre vestimenta e comportamento',
-            content:
-            `## Content Manual dos Daminhas
+            content: `## Content Manual dos Daminhas
             Esse sit pariatur qui laboris ad Lorem ullamco fugiat deserunt. In Lorem id sunt deserunt ullamco ea deserunt est consectetur. Nostrud nulla sunt nisi ipsum labore consequat do nisi.`
           },
           {
             title: 'Manual de Convidados',
             description:
               'Guia para nossos convidados, com informações essenciais sobre o evento',
-            content:
-            `## Content Manual dos Convidados
+            content: `## Content Manual dos Convidados
             Esse sit pariatur qui laboris ad Lorem ullamco fugiat deserunt. In Lorem id sunt deserunt ullamco ea deserunt est consectetur. Nostrud nulla sunt nisi ipsum labore consequat do nisi.`
           }
         ]
@@ -287,7 +286,7 @@ async function main() {
     'https://i.postimg.cc/MpqKXf3J/photo-6.jpg',
     'https://i.postimg.cc/Jzx7X7SD/photo-7.jpg',
     'https://i.postimg.cc/8Phz1mHb/photo-8.jpg',
-    'https://i.postimg.cc/h4QGYBQ6/photo-9.jpg',
+    'https://i.postimg.cc/h4QGYBQ6/photo-9.jpg'
   ];
 
   for (const photo of photos) {

@@ -1,12 +1,13 @@
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
-import Field from '../../../../../../../../../../components/Field/Field';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+
 import Button from '../../../../../../../../../../components/Button/Button';
-import { createEventClientService } from '../../../../../../../../../../services/client/event.client-service';
+import Field from '../../../../../../../../../../components/Field/Field';
 import { useLoader } from '../../../../../../../../../../contexts/LoaderContext';
 import { useToast } from '../../../../../../../../../../contexts/ToastContext';
+import { createEventClientService } from '../../../../../../../../../../services/client/event.client-service';
 import { EditModalProps } from '../../types/edit-modal-props';
 import { EditModalResult } from '../../types/edit-modal-result';
 

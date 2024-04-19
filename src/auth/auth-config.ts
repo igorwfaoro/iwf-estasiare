@@ -1,8 +1,9 @@
+import { NextApiRequest, NextApiResponse } from 'next';
 import { AuthOptions, Session, getServerSession } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
-import { createUserServerService } from '../services/server/user.server-service';
 import { NextRequest, NextResponse } from 'next/server';
-import { NextApiRequest, NextApiResponse } from 'next';
+
+import { createUserServerService } from '../services/server/user.server-service';
 import { AuthUser } from './auth-user';
 
 const userService = createUserServerService();

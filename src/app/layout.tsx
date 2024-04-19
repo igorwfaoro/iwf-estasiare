@@ -1,10 +1,11 @@
-import '../styles/globals.scss';
-import dayjs from 'dayjs';
-import { ReactNode, Suspense } from 'react';
-import { Metadata } from 'next';
-import { locale } from '../util/locale';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import dayjs from 'dayjs';
+import { Metadata } from 'next';
+import { ReactNode, Suspense } from 'react';
+
+import '../styles/globals.scss';
 import { COLORS } from '../util/colors';
+import { locale } from '../util/locale';
 import Loading from './loading';
 
 const meta = {

@@ -1,15 +1,16 @@
 import { Dispatch, SetStateAction, useState } from 'react';
-import { InvitationFormGuest } from '../../types/invitation-form-guest';
+import { FaPlusCircle } from 'react-icons/fa';
 import { MdDelete, MdEdit } from 'react-icons/md';
-import GuestForm from './components/GuestForm/GuestForm';
+
+import Button from '../../../../../../../../../../../../components/Button/Button';
 import Card from '../../../../../../../../../../../../components/Card/Card';
 import Chip from '../../../../../../../../../../../../components/Chip/Chip';
 import {
   guestStatusColor,
   guestStatusLabel
 } from '../../../../../../../../../../../../util/helpers/guest-status.helper';
-import { FaPlusCircle } from 'react-icons/fa';
-import Button from '../../../../../../../../../../../../components/Button/Button';
+import { InvitationFormGuest } from '../../types/invitation-form-guest';
+import GuestForm from './components/GuestForm/GuestForm';
 
 interface GuestsProps {
   guests: InvitationFormGuest[];

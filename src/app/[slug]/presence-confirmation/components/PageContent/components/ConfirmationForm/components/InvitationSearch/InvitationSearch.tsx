@@ -1,9 +1,10 @@
 import { KeyboardEvent, useState } from 'react';
+
 import Button from '../../../../../../../../../components/Button/Button';
-import Field from '../../../../../../../../../components/Field/Field';
-import { usePresenceConfirmationContext } from '../../../../contexts/PresenceConfirmationContext';
 import Card from '../../../../../../../../../components/Card/Card';
+import Field from '../../../../../../../../../components/Field/Field';
 import { InvitationDetailViewModel } from '../../../../../../../../../models/view-models/invitation-detail.view-model';
+import { usePresenceConfirmationContext } from '../../../../contexts/PresenceConfirmationContext';
 
 export default function InvitationSearch() {
   const {
@@ -73,11 +74,14 @@ export default function InvitationSearch() {
         {buttonText}
       </Button>
 
-      <div className='mt-4 space-y-2'>
+      <div className="mt-4 space-y-2">
         {invitations.map((invitation, i) => (
           <Card className="flex items-center justify-between bg-white p-3">
             <div>{invitation.description}</div>
-            <Button onClick={() => handleSelectInvitation(invitation)} className='py-1'>
+            <Button
+              onClick={() => handleSelectInvitation(invitation)}
+              className="py-1"
+            >
               Selecionar
             </Button>
           </Card>

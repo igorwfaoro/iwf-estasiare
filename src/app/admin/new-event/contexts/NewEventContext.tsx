@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import {
   Dispatch,
   MutableRefObject,
@@ -9,19 +10,19 @@ import {
   useMemo,
   useState
 } from 'react';
+
 import {
   StepItem,
   StepperRefType
 } from '../../../../components/Stepper/Stepper';
-import { EventCreateInputModel } from '../../../../models/input-models/event-create.input-model';
-import { createEventClientService } from '../../../../services/client/event.client-service';
 import { useLoader } from '../../../../contexts/LoaderContext';
 import { useToast } from '../../../../contexts/ToastContext';
-import { useRouter } from 'next/navigation';
-import StepGeneral from '../components/NewEventStepper/steps/StepGeneral/StepGeneral';
-import StepDetails from '../components/NewEventStepper/steps/StepDetails/StepDetails';
-import StepContent from '../components/NewEventStepper/steps/StepContent/StepContent';
+import { EventCreateInputModel } from '../../../../models/input-models/event-create.input-model';
+import { createEventClientService } from '../../../../services/client/event.client-service';
 import StepConfirm from '../components/NewEventStepper/steps/StepConfirm/StepConfirm';
+import StepContent from '../components/NewEventStepper/steps/StepContent/StepContent';
+import StepDetails from '../components/NewEventStepper/steps/StepDetails/StepDetails';
+import StepGeneral from '../components/NewEventStepper/steps/StepGeneral/StepGeneral';
 
 export interface INewEventProvider {
   stepperRef: MutableRefObject<StepperRefType | undefined> | undefined;

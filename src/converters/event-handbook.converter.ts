@@ -1,6 +1,7 @@
 import { EventHandbook } from '@prisma/client';
-import { EventHandbookViewModel } from '../models/view-models/event-handbook.view-model';
+
 import { EventHandbookDetailViewModel } from '../models/view-models/event-handbook-detail.view-model';
+import { EventHandbookViewModel } from '../models/view-models/event-handbook.view-model';
 
 export type EventHandbookConverterModel = EventHandbook & {};
 

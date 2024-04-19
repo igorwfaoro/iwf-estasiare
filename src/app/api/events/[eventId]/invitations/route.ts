@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+
 import { createInvitationServerService } from '../../../../../services/server/invitation.server-service';
 
 interface Params {
@@ -16,7 +17,10 @@ export async function GET(_: Request, { params }: Params) {
 export async function POST(req: Request, { params }: Params) {
   const input = await req.json();
 
-  const response = await invitationService.create(Number(params.eventId), input);
+  const response = await invitationService.create(
+    Number(params.eventId),
+    input
+  );
 
   return NextResponse.json(response);
 }

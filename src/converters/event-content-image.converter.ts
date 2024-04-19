@@ -1,4 +1,5 @@
 import { EventContentImage } from '@prisma/client';
+
 import { EventContentImageViewModel } from '../models/view-models/event-content-image.view-model';
 import { getFileApiUrl } from '../util/helpers/file.helper';
 

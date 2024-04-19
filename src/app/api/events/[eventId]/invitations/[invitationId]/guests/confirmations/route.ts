@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+
 import { createInvitationServerService } from '../../../../../../../../services/server/invitation.server-service';
 
 interface Params {

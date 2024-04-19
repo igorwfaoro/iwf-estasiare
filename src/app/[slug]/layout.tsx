@@ -1,9 +1,10 @@
-import { ReactNode, Suspense, cache } from 'react';
-import { EventNavbar } from './components/Navbar/Navbar';
-import { EventFooter } from './components/Footer/Footer';
 import { Metadata } from 'next';
+import { ReactNode, Suspense, cache } from 'react';
+
 import { createEventServerService } from '../../services/server/event.server-service';
 import Loading from '../loading';
+import { EventFooter } from './components/Footer/Footer';
+import { EventNavbar } from './components/Navbar/Navbar';
 
 interface LayoutProps {
   params: { slug: string };
@@ -11,7 +12,9 @@ interface LayoutProps {
 }
 
 const getEvent = cache(async (slug: string) => {
-  return await createEventServerService().getBySlug(slug);
+  return await createEventServerService().getBySlug(slug, {
+    contactInfo: true
+  });
 });
 
 export async function generateMetadata({

@@ -1,4 +1,5 @@
 import { EventType } from '@prisma/client';
+
 import { EventContentViewModel } from './event-content.view-model';
 import { EventFinancialViewModel } from './event-financial.view-model';
 import { EventWeddingDetailViewModel } from './event-wedding-detail.view-model';

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createGiftServerService } from '../../../../../../services/server/gift.server-service';
+
 import { createHandbookServerService } from '../../../../../../services/server/handbook.server-service';
 
 interface Params {

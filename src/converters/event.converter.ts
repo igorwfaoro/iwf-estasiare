@@ -1,31 +1,35 @@
 import {
   Event,
+  EventContactInfo,
   EventFinancial,
   EventHandbook,
   EventType,
   EventWeddingDetail,
   Gift
 } from '@prisma/client';
+import dayjs from 'dayjs';
+
 import { EventDetailViewModel } from '../models/view-models/event-detail.view-model';
-import { eventWeddingDetailConverter } from './event-wedding-detail.converter';
+import { EventViewModel } from '../models/view-models/event.view-model';
+import { eventTitleDescription } from '../util/helpers/event-title-description.helper';
 import { eventTypeLabel } from '../util/helpers/event-type.helper';
-import { giftConverter } from './gift.converter';
+import { eventContactInfoConverter } from './event-contact-info.converter';
 import {
   EventContentConverterModel,
   eventContentConverter
 } from './event-content.converter';
 import { eventFinancialConverter } from './event-financial.converter';
-import { EventViewModel } from '../models/view-models/event.view-model';
 import { eventHandbookConverter } from './event-handbook.converter';
-import { eventTitleDescription } from '../util/helpers/event-title-description.helper';
-import dayjs from 'dayjs';
+import { eventWeddingDetailConverter } from './event-wedding-detail.converter';
+import { giftConverter } from './gift.converter';
 
 export type EventConverterModel = Event & {
   content?: EventContentConverterModel;
-  financial?: EventFinancial | null;
-  weddingDetail?: EventWeddingDetail | null;
+  financial?: EventFinancial;
   gifts?: Gift[];
   handbooks?: EventHandbook[] | null;
+  contactInfo?: EventContactInfo;
+  weddingDetail?: EventWeddingDetail | null;
 };
 
 interface EventDetailInclude {
@@ -53,15 +57,19 @@ export const eventConverter = {
       ? eventFinancialConverter.modelToViewModel(model.financial)
       : undefined,
 
-    weddingDetail: model.weddingDetail
-      ? eventWeddingDetailConverter.modelToViewModel(model.weddingDetail)
-      : undefined,
-
     gifts: model.gifts?.map(giftConverter.modelToViewModel),
 
     handbooks: model.handbooks?.map(eventHandbookConverter.modelToViewModel),
 
+    contactInfo: model.contactInfo
+      ? eventContactInfoConverter.modelToViewModel(model.contactInfo)
+      : undefined,
+
     createdAt: dayjs(model.createdAt).toISOString(),
+
+    weddingDetail: model.weddingDetail
+      ? eventWeddingDetailConverter.modelToViewModel(model.weddingDetail)
+      : undefined,
 
     titleDescription: eventTitleDescription(model),
 
@@ -92,8 +100,9 @@ export const eventConverter = {
     createdAt: dayjs(model.createdAt).toISOString(),
 
     titleDescription: {
-      [EventType.WEDDING]: `${eventTypeLabel[EventType.WEDDING]} ${model
-        .weddingDetail?.groomName} & ${model.weddingDetail?.brideName}`
+      [EventType.WEDDING]: `${eventTypeLabel[EventType.WEDDING]} ${
+        model.weddingDetail?.groomName
+      } & ${model.weddingDetail?.brideName}`
     }[model.eventType]
   })
 };

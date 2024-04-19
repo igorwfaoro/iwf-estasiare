@@ -1,10 +1,11 @@
-import { cache } from 'react';
 import { Metadata } from 'next';
-import Header from './components/Header/Header';
-import GiftsList from './components/GiftsList/GiftsList';
+import { cache } from 'react';
+
 import ModalProvider from '../../../contexts/ModalContext';
-import EventPageBase from '../components/EventPageBase/EventPageBase';
 import { createEventServerService } from '../../../services/server/event.server-service';
+import EventPageBase from '../components/EventPageBase/EventPageBase';
+import GiftsList from './components/GiftsList/GiftsList';
+import Header from './components/Header/Header';
 
 export const revalidate = 3600;
 

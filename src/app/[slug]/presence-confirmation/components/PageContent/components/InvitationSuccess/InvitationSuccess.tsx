@@ -1,4 +1,5 @@
 import ConfettiExplosion from 'react-confetti-explosion';
+
 import Button from '../../../../../../../components/Button/Button';
 import { usePresenceConfirmationContext } from '../../contexts/PresenceConfirmationContext';
 

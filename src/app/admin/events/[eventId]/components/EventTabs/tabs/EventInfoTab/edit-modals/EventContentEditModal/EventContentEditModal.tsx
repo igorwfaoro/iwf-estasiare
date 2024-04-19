@@ -1,5 +1,3 @@
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   ChangeEvent,
@@ -8,15 +6,18 @@ import {
   useEffect,
   useState
 } from 'react';
-import Field from '../../../../../../../../../../components/Field/Field';
+import { HexColorPicker } from 'react-colorful';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+
 import Button from '../../../../../../../../../../components/Button/Button';
-import { createEventClientService } from '../../../../../../../../../../services/client/event.client-service';
+import Field from '../../../../../../../../../../components/Field/Field';
 import { useLoader } from '../../../../../../../../../../contexts/LoaderContext';
 import { useToast } from '../../../../../../../../../../contexts/ToastContext';
-import { EditModalResult } from '../../types/edit-modal-result';
-import { EditModalProps } from '../../types/edit-modal-props';
+import { createEventClientService } from '../../../../../../../../../../services/client/event.client-service';
 import { fileToDataURL } from '../../../../../../../../../../util/helpers/file.helper';
-import { HexColorPicker } from 'react-colorful';
+import { EditModalProps } from '../../types/edit-modal-props';
+import { EditModalResult } from '../../types/edit-modal-result';
 
 interface EventContentEditModalProps extends EditModalProps {}
 interface EventContentEditModalResult extends EditModalResult {}
