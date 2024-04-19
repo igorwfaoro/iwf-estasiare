@@ -41,7 +41,7 @@ export default function EventBanner({
         <div className="banner-content__button-side">
           <Button
             theme="light"
-            link={buttonLink}
+            href={buttonLink}
             className="bg-transparent border border-white text-white"
           >
             {buttonText}

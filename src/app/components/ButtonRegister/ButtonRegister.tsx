@@ -6,7 +6,7 @@ interface ButtonRegisterProps {
 
 export default function ButtonRegister({ className }: ButtonRegisterProps) {
   return (
-    <Button className={className} theme="highlight" link="/admin/new-event">
+    <Button className={className} theme="highlight" href="/admin/new-event">
       Crie seu evento!
     </Button>
   );

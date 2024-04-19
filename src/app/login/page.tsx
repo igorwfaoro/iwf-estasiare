@@ -12,7 +12,7 @@ export default function AdminLoginPage({}: AdminLoginPageProps) {
         <GoogleButton />
       </Card>
 
-      <Button theme="light" link="/">
+      <Button theme="light" href="/">
         Voltar ao Início
       </Button>
     </div>

@@ -39,7 +39,8 @@ export default function GuestForm({
     handleSubmit,
     formState: { errors },
     setValue,
-    setFocus
+    setFocus,
+    reset
   } = useForm<FormSchema>({
     resolver: zodResolver(formSchema)
   });
@@ -59,13 +60,15 @@ export default function GuestForm({
       name: data.name,
       status: data.status
     });
+
+    reset();
   };
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
       <Card className="flex flex-col md:flex-row gap-1 md:gap-3 md:justify-between bg-white p-3">
         <div className="flex gap-3 w-full">
-          <Field className="w-full">
+          <Field className="w-full mb-0">
             <Field.Input
               {...register('name')}
               placeholder="Nome"
@@ -74,7 +77,7 @@ export default function GuestForm({
             {errors.name && <Field.Error>{errors.name.message}</Field.Error>}
           </Field>
 
-          <Field className="w-full md:w-64">
+          <Field className="w-full md:w-64 mb-0">
             <Field.Select {...register('status')} className="h-8 py-1">
               {guestStatusList.map((item) => (
                 <Field.SelectOption key={item} value={item}>

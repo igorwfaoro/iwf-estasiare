@@ -8,48 +8,63 @@ import { tv, VariantProps } from 'tailwind-variants';
 
 export type ButtonTheme =
   | 'primary'
+  | 'primary-outline'
   | 'secondary'
   | 'light'
   | 'highlight'
   | 'danger'
   | 'warning';
 
-const button = tv({
-  base: 'rounded-lg px-4 py-3 h-auto font-bold text-center uppercase shadow-sm transition-all ease-in-out hover:brightness-90 disabled:cursor-not-allowed disabled:border-none disabled:bg-gray-400 disabled:text-gray-300 [text-wrap:nowrap]',
-  variants: {
-    theme: {
-      primary: 'bg-primary text-white',
-      secondary: 'bg-secondary text-white',
-      light: 'bg-neutral-100 text-neutral-950',
-      highlight: 'bg-highlight text-white',
-      danger: 'bg-red-600 text-white',
-      warning: 'bg-yellow-500 text-white'
-    } as { [key in ButtonTheme]: string }
+export type ButtonSize = 'normal' | 'small';
+
+const variants: {
+  theme: { [key in ButtonTheme]: string };
+  size: { [key in ButtonSize]: string };
+} = {
+  theme: {
+    primary: 'bg-primary text-white',
+    'primary-outline': 'bg-transparent text-primary border border-primary',
+
+    secondary: 'bg-secondary text-white',
+    light: 'bg-neutral-100 text-neutral-950',
+    highlight: 'bg-highlight text-white',
+    danger: 'bg-red-600 text-white',
+    warning: 'bg-yellow-500 text-white'
   },
+  size: {
+    small: 'px-2 py-1',
+    normal: 'px-4 py-3'
+  }
+};
+
+const button = tv({
+  base: 'rounded-lg h-auto font-bold text-center uppercase shadow-sm transition-all ease-in-out hover:brightness-90 disabled:cursor-not-allowed disabled:border-none disabled:bg-gray-400 disabled:text-gray-300 [text-wrap:nowrap]',
+  variants,
   defaultVariants: {
-    theme: 'primary'
+    theme: 'primary',
+    size: 'normal'
   }
 });
 
 type ButtonProps = ComponentProps<'button'> &
   VariantProps<typeof button> & {
     icon?: any;
-    link?: string;
-    linkTarget?: HTMLAttributeAnchorTarget;
+    href?: string;
+    target?: HTMLAttributeAnchorTarget;
     color?: string;
   };
 
 export default function Button({
   children,
   icon: Icon,
-  link,
-  linkTarget,
+  href,
+  target,
   theme,
-  onClick,
-  disabled,
+  size,
   className,
   color,
-  style
+  style,
+  ...otherProps
 }: ButtonProps) {
   const content = (
     <>
@@ -57,26 +72,21 @@ export default function Button({
     </>
   );
 
-  const buttonClasses = button({ theme, className });
+  const buttonClasses = button({ theme, size, className });
 
   const buttonStyle: CSSProperties = { ...style, backgroundColor: color };
 
-  return link ? (
+  return href ? (
     <Link
       className={buttonClasses}
       style={buttonStyle}
-      href={link}
-      target={linkTarget}
+      href={href}
+      target={target}
     >
       {content}
     </Link>
   ) : (
-    <button
-      className={buttonClasses}
-      style={buttonStyle}
-      onClick={onClick}
-      disabled={disabled}
-    >
+    <button className={buttonClasses} style={buttonStyle} {...otherProps}>
       {content}
     </button>
   );

@@ -9,10 +9,11 @@ import {
   guestStatusLabel
 } from '../../../../../../../../../../../../util/helpers/guest-status.helper';
 import { FaPlusCircle } from 'react-icons/fa';
+import Button from '../../../../../../../../../../../../components/Button/Button';
 
 interface GuestsProps {
   guests: InvitationFormGuest[];
-  setGuests: Dispatch<SetStateAction<InvitationFormGuest[]>>
+  setGuests: Dispatch<SetStateAction<InvitationFormGuest[]>>;
 }
 
 export default function Guests({ guests, setGuests }: GuestsProps) {
@@ -29,13 +30,13 @@ export default function Guests({ guests, setGuests }: GuestsProps) {
 
   const handleSave = (guest: InvitationFormGuest) => {
     if (guest.id) {
-      setGuests(prev => prev.map((g) => (g.id === guest.id ? guest : g)));
+      // if is edit
+      setGuests((prev) => prev.map((g) => (g.id === guest.id ? guest : g)));
+      setGuestFormIndex(null);
     } else {
-      setGuests(prev => [...prev, guest]);
+      // if is new
+      setGuests((prev) => [...prev, guest]);
     }
-
-    setGuestFormIndex(null);
-    setShowFormNew(false);
   };
 
   return (
@@ -81,15 +82,19 @@ export default function Guests({ guests, setGuests }: GuestsProps) {
           {showFormNew ? (
             <GuestForm
               handleSave={handleSave}
-              handleCancel={() => setGuestFormIndex(null)}
+              handleCancel={() => setShowFormNew(false)}
             />
           ) : (
-            <div
-              className="flex items-center gap-1 underline cursor-pointer"
-              onClick={() => setShowFormNew(true)}
-            >
-              <FaPlusCircle />
-              <span>Adicionar convidado</span>
+            <div className="flex justify-end">
+              <Button
+                theme="primary-outline"
+                size="small"
+                className="flex items-center gap-1 bg-white mt-4"
+                onClick={() => setShowFormNew(true)}
+              >
+                <FaPlusCircle />
+                <span>Adicionar convidado</span>
+              </Button>
             </div>
           )}
         </div>

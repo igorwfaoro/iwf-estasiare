@@ -37,8 +37,8 @@ export default function GiftPaymentModal({
         receberemos 😉
       </p>
       <Button
-        link={paymentLink}
-        linkTarget="_blank"
+        href={paymentLink}
+        target="_blank"
         theme="primary"
         color={event.content?.primaryColor}
       >
