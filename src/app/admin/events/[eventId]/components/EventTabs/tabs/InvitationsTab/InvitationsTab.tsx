@@ -17,20 +17,27 @@ export default function InvitationsTab({}: InvitationsTabProps) {
     isLoading,
     remove,
     filteredInvitations,
-    openForm
+    openForm,
+    totalGuestsCount,
+    totalGuestsConfirmed
   } = useInvitationsTabContext();
 
   const renderLoading = () => (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <Card key={i} className="p-3">
-          <Skeleton className="h-5 w-52 rounded-xl" />
-        </Card>
-      ))}
+    <div className="space-y-3">
+      <Skeleton className="h-4 w-52 rounded-xl" />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <Card key={i} className="p-3">
+            <Skeleton className="h-5 w-52 rounded-xl" />
+          </Card>
+        ))}
+      </div>
     </div>
   );
 
   const enableHeader = !!event && !isLoading;
+
+  const totalGuestsConfirmedText = `${totalGuestsConfirmed}/${totalGuestsCount} confirmados`;
 
   return (
     <>
@@ -56,19 +63,25 @@ export default function InvitationsTab({}: InvitationsTabProps) {
       {!event || isLoading ? (
         renderLoading()
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {filteredInvitations.length ? (
-            filteredInvitations.map((invitation) => (
-              <InvitationItem
-                key={invitation.id}
-                invitation={invitation}
-                handleEdit={() => openForm(invitation.id)}
-                handleDelete={() => remove(invitation.id)}
-              />
-            ))
-          ) : (
-            <div>Nenhum convite encontrado</div>
-          )}
+        <div className="space-y-3">
+          <div className="text-gray-500 text-sm">
+            {totalGuestsConfirmedText}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {filteredInvitations.length ? (
+              filteredInvitations.map((invitation) => (
+                <InvitationItem
+                  key={invitation.id}
+                  invitation={invitation}
+                  handleEdit={() => openForm(invitation.id)}
+                  handleDelete={() => remove(invitation.id)}
+                />
+              ))
+            ) : (
+              <div>Nenhum convite encontrado</div>
+            )}
+          </div>
         </div>
       )}
     </>

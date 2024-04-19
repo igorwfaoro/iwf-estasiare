@@ -31,6 +31,8 @@ export interface IInvitationsTabProvider {
   openForm: (invitationId?: number) => void;
   remove: (invitationId: number) => void;
   filteredInvitations: InvitationViewModel[];
+  totalGuestsCount: number;
+  totalGuestsConfirmed: number;
 }
 
 interface InvitationsTabProviderProps {
@@ -41,9 +43,7 @@ const InvitationsTabContext = createContext<
   IInvitationsTabProvider | undefined
 >(undefined);
 
-const InvitationsTabProvider = ({
-  children
-}: InvitationsTabProviderProps) => {
+const InvitationsTabProvider = ({ children }: InvitationsTabProviderProps) => {
   const { event } = useAdminEventPageContext();
 
   const invitationService = createInvitationClientService();
@@ -159,6 +159,16 @@ const InvitationsTabProvider = ({
     invitation.description.toLowerCase().includes(search.toLowerCase())
   );
 
+  const totalGuestsCount = invitations.reduce(
+    (acc, invitation) => acc + invitation.guestsCount!,
+    0
+  );
+
+  const totalGuestsConfirmed = invitations.reduce(
+    (acc, invitation) => acc + invitation.guestsConfirmed!,
+    0
+  );
+
   const returnValue = useMemo(
     () => ({
       search,
@@ -166,9 +176,17 @@ const InvitationsTabProvider = ({
       isLoading,
       openForm,
       remove,
-      filteredInvitations
+      filteredInvitations,
+      totalGuestsCount,
+      totalGuestsConfirmed
     }),
-    [search, isLoading, filteredInvitations]
+    [
+      search,
+      isLoading,
+      filteredInvitations,
+      totalGuestsCount,
+      totalGuestsConfirmed
+    ]
   );
 
   return (
