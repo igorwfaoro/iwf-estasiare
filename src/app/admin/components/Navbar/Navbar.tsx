@@ -18,7 +18,7 @@ interface LinkItem {
 interface NavbarProps {}
 
 export default function Navbar({}: NavbarProps) {
-  const session = useSession();
+  const { data } = useSession();
 
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
@@ -28,12 +28,20 @@ export default function Navbar({}: NavbarProps) {
       path: '/admin'
     },
     {
-      label: 'Novo evento',
+      label: 'Novo Evento',
       path: '/admin/new-event'
+    },
+    {
+      label: 'Minha Conta',
+      path: '/admin/account'
     }
   ];
 
   const dropdownMenuitems: DropdownMenuItem[] = [
+    {
+      label: 'Minha conta',
+      href: '/admin/account'
+    },
     {
       label: 'Logout',
       onClick: () => signOut()
@@ -44,10 +52,10 @@ export default function Navbar({}: NavbarProps) {
   const closeMenu = () => setMenuIsOpen(false);
 
   const UserButton = ({ theme = 'light' }: { theme?: ButtonTheme }) =>
-    session.data?.user && (
+    data?.user && (
       <DropdownMenu
         className="py-1"
-        label={session.data?.user.name}
+        label={data?.user.name}
         theme={theme}
         items={dropdownMenuitems}
       />

@@ -90,6 +90,32 @@ async function main() {
       }
     }
   });
+
+  await prisma.providerCategory.createMany({
+    data: [
+      { description: 'Fotografia' },
+      { description: 'Vídeo' },
+      { description: 'Espaços para Eventos' },
+      { description: 'Catering' },
+      { description: 'Decoração' },
+      { description: 'Música' },
+      { description: 'Entretenimento' },
+      { description: 'Cerimonialistas' },
+      { description: 'Moda e Vestuário' },
+      { description: 'Beleza' },
+      { description: 'Transporte' },
+      { description: 'Papelaria' },
+      { description: 'Lembranças' },
+      { description: 'Equipamentos' },
+      { description: 'Som' },
+      { description: 'Assessoria Jurídica' },
+      { description: 'Assessoria Financeira' },
+      { description: 'Segurança' },
+      { description: 'Limpeza' },
+      { description: 'Serviços para Crianças' },
+      { description: 'Outro', isOther: true }
+    ]
+  });
 }
 
 main()

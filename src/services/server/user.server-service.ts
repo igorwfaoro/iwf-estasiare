@@ -1,8 +1,16 @@
 import { Profile } from 'next-auth';
 
+import { getAuthSession, getAuthUser } from '../../auth/auth-config';
 import { AuthUser } from '../../auth/auth-user';
 import { userConverter } from '../../converters/user.converter';
 import { prisma } from '../../data/db';
+import { UserUpdateInputModel } from '../../models/input-models/user-update.input-model';
+
+const defaultInclude = {
+  provider: {
+    include: { providerCategories: { include: { category: true } } }
+  }
+};
 
 export const createUserServerService = () => {
   const verify = async (profile: Profile): Promise<boolean> => {
@@ -26,14 +34,32 @@ export const createUserServerService = () => {
 
   const getByEmail = async (email: string): Promise<AuthUser> => {
     const user = await prisma.user.findFirstOrThrow({
-      where: { email }
+      where: { email },
+      include: defaultInclude
     });
 
     return userConverter.modelToAuthUser(user);
   };
 
+  const update = async (input: UserUpdateInputModel) => {
+    const user = await getAuthUser();
+
+    const newUser = await prisma.user.update({
+      where: { id: user.id },
+      data: input,
+      include: defaultInclude
+    });
+
+    const session = await getAuthSession();
+
+    session.user = userConverter.modelToAuthUser(newUser);
+
+    return newUser;
+  };
+
   return {
     verify,
-    getByEmail
+    getByEmail,
+    update
   };
 };

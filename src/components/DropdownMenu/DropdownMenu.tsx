@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
+import Link from 'next/link';
 import Button, { ButtonTheme } from '../Button/Button';
 
 export interface DropdownMenuItem {
   label: string;
-  onClick: () => void;
+  onClick?: () => void;
+  href?: string;
 }
 
 interface DropdownMenuProps {
@@ -24,9 +26,25 @@ export default function DropdownMenu({
   const [isOpen, setIsOpen] = useState(false);
 
   const handleItemClick = (item: DropdownMenuItem) => {
-    item.onClick();
+    item.onClick && item.onClick();
     setIsOpen(false);
   };
+
+  const renderButtonLink = (menuItem: DropdownMenuItem) =>
+    menuItem.onClick ? (
+      <button
+        onClick={() => handleItemClick(menuItem)}
+        className="px-4 py-2 hover:bg-gray-200"
+      >
+        {menuItem.label}
+      </button>
+    ) : menuItem.href ? (
+      <Link className="px-4 py-2 hover:bg-gray-200" href={menuItem.href}>
+        {menuItem.label}
+      </Link>
+    ) : (
+      <></>
+    );
 
   return (
     <>
@@ -46,13 +64,7 @@ export default function DropdownMenu({
             className="absolute top-14 bg-white shadow-md flex flex-col rounded-md border border-gray-200 z-50"
           >
             {items?.map((item, i) => (
-              <button
-                key={i}
-                onClick={() => handleItemClick(item)}
-                className="px-4 py-2 hover:bg-gray-200"
-              >
-                {item.label}
-              </button>
+              <Fragment key={i}>{renderButtonLink(item)}</Fragment>
             ))}
           </div>
 

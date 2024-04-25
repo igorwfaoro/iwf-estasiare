@@ -137,6 +137,9 @@ model User {
   name  String @db.VarChar(300)
   email String @unique @db.VarChar(300)
 
+  providerId BigInt?   @unique
+  provider   Provider? @relation(fields: [providerId], references: [id])
+
   createdAt  DateTime    @default(now())
   userEvents UserEvent[]
 }
@@ -150,4 +153,37 @@ model UserEvent {
 
   eventId BigInt
   event   Event  @relation(fields: [eventId], references: [id])
+}
+
+model Provider {
+  id              BigInt   @id @default(autoincrement())
+  name            String   @db.VarChar(300)
+  contactEmail    String?  @db.VarChar(300)
+  contactPhone    String?  @db.VarChar(300)
+  contactWhatsApp String?  @db.VarChar(300)
+  profileImage    String?  @db.VarChar(500)
+  bio             String?  @db.VarChar(500)
+  link            String?  @db.VarChar(500)
+  createdAt       DateTime @default(now())
+
+  user               User?
+  providerCategories ProviderProviderCategory[]
+}
+
+model ProviderProviderCategory {
+  id BigInt @id @default(autoincrement())
+
+  providerId BigInt
+  provider   Provider @relation(fields: [providerId], references: [id])
+
+  categoryId BigInt
+  category   ProviderCategory @relation(fields: [categoryId], references: [id])
+}
+
+model ProviderCategory {
+  id                BigInt                     @id @default(autoincrement())
+  description       String                     @db.VarChar(100)
+  isOther           Boolean                    @default(false)
+  
+  categoryProviders ProviderProviderCategory[]
 }
