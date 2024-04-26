@@ -70,7 +70,28 @@ model EventWeddingDetail {
   id        BigInt @id @default(autoincrement())
   brideName String @db.VarChar(100)
   groomName String @db.VarChar(100)
-  event     Event?
+
+  event                            Event?
+  eventWeddingDetailGiftRegistries EventWeddingDetailGiftRegistry[]
+}
+
+model EventWeddingDetailGiftRegistry {
+  id BigInt @id @default(autoincrement())
+
+  eventWeddingDetailId BigInt
+  eventWeddingDetail   EventWeddingDetail @relation(fields: [eventWeddingDetailId], references: [id])
+
+  giftRegistryId BigInt
+  giftRegistry   GiftRegistry @relation(fields: [giftRegistryId], references: [id])
+}
+
+model GiftRegistry {
+  id          BigInt  @id @default(autoincrement())
+  storeName   String  @db.VarChar(100)
+  description String? @db.VarChar(100)
+  url         String? @db.VarChar(100)
+
+  eventWeddingDetailsGiftRegistry EventWeddingDetailGiftRegistry[]
 }
 
 model EventFinancial {
@@ -181,9 +202,9 @@ model ProviderProviderCategory {
 }
 
 model ProviderCategory {
-  id                BigInt                     @id @default(autoincrement())
-  description       String                     @db.VarChar(100)
-  isOther           Boolean                    @default(false)
-  
+  id          BigInt  @id @default(autoincrement())
+  description String  @db.VarChar(100)
+  isOther     Boolean @default(false)
+
   categoryProviders ProviderProviderCategory[]
 }

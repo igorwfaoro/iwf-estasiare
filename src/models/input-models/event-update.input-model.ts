@@ -34,4 +34,12 @@ interface ContactInfo {
 interface WeddingDetail {
   brideName: string;
   groomName: string;
+  giftRegistries: Partial<WeddingDetailGiftRegistries>[];
+}
+
+interface WeddingDetailGiftRegistries {
+  id: number;
+  storeName: string;
+  description: string;
+  url: string;
 }
