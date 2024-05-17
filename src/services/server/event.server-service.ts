@@ -3,8 +3,8 @@ import { getAuthUser } from '../../auth/auth-config';
 import { eventConverter } from '../../converters/event.converter';
 import { prisma } from '../../data/db';
 import { EventCreateInputModel } from '../../models/input-models/event-create.input-model';
+import { EventExtraIncludesInputModel } from '../../models/input-models/event-extra-includes.input-model';
 import { EventUpdateInputModel } from '../../models/input-models/event-update.input-model';
-import { ExtraIncludesInputModel } from '../../models/input-models/extra-includes.input-model';
 import { SearchEventsInputModel } from '../../models/input-models/search-events.input-model';
 import { EventDetailViewModel } from '../../models/view-models/event-detail.view-model';
 import { EventViewModel } from '../../models/view-models/event.view-model';
@@ -22,7 +22,7 @@ export interface CreateUpdateEventParams<T> {
 export const createEventServerService = () => {
   const get = async (
     eventWhere: any,
-    extraIncludes: ExtraIncludesInputModel = {}
+    extraIncludes: EventExtraIncludesInputModel = {}
   ): Promise<EventDetailViewModel> => {
     const giftsCount = await prisma.gift.count({
       where: {
@@ -45,13 +45,14 @@ export const createEventServerService = () => {
     const event = await prisma.event.findFirstOrThrow({
       where: eventWhere,
       include: {
+        gifts: extraIncludes.gifts,
+        financial: extraIncludes.financial,
+        contactInfo: extraIncludes.contactInfo,
         content: {
           include: {
             images: true
           }
         },
-        financial: true,
-        contactInfo: true,
         weddingDetail: true,
         handbooks: extraIncludes.handbooks
           ? {
@@ -62,7 +63,13 @@ export const createEventServerService = () => {
               }
             }
           : false,
-        ...extraIncludes
+        eventGiftRegistries: extraIncludes.giftRegistries
+          ? {
+              include: {
+                giftRegistry: true
+              }
+            }
+          : false
       }
     });
 
@@ -75,14 +82,14 @@ export const createEventServerService = () => {
 
   const getBySlug = async (
     slug: string,
-    extraIncludes: ExtraIncludesInputModel = {}
+    extraIncludes: EventExtraIncludesInputModel = {}
   ): Promise<EventDetailViewModel> => {
     return get({ slug }, extraIncludes);
   };
 
   const getById = async (
     id: number,
-    extraIncludes: ExtraIncludesInputModel = {}
+    extraIncludes: EventExtraIncludesInputModel = {}
   ): Promise<EventDetailViewModel> => {
     return get({ id }, extraIncludes);
   };

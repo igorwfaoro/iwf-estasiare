@@ -21,13 +21,6 @@ export default function Header({ event }: HeaderProps) {
         </p>
 
         <p>
-          Fique à vontade para escolher um presente que ressoe com você. Seja
-          ele um liquidificador para prepararmos deliciosas receitas juntos, um
-          porta-retrato para guardar memórias preciosas ou qualquer outra opção
-          que toque o seu coração.
-        </p>
-
-        <p>
           Saiba que, ao contribuir com o valor do presente, você nos ajuda a
           construir um futuro repleto de amor e cumplicidade.
         </p>

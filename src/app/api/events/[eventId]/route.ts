@@ -13,7 +13,10 @@ interface Params {
 const eventService = createEventServerService();
 
 export async function GET(_: Request, { params }: Params) {
-  const event = await eventService.getById(Number(params.eventId));
+  const event = await eventService.getById(Number(params.eventId), {
+    financial: true,
+    contactInfo: true
+  });
 
   return NextResponse.json(event);
 }

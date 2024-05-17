@@ -6,6 +6,7 @@ import { EventFinancialViewModel } from './event-financial.view-model';
 import { EventHandbookViewModel } from './event-handbook.view-model';
 import { EventWeddingDetailViewModel } from './event-wedding-detail.view-model';
 import { GiftViewModel } from './gift.view-model';
+import { GiftRegistryViewModel } from './gift-registry.view-model';
 
 export interface EventDetailViewModel {
   id: number;
@@ -19,10 +20,13 @@ export interface EventDetailViewModel {
   gifts?: GiftViewModel[];
   handbooks?: EventHandbookViewModel[] | null;
   createdAt: string;
+  
   weddingDetail?: EventWeddingDetailViewModel | null;
 
   titleDescription: string;
   hasGifts?: boolean | null;
   hasInvitations?: boolean | null;
   hasHandbooks?: boolean | null;
+
+  giftRegistries?: GiftRegistryViewModel[] | null;
 }

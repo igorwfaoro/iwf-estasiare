@@ -45,7 +45,9 @@ model Event {
   weddingDetailId BigInt?             @unique
   weddingDetail   EventWeddingDetail? @relation(fields: [weddingDetailId], references: [id])
 
-  createdAt DateTime @default(now())
+  createdAt         DateTime            @default(now())
+
+  eventGiftRegistries EventGiftRegistry[]
 }
 
 model EventContent {
@@ -71,27 +73,26 @@ model EventWeddingDetail {
   brideName String @db.VarChar(100)
   groomName String @db.VarChar(100)
 
-  event                            Event?
-  eventWeddingDetailGiftRegistries EventWeddingDetailGiftRegistry[]
+  event Event?
 }
 
-model EventWeddingDetailGiftRegistry {
+model EventGiftRegistry {
   id BigInt @id @default(autoincrement())
 
-  eventWeddingDetailId BigInt
-  eventWeddingDetail   EventWeddingDetail @relation(fields: [eventWeddingDetailId], references: [id])
+  eventId BigInt
+  event   Event  @relation(fields: [eventId], references: [id])
 
   giftRegistryId BigInt
   giftRegistry   GiftRegistry @relation(fields: [giftRegistryId], references: [id])
 }
 
 model GiftRegistry {
-  id          BigInt  @id @default(autoincrement())
-  storeName   String  @db.VarChar(100)
-  description String? @db.VarChar(100)
-  url         String? @db.VarChar(100)
+  id                BigInt              @id @default(autoincrement())
+  storeName         String              @db.VarChar(100)
+  description       String?             @db.VarChar(100)
+  url               String?             @db.VarChar(100)
 
-  eventWeddingDetailsGiftRegistry EventWeddingDetailGiftRegistry[]
+  eventsGiftRegistry EventGiftRegistry[]
 }
 
 model EventFinancial {
