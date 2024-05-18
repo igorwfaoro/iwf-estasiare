@@ -38,7 +38,7 @@ const variants: {
 };
 
 const button = tv({
-  base: 'rounded-lg h-auto font-bold text-center uppercase shadow-sm transition-all ease-in-out hover:brightness-90 disabled:cursor-not-allowed disabled:border-none disabled:bg-gray-400 disabled:text-gray-300 [text-wrap:nowrap]',
+  base: 'flex items-center justify-center rounded-lg h-auto font-bold text-center uppercase shadow-sm transition-all ease-in-out hover:brightness-90 disabled:cursor-not-allowed disabled:border-none disabled:bg-gray-400 disabled:text-gray-300 [text-wrap:nowrap]',
   variants,
   defaultVariants: {
     theme: 'primary',

@@ -66,7 +66,13 @@ export default function GiftsList({ event }: GiftsListProps) {
   };
 
   return (
-    <div id="gifts-list">
+    <div>
+      <p className="max-w-[672px] mx-auto text-lg text-center text-gray-800">
+        Ou, você pode optar por escolher um <strong>presente simbólico</strong>.
+        Dessa forma, ao contribuir com o valor do presente, você nos ajuda a
+        construir um futuro repleto de amor e cumplicidade.
+      </p>
+
       <div className="mt-4 gap-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {gifts.map((g, i) => (
           <Gift key={i} event={event} gift={g} onClickOpen={handleClickOpen} />

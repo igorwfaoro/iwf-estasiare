@@ -1,11 +1,18 @@
 import { ReactNode } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 interface EventPageHeaderProps {
   children: ReactNode;
+  className?: string;
 }
 
-export default function EventPageHeader({ children }: EventPageHeaderProps) {
-  return <div className="pt-6 pb-16 px-4">{children}</div>;
+export default function EventPageHeader({
+  children,
+  className
+}: EventPageHeaderProps) {
+  return (
+    <div className={twMerge('pt-6 pb-16 px-4', className)}>{children}</div>
+  );
 }
 
 // ----------------
@@ -33,7 +40,7 @@ interface EventPageHeaderSubProps {
 
 function EventPageHeaderSub({ children }: EventPageHeaderSubProps) {
   return (
-    <div className="max-w-[672px] mx-auto text-lg text-center text-gray-800 flex flex-col gap-3">
+    <div className="max-w-[672px] mx-auto text-lg text-center text-gray-800 space-y-3">
       {children}
     </div>
   );

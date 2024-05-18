@@ -10,7 +10,7 @@ export const giftRegisterConverter = {
   ): GiftRegistryViewModel => ({
     id: Number(model.id),
     storeName: model.storeName,
-    description: model.storeName,
+    description: model.description,
     url: model.url
   })
 };

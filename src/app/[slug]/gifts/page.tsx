@@ -35,7 +35,7 @@ export default async function Gifts({ params }: { params: { slug: string } }) {
 
   return (
     <ModalProvider>
-      <EventPageBase>
+      <EventPageBase className="space-y-6">
         <Header event={event} />
         <GiftRegistries event={event} />
         <GiftsList event={event} />
