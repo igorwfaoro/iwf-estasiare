@@ -16,7 +16,7 @@ export default function GiftItem({
   handleDelete
 }: GiftItemProps) {
   return (
-    <Card key={gift.id} className="flex gap-2">
+    <Card key={gift.id} className="flex gap-2 bg-white">
       <div
         className="h-20 w-28 bg-center bg-cover rounded-xl m-3"
         style={{ backgroundImage: `url(${gift.image})` }}

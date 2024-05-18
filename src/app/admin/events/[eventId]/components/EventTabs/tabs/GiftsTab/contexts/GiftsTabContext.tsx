@@ -15,7 +15,6 @@ import { useLoader } from '../../../../../../../../../contexts/LoaderContext';
 import { useModal } from '../../../../../../../../../contexts/ModalContext';
 import { useToast } from '../../../../../../../../../contexts/ToastContext';
 import { GiftViewModel } from '../../../../../../../../../models/view-models/gift.view-model';
-import { createEventClientService } from '../../../../../../../../../services/client/event.client-service';
 import { createGiftClientService } from '../../../../../../../../../services/client/gift.client-service';
 import { isMobile } from '../../../../../../../../../util/helpers/is-mobile.helper';
 import { useAdminEventPageContext } from '../../../../../contexts/AdminEventPageContext';
@@ -27,6 +26,7 @@ import GiftFormModal, {
   GiftFormModalProps,
   GiftFormModalResult
 } from '../components/GiftFormModal/GiftFormModal';
+import GiftRegistriesModal from '../components/GiftRegistriesModal/GiftRegistriesModal';
 
 export interface IGiftsTabProvider {
   search: string;
@@ -37,6 +37,7 @@ export interface IGiftsTabProvider {
   openForm: (gift?: GiftViewModel) => void;
   remove: (gift: GiftViewModel) => void;
   filteredGifts: GiftViewModel[];
+  handleOpenFinancialInfoModal: () => void;
 }
 
 interface GiftsTabProviderProps {
@@ -48,7 +49,6 @@ const GiftsTabContext = createContext<IGiftsTabProvider | undefined>(undefined);
 const GiftsTabProvider = ({ children }: GiftsTabProviderProps) => {
   const { event } = useAdminEventPageContext();
 
-  const eventClientService = createEventClientService();
   const giftService = createGiftClientService();
 
   const loader = useLoader();
@@ -58,14 +58,15 @@ const GiftsTabProvider = ({ children }: GiftsTabProviderProps) => {
 
   const [search, setSearch] = useState<string>('');
   const [gifts, setGifts] = useState<GiftViewModel[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [showEmptyFinancialInfoMessage, setShowEmptyFinancialInfoMessage] =
     useState(false);
 
   useEffect(() => {
-    if (event?.financial?.paypalBusinessCode) getGifts();
-    else setShowEmptyFinancialInfoMessage(true);
+    const hasFinancialInfo = !!event?.financial?.paypalBusinessCode;
+    setShowEmptyFinancialInfoMessage(!hasFinancialInfo);
+    if (hasFinancialInfo) getGifts();
   }, [event]);
 
   const getGifts = () => {
@@ -92,6 +93,15 @@ const GiftsTabProvider = ({ children }: GiftsTabProviderProps) => {
           getGifts();
         }
       }
+    });
+  };
+
+  const handleOpenFinancialInfoModal = () => {
+    modal.open({
+      component: GiftRegistriesModal,
+      title: 'Listas de presentes',
+      props: { event } as EventFinancialEditModalProps,
+      width: isMobile() ? '90%' : '50%'
     });
   };
 
@@ -181,7 +191,8 @@ const GiftsTabProvider = ({ children }: GiftsTabProviderProps) => {
       handleOpenFinancialInfo,
       openForm,
       remove,
-      filteredGifts
+      filteredGifts,
+      handleOpenFinancialInfoModal
     }),
     [search, isLoading, showEmptyFinancialInfoMessage, filteredGifts]
   );

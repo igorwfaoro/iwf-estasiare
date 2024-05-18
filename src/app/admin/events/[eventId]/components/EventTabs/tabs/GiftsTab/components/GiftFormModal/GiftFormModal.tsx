@@ -33,8 +33,7 @@ export default function GiftFormModal({ gift, modalRef }: GiftFormModalProps) {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
-    watch
+    setValue
   } = useForm<FormSchema>({
     resolver: zodResolver(formSchema)
   });
