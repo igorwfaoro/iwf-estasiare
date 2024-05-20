@@ -4,7 +4,7 @@ import { GiftRegistryViewModel } from '../models/view-models/gift-registry.view-
 
 export type GiftRegistryConverterModel = GiftRegistry & {};
 
-export const giftRegisterConverter = {
+export const giftRegistryConverter = {
   modelToViewModel: (
     model: GiftRegistryConverterModel
   ): GiftRegistryViewModel => ({

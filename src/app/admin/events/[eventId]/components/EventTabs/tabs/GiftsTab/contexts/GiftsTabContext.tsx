@@ -37,7 +37,7 @@ export interface IGiftsTabProvider {
   openForm: (gift?: GiftViewModel) => void;
   remove: (gift: GiftViewModel) => void;
   filteredGifts: GiftViewModel[];
-  handleOpenFinancialInfoModal: () => void;
+  handleOpenGiftRegistriesModal: () => void;
 }
 
 interface GiftsTabProviderProps {
@@ -96,12 +96,12 @@ const GiftsTabProvider = ({ children }: GiftsTabProviderProps) => {
     });
   };
 
-  const handleOpenFinancialInfoModal = () => {
+  const handleOpenGiftRegistriesModal = () => {
     modal.open({
       component: GiftRegistriesModal,
       title: 'Listas de presentes',
       props: { event } as EventFinancialEditModalProps,
-      width: isMobile() ? '90%' : '50%'
+      width: isMobile() ? '90%' : '60%'
     });
   };
 
@@ -192,7 +192,7 @@ const GiftsTabProvider = ({ children }: GiftsTabProviderProps) => {
       openForm,
       remove,
       filteredGifts,
-      handleOpenFinancialInfoModal
+      handleOpenGiftRegistriesModal
     }),
     [search, isLoading, showEmptyFinancialInfoMessage, filteredGifts]
   );

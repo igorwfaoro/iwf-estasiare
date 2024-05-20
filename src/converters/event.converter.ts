@@ -23,7 +23,7 @@ import {
 import { eventFinancialConverter } from './event-financial.converter';
 import { eventHandbookConverter } from './event-handbook.converter';
 import { eventWeddingDetailConverter } from './event-wedding-detail.converter';
-import { giftRegisterConverter } from './gift-registry.converter';
+import { giftRegistryConverter } from './gift-registry.converter';
 import { giftConverter } from './gift.converter';
 
 export type EventConverterModel = Event & {
@@ -84,7 +84,7 @@ export const eventConverter = {
     hasHandbooks,
 
     giftRegistries: model.eventGiftRegistries?.map((gr) =>
-      giftRegisterConverter.modelToViewModel(gr.giftRegistry!)
+      giftRegistryConverter.modelToViewModel(gr.giftRegistry!)
     )
   }),
 

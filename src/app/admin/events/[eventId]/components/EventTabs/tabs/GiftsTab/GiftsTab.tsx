@@ -19,7 +19,7 @@ export default function GiftsTab({}: GiftsTabProps) {
     filteredGifts,
     openForm,
     remove,
-    handleOpenFinancialInfoModal
+    handleOpenGiftRegistriesModal
   } = useGiftsTabContext();
 
   const renderLoading = () => (
@@ -65,7 +65,7 @@ export default function GiftsTab({}: GiftsTabProps) {
         </div>
         <Button
           theme="primary-outline"
-          onClick={handleOpenFinancialInfoModal}
+          onClick={handleOpenGiftRegistriesModal}
           className="w-full md:w-auto"
         >
           Acessar

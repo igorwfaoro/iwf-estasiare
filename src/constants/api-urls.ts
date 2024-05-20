@@ -46,5 +46,16 @@ export const API_URLS = {
       `${API_BASE_URL}/events/${eventId}/handbooks/${id}`,
     delete: (eventId: number, id: number) =>
       `${API_BASE_URL}/events/${eventId}/handbooks/${id}`
+  },
+  giftRegistries: {
+    getAllByEvent: (eventId: number) =>
+      `${API_BASE_URL}/events/${eventId}/gift-registries`,
+    getById: (eventId: number, id: number) =>
+      `${API_BASE_URL}/events/${eventId}/gift-registries/${id}`,
+    create: (eventId: number) => `${API_BASE_URL}/events/${eventId}/gift-registries`,
+    update: (eventId: number, id: number) =>
+      `${API_BASE_URL}/events/${eventId}/gift-registries/${id}`,
+    delete: (eventId: number, id: number) =>
+      `${API_BASE_URL}/events/${eventId}/gift-registries/${id}`
   }
 };
