@@ -90,7 +90,9 @@ export const createGiftRegistryServerService = () => {
     await eventService.verifyUserEvent(eventId);
 
     await prisma.$transaction([
-      prisma.eventGiftRegistry.deleteMany({ where: { eventId } }),
+      prisma.eventGiftRegistry.deleteMany({
+        where: { eventId, giftRegistryId: id }
+      }),
       prisma.giftRegistry.delete({
         where: {
           id

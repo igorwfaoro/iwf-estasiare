@@ -135,8 +135,8 @@ export default function GiftRegistriesModal({
         <Skeleton className="h-7 w-44" />
 
         <div className="space-y-4">
-          {Array.from({ length: 2 }).map(() => (
-            <Card className="space-y-2 p-4">
+          {Array.from({ length: 2 }).map((_, i) => (
+            <Card key={i} className="space-y-2 p-4">
               <Skeleton className="h-5 w-16" />
               <Skeleton className="h-4 w-36" />
               <Skeleton className="h-4 w-28" />

@@ -9,12 +9,18 @@ export type ModalRefPropType = {
   modalRef: ModalRef;
 };
 
+export interface ModalProvider {
+  Component: React.JSXElementConstructor<React.PropsWithChildren<any>>;
+  props?: { [key: string]: any };
+}
+
 export interface ModalOptions {
   component: React.FC<any>;
   props?: any;
   title?: string;
   onClose?: (result?: any) => void;
   width?: string;
+  providers?: ModalProvider[];
 }
 
 export interface ModalRef {
@@ -24,6 +30,7 @@ export interface ModalRef {
   title?: string;
   close: (result?: any) => void;
   width?: string;
+  providers?: ModalProvider[];
 }
 
 export interface IModalProvider {
@@ -51,6 +58,7 @@ const ModalProvider = (props: ModalProviderProps) => {
       props: options.props,
       title: options.title,
       width: options.width,
+      providers: options.providers,
       close: (result?: any) => {
         close(id);
         if (options.onClose) options.onClose(result);
@@ -64,16 +72,29 @@ const ModalProvider = (props: ModalProviderProps) => {
   return (
     <ModalContext.Provider value={{ open }}>
       {props.children}
-      {modalList.map((modal) => (
-        <CustomModal
-          key={modal.id}
-          close={modal.close}
-          title={modal.title}
-          width={modal.width}
-        >
+      {modalList.map((modal) => {
+        const modalComponent = (
           <modal.component {...modal.props} modalRef={modal} />
-        </CustomModal>
-      ))}
+        );
+
+        return (
+          <CustomModal
+            key={modal.id}
+            close={modal.close}
+            title={modal.title}
+            width={modal.width}
+          >
+            {modal.providers
+              ? modal.providers.reduceRight(
+                  (acc, Comp) => (
+                    <Comp.Component {...Comp.props}>{acc}</Comp.Component>
+                  ),
+                  modalComponent
+                )
+              : modalComponent}
+          </CustomModal>
+        );
+      })}
     </ModalContext.Provider>
   );
 };

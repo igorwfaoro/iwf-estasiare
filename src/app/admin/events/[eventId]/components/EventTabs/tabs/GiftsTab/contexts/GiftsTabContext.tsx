@@ -10,7 +10,9 @@ import {
   useState
 } from 'react';
 
-import { useAlert } from '../../../../../../../../../contexts/AlertContext';
+import AlertProvider, {
+  useAlert
+} from '../../../../../../../../../contexts/AlertContext';
 import { useLoader } from '../../../../../../../../../contexts/LoaderContext';
 import { useModal } from '../../../../../../../../../contexts/ModalContext';
 import { useToast } from '../../../../../../../../../contexts/ToastContext';
@@ -101,7 +103,8 @@ const GiftsTabProvider = ({ children }: GiftsTabProviderProps) => {
       component: GiftRegistriesModal,
       title: 'Listas de presentes',
       props: { event } as EventFinancialEditModalProps,
-      width: isMobile() ? '90%' : '60%'
+      width: isMobile() ? '90%' : '60%',
+      providers: [{ Component: AlertProvider }]
     });
   };
 
