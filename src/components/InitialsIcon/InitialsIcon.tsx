@@ -1,5 +1,3 @@
-import { FaHeart as IconHeart } from 'react-icons/fa';
-
 import { COLORS } from '../../util/colors';
 import { getContrastColor } from '../../util/helpers/color.helper';
 
@@ -7,12 +5,14 @@ export interface InitialsIconProps {
   name: string | [string, string];
   color?: string;
   size?: number;
+  icon?: React.FC<any>;
 }
 
 export default function InitialsIcon({
   name,
   size = 32,
-  color: colorProp
+  color: colorProp,
+  icon: Icon
 }: InitialsIconProps) {
   const color = colorProp || COLORS.primary;
 
@@ -36,8 +36,8 @@ export default function InitialsIcon({
             {x}
           </div>
 
-          {initials.length > 1 && i < initials.length - 1 && (
-            <IconHeart
+          {!!Icon && initials.length > 1 && i < initials.length - 1 && (
+            <Icon
               className="px-[1px]"
               style={{ width: size / 4, fill: getContrastColor(color) }}
             />

@@ -35,7 +35,11 @@ const formSchema = z.object({
     .optional()
     .transform((value) => value && onlyNumbers(value)),
   profileImage: z.any().optional(),
-  bio: z.string().max(200, 'Número de caracteres excedido').optional(),
+  bio: z
+    .string()
+    .max(200, 'Número de caracteres excedido')
+    .optional()
+    .transform((value) => value && value.trim()),
   link: z
     .string()
     .url({ message: 'Link inválido' })
@@ -126,18 +130,28 @@ export default function Provider({ fromUser }: ProviderProps) {
 
   const handleFormSubmit = (data: FormSchema) => {
     const serviceToCall = userIsProvider
-      ? providerService.update(data, data.profileImage)
+      ? providerService.update(
+          {
+            name: data.name,
+            bio: data.bio || null,
+            link: data.link || null,
+            contactEmail: data.contactEmail || null,
+            contactPhone: data.contactPhone || null,
+            contactWhatsApp: data.contactWhatsApp || null,
+            categories: data.categories
+          },
+          data.profileImage
+        )
       : providerService.create(data, data.profileImage);
 
     loader.show();
     serviceToCall
       .then(() => {
-        if (fromUser) {
-          window.location.href =
-            '/admin/account?tab=provider&successMessage=Fornecedor criado com sucesso!';
-        } else {
-          toast.open('Dados salvos', 'success');
-        }
+        const message = fromUser
+          ? 'Fornecedor criado com sucesso!'
+          : 'Dados salvos!';
+
+        window.location.href = `/admin/account?tab=provider&successMessage=${message}`;
       })
       .catch(() => toast.open('Erro ao salvar usuário', 'error'))
       .finally(() => loader.hide());

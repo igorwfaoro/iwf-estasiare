@@ -38,6 +38,7 @@ export const createProviderServerService = () => {
             contactEmail: inputData.contactEmail,
             contactPhone: inputData.contactPhone,
             contactWhatsApp: inputData.contactWhatsApp,
+            link: inputData.link,
             profileImage,
             bio: inputData.bio,
             ...(!!inputData.categories?.length && {
@@ -96,6 +97,7 @@ export const createProviderServerService = () => {
               contactEmail: inputData.contactEmail,
               contactPhone: inputData.contactPhone,
               contactWhatsApp: inputData.contactWhatsApp,
+              link: inputData.link,
               profileImage,
               bio: inputData.bio,
               ...(!!inputData.categories?.length && {
