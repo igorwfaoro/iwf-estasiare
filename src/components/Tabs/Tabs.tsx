@@ -1,6 +1,5 @@
 'use client';
 
-import classNames from 'classnames';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ReactElement } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -17,6 +16,8 @@ interface TabsProps {
   tabs: TabItem[];
   className?: string;
   contentClassName?: string;
+  tabClassName?: string;
+  tabActiveClassName?: string;
   isLoading?: boolean;
   enableQueryParamControl?: boolean;
 }
@@ -27,6 +28,8 @@ export default function Tabs({
   tabs,
   className,
   contentClassName,
+  tabClassName,
+  tabActiveClassName,
   isLoading
 }: TabsProps) {
   const router = useRouter();
@@ -52,7 +55,10 @@ export default function Tabs({
             onClick={() => handleSelectTab(i)}
             className={twMerge(
               'border rounded-t-xl bg-gray-200 w-full p-1 font-bold',
-              classNames({ 'border-b-0 bg-transparent': tab.key === key })
+              tab.key === key
+                ? twMerge('border-b-0 bg-transparent', tabActiveClassName)
+                : '',
+              tabClassName
             )}
             style={{ width: `${100 / tabs.length}%` }}
             disabled={isLoading}

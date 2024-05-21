@@ -24,21 +24,17 @@ export async function POST(req: Request, {}: Params) {
   return NextResponse.json(response);
 }
 
-// export async function PUT(req: Request, { params }: Params) {
-//   const formData = await req.formData();
+export async function PUT(req: Request, {}: Params) {
+  const formData = await req.formData();
 
-//   const inputParams: CreateUpdateGiftParams<Partial<GiftInputModel>> = {
-//     inputData: JSON.parse(formData.get('data') as string),
-//     inputFiles: {
-//       fileImage: formData.get('fileImage') as File
-//     }
-//   };
+  const inputParams: CreateUpdateProviderParams<Partial<ProviderInputModel>> = {
+    inputData: JSON.parse(formData.get('data') as string),
+    inputFiles: {
+      profileImage: formData.get('profileImage') as File
+    }
+  };
 
-//   const gift = await giftService.update({
-//     eventId: Number(params.eventId),
-//     id: Number(params.giftId),
-//     inputParams
-//   });
+  const response = await providerService.update(inputParams);
 
-//   return NextResponse.json(gift);
-// }
+  return NextResponse.json(response);
+}

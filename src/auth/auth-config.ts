@@ -6,8 +6,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createUserServerService } from '../services/server/user.server-service';
 import { AuthUser } from './auth-user';
 
-const userService = createUserServerService();
-
 export const authOptions: AuthOptions = {
   providers: [
     GoogleProvider({
@@ -21,6 +19,8 @@ export const authOptions: AuthOptions = {
   },
   callbacks: {
     async signIn({ account, profile }) {
+      const userService = createUserServerService();
+
       if (account?.provider === 'google') {
         if (!profile) return false;
         return userService.verify(profile);
@@ -33,6 +33,8 @@ export const authOptions: AuthOptions = {
     //   return token;
     // },
     session: async ({ session, token }) => {
+      const userService = createUserServerService();
+
       session.user = await userService.getByEmail(token.email!);
       return session;
     }

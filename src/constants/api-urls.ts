@@ -52,10 +52,21 @@ export const API_URLS = {
       `${API_BASE_URL}/events/${eventId}/gift-registries`,
     getById: (eventId: number, id: number) =>
       `${API_BASE_URL}/events/${eventId}/gift-registries/${id}`,
-    create: (eventId: number) => `${API_BASE_URL}/events/${eventId}/gift-registries`,
+    create: (eventId: number) =>
+      `${API_BASE_URL}/events/${eventId}/gift-registries`,
     update: (eventId: number, id: number) =>
       `${API_BASE_URL}/events/${eventId}/gift-registries/${id}`,
     delete: (eventId: number, id: number) =>
       `${API_BASE_URL}/events/${eventId}/gift-registries/${id}`
+  },
+  providers: {
+    create: () => `${API_BASE_URL}/providers`,
+    update: () => `${API_BASE_URL}/providers`,
+    categories: {
+      getAll: () => `${API_BASE_URL}/providers/categories`
+    }
+  },
+  users: {
+    update: () => `${API_BASE_URL}/users`
   }
 };

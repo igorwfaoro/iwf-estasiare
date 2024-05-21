@@ -41,7 +41,7 @@ export const createUserServerService = () => {
     return userConverter.modelToAuthUser(user);
   };
 
-  const update = async (input: UserUpdateInputModel) => {
+  const update = async (input: UserUpdateInputModel): Promise<AuthUser> => {
     const user = await getAuthUser();
 
     const newUser = await prisma.user.update({
@@ -52,9 +52,10 @@ export const createUserServerService = () => {
 
     const session = await getAuthSession();
 
-    session.user = userConverter.modelToAuthUser(newUser);
+    const viewModel = userConverter.modelToAuthUser(newUser);
+    session.user = viewModel;
 
-    return newUser;
+    return viewModel;
   };
 
   return {

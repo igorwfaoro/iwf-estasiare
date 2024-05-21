@@ -22,7 +22,7 @@ const FieldInput = forwardRef(
         <input
           ref={ref}
           className={twMerge(
-            'border-gray-300 rounded-md focus:outline-none p-4 pr-12 text-md w-full relative',
+            'border border-gray-300 rounded-lg focus:outline-none p-4 pr-12 text-md w-full relative',
             className
           )}
           {...props}

@@ -30,18 +30,18 @@ export default function Navbar({}: NavbarProps) {
     {
       label: 'Novo Evento',
       path: '/admin/new-event'
+    },
+    {
+      label: 'Minha Conta',
+      path: '/admin/account'
     }
-    // {
-    //   label: 'Minha Conta',
-    //   path: '/admin/account'
-    // }
   ];
 
   const dropdownMenuitems: DropdownMenuItem[] = [
-    // {
-    //   label: 'Minha conta',
-    //   href: '/admin/account'
-    // },
+    {
+      label: 'Minha conta',
+      href: '/admin/account'
+    },
     {
       label: 'Logout',
       onClick: () => signOut()
