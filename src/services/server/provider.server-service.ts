@@ -83,33 +83,38 @@ export const createProviderServerService = () => {
       ).fileLocation;
     }
 
-    const user = await prisma.user.update({
-      where: { id: authUser.id },
-      data: {
-        provider: {
-          update: {
-            name: inputData.name,
-            contactEmail: inputData.contactEmail,
-            contactPhone: inputData.contactPhone,
-            contactWhatsApp: inputData.contactWhatsApp,
-            profileImage,
-            bio: inputData.bio,
-            ...(!!inputData.categories?.length && {
-              providerCategories: {
-                createMany: {
-                  data: inputData.categories?.map((categoryId) => ({
-                    categoryId
-                  }))
+    const [_, user] = await prisma.$transaction([
+      prisma.providerProviderCategory.deleteMany({
+        where: { providerId: authUser.provider.id }
+      }),
+      prisma.user.update({
+        where: { id: authUser.id },
+        data: {
+          provider: {
+            update: {
+              name: inputData.name,
+              contactEmail: inputData.contactEmail,
+              contactPhone: inputData.contactPhone,
+              contactWhatsApp: inputData.contactWhatsApp,
+              profileImage,
+              bio: inputData.bio,
+              ...(!!inputData.categories?.length && {
+                providerCategories: {
+                  createMany: {
+                    data: inputData.categories?.map((categoryId) => ({
+                      categoryId
+                    }))
+                  }
                 }
-              }
-            })
+              })
+            }
           }
+        },
+        include: {
+          provider: true
         }
-      },
-      include: {
-        provider: true
-      }
-    });
+      })
+    ]);
 
     return providerConverter.modelToViewModel(user.provider!);
   };

@@ -9,6 +9,7 @@ import FieldInputAddressAutocomplete from './components/FieldInputAddressAutocom
 import FieldLabel from './components/FieldLabel/FieldLabel';
 import FieldSelect from './components/FieldSelect/FieldSelect';
 import FieldSelectOption from './components/FieldSelect/components/FieldSelectOption/FieldSelectOption';
+import FieldTextArea from './components/FieldTextarea/FieldTextarea';
 
 interface FieldProps {
   className?: string;
@@ -35,6 +36,7 @@ export default function Field({ className, isLoading, children }: FieldProps) {
 Field.Label = FieldLabel;
 Field.Input = FieldInput;
 Field.Select = FieldSelect;
+Field.TextArea = FieldTextArea;
 Field.SelectOption = FieldSelectOption;
 Field.AddressAutocomplete = FieldInputAddressAutocomplete;
 Field.HelpText = FieldHelpText;

@@ -9,6 +9,7 @@ import { VariantProps, tv } from 'tailwind-variants';
 export type ButtonTheme =
   | 'primary'
   | 'primary-outline'
+  | 'white-outline'
   | 'secondary'
   | 'light'
   | 'highlight'
@@ -24,7 +25,7 @@ const variants: {
   theme: {
     primary: 'bg-primary text-white',
     'primary-outline': 'bg-transparent text-primary border border-primary',
-
+    'white-outline': 'bg-transparent text-white border border-white',
     secondary: 'bg-secondary text-white',
     light: 'bg-neutral-100 text-neutral-950',
     highlight: 'bg-highlight text-white',

@@ -24,7 +24,7 @@ export default function Navbar({}: NavbarProps) {
 
   const links: LinkItem[] = [
     {
-      label: 'Meus Eventos',
+      label: 'Home',
       path: '/admin'
     },
     {
