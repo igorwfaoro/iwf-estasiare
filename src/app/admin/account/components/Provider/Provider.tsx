@@ -179,8 +179,8 @@ export default function Provider({ isRegister }: ProviderProps) {
 
         window.location.href = `${route}successMessage=${message}`;
       })
-      .catch(() => toast.open('Erro ao salvar usuário', 'error'))
-      .finally(() => loader.hide());
+      .catch(toast.openHttpError)
+      .finally(loader.hide);
   };
 
   const handleInputFileChange = async (

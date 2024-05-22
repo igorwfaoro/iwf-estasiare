@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 
+import { withErrorHandler } from '../../../../../../errors/error-handler';
 import { createGiftRegistryServerService } from '../../../../../../services/server/gift-registry.server-service';
 
 interface Params {
@@ -8,31 +9,35 @@ interface Params {
 
 const giftRegistryService = createGiftRegistryServerService();
 
-export async function GET(_: Request, { params }: Params) {
+export const GET = withErrorHandler(async (_: Request, { params }: Params) => {
   const giftRegistry = await giftRegistryService.getById(
     Number(params.giftRegistryId)
   );
 
   return NextResponse.json(giftRegistry);
-}
+});
 
-export async function PUT(req: Request, { params }: Params) {
-  const input = await req.json();
+export const PUT = withErrorHandler(
+  async (req: Request, { params }: Params) => {
+    const input = await req.json();
 
-  const gift = await giftRegistryService.update({
-    eventId: Number(params.eventId),
-    id: Number(params.giftRegistryId),
-    input
-  });
+    const gift = await giftRegistryService.update({
+      eventId: Number(params.eventId),
+      id: Number(params.giftRegistryId),
+      input
+    });
 
-  return NextResponse.json(gift);
-}
+    return NextResponse.json(gift);
+  }
+);
 
-export async function DELETE(_: Request, { params }: Params) {
-  await giftRegistryService.remove(
-    Number(params.eventId),
-    Number(params.giftRegistryId)
-  );
+export const DELETE = withErrorHandler(
+  async (_: Request, { params }: Params) => {
+    await giftRegistryService.remove(
+      Number(params.eventId),
+      Number(params.giftRegistryId)
+    );
 
-  return NextResponse.json({ ok: true });
-}
+    return NextResponse.json({ ok: true });
+  }
+);

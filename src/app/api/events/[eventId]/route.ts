@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 
+import { withErrorHandler } from '../../../../errors/error-handler';
 import { EventUpdateInputModel } from '../../../../models/input-models/event-update.input-model';
 import {
   CreateUpdateEventParams,
@@ -12,27 +13,30 @@ interface Params {
 
 const eventService = createEventServerService();
 
-export async function GET(_: Request, { params }: Params) {
+export const GET = withErrorHandler(async (_: Request, { params }: Params) => {
   const event = await eventService.getById(Number(params.eventId), {
     financial: true,
     contactInfo: true
   });
-
   return NextResponse.json(event);
-}
+});
 
-export async function PUT(req: Request, { params }: Params) {
-  const formData = await req.formData();
+export const PUT = withErrorHandler(
+  async (req: Request, { params }: Params) => {
+    const formData = await req.formData();
 
-  const inputParams: CreateUpdateEventParams<EventUpdateInputModel> = {
-    inputData: JSON.parse(formData.get('data') as string),
-    inputFiles: {
-      fileBannerImage: formData.get('fileBannerImage') as File | undefined,
-      fileLogoImage: formData.get('fileLogoImage') as File | undefined
-    }
-  };
+    const inputParams: CreateUpdateEventParams<EventUpdateInputModel> = {
+      inputData: JSON.parse(formData.get('data') as string),
+      inputFiles: {
+        fileBannerImage: formData.get('fileBannerImage') as File | undefined,
+        fileLogoImage: formData.get('fileLogoImage') as File | undefined
+      }
+    };
 
-  const event = await eventService.update(Number(params.eventId), inputParams);
-
-  return NextResponse.json(event);
-}
+    const event = await eventService.update(
+      Number(params.eventId),
+      inputParams
+    );
+    return NextResponse.json(event);
+  }
+);

@@ -9,3 +9,7 @@ export const formatToShow = (url: string) => {
 
   return newUrl;
 };
+
+export const mapErrorResponse = (error: any) => {
+  return error?.response?.data?.message || 'Algo errado...';
+};

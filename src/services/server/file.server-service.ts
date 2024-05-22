@@ -3,6 +3,7 @@ import { Upload } from '@aws-sdk/lib-storage';
 import dayjs from 'dayjs';
 import { fileTypeFromBuffer } from 'file-type';
 import { v4 as uuidV4 } from 'uuid';
+import { BadError } from '../../errors/types/bad.error';
 
 export interface UploadFileResult {
   fileLocation: string;
@@ -46,7 +47,7 @@ export const createFileServerService = () => {
       };
     } catch (error) {
       console.error(error);
-      throw new Error('Error uploading file');
+      throw new BadError('Erro ao fazer upload de arquivo');
     }
   };
 
@@ -62,7 +63,7 @@ export const createFileServerService = () => {
       });
     } catch (error) {
       console.error(error);
-      throw new Error('Error deleting file');
+      throw new BadError('Erro ao deletar arquivo');
     }
   };
 

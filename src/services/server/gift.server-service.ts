@@ -1,5 +1,7 @@
 import { giftConverter } from '../../converters/gift.converter';
 import { prisma } from '../../data/db';
+import { BadError } from '../../errors/types/bad.error';
+import { NotFoundError } from '../../errors/types/not-found.error';
 import { GiftViewModel } from '../../models/view-models/gift.view-model';
 import { createEventServerService } from './event.server-service';
 import { createFileServerService } from './file.server-service';
@@ -32,7 +34,7 @@ export const createGiftServerService = () => {
     });
 
     if (!gift) {
-      throw new Error('Gift not found');
+      throw new NotFoundError('Presente não encontrado');
     }
 
     return giftConverter.modelToViewModel(gift);
@@ -46,7 +48,7 @@ export const createGiftServerService = () => {
 
     const fileService = createFileServerService();
 
-    if (!inputFiles.fileImage) throw new Error('Image is required');
+    if (!inputFiles.fileImage) throw new BadError('A imagem é obrigatória');
 
     const image = (
       await fileService.uploadFile(inputFiles.fileImage, {

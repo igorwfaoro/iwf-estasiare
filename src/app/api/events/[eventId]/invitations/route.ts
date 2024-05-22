@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 
+import { withErrorHandler } from '../../../../../errors/error-handler';
 import { createInvitationServerService } from '../../../../../services/server/invitation.server-service';
 
 interface Params {
@@ -8,19 +9,20 @@ interface Params {
 
 const invitationService = createInvitationServerService();
 
-export async function GET(_: Request, { params }: Params) {
+export const GET = withErrorHandler(async (_: Request, { params }: Params) => {
   const gifts = await invitationService.getAllByEvent(Number(params.eventId));
-
   return NextResponse.json(gifts);
-}
+});
 
-export async function POST(req: Request, { params }: Params) {
-  const input = await req.json();
+export const POST = withErrorHandler(
+  async (req: Request, { params }: Params) => {
+    const input = await req.json();
 
-  const response = await invitationService.create(
-    Number(params.eventId),
-    input
-  );
+    const response = await invitationService.create(
+      Number(params.eventId),
+      input
+    );
 
-  return NextResponse.json(response);
-}
+    return NextResponse.json(response);
+  }
+);

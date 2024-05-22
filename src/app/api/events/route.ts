@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 
+import { withErrorHandler } from '../../../errors/error-handler';
 import { EventCreateInputModel } from '../../../models/input-models/event-create.input-model';
 import {
   CreateUpdateEventParams,
@@ -10,7 +11,7 @@ interface Params {}
 
 const eventService = createEventServerService();
 
-export async function POST(req: Request, {}: Params) {
+export const POST = withErrorHandler(async (req: Request, {}: Params) => {
   const formData = await req.formData();
 
   const params: CreateUpdateEventParams<EventCreateInputModel> = {
@@ -24,4 +25,4 @@ export async function POST(req: Request, {}: Params) {
   const response = await eventService.create(params);
 
   return NextResponse.json(response);
-}
+});

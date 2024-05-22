@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 
+import { withErrorHandler } from '../../../../../../errors/error-handler';
 import { createInvitationServerService } from '../../../../../../services/server/invitation.server-service';
 
 interface Params {
@@ -8,32 +9,33 @@ interface Params {
 
 const invitationService = createInvitationServerService();
 
-export async function GET(_: Request, { params }: Params) {
+export const GET = withErrorHandler(async (_: Request, { params }: Params) => {
   const gift = await invitationService.getById(
     Number(params.eventId),
     Number(params.invitationId)
   );
-
   return NextResponse.json(gift);
-}
+});
 
-export async function PUT(req: Request, { params }: Params) {
-  const input = await req.json();
+export const PUT = withErrorHandler(
+  async (req: Request, { params }: Params) => {
+    const input = await req.json();
 
-  const gift = await invitationService.update({
-    eventId: Number(params.eventId),
-    id: Number(params.invitationId),
-    input
-  });
+    const gift = await invitationService.update({
+      eventId: Number(params.eventId),
+      id: Number(params.invitationId),
+      input
+    });
+    return NextResponse.json(gift);
+  }
+);
 
-  return NextResponse.json(gift);
-}
-
-export async function DELETE(_: Request, { params }: Params) {
-  await invitationService.remove(
-    Number(params.eventId),
-    Number(params.invitationId)
-  );
-
-  return NextResponse.json({ ok: true });
-}
+export const DELETE = withErrorHandler(
+  async (_: Request, { params }: Params) => {
+    await invitationService.remove(
+      Number(params.eventId),
+      Number(params.invitationId)
+    );
+    return NextResponse.json({ ok: true });
+  }
+);

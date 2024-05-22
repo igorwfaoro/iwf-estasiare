@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { createInvitationServerService } from '../../../../../../../../services/server/invitation.server-service';
+import { withErrorHandler } from '../../../../../../../../errors/error-handler';
 
 interface Params {
   params: { eventId: string; invitationId: string };
@@ -8,13 +9,15 @@ interface Params {
 
 const invitationService = createInvitationServerService();
 
-export async function PATCH(req: Request, { params }: Params) {
-  const input = await req.json();
+export const PATCH = withErrorHandler(
+  async (req: Request, { params }: Params) => {
+    const input = await req.json();
 
-  await invitationService.updateGuestsConfirmation(
-    Number(params.invitationId),
-    input
-  );
+    await invitationService.updateGuestsConfirmation(
+      Number(params.invitationId),
+      input
+    );
 
-  return NextResponse.json({ ok: true });
-}
+    return NextResponse.json({ ok: true });
+  }
+);

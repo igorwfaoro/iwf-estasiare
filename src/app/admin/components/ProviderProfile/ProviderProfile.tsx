@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { MdEdit } from 'react-icons/md';
 import Chip from '../../../../components/Chip/Chip';
 import InitialsIcon from '../../../../components/InitialsIcon/InitialsIcon';
-import { formatToShow } from '../../../../util/helpers/url.helper';
+import { formatToShow } from '../../../../util/helpers/http.helper';
 
 interface ProviderProfileProps {}
 

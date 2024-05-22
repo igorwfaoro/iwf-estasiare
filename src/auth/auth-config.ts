@@ -3,6 +3,7 @@ import { AuthOptions, Session, getServerSession } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import { NextRequest, NextResponse } from 'next/server';
 
+import { AuthError } from '../errors/types/auth.error';
 import { createUserServerService } from '../services/server/user.server-service';
 import { AuthUser } from './auth-user';
 
@@ -65,7 +66,7 @@ export const getAuthSession = async (
         .status(401)
         .json({ message: 'Unauthorized' });
 
-    throw new Error('Unauthorized');
+    throw new AuthError('Não autorizado');
   }
 
   return session;

@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { getAuthUser } from '../../auth/auth-config';
 import { eventConverter } from '../../converters/event.converter';
 import { prisma } from '../../data/db';
+import { BadError } from '../../errors/types/bad.error';
 import { EventCreateInputModel } from '../../models/input-models/event-create.input-model';
 import { EventExtraIncludesInputModel } from '../../models/input-models/event-extra-includes.input-model';
 import { EventUpdateInputModel } from '../../models/input-models/event-update.input-model';
@@ -306,7 +307,7 @@ export const createEventServerService = () => {
       }
     });
 
-    if (!userEvent) throw new Error('User is not a participant of this event');
+    if (!userEvent) throw new BadError('Usuário não faz parte deste evento');
   };
 
   return {

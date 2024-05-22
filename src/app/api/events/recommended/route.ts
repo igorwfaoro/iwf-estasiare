@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server';
 
+import { withErrorHandler } from '../../../../errors/error-handler';
 import { createEventServerService } from '../../../../services/server/event.server-service';
 
 interface Params {}
 
 const eventService = createEventServerService();
 
-export async function GET(req: Request, {}: Params) {
+export const GET = withErrorHandler(async (req: Request, {}: Params) => {
   const { searchParams } = new URL(req.url);
 
   const response = await eventService.recommended(
@@ -14,4 +15,4 @@ export async function GET(req: Request, {}: Params) {
   );
 
   return NextResponse.json(response);
-}
+});

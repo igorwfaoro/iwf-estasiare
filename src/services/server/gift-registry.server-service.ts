@@ -1,5 +1,6 @@
 import { giftRegistryConverter } from '../../converters/gift-registry.converter';
 import { prisma } from '../../data/db';
+import { NotFoundError } from '../../errors/types/not-found.error';
 import { GiftRegistryInputModel } from '../../models/input-models/gift-registry.input-model';
 import { GiftRegistryViewModel } from '../../models/view-models/gift-registry.view-model';
 import { createEventServerService } from './event.server-service';
@@ -32,7 +33,7 @@ export const createGiftRegistryServerService = () => {
     });
 
     if (!giftRegistry) {
-      throw new Error('Gift Registry not found');
+      throw new NotFoundError('Lista de presentes não encontrada');
     }
 
     return giftRegistryConverter.modelToViewModel(giftRegistry);

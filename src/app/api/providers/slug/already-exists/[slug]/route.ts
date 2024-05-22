@@ -9,7 +9,7 @@ interface Params {
 const providerService = createProviderServerService();
 
 export const GET = withErrorHandler(
-  async (req: Request, { params }: Params) => {
+  async (_: Request, { params }: Params) => {
     const response = await providerService.slugAlreadyExists(params.slug);
     return NextResponse.json(response);
   }
