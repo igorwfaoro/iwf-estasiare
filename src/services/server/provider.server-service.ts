@@ -1,8 +1,11 @@
 import { getAuthUser } from '../../auth/auth-config';
 import { providerConverter } from '../../converters/provider.converter';
 import { prisma } from '../../data/db';
+import { AlreadyExistsError } from '../../errors/types/already-exists.error';
+import { NotFoundError } from '../../errors/types/not-found.error';
 import { ProviderInputModel } from '../../models/input-models/provider.input-model';
 import { ProviderViewModel } from '../../models/view-models/provider.view-model';
+import { normalizeSlug } from '../../util/helpers/slug.helper';
 import { createFileServerService } from './file.server-service';
 
 export interface CreateUpdateProviderParams<T> {
@@ -34,6 +37,7 @@ export const createProviderServerService = () => {
       data: {
         provider: {
           create: {
+            slug: normalizeSlug(inputData.slug),
             name: inputData.name,
             contactEmail: inputData.contactEmail,
             contactPhone: inputData.contactPhone,
@@ -69,7 +73,10 @@ export const createProviderServerService = () => {
   >): Promise<ProviderViewModel> => {
     const authUser = await getAuthUser();
 
-    if (!authUser.provider) throw new Error('Provider not exists');
+    if (!authUser.provider) throw new NotFoundError('Fornecedor não existe');
+
+    if (inputData.slug && (await slugAlreadyExists(inputData.slug)))
+      throw new AlreadyExistsError('Slug já esta sendo utilizado');
 
     const fileService = createFileServerService();
 
@@ -93,6 +100,9 @@ export const createProviderServerService = () => {
         data: {
           provider: {
             update: {
+              slug: inputData.slug
+                ? normalizeSlug(inputData.slug)
+                : inputData.slug,
               name: inputData.name,
               contactEmail: inputData.contactEmail,
               contactPhone: inputData.contactPhone,
@@ -121,8 +131,21 @@ export const createProviderServerService = () => {
     return providerConverter.modelToViewModel(user.provider!);
   };
 
+  const slugAlreadyExists = async (slug: string): Promise<boolean> => {
+    const normalizedSlug = normalizeSlug(slug);
+
+    const providersCount = await prisma.provider.count({
+      where: {
+        slug: normalizedSlug
+      }
+    });
+
+    return providersCount > 0;
+  };
+
   return {
     create,
-    update
+    update,
+    slugAlreadyExists
   };
 };

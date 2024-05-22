@@ -1,4 +1,5 @@
-import * as AWS from 'aws-sdk';
+import { S3 } from '@aws-sdk/client-s3';
+import { Upload } from '@aws-sdk/lib-storage';
 import dayjs from 'dayjs';
 import { fileTypeFromBuffer } from 'file-type';
 import { v4 as uuidV4 } from 'uuid';
@@ -8,8 +9,8 @@ export interface UploadFileResult {
 }
 
 export const createFileServerService = () => {
-  const s3: AWS.S3 = new AWS.S3({
-    apiVersion: process.env.S3_API_VERSION,
+  const s3 = new S3({
+    region: process.env.S3_REGION,
     credentials: {
       accessKeyId: process.env.S3_ACCESS_KEY,
       secretAccessKey: process.env.S3_SECRET_ACCESS_KEY
@@ -31,18 +32,20 @@ export const createFileServerService = () => {
       }`;
 
     try {
-      const result = await s3
-        .upload({
+      const result = await new Upload({
+        client: s3,
+        params: {
           Bucket: process.env.S3_BUCKET,
           Key: `${fileName}`,
           Body: fileBuffer
-        })
-        .promise();
+        }
+      }).done();
 
       return {
-        fileLocation: result.Key
+        fileLocation: result.Key!
       };
     } catch (error) {
+      console.error(error);
       throw new Error('Error uploading file');
     }
   };
@@ -53,13 +56,12 @@ export const createFileServerService = () => {
     if (!fileLocation) return;
 
     try {
-      await s3
-        .deleteObject({
-          Bucket: process.env.S3_BUCKET,
-          Key: fileLocation
-        })
-        .promise();
+      await s3.deleteObject({
+        Bucket: process.env.S3_BUCKET,
+        Key: fileLocation
+      });
     } catch (error) {
+      console.error(error);
       throw new Error('Error deleting file');
     }
   };

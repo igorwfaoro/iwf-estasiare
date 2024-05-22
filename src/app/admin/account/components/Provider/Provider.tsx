@@ -13,6 +13,7 @@ import { ProviderCategoryViewModel } from '../../../../../models/view-models/pro
 import { createProviderCategoryClientService } from '../../../../../services/client/provider-category.client-service';
 import { createProviderClientService } from '../../../../../services/client/provider.client-service';
 import { fileToDataURL } from '../../../../../util/helpers/file.helper';
+import { normalizeSlug } from '../../../../../util/helpers/slug.helper';
 import { onlyNumbers } from '../../../../../util/helpers/string.helper';
 
 interface ProviderProps {
@@ -20,6 +21,10 @@ interface ProviderProps {
 }
 
 const formSchema = z.object({
+  slug: z
+    .string()
+    .min(1, 'Informe o slug')
+    .transform((value) => normalizeSlug(value)),
   name: z.string().min(1, 'Informe o nome'),
   contactEmail: z
     .string()
@@ -65,7 +70,10 @@ export default function Provider({ isRegister }: ProviderProps) {
     register,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
+    watch,
+    setError,
+    clearErrors
   } = useForm<FormSchema>({
     resolver: zodResolver(formSchema)
   });
@@ -77,6 +85,8 @@ export default function Provider({ isRegister }: ProviderProps) {
 
   const userIsLoaded = !!sessionData?.user;
   const userIsProvider = !!sessionData?.user.provider;
+
+  const slug = watch('slug');
 
   useEffect(() => {
     if (userIsLoaded) {
@@ -105,6 +115,19 @@ export default function Provider({ isRegister }: ProviderProps) {
     );
   }, [categories]);
 
+  useEffect(() => {
+    providerService.slugAlreadyExists(slug).then((response) => {
+      if (response) {
+        setError('slug', {
+          type: 'validate',
+          message: 'Este slug já está sendo utilizado'
+        });
+      } else {
+        clearErrors('slug');
+      }
+    });
+  }, [slug]);
+
   const getCategories = () => {
     setCategoriesIsLoading(true);
     providerCategoryService
@@ -132,6 +155,7 @@ export default function Provider({ isRegister }: ProviderProps) {
     const serviceToCall = userIsProvider
       ? providerService.update(
           {
+            slug: data.slug,
             name: data.name,
             bio: data.bio || null,
             link: data.link || null,
@@ -171,7 +195,7 @@ export default function Provider({ isRegister }: ProviderProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
+    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-5">
       {!isRegister && (
         <div className="flex justify-end md:hidden">
           <Button
@@ -184,16 +208,42 @@ export default function Provider({ isRegister }: ProviderProps) {
         </div>
       )}
 
-      <Field isLoading={!userIsLoaded}>
-        <Field.Label>Nome de fornecedor (obrigatório)</Field.Label>
-        <Field.Input
-          {...register('name')}
-          placeholder={
-            userIsLoaded && !userIsProvider ? sessionData.user.name : ''
-          }
-        />
-        <Field.Error>{errors.name?.message}</Field.Error>
-      </Field>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <Field isLoading={!userIsLoaded}>
+          <Field.Label>Nome de fornecedor</Field.Label>
+          <Field.HelpText>Seu nome público de fornecedor</Field.HelpText>
+          <Field.Input
+            {...register('name')}
+            placeholder={
+              userIsLoaded && !userIsProvider ? sessionData.user.name : ''
+            }
+          />
+          <Field.Error>{errors.name?.message}</Field.Error>
+        </Field>
+
+        <Field isLoading={!userIsLoaded}>
+          <Field.Label>Slug</Field.Label>
+          <Field.HelpText>
+            Um identificador único para o fornecedor no URL. Use apenas letras
+            minúsculas, números e hífens (ex: floricultura-bela-rosa).
+          </Field.HelpText>
+          <div className="flex gap-2 items-center">
+            <div>estasiare.com.br/</div>
+            <Field.Input
+              {...register('slug')}
+              containerClassName="w-full"
+              onChange={(e) =>
+                setValue(
+                  'slug',
+                  normalizeSlug(e.target.value, { ignoreStartEndHyphen: true })
+                )
+              }
+              onBlur={(e) => setValue('slug', normalizeSlug(e.target.value))}
+            />
+          </div>
+          <Field.Error>{errors.slug?.message}</Field.Error>
+        </Field>
+      </div>
 
       <Field isLoading={!userIsLoaded}>
         <Field.Label>Bio</Field.Label>
@@ -217,7 +267,7 @@ export default function Provider({ isRegister }: ProviderProps) {
 
         <div>
           {profileImageThumbnail && (
-            <img src={profileImageThumbnail} className="h-28 mb-6" />
+            <img src={profileImageThumbnail} className="h-28 mb-6 rounded-md" />
           )}
         </div>
       </Field>

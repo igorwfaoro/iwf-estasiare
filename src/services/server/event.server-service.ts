@@ -8,7 +8,7 @@ import { EventUpdateInputModel } from '../../models/input-models/event-update.in
 import { SearchEventsInputModel } from '../../models/input-models/search-events.input-model';
 import { EventDetailViewModel } from '../../models/view-models/event-detail.view-model';
 import { EventViewModel } from '../../models/view-models/event.view-model';
-import { eventSlug } from '../../util/helpers/event-slug.helper';
+import { eventSlug } from '../../util/helpers/slug.helper';
 import { createFileServerService } from './file.server-service';
 
 export interface CreateUpdateEventParams<T> {

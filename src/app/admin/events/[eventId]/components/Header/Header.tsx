@@ -46,7 +46,7 @@ export default function Header({}: HeaderProps) {
 
       <div>
         <Link
-          href={`/${event.slug}`}
+          href={`/e/${event.slug}`}
           target="_blank"
           className="text-blue-600 hover:underline font-bold flex items-center gap-2"
         >

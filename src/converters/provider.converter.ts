@@ -18,6 +18,7 @@ export type ProviderConverterModel = Provider & {
 export const providerConverter = {
   modelToViewModel: (model: ProviderConverterModel): ProviderViewModel => ({
     id: Number(model.id),
+    slug: model.slug,
     name: model.name,
     contactEmail: model.contactEmail,
     contactPhone: model.contactPhone,

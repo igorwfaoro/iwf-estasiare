@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { withErrorHandler } from '../../../errors/error-handler';
 import { ProviderInputModel } from '../../../models/input-models/provider.input-model';
 import {
   CreateUpdateProviderParams,
@@ -9,7 +10,7 @@ interface Params {}
 
 const providerService = createProviderServerService();
 
-export async function POST(req: Request, {}: Params) {
+export const POST = withErrorHandler(async (req: Request, {}: Params) => {
   const formData = await req.formData();
 
   const inputParams: CreateUpdateProviderParams<ProviderInputModel> = {
@@ -22,9 +23,9 @@ export async function POST(req: Request, {}: Params) {
   const response = await providerService.create(inputParams);
 
   return NextResponse.json(response);
-}
+});
 
-export async function PUT(req: Request, {}: Params) {
+export const PUT = withErrorHandler(async (req: Request, {}: Params) => {
   const formData = await req.formData();
 
   const inputParams: CreateUpdateProviderParams<Partial<ProviderInputModel>> = {
@@ -37,4 +38,4 @@ export async function PUT(req: Request, {}: Params) {
   const response = await providerService.update(inputParams);
 
   return NextResponse.json(response);
-}
+});

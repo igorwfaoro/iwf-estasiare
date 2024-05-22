@@ -14,10 +14,10 @@ namespace NodeJS {
     NEXTAUTH_URL: string;
     NEXTAUTH_SECRET: string;
 
-    S3_API_VERSION: string;
     S3_ACCESS_KEY: string;
     S3_SECRET_ACCESS_KEY: string;
     S3_BUCKET: string;
     S3_URL: string;
+    S3_REGION: string;
   }
 }

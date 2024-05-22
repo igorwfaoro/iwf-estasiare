@@ -34,8 +34,14 @@ export const createProviderClientService = () => {
       .then((response) => response.data);
   };
 
+  const slugAlreadyExists = (slug: string): Promise<boolean> =>
+    http()
+      .get(API_URLS.providers.slugAlreadyExists(slug))
+      .then((response) => response.data);
+
   return {
     create,
-    update
+    update,
+    slugAlreadyExists
   };
 };

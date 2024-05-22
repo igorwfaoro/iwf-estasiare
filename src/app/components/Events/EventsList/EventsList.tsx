@@ -132,6 +132,7 @@ export default function EventsList({ items, isLoading }: EventsListProps) {
               <EventCard
                 key={i}
                 event={item}
+                eventUrlPrefix="/e"
                 scrollingCardItemRef={scrollingCardItemRef}
                 className="min-w-[60%] max-w-[60%] md:min-w-[25%] md:max-w-[25%]"
               />

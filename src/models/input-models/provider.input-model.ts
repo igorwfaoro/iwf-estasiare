@@ -1,4 +1,5 @@
 export interface ProviderInputModel {
+  slug: string;
   name: string;
   contactEmail?: string | null;
   contactPhone?: string | null;

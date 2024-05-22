@@ -2,6 +2,7 @@ import { ProviderCategoryViewModel } from './provider-category.view-model';
 
 export interface ProviderViewModel {
   id: number;
+  slug: string;
   name: string;
   contactEmail: string | null;
   contactPhone: string | null;
