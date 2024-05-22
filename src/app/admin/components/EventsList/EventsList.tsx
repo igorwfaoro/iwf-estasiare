@@ -1,4 +1,3 @@
-import { redirect } from 'next/navigation';
 import { cache } from 'react';
 
 import EventCard from '../../../../components/EventCard/EventCard';
@@ -14,7 +13,7 @@ export default async function EventsList({}: EventsListProps) {
   const events = await getEvents();
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
       {events.map((event, i) => (
         <EventCard
           key={i}

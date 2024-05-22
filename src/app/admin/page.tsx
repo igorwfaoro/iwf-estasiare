@@ -3,6 +3,7 @@ import { cache } from 'react';
 import { getAuthUser } from '../../auth/auth-config';
 import Button from '../../components/Button/Button';
 import Card from '../../components/Card/Card';
+import ParamMessage from '../../components/ParamMessage/ParamMessage';
 import { createEventServerService } from '../../services/server/event.server-service';
 import AdminPageBase from './components/AdminPageBase/AdminPageBase';
 import EventsList from './components/EventsList/EventsList';
@@ -31,7 +32,6 @@ interface AdminPageProps {}
 
 export default async function AdminPage({}: AdminPageProps) {
   const user = await getAuthUser();
-
   const events = await getEvents();
 
   const rows: Row[] = [
@@ -83,6 +83,7 @@ export default async function AdminPage({}: AdminPageProps) {
 
   return (
     <AdminPageBase>
+      <ParamMessage />
       <AdminPageBase.Title>{welcomeMessage}</AdminPageBase.Title>
 
       <div className="space-y-4">

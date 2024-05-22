@@ -12,6 +12,9 @@ module.exports = {
         primary: '#1e3a8a',
         secondary: '#172554',
         highlight: '#f16920'
+      },
+      animation: {
+        'fade-out-3': 'fadeOut 3s ease-in-out'
       }
     }
   },

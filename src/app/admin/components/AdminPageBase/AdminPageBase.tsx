@@ -11,7 +11,7 @@ export default function AdminPageBase({
   className
 }: AdminPageBaseProps) {
   return (
-    <div className={twMerge('p-5 pt-7 bg-gray-100', className)}>{children}</div>
+    <div className={twMerge('py-5 pt-7 bg-gray-100', className)}>{children}</div>
   );
 }
 

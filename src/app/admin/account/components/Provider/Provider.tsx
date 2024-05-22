@@ -16,7 +16,7 @@ import { fileToDataURL } from '../../../../../util/helpers/file.helper';
 import { onlyNumbers } from '../../../../../util/helpers/string.helper';
 
 interface ProviderProps {
-  fromUser?: boolean;
+  isRegister?: boolean;
 }
 
 const formSchema = z.object({
@@ -52,7 +52,7 @@ type FormSchema = z.infer<typeof formSchema>;
 
 type CategorySelect = ProviderCategoryViewModel & { selected?: boolean };
 
-export default function Provider({ fromUser }: ProviderProps) {
+export default function Provider({ isRegister }: ProviderProps) {
   const loader = useLoader();
   const toast = useToast();
 
@@ -147,11 +147,13 @@ export default function Provider({ fromUser }: ProviderProps) {
     loader.show();
     serviceToCall
       .then(() => {
-        const message = fromUser
+        const message = isRegister
           ? 'Fornecedor criado com sucesso!'
           : 'Dados salvos!';
 
-        window.location.href = `/admin/account?tab=provider&successMessage=${message}`;
+        const route = isRegister ? '/admin?' : '/admin/account?tab=provider&';
+
+        window.location.href = `${route}successMessage=${message}`;
       })
       .catch(() => toast.open('Erro ao salvar usuário', 'error'))
       .finally(() => loader.hide());
@@ -170,6 +172,18 @@ export default function Provider({ fromUser }: ProviderProps) {
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
+      {!isRegister && (
+        <div className="flex justify-end md:hidden">
+          <Button
+            type="submit"
+            theme="primary-outline"
+            className="w-full md:w-auto"
+          >
+            Salvar
+          </Button>
+        </div>
+      )}
+
       <Field isLoading={!userIsLoaded}>
         <Field.Label>Nome de fornecedor (obrigatório)</Field.Label>
         <Field.Input

@@ -96,14 +96,14 @@ export default function User({}: UserProps) {
       {showButtonSwitchToProviderAccount && (
         <Button
           theme="primary-outline"
-          className="w-full md:w-auto"
+          className="w-full md:w-auto whitespace-normal"
           onClick={() => setCreateProvider(true)}
         >
-          Transformar em conta de fornecedor
+          Cadastrar fornecedor
         </Button>
       )}
 
-      {showCreateProviderComponent && <Provider fromUser />}
+      {showCreateProviderComponent && <Provider isRegister />}
     </div>
   );
 }
