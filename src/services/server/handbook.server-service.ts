@@ -1,5 +1,6 @@
 import { eventHandbookConverter } from '../../converters/event-handbook.converter';
 import { prisma } from '../../data/db';
+import { NotFoundError } from '../../errors/types/not-found.error';
 import { HandbookInputModel } from '../../models/input-models/handbook.input-model';
 import { EventHandbookDetailViewModel } from '../../models/view-models/event-handbook-detail.view-model';
 import { EventHandbookViewModel } from '../../models/view-models/event-handbook.view-model';
@@ -21,11 +22,13 @@ export const createHandbookServerService = () => {
   };
 
   const getById = async (id: number): Promise<EventHandbookDetailViewModel> => {
-    const handbook = await prisma.eventHandbook.findUniqueOrThrow({
+    const handbook = await prisma.eventHandbook.findFirst({
       where: {
         id
       }
     });
+
+    if (!handbook) throw new NotFoundError('Manual não encontrado');
 
     return eventHandbookConverter.modelToDetailViewModel(handbook);
   };

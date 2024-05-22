@@ -31,7 +31,7 @@ export default function InvitationSuccess() {
           </p>
         </div>
 
-        <Button theme="primary" href={`/${event.slug}`}>
+        <Button theme="primary" href={`/${event.eventSlug}`}>
           Ir para início
         </Button>
       </div>

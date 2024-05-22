@@ -16,6 +16,14 @@ export interface CreateUpdateProviderParams<T> {
 }
 
 export const createProviderServerService = () => {
+  const getBySlug = async (slug: string): Promise<ProviderViewModel> => {
+    const provider = await prisma.provider.findFirst({ where: { slug } });
+
+    if (!provider) throw new NotFoundError('Fornecedor não encontrado');
+
+    return providerConverter.modelToViewModel(provider);
+  };
+
   const create = async ({
     inputData,
     inputFiles
@@ -144,6 +152,7 @@ export const createProviderServerService = () => {
   };
 
   return {
+    getBySlug,
     create,
     update,
     slugAlreadyExists

@@ -1,5 +1,6 @@
 import { invitationConverter } from '../../converters/invitation.converter';
 import { prisma } from '../../data/db';
+import { NotFoundError } from '../../errors/types/not-found.error';
 import { InvitationInputModel } from '../../models/input-models/invitation-create.input-model';
 import {
   InvitationGuestUpdateInputModel,
@@ -64,7 +65,7 @@ export const createInvitationServerService = () => {
   ): Promise<InvitationDetailViewModel> => {
     await eventService.verifyUserEvent(eventId);
 
-    const invitation = await prisma.invitation.findUniqueOrThrow({
+    const invitation = await prisma.invitation.findFirst({
       where: {
         id
       },
@@ -72,6 +73,8 @@ export const createInvitationServerService = () => {
         guests: true
       }
     });
+
+    if (!invitation) throw new NotFoundError('Convite não encontrado');
 
     return invitationConverter.modelToDetailViewModel(invitation);
   };

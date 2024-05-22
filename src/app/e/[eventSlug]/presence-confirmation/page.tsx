@@ -9,16 +9,16 @@ import PresenceConfirmationProvider from './components/PageContent/contexts/Pres
 
 export const revalidate = 3600;
 
-const getEvent = cache(async (slug: string) => {
-  return await createEventServerService().getBySlug(slug);
+const getEvent = cache(async (eventSlug: string) => {
+  return await createEventServerService().getByeventSlug(eventSlug);
 });
 
 export async function generateMetadata({
   params
 }: {
-  params: { slug: string };
+  params: { eventSlug: string };
 }): Promise<Metadata> {
-  const event = await getEvent(params.slug);
+  const event = await getEvent(params.eventSlug);
 
   return {
     title: `Confirmação | ${event.titleDescription}`
@@ -28,9 +28,9 @@ export async function generateMetadata({
 export default async function PresenceConfirmation({
   params
 }: {
-  params: { slug: string };
+  params: { eventSlug: string };
 }) {
-  const event = await getEvent(params.slug);
+  const event = await getEvent(params.eventSlug);
 
   return (
     <ToastProvider>

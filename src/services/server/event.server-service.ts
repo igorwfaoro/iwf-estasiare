@@ -3,6 +3,7 @@ import { getAuthUser } from '../../auth/auth-config';
 import { eventConverter } from '../../converters/event.converter';
 import { prisma } from '../../data/db';
 import { BadError } from '../../errors/types/bad.error';
+import { NotFoundError } from '../../errors/types/not-found.error';
 import { EventCreateInputModel } from '../../models/input-models/event-create.input-model';
 import { EventExtraIncludesInputModel } from '../../models/input-models/event-extra-includes.input-model';
 import { EventUpdateInputModel } from '../../models/input-models/event-update.input-model';
@@ -43,7 +44,7 @@ export const createEventServerService = () => {
       }
     });
 
-    const event = await prisma.event.findFirstOrThrow({
+    const event = await prisma.event.findFirst({
       where: eventWhere,
       include: {
         gifts: extraIncludes.gifts,
@@ -73,6 +74,8 @@ export const createEventServerService = () => {
           : false
       }
     });
+
+    if (!event) throw new NotFoundError('Evento não encontrado');
 
     return eventConverter.modelDetailViewModel(event, {
       hasGifts: !!giftsCount,
@@ -240,12 +243,14 @@ export const createEventServerService = () => {
 
     const eventWhere = { id, usersEvent: { some: { userId: user.id } } };
 
-    const event = await prisma.event.findFirstOrThrow({
+    const event = await prisma.event.findFirst({
       where: eventWhere,
       include: {
         content: true
       }
     });
+
+    if (!event) throw new NotFoundError('Evento não encontrado');
 
     let bannerImage: string | undefined = undefined;
     if (inputFiles.fileBannerImage) {

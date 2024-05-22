@@ -4,6 +4,7 @@ import { getAuthSession, getAuthUser } from '../../auth/auth-config';
 import { AuthUser } from '../../auth/auth-user';
 import { userConverter } from '../../converters/user.converter';
 import { prisma } from '../../data/db';
+import { NotFoundError } from '../../errors/types/not-found.error';
 import { UserUpdateInputModel } from '../../models/input-models/user-update.input-model';
 
 const defaultInclude = {
@@ -33,10 +34,12 @@ export const createUserServerService = () => {
   };
 
   const getByEmail = async (email: string): Promise<AuthUser> => {
-    const user = await prisma.user.findFirstOrThrow({
+    const user = await prisma.user.findFirst({
       where: { email },
       include: defaultInclude
     });
+
+    if (!user) throw new NotFoundError('Usuário não encontrado');
 
     return userConverter.modelToAuthUser(user);
   };

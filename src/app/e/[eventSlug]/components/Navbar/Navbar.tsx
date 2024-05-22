@@ -27,19 +27,19 @@ export function EventNavbar({ event }: EventNavbarProps) {
 
   const links = [
     {
-      path: `/e/${event.slug}`,
+      path: `/e/${event.eventSlug}`,
       label: 'Home'
     },
     event.hasGifts && {
-      path: `/e/${event.slug}/gifts`,
+      path: `/e/${event.eventSlug}/gifts`,
       label: 'Presentes'
     },
     event.hasInvitations && {
-      path: `/e/${event.slug}/presence-confirmation`,
+      path: `/e/${event.eventSlug}/presence-confirmation`,
       label: 'Confirmação de presença'
     },
     event.hasHandbooks && {
-      path: `/e/${event.slug}/handbooks`,
+      path: `/e/${event.eventSlug}/handbooks`,
       label: 'Manuais'
     }
   ].filter(Boolean) as LinkItem[];
@@ -50,7 +50,7 @@ export function EventNavbar({ event }: EventNavbarProps) {
   return (
     <nav className="fixed z-[999] flex h-12 w-full flex-col items-end justify-center bg-neutral-50 shadow-sm md:items-center">
       {/* logo */}
-      <Link href={`/${event.slug}`} className="absolute left-3 top-2">
+      <Link href={`/${event.eventSlug}`} className="absolute left-3 top-2">
         {renderInitialsIcon(event, 34)}
       </Link>
 

@@ -8,16 +8,16 @@ import Header from './components/Header/Header';
 
 export const revalidate = 3600;
 
-const getEvent = cache(async (slug: string) => {
-  return await createEventServerService().getBySlug(slug, { handbooks: true });
+const getEvent = cache(async (eventSlug: string) => {
+  return await createEventServerService().getByeventSlug(eventSlug, { handbooks: true });
 });
 
 export async function generateMetadata({
   params
 }: {
-  params: { slug: string };
+  params: { eventSlug: string };
 }): Promise<Metadata> {
-  const event = await getEvent(params.slug);
+  const event = await getEvent(params.eventSlug);
 
   return {
     title: `Manuais | ${event.titleDescription}`
@@ -27,9 +27,9 @@ export async function generateMetadata({
 export default async function Handbooks({
   params
 }: {
-  params: { slug: string };
+  params: { eventSlug: string };
 }) {
-  const event = await getEvent(params.slug);
+  const event = await getEvent(params.eventSlug);
 
   return (
     <EventPageBase>

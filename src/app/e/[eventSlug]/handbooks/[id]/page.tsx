@@ -7,13 +7,13 @@ import EventPageBase from '../../components/EventPageBase/EventPageBase';
 import Header from './components/Header/header';
 
 interface HandbookPageProps {
-  params: { id: number; slug: string };
+  params: { id: number; eventSlug: string };
 }
 
 export const revalidate = 3600;
 
-const getData = cache(async (slug: string, id: number) => {
-  const event = await createEventServerService().getBySlug(slug, {
+const getData = cache(async (eventSlug: string, id: number) => {
+  const event = await createEventServerService().getByeventSlug(eventSlug, {
     handbooks: true
   });
 
@@ -28,9 +28,9 @@ const getData = cache(async (slug: string, id: number) => {
 export async function generateMetadata({
   params
 }: {
-  params: { id: number; slug: string };
+  params: { id: number; eventSlug: string };
 }): Promise<Metadata> {
-  const { event, handbook } = await getData(params.slug, params.id);
+  const { event, handbook } = await getData(params.eventSlug, params.id);
 
   return {
     title: `${handbook.title} | ${event.titleDescription}`
@@ -38,7 +38,7 @@ export async function generateMetadata({
 }
 
 export default async function HandbookPage({ params }: HandbookPageProps) {
-  const { event, handbook } = await getData(params.slug, params.id);
+  const { event, handbook } = await getData(params.eventSlug, params.id);
 
   return (
     <EventPageBase>

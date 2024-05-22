@@ -10,8 +10,8 @@ import Header from './components/Header/Header';
 
 export const revalidate = 3600;
 
-const getEvent = cache(async (slug: string) => {
-  return await createEventServerService().getBySlug(slug, {
+const getEvent = cache(async (eventSlug: string) => {
+  return await createEventServerService().getByeventSlug(eventSlug, {
     gifts: true,
     financial: true,
     giftRegistries: true
@@ -21,17 +21,17 @@ const getEvent = cache(async (slug: string) => {
 export async function generateMetadata({
   params
 }: {
-  params: { slug: string };
+  params: { eventSlug: string };
 }): Promise<Metadata> {
-  const event = await getEvent(params.slug);
+  const event = await getEvent(params.eventSlug);
 
   return {
     title: `Presentes | ${event.titleDescription}`
   };
 }
 
-export default async function Gifts({ params }: { params: { slug: string } }) {
-  const event = await getEvent(params.slug);
+export default async function Gifts({ params }: { params: { eventSlug: string } }) {
+  const event = await getEvent(params.eventSlug);
 
   return (
     <ModalProvider>

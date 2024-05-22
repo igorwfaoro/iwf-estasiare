@@ -13,24 +13,24 @@ import EventPlaylist from './components/EventPlaylist/EventPlaylist';
 
 export const revalidate = 3600;
 
-const getEvent = cache(async (slug: string) => {
-  return await createEventServerService().getBySlug(slug);
+const getEvent = cache(async (eventSlug: string) => {
+  return await createEventServerService().getByeventSlug(eventSlug);
 });
 
 export async function generateMetadata({
   params
 }: {
-  params: { slug: string };
+  params: { eventSlug: string };
 }): Promise<Metadata> {
-  const event = await getEvent(params.slug);
+  const event = await getEvent(params.eventSlug);
 
   return {
     title: event.titleDescription
   };
 }
 
-export default async function Event({ params }: { params: { slug: string } }) {
-  const event = await getEvent(params.slug);
+export default async function Event({ params }: { params: { eventSlug: string } }) {
+  const event = await getEvent(params.eventSlug);
 
   const banners = {
     gifts: {
@@ -39,7 +39,7 @@ export default async function Event({ params }: { params: { slug: string } }) {
         'Nossa celebração está se aproximando, e estamos felizes em compartilhá-la com vocês. Se desejarem nos presentear de maneira simbólica, confiram nossa lista de presentes especiais',
       buttonText: 'Lista de presentes',
       imageSrc: '/images/event/banner1.jpg',
-      buttonLink: `/e/${event.slug}/gifts`
+      buttonLink: `/e/${event.eventSlug}/gifts`
     } as EventBannerProps,
     presenceConfirmation: {
       title: 'Confirmação de Presença',
@@ -47,7 +47,7 @@ export default async function Event({ params }: { params: { slug: string } }) {
         'Confirme sua presença em nossa celebração especial. Estamos ansiosos para compartilhar este momento com você!',
       buttonText: 'Confirmação',
       imageSrc: '/images/event/banner2.jpg',
-      buttonLink: `/e/${event.slug}/presence-confirmation`
+      buttonLink: `/e/${event.eventSlug}/presence-confirmation`
     } as EventBannerProps,
     handbooks: {
       title: 'Manuais',
@@ -55,7 +55,7 @@ export default async function Event({ params }: { params: { slug: string } }) {
         'Aqui, você encontrará uma coleção de guias úteis para diversos aspectos do nosso evento especial',
       buttonText: 'Acessar',
       imageSrc: '/images/event/banner3.jpg',
-      buttonLink: `/e/${event.slug}/handbooks`
+      buttonLink: `/e/${event.eventSlug}/handbooks`
     } as EventBannerProps
   };
 

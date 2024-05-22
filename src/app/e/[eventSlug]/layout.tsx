@@ -7,12 +7,12 @@ import { EventFooter } from './components/Footer/Footer';
 import { EventNavbar } from './components/Navbar/Navbar';
 
 interface LayoutProps {
-  params: { slug: string };
+  params: { eventSlug: string };
   children: ReactNode;
 }
 
-const getEvent = cache(async (slug: string) => {
-  return await createEventServerService().getBySlug(slug, {
+const getEvent = cache(async (eventSlug: string) => {
+  return await createEventServerService().getByeventSlug(eventSlug, {
     contactInfo: true
   });
 });
@@ -20,9 +20,9 @@ const getEvent = cache(async (slug: string) => {
 export async function generateMetadata({
   params
 }: {
-  params: { slug: string };
+  params: { eventSlug: string };
 }): Promise<Metadata> {
-  const event = await getEvent(params.slug);
+  const event = await getEvent(params.eventSlug);
 
   return {
     description: event.titleDescription,
@@ -46,7 +46,7 @@ export async function generateMetadata({
 }
 
 export default async function EventLayout({ params, children }: LayoutProps) {
-  const event = await getEvent(params.slug);
+  const event = await getEvent(params.eventSlug);
 
   return (
     <>
