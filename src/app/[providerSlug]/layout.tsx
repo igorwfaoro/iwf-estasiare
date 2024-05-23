@@ -24,18 +24,20 @@ export async function generateMetadata({
   const provider = await getProvider(params.providerSlug);
 
   return {
-    description: provider.name,
+    title: provider.name,
+    description: provider.bio,
     robots: 'index',
     themeColor: COLORS.primary,
     openGraph: {
-      description: provider.name,
+      title: provider.name,
+      description: provider.bio || undefined,
       images: provider.profileImage || undefined,
       type: 'website',
       siteName: `Estasiare`
     },
     twitter: {
       title: provider.name,
-      description: `${provider.name}`,
+      description: provider.bio || undefined,
       card: 'summary',
       images: provider.profileImage || undefined
     }
