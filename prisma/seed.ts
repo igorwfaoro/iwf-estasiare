@@ -16,8 +16,21 @@ async function main() {
       eventType: 'WEDDING',
       date: dayjs('2024-09-21 16:00:00').toDate(),
       slug: 'casamento-igor-gabi',
-      address:
-        'Espaço de Eventos La Casa Piemont, 240 - Estrada VRS 826 - Linha Boêmios, Farroupilha - RS, 95181-899',
+      address: {
+        create: {
+          formattedAddress:
+            'Espaço de Eventos La Casa Piemont, 240 - Estrada VRS, 826 - Linha Boêmios, Farroupilha - RS, 95181-899, Brasil',
+          street: 'Estrada VRS',
+          number: '826',
+          zipCode: '95181-899',
+          neighborhood: null,
+          city: 'Farroupilha',
+          state: 'RS',
+          country: 'Brasil',
+          latitude: -29.3090002,
+          longitude: -51.3144784
+        }
+      },
       content: {
         create: {
           primaryColor: '#1E3A8A',

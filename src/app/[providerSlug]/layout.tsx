@@ -4,7 +4,6 @@ import { createProviderServerService } from '../../services/server/provider.serv
 import { COLORS } from '../../util/colors';
 import Footer from '../components/Footer/Footer';
 import Loading from '../loading';
-import Navbar from './components/Navbar/Navbar';
 
 export const revalidate = 3600;
 
@@ -46,8 +45,7 @@ export async function generateMetadata({
 export default async function ProviderLayout({ children }: LayoutProps) {
   return (
     <>
-      <Navbar />
-      <div className="p-5 pt-12 bg-gray-100 min-h-[calc(100vh-3rem)]">
+      <div className="p-5 bg-gray-100 min-h-[calc(100vh-3rem)]">
         <Suspense fallback={<Loading />}>{children}</Suspense>
       </div>
       <Footer />

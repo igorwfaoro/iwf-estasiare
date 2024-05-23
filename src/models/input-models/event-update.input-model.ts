@@ -1,12 +1,13 @@
 import { EventType } from '.prisma/client';
+import { AddressInputModel } from './address.input-model';
 
 export type EventUpdateInputModel = Partial<Event>;
 
 interface Event {
   eventType: EventType;
   date: string;
-  address: string;
 
+  address: Partial<AddressInputModel>;
   content: Partial<Content>;
   financial: Partial<Financial>;
   contactInfo: Partial<ContactInfo>;

@@ -1,4 +1,5 @@
 import {
+  Address,
   Event,
   EventContactInfo,
   EventFinancial,
@@ -15,6 +16,7 @@ import { EventDetailViewModel } from '../models/view-models/event-detail.view-mo
 import { EventViewModel } from '../models/view-models/event.view-model';
 import { eventTitleDescription } from '../util/helpers/event-title-description.helper';
 import { eventTypeLabel } from '../util/helpers/event-type.helper';
+import { addressConverter } from './address.converter';
 import { eventContactInfoConverter } from './event-contact-info.converter';
 import {
   EventContentConverterModel,
@@ -27,6 +29,7 @@ import { giftRegistryConverter } from './gift-registry.converter';
 import { giftConverter } from './gift.converter';
 
 export type EventConverterModel = Event & {
+  address?: Address,
   content?: EventContentConverterModel;
   financial?: EventFinancial;
   gifts?: Gift[];
@@ -52,8 +55,11 @@ export const eventConverter = {
     id: Number(model.id),
     eventType: model.eventType,
     date: dayjs(model.date).toISOString(),
-    address: model.address,
     slug: model.slug,
+
+    address: model.address
+      ? addressConverter.modelToViewModel(model.address)
+      : undefined,
 
     content: model.content
       ? eventContentConverter.modelToViewModel(model.content)
@@ -92,8 +98,11 @@ export const eventConverter = {
     id: Number(model.id),
     eventType: model.eventType,
     date: dayjs(model.date).toISOString(),
-    address: model.address,
     slug: model.slug,
+
+    address: model.address
+      ? addressConverter.modelToViewModel(model.address)
+      : undefined,
 
     content: model.content
       ? eventContentConverter.modelToViewModel(model.content)

@@ -5,5 +5,5 @@ interface AddressCardProps {
 }
 
 export default function AddressCard({ event }: AddressCardProps) {
-  return <div>{event.address}</div>;
+  return <div>{event.address?.formattedAddress}</div>;
 }

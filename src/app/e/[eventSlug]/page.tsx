@@ -1,13 +1,13 @@
 import { Metadata } from 'next';
 import { cache } from 'react';
 
+import AddressMap from '../../../components/AddressMap/AddressMap';
 import { createEventServerService } from '../../../services/server/event.server-service';
 import EventBanner, {
   EventBannerProps
 } from './components/EventBanner/EventBanner';
 import EventHeader from './components/EventHeader/EventHeader';
 import EventInfo from './components/EventInfo/EventInfo';
-import EventMap from './components/EventMap/EventMap';
 import EventPhotoAlbum from './components/EventPhotoAlbum/EventPhotoAlbum';
 import EventPlaylist from './components/EventPlaylist/EventPlaylist';
 
@@ -29,7 +29,11 @@ export async function generateMetadata({
   };
 }
 
-export default async function Event({ params }: { params: { eventSlug: string } }) {
+export default async function Event({
+  params
+}: {
+  params: { eventSlug: string };
+}) {
   const event = await getEvent(params.eventSlug);
 
   const banners = {
@@ -83,7 +87,7 @@ export default async function Event({ params }: { params: { eventSlug: string } 
 
       {event.hasHandbooks && <EventBanner {...banners.handbooks} />}
 
-      <EventMap addressDescription={event.address} />
+      <AddressMap address={event.address!} />
     </div>
   );
 }

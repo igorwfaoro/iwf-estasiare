@@ -4,11 +4,19 @@ export const getContrastColor = (
   hexColor: string,
   contrastRatioRule: number = 0.25
 ): string => {
-  const { r, g, b } = hexToRgb(hexColor);
+  return colorIsLight(hexColor, contrastRatioRule)
+    ? COLORS.black
+    : COLORS.white;
+};
 
+export const colorIsLight = (
+  hexColor: string,
+  contrastRatioRule: number = 0.25
+) => {
+  const { r, g, b } = hexToRgb(hexColor);
   const contrastRatio = luminance(r, g, b);
 
-  return contrastRatio > contrastRatioRule ? COLORS.black : COLORS.white;
+  return contrastRatio > contrastRatioRule;
 };
 
 const hexToRgb = (hex: string) => {

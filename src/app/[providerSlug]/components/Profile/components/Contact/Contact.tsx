@@ -45,7 +45,7 @@ export default function Contact({
     <section className="flex flex-col">
       {items.map(({ label, icon: Icon, value, href }) => (
         <div
-          key={value}
+          key={label}
           className="[&:not(:last-child)]:border-b border-gray-300 flex gap-3 justify-between items-center pb-2 mb-2"
         >
           <div className="space-y-1">

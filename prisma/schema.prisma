@@ -26,12 +26,14 @@ model Event {
   id          BigInt          @id @default(autoincrement())
   eventType   EventType
   date        DateTime
-  address     String          @db.VarChar(500)
   slug        String          @unique @db.VarChar(100)
   invitations Invitation[]
   gifts       Gift[]
   handbooks   EventHandbook[]
   usersEvent  UserEvent[]
+
+  addressId BigInt  @unique
+  address   Address @relation(fields: [addressId], references: [id])
 
   contentId BigInt       @unique
   content   EventContent @relation(fields: [contentId], references: [id])
@@ -187,7 +189,11 @@ model Provider {
   profileImage    String?  @db.VarChar(500)
   bio             String?  @db.VarChar(500)
   link            String?  @db.VarChar(500)
+  primaryColor    String?  @db.VarChar(7)
   createdAt       DateTime @default(now())
+
+  addressId BigInt?  @unique
+  address   Address? @relation(fields: [addressId], references: [id])
 
   user               User?
   providerCategories ProviderProviderCategory[]
@@ -209,4 +215,21 @@ model ProviderCategory {
   isOther     Boolean @default(false)
 
   categoryProviders ProviderProviderCategory[]
+}
+
+model Address {
+  id               BigInt  @id @default(autoincrement())
+  formattedAddress String  @db.VarChar(500)
+  street           String? @db.VarChar(200)
+  number           String? @db.VarChar(20)
+  zipCode          String? @db.VarChar(20)
+  neighborhood     String? @db.VarChar(200)
+  city             String? @db.VarChar(200)
+  state            String? @db.VarChar(20)
+  country          String? @db.VarChar(100)
+  latitude         Decimal @db.Decimal(10, 7)
+  longitude        Decimal @db.Decimal(10, 7)
+
+  event    Event?
+  provider Provider?
 }

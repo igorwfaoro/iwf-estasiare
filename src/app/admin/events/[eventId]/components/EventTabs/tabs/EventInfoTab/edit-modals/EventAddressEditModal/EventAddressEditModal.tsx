@@ -5,6 +5,7 @@ import { z } from 'zod';
 
 import Button from '../../../../../../../../../../components/Button/Button';
 import Field from '../../../../../../../../../../components/Field/Field';
+import { Place } from '../../../../../../../../../../components/Field/components/FieldInputAddressAutocomplete/types/place';
 import { useLoader } from '../../../../../../../../../../contexts/LoaderContext';
 import { useToast } from '../../../../../../../../../../contexts/ToastContext';
 import { createEventClientService } from '../../../../../../../../../../services/client/event.client-service';
@@ -15,7 +16,12 @@ interface EventAddressEditModalProps extends EditModalProps {}
 interface EventAddressEditModalResult extends EditModalResult {}
 
 const formSchema = z.object({
-  address: z.string().min(1, 'Informe o endereço do evento')
+  address: z
+    .any()
+    .refine(
+      (value: Place) => !!value?.formattedAddress,
+      'Informe a data do evento'
+    )
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -69,7 +75,7 @@ export default function EventAddressEditModal({
       <Field>
         <Field.Label>Onde vai ser?</Field.Label>
         <Field.AddressAutocomplete
-          defaultValue={event.address}
+          defaultPlaceValue={event.address as Place}
           onAddressSelected={(value) => setValue('address', value)}
         />
         <Field.Error>{errors.address?.message}</Field.Error>

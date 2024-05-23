@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { cache } from 'react';
 import { createProviderServerService } from '../../services/server/provider.server-service';
+import { COLORS } from '../../util/colors';
 import About from './components/About/About';
 import Profile from './components/Profile/Profile';
 import Share from './components/Share/Share';
@@ -28,11 +29,19 @@ export async function generateMetadata({
 export default async function ProviderPage({ params }: ProviderPageProps) {
   const provider = await getProvider(params.providerSlug);
 
+  const bgColor = provider.primaryColor || COLORS.primary;
+
   return (
-    <div className="max-w-[672px] mx-auto mt-5">
-      <Profile provider={provider} />
-      <Share provider={provider} />
-      <About />
-    </div>
+    <>
+      <div
+        className="absolute top-0 left-0 w-full h-24 z-0"
+        style={{ backgroundColor: bgColor }}
+      />
+      <div className="max-w-[672px] mx-auto space-y-8 z-10 relative">
+        <Profile provider={provider} />
+        <Share provider={provider} />
+        <About />
+      </div>
+    </>
   );
 }

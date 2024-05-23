@@ -1,10 +1,13 @@
 'use client';
 
+import classNames from 'classnames';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { MdEdit } from 'react-icons/md';
 import Chip from '../../../../components/Chip/Chip';
 import InitialsIcon from '../../../../components/InitialsIcon/InitialsIcon';
+import { COLORS } from '../../../../util/colors';
+import { colorIsLight } from '../../../../util/helpers/color.helper';
 import { formatToShow } from '../../../../util/helpers/http.helper';
 
 interface ProviderProfileProps {}
@@ -14,8 +17,11 @@ export default function ProviderProfile({}: ProviderProfileProps) {
 
   if (!sessionData?.user) return <></>;
 
-  const { name, profileImage, bio, link, categories } =
+  const { name, profileImage, bio, link, primaryColor, categories } =
     sessionData.user.provider!;
+
+  const color = primaryColor || COLORS.primary;
+  const primaryColorIsLight = colorIsLight(color);
 
   const image = profileImage ? (
     <img
@@ -50,7 +56,13 @@ export default function ProviderProfile({}: ProviderProfileProps) {
             {categories?.map((category, i) => (
               <Chip
                 key={'category-' + i}
-                className="bg-transparent border border-primary text-primary"
+                className={classNames('bg-transparent border', {
+                  'border-neutral-800 text-neutral-800': primaryColorIsLight,
+                  'text-white': !primaryColorIsLight
+                })}
+                style={{
+                  ...(!primaryColorIsLight && { backgroundColor: color })
+                }}
               >
                 {category.description}
               </Chip>

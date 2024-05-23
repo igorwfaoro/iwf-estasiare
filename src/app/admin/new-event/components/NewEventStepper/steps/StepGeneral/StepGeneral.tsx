@@ -5,6 +5,7 @@ import { z } from 'zod';
 
 import Button from '../../../../../../../components/Button/Button';
 import Field from '../../../../../../../components/Field/Field';
+import { Place } from '../../../../../../../components/Field/components/FieldInputAddressAutocomplete/types/place';
 import { dateStringToInput } from '../../../../../../../util/helpers/date.helper';
 import {
   eventTypeLabel,
@@ -21,7 +22,12 @@ const formGeneralSchema = z.object({
     required_error: 'Informe o tipo do evento'
   }),
   date: z.string().min(1, 'Informe a data do evento'),
-  address: z.string().min(1, 'Informe a data do evento')
+  address: z
+    .any()
+    .refine(
+      (value: Place) => !!value?.formattedAddress,
+      'Informe a data do evento'
+    )
 });
 
 type FormGeneralSchema = z.infer<typeof formGeneralSchema>;
@@ -85,7 +91,7 @@ export default function StepGeneral({ index }: StepGeneralProps) {
       <Field>
         <Field.Label>Onde vai ser?</Field.Label>
         <Field.AddressAutocomplete
-          defaultValue={eventCreateData?.address}
+          defaultPlaceValue={eventCreateData?.address as Place}
           onAddressSelected={(value) => setValue('address', value)}
         />
         <Field.Error>{errors.address?.message}</Field.Error>

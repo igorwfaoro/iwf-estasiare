@@ -1,5 +1,6 @@
 import { Profile } from 'next-auth';
 
+import { Prisma } from '@prisma/client';
 import { getAuthSession, getAuthUser } from '../../auth/auth-config';
 import { AuthUser } from '../../auth/auth-user';
 import { userConverter } from '../../converters/user.converter';
@@ -7,9 +8,12 @@ import { prisma } from '../../data/db';
 import { NotFoundError } from '../../errors/types/not-found.error';
 import { UserUpdateInputModel } from '../../models/input-models/user-update.input-model';
 
-const defaultInclude = {
+const defaultInclude: Prisma.UserInclude = {
   provider: {
-    include: { providerCategories: { include: { category: true } } }
+    include: {
+      providerCategories: { include: { category: true } },
+      address: true
+    }
   }
 };
 

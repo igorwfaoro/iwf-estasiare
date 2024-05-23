@@ -98,7 +98,7 @@ export default function StepContent({ index }: StepContentProps) {
 
   return (
     <form
-      onSubmit={handleSubmit(handleFormSubmit, console.log)}
+      onSubmit={handleSubmit(handleFormSubmit)}
       className="mt-4 flex flex-col gap-2"
     >
       <Field>

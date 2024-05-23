@@ -1,3 +1,4 @@
+import { twMerge } from 'tailwind-merge';
 import { COLORS } from '../../util/colors';
 import { getContrastColor } from '../../util/helpers/color.helper';
 
@@ -6,13 +7,15 @@ export interface InitialsIconProps {
   color?: string;
   size?: number;
   icon?: React.FC<any>;
+  className?: string;
 }
 
 export default function InitialsIcon({
   name,
   size = 32,
   color: colorProp,
-  icon: Icon
+  icon: Icon,
+  className
 }: InitialsIconProps) {
   const color = colorProp || COLORS.primary;
 
@@ -22,7 +25,10 @@ export default function InitialsIcon({
 
   return (
     <div
-      className="flex items-center justify-center rounded-full p-[2px]"
+      className={twMerge(
+        'flex items-center justify-center rounded-full p-[2px]',
+        className
+      )}
       style={{
         height: size,
         width: size,

@@ -22,7 +22,8 @@ export const createProviderServerService = () => {
       include: {
         providerCategories: {
           include: { category: true }
-        }
+        },
+        address: true
       }
     });
 
@@ -58,6 +59,10 @@ export const createProviderServerService = () => {
             contactPhone: inputData.contactPhone,
             contactWhatsApp: inputData.contactWhatsApp,
             link: inputData.link,
+            address: {
+              create: inputData.address
+            },
+            primaryColor: inputData.primaryColor,
             profileImage,
             bio: inputData.bio,
             ...(!!inputData.categories?.length && {
@@ -123,6 +128,10 @@ export const createProviderServerService = () => {
               contactPhone: inputData.contactPhone,
               contactWhatsApp: inputData.contactWhatsApp,
               link: inputData.link,
+              address: authUser.provider.address
+                ? { update: inputData.address }
+                : { create: inputData.address },
+              primaryColor: inputData.primaryColor,
               profileImage,
               bio: inputData.bio,
               ...(!!inputData.categories?.length && {
@@ -147,11 +156,13 @@ export const createProviderServerService = () => {
   };
 
   const slugAlreadyExists = async (slug: string): Promise<boolean> => {
+    const user = await getAuthUser();
+
     const normalizedSlug = normalizeSlug(slug);
 
     const providersCount = await prisma.provider.count({
       where: {
-        slug: normalizedSlug
+        AND: [{ slug: normalizedSlug }, { slug: { not: user.provider?.slug } }]
       }
     });
 

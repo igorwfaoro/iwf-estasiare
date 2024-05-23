@@ -15,6 +15,9 @@ module.exports = {
       },
       animation: {
         'fade-out-3': 'fadeOut 3s ease-in-out'
+      },
+      boxShadow: {
+        custom1: '0px 0px 30px -5px rgba(0, 0, 0, 0.28);'
       }
     }
   },

@@ -50,6 +50,7 @@ export const createEventServerService = () => {
         gifts: extraIncludes.gifts,
         financial: extraIncludes.financial,
         contactInfo: extraIncludes.contactInfo,
+        address: true,
         content: {
           include: {
             images: true
@@ -112,8 +113,10 @@ export const createEventServerService = () => {
         OR: [
           {
             address: {
-              contains: searchQuery,
-              mode: 'insensitive'
+              formattedAddress: {
+                contains: searchQuery,
+                mode: 'insensitive'
+              }
             }
           },
           {
@@ -142,8 +145,6 @@ export const createEventServerService = () => {
       take
     });
 
-    events[0].address;
-
     return events.map(eventConverter.modelViewModel);
   };
 
@@ -151,7 +152,8 @@ export const createEventServerService = () => {
     const events = await prisma.event.findMany({
       include: {
         content: true,
-        weddingDetail: true
+        weddingDetail: true,
+        address: true
       },
       take: limit
     });
@@ -170,7 +172,8 @@ export const createEventServerService = () => {
         event: {
           include: {
             content: true,
-            weddingDetail: true
+            weddingDetail: true,
+            address: true
           }
         }
       }
@@ -208,7 +211,9 @@ export const createEventServerService = () => {
         slug: eventSlug(inputData),
         eventType: inputData.eventType,
         date: dayjs(inputData.date).toDate(),
-        address: inputData.address,
+        address: {
+          create: inputData.address
+        },
         content: {
           create: {
             ...inputData.content,
@@ -279,7 +284,9 @@ export const createEventServerService = () => {
       data: {
         eventType: inputData.eventType,
         date: dayjs(inputData.date).toDate(),
-        address: inputData.address,
+        address: {
+          update: inputData.address
+        },
         content: {
           update: {
             ...inputData.content,

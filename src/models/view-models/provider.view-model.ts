@@ -1,3 +1,4 @@
+import { AddressViewModel } from './address.view-model';
 import { ProviderCategoryViewModel } from './provider-category.view-model';
 
 export interface ProviderViewModel {
@@ -10,7 +11,9 @@ export interface ProviderViewModel {
   profileImage: string | null;
   bio: string | null;
   link: string | null;
+  address?: AddressViewModel | null;
+  primaryColor?: string | null;
   createdAt: string;
-  
+
   categories?: ProviderCategoryViewModel[];
 }
