@@ -17,7 +17,7 @@ export default function ProviderProfile({}: ProviderProfileProps) {
 
   if (!sessionData?.user) return <></>;
 
-  const { name, profileImage, bio, link, primaryColor, categories } =
+  const { slug, name, profileImage, bio, link, primaryColor, categories } =
     sessionData.user.provider!;
 
   const color = primaryColor || COLORS.primary;
@@ -38,7 +38,12 @@ export default function ProviderProfile({}: ProviderProfileProps) {
       <div className="flex gap-4">
         {image}
         <div className="space-y-2 truncate">
-          <h2 className="text-xl font-bold truncate">{name}</h2>
+          <Link
+            href={`/${slug}`}
+            className="text-xl font-bold text-blue-500 truncate"
+          >
+            {name}
+          </Link>
 
           {bio && <p className="whitespace-pre-line">{bio}</p>}
 
