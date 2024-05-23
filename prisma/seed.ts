@@ -89,6 +89,45 @@ async function main() {
     });
   }
 
+  const providerCategories = [
+    'Fotografia',
+    'Vídeo',
+    'Espaço para Evento',
+    'Catering',
+    'Decoração',
+    'Música',
+    'Entretenimento',
+    'Cerimonialista',
+    'Moda e Vestuário',
+    'Beleza',
+    'Transporte',
+    'Papelaria',
+    'Lembranças',
+    'Equipamentos',
+    'Som',
+    'Assessoria Jurídica',
+    'Assessoria Financeira',
+    'Segurança',
+    'Limpeza',
+    'Serviços para Crianças',
+    'Outro'
+  ];
+
+  for (const category of providerCategories) {
+    await prisma.providerCategory.create({
+      data: {
+        description: category
+      }
+    });
+  }
+
+  await prisma.providerCategory.create({
+    data: {
+      description: 'Outro',
+      isOther: true
+    }
+  });
+
   await prisma.userEvent.create({
     data: {
       role: 'ADMIN',
