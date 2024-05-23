@@ -14,7 +14,7 @@ import EventPlaylist from './components/EventPlaylist/EventPlaylist';
 export const revalidate = 3600;
 
 const getEvent = cache(async (eventSlug: string) => {
-  return await createEventServerService().getByeventSlug(eventSlug);
+  return await createEventServerService().getBySlug(eventSlug);
 });
 
 export async function generateMetadata({
@@ -39,7 +39,7 @@ export default async function Event({ params }: { params: { eventSlug: string } 
         'Nossa celebração está se aproximando, e estamos felizes em compartilhá-la com vocês. Se desejarem nos presentear de maneira simbólica, confiram nossa lista de presentes especiais',
       buttonText: 'Lista de presentes',
       imageSrc: '/images/event/banner1.jpg',
-      buttonLink: `/e/${event.eventSlug}/gifts`
+      buttonLink: `/e/${event.slug}/gifts`
     } as EventBannerProps,
     presenceConfirmation: {
       title: 'Confirmação de Presença',
@@ -47,7 +47,7 @@ export default async function Event({ params }: { params: { eventSlug: string } 
         'Confirme sua presença em nossa celebração especial. Estamos ansiosos para compartilhar este momento com você!',
       buttonText: 'Confirmação',
       imageSrc: '/images/event/banner2.jpg',
-      buttonLink: `/e/${event.eventSlug}/presence-confirmation`
+      buttonLink: `/e/${event.slug}/presence-confirmation`
     } as EventBannerProps,
     handbooks: {
       title: 'Manuais',
@@ -55,7 +55,7 @@ export default async function Event({ params }: { params: { eventSlug: string } 
         'Aqui, você encontrará uma coleção de guias úteis para diversos aspectos do nosso evento especial',
       buttonText: 'Acessar',
       imageSrc: '/images/event/banner3.jpg',
-      buttonLink: `/e/${event.eventSlug}/handbooks`
+      buttonLink: `/e/${event.slug}/handbooks`
     } as EventBannerProps
   };
 

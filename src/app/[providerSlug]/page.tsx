@@ -1,12 +1,11 @@
 import { Metadata } from 'next';
-import { ReactNode, cache } from 'react';
+import { cache } from 'react';
 import { createProviderServerService } from '../../services/server/provider.server-service';
 
 export const revalidate = 3600;
 
-interface PageProps {
+interface ProviderPageProps {
   params: { providerSlug: string };
-  children: ReactNode;
 }
 
 const getProvider = cache(async (providerSlug: string) => {
@@ -15,9 +14,7 @@ const getProvider = cache(async (providerSlug: string) => {
 
 export async function generateMetadata({
   params
-}: {
-  params: { providerSlug: string };
-}): Promise<Metadata> {
+}: ProviderPageProps): Promise<Metadata> {
   const provider = await getProvider(params.providerSlug);
 
   return {
@@ -25,7 +22,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function ProviderPage({ params }: PageProps) {
+export default async function ProviderPage({ params }: ProviderPageProps) {
   const provider = await getProvider(params.providerSlug);
 
   return (

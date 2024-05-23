@@ -12,7 +12,7 @@ interface LayoutProps {
 }
 
 const getEvent = cache(async (eventSlug: string) => {
-  return await createEventServerService().getByeventSlug(eventSlug, {
+  return await createEventServerService().getBySlug(eventSlug, {
     contactInfo: true
   });
 });

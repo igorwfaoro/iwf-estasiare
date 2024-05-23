@@ -11,7 +11,7 @@ import Header from './components/Header/Header';
 export const revalidate = 3600;
 
 const getEvent = cache(async (eventSlug: string) => {
-  return await createEventServerService().getByeventSlug(eventSlug, {
+  return await createEventServerService().getBySlug(eventSlug, {
     gifts: true,
     financial: true,
     giftRegistries: true

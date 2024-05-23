@@ -13,7 +13,7 @@ interface HandbookPageProps {
 export const revalidate = 3600;
 
 const getData = cache(async (eventSlug: string, id: number) => {
-  const event = await createEventServerService().getByeventSlug(eventSlug, {
+  const event = await createEventServerService().getBySlug(eventSlug, {
     handbooks: true
   });
 

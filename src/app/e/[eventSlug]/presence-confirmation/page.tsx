@@ -10,7 +10,7 @@ import PresenceConfirmationProvider from './components/PageContent/contexts/Pres
 export const revalidate = 3600;
 
 const getEvent = cache(async (eventSlug: string) => {
-  return await createEventServerService().getByeventSlug(eventSlug);
+  return await createEventServerService().getBySlug(eventSlug);
 });
 
 export async function generateMetadata({
