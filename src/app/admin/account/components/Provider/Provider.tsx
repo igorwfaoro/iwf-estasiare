@@ -96,6 +96,7 @@ export default function Provider({ isRegister }: ProviderProps) {
         const provider = sessionData.user!.provider!;
 
         setValue('name', provider.name);
+        setValue('slug', provider.slug);
         setValue('contactEmail', provider.contactEmail || '');
         setValue('contactPhone', provider.contactPhone || '');
         setValue('contactWhatsApp', provider.contactWhatsApp || '');

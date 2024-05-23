@@ -14,16 +14,8 @@ export default function ProviderProfile({}: ProviderProfileProps) {
 
   if (!sessionData?.user) return <></>;
 
-  const {
-    name,
-    contactEmail,
-    contactPhone,
-    contactWhatsApp,
-    profileImage,
-    bio,
-    link,
-    categories
-  } = sessionData.user.provider!;
+  const { name, profileImage, bio, link, categories } =
+    sessionData.user.provider!;
 
   const image = profileImage ? (
     <img
@@ -32,7 +24,7 @@ export default function ProviderProfile({}: ProviderProfileProps) {
       className="rounded-full w-24 h-24"
     />
   ) : (
-    <InitialsIcon name={name} />
+    <InitialsIcon name={name} size={96} />
   );
 
   return (

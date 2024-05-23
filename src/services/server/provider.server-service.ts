@@ -17,7 +17,14 @@ export interface CreateUpdateProviderParams<T> {
 
 export const createProviderServerService = () => {
   const getBySlug = async (slug: string): Promise<ProviderViewModel> => {
-    const provider = await prisma.provider.findFirst({ where: { slug } });
+    const provider = await prisma.provider.findFirst({
+      where: { slug },
+      include: {
+        providerCategories: {
+          include: { category: true }
+        }
+      }
+    });
 
     if (!provider) throw new NotFoundError('Fornecedor não encontrado');
 

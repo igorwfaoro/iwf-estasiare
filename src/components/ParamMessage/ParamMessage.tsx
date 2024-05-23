@@ -1,7 +1,7 @@
 'use client';
 
 import classNames from 'classnames';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Card from '../Card/Card';
 
@@ -11,14 +11,39 @@ interface ParamMessageProps {
 
 export default function ParamMessage({ duration = 3000 }: ParamMessageProps) {
   const searchParams = useSearchParams();
-  const successMessage = searchParams.get('successMessage');
+  const router = useRouter();
+  const pathname = usePathname();
 
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
+  const [message, setMessage] = useState<string>();
 
   useEffect(() => {
-    const timeout = setTimeout(() => setIsVisible(false), duration);
-    return () => clearTimeout(timeout);
+    setMessage(searchParams.get('successMessage') || undefined);
   }, []);
+
+  useEffect(() => {
+    if (message) {
+      setIsVisible(true);
+
+      const timeout = setTimeout(() => {
+        setIsVisible(false);
+      }, duration);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [message]);
+
+  useEffect(() => {
+    if (!isVisible) {
+      if (!searchParams.get('successMessage')) return;
+
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete('successMessage');
+      router.push(`${pathname}?${params.toString()}`);
+    }
+  }, [isVisible]);
+
+  if (!message) return <></>;
 
   return (
     <div
@@ -28,7 +53,7 @@ export default function ParamMessage({ duration = 3000 }: ParamMessageProps) {
       )}
     >
       <Card className="p-4 bg-green-500 text-white mb-4 border-none drop-shadow-xl font-bold">
-        {successMessage}
+        {message}
       </Card>
     </div>
   );

@@ -43,12 +43,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function ProviderLayout({
-  params,
-  children
-}: LayoutProps) {
-  const provider = await getProvider(params.providerSlug);
-
+export default async function ProviderLayout({ children }: LayoutProps) {
   return (
     <>
       <Navbar />
