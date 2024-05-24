@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge';
 interface CardProps {
   children?: ReactNode | ReactNode[];
   className?: string;
-  elementRef?: RefObject<HTMLDivElement>;
+  ref?: RefObject<HTMLDivElement>;
   bgImageUrl?: string | null;
   bgColor?: string;
   onClick?: MouseEventHandler<HTMLDivElement>;
@@ -13,7 +13,7 @@ interface CardProps {
 export default function Card({
   children,
   className,
-  elementRef,
+  ref,
   bgImageUrl,
   bgColor,
   onClick
@@ -21,7 +21,7 @@ export default function Card({
   return (
     <div
       className={twMerge('rounded-2xl border', className)}
-      ref={elementRef}
+      ref={ref}
       style={{
         backgroundImage: bgImageUrl ? `url(${bgImageUrl})` : '',
         backgroundColor: bgColor

@@ -5,5 +5,7 @@ export interface ProviderLinkViewModel {
   label: string;
   url: string;
   urlKey: string | null;
+  index: number;
   type?: ProviderLinkTypeViewModel;
+  isActive: boolean;
 }

@@ -42,7 +42,7 @@ export default function EventCard({
       <Card
         className="event-card h-52 bg-cover bg-center relative flex flex-col items-end justify-end transition-all ease-in-out before:absolute before:top-0 before:left-0 before:w-full before:h-full before:rounded-[inherit] before:bg-gradient-to-t before:from-black before:to-60% hover:brightness-125"
         bgImageUrl={event.content?.bannerImage}
-        elementRef={scrollingCardItemRef}
+        ref={scrollingCardItemRef}
       >
         <div className="content z-10 flex flex-col items-start gap-1 w-full p-3 text-neutral-100 transition-all ease-in-out hover:text-white">
           <div className="event-title text-2xl font-bold">{eventTitle}</div>

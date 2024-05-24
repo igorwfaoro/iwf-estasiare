@@ -66,6 +66,16 @@ export const API_URLS = {
       `${API_BASE_URL}/providers/slug/already-exists/${slug}`,
     categories: {
       getAll: () => `${API_BASE_URL}/providers/categories`
+    },
+    links: {
+      getAllByProvider: () => `${API_BASE_URL}/providers/links`,
+      create: () => `${API_BASE_URL}/providers/links`,
+      update: (id: number) => `${API_BASE_URL}/providers/links/${id}`,
+      reorder: () => `${API_BASE_URL}/providers/links/reorder`,
+      delete: (id: number) => `${API_BASE_URL}/providers/links/${id}`
+    },
+    linkTypes: {
+      getAll: () => `${API_BASE_URL}/providers/link-types`
     }
   },
   users: {

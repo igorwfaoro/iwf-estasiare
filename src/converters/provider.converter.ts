@@ -2,6 +2,7 @@ import {
   Address,
   Provider,
   ProviderCategory,
+  ProviderLink,
   ProviderProviderCategory
 } from '@prisma/client';
 
@@ -10,12 +11,14 @@ import { ProviderViewModel } from '../models/view-models/provider.view-model';
 import { getFileApiUrlOrNull } from '../util/helpers/file.helper';
 import { addressConverter } from './address.converter';
 import { providerCategoryConverter } from './provider-category.converter';
+import { providerLinkConverter } from './provider-link.converter';
 
 export type ProviderConverterModel = Provider & {
   providerCategories?:
     | (ProviderProviderCategory & { category: ProviderCategory })[]
     | null;
   address?: Address | null;
+  links?: ProviderLink[];
 };
 
 export const providerConverter = {
@@ -32,6 +35,7 @@ export const providerConverter = {
     createdAt: dayjs(model.createdAt).toISOString(),
     categories: model.providerCategories?.map((pc) =>
       providerCategoryConverter.modelToViewModel(pc.category)
-    )
+    ),
+    links: model.links?.map(providerLinkConverter.modelToViewModel)
   })
 };

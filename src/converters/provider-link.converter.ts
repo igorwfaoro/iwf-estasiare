@@ -14,6 +14,8 @@ export const providerLinkConverter = {
     label: model.label,
     url: model.url,
     urlKey: model.urlKey,
+    index: model.index,
+    isActive: model.isActive,
     type: model.type
       ? providerLinkTypeConverter.modelToViewModel(model.type)
       : undefined

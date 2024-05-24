@@ -59,7 +59,7 @@ export default function Share({ provider }: ShareProps) {
 
   return (
     <section className="flex flex-col items-center gap-2">
-      <div className='text-sm font-bold'>Compartilhar</div>
+      <div className='text-sm font-bold'>Compartilhar fornecedor</div>
       <div className="flex gap-2 justify-center">
         {items.map(({ icon: Icon, href, label, color }) => (
           <div

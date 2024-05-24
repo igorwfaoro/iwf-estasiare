@@ -3,7 +3,6 @@ import { providerConverter } from '../../converters/provider.converter';
 import { prisma } from '../../data/db';
 import { AlreadyExistsError } from '../../errors/types/already-exists.error';
 import { BadError } from '../../errors/types/bad.error';
-import { NotFoundError } from '../../errors/types/not-found.error';
 import { ProviderInputModel } from '../../models/input-models/provider.input-model';
 import { ProviderViewModel } from '../../models/view-models/provider.view-model';
 import { normalizeSlug } from '../../util/helpers/slug.helper';
@@ -24,11 +23,17 @@ export const createProviderServerService = () => {
         providerCategories: {
           include: { category: true }
         },
-        address: true
+        address: true,
+        links: {
+          where: { isActive: true },
+          include: {
+            type: true
+          }
+        }
       }
     });
 
-    if (!provider) throw new BadError('Usuário não é um fornecedor');
+    if (!provider) throw new BadError('Fornecedor não encontrado');
 
     return providerConverter.modelToViewModel(provider);
   };

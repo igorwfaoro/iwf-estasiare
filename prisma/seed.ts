@@ -128,6 +128,30 @@ async function main() {
     }
   });
 
+  const providerlinkTypes = [
+    {
+      name: 'Instagram',
+      icon: 'FaInstagram',
+      urlStructure: 'https://instagram.com/{{urlKey}}'
+    },
+    {
+      name: 'WhatsApp',
+      icon: 'FaWhatsapp',
+      urlStructure: 'https://wa.me/{{urlKey}}'
+    },
+    {
+      name: 'E-mail',
+      icon: 'FaEnvelope',
+      urlStructure: 'mailto:{{urlKey}}'
+    }
+  ];
+
+  for (const type of providerlinkTypes) {
+    await prisma.providerLinkType.create({
+      data: type
+    });
+  }
+
   await prisma.userEvent.create({
     data: {
       role: 'ADMIN',
