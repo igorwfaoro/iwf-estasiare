@@ -17,7 +17,6 @@ import { createProviderClientService } from '../../../../../services/client/prov
 import { COLORS } from '../../../../../util/colors';
 import { fileToDataURL } from '../../../../../util/helpers/file.helper';
 import { normalizeSlug } from '../../../../../util/helpers/slug.helper';
-import { onlyNumbers } from '../../../../../util/helpers/string.helper';
 
 interface ProviderProps {
   isRegister?: boolean;
@@ -29,30 +28,12 @@ const formSchema = z.object({
     .min(1, 'Informe o slug')
     .transform((value) => normalizeSlug(value)),
   name: z.string().min(1, 'Informe o nome'),
-  contactEmail: z
-    .string()
-    .email({ message: 'E-mail inválido' })
-    .optional()
-    .or(z.literal('')),
-  contactPhone: z
-    .string()
-    .optional()
-    .transform((value) => value && onlyNumbers(value)),
-  contactWhatsApp: z
-    .string()
-    .optional()
-    .transform((value) => value && onlyNumbers(value)),
   profileImage: z.any().optional(),
   bio: z
     .string()
     .max(200, 'Número de caracteres excedido')
     .optional()
     .transform((value) => value && value.trim()),
-  link: z
-    .string()
-    .url({ message: 'Link inválido' })
-    .optional()
-    .or(z.literal('')),
   address: z.any(),
   primaryColor: z.string().optional(),
   categories: z.array(z.number())
@@ -103,11 +84,7 @@ export default function Provider({ isRegister }: ProviderProps) {
 
         setValue('name', provider.name);
         setValue('slug', provider.slug);
-        setValue('contactEmail', provider.contactEmail || '');
-        setValue('contactPhone', provider.contactPhone || '');
-        setValue('contactWhatsApp', provider.contactWhatsApp || '');
         setValue('bio', provider.bio || '');
-        setValue('link', provider.link || '');
         setValue('address', provider.address || '');
         setValue('primaryColor', provider.primaryColor || COLORS.primary);
 
@@ -167,12 +144,8 @@ export default function Provider({ isRegister }: ProviderProps) {
             slug: data.slug,
             name: data.name,
             bio: data.bio || null,
-            link: data.link || null,
             address: (data.address as Place) || null,
             primaryColor: data.primaryColor || null,
-            contactEmail: data.contactEmail || null,
-            contactPhone: data.contactPhone || null,
-            contactWhatsApp: data.contactWhatsApp || null,
             categories: data.categories
           },
           data.profileImage
@@ -318,36 +291,6 @@ export default function Provider({ isRegister }: ProviderProps) {
         />
         <Field.Error>{errors.address?.message}</Field.Error>
       </Field>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Field isLoading={!userIsLoaded}>
-          <Field.Label>Link</Field.Label>
-          <Field.HelpText>
-            Você pode disponibilizar um link nos eu perfil
-          </Field.HelpText>
-          <Field.Input {...register('link')} />
-          <Field.Error>{errors.link?.message}</Field.Error>
-        </Field>
-
-        <Field isLoading={!userIsLoaded}>
-          <Field.Label>Whatsapp</Field.Label>
-          <Field.HelpText>Deve ser no formato internacional</Field.HelpText>
-          <Field.Input {...register('contactWhatsApp')} />
-          <Field.Error>{errors.contactWhatsApp?.message}</Field.Error>
-        </Field>
-
-        <Field isLoading={!userIsLoaded}>
-          <Field.Label>Telefone</Field.Label>
-          <Field.Input {...register('contactPhone')} />
-          <Field.Error>{errors.contactPhone?.message}</Field.Error>
-        </Field>
-
-        <Field isLoading={!userIsLoaded}>
-          <Field.Label>E-mail</Field.Label>
-          <Field.Input {...register('contactEmail')} />
-          <Field.Error>{errors.contactEmail?.message}</Field.Error>
-        </Field>
-      </div>
 
       <Field isLoading={!userIsLoaded && categoriesIsLoading}>
         <Field.Label>Categorias</Field.Label>

@@ -23,12 +23,8 @@ export const providerConverter = {
     id: Number(model.id),
     slug: model.slug,
     name: model.name,
-    contactEmail: model.contactEmail,
-    contactPhone: model.contactPhone,
-    contactWhatsApp: model.contactWhatsApp,
     profileImage: getFileApiUrlOrNull(model.profileImage),
     bio: model.bio,
-    link: model.link,
     address: model.address
       ? addressConverter.modelToViewModel(model.address)
       : undefined,

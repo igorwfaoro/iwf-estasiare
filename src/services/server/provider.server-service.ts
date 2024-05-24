@@ -2,6 +2,7 @@ import { getAuthUser } from '../../auth/auth-config';
 import { providerConverter } from '../../converters/provider.converter';
 import { prisma } from '../../data/db';
 import { AlreadyExistsError } from '../../errors/types/already-exists.error';
+import { BadError } from '../../errors/types/bad.error';
 import { NotFoundError } from '../../errors/types/not-found.error';
 import { ProviderInputModel } from '../../models/input-models/provider.input-model';
 import { ProviderViewModel } from '../../models/view-models/provider.view-model';
@@ -27,7 +28,7 @@ export const createProviderServerService = () => {
       }
     });
 
-    if (!provider) throw new NotFoundError('Fornecedor não encontrado');
+    if (!provider) throw new BadError('Usuário não é um fornecedor');
 
     return providerConverter.modelToViewModel(provider);
   };
@@ -55,10 +56,6 @@ export const createProviderServerService = () => {
           create: {
             slug: normalizeSlug(inputData.slug),
             name: inputData.name,
-            contactEmail: inputData.contactEmail,
-            contactPhone: inputData.contactPhone,
-            contactWhatsApp: inputData.contactWhatsApp,
-            link: inputData.link,
             address: {
               create: inputData.address
             },
@@ -93,7 +90,7 @@ export const createProviderServerService = () => {
   >): Promise<ProviderViewModel> => {
     const authUser = await getAuthUser();
 
-    if (!authUser.provider) throw new NotFoundError('Fornecedor não existe');
+    if (!authUser.provider) throw new BadError('Usuário não é um fornecedor');
 
     if (inputData.slug && (await slugAlreadyExists(inputData.slug)))
       throw new AlreadyExistsError('Slug já esta sendo utilizado');
@@ -124,10 +121,6 @@ export const createProviderServerService = () => {
                 ? normalizeSlug(inputData.slug)
                 : inputData.slug,
               name: inputData.name,
-              contactEmail: inputData.contactEmail,
-              contactPhone: inputData.contactPhone,
-              contactWhatsApp: inputData.contactWhatsApp,
-              link: inputData.link,
               address: authUser.provider.address
                 ? { update: inputData.address }
                 : { create: inputData.address },

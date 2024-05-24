@@ -180,23 +180,20 @@ model UserEvent {
 }
 
 model Provider {
-  id              BigInt   @id @default(autoincrement())
-  slug            String   @unique @db.VarChar(100)
-  name            String   @db.VarChar(300)
-  contactEmail    String?  @db.VarChar(300)
-  contactPhone    String?  @db.VarChar(300)
-  contactWhatsApp String?  @db.VarChar(300)
-  profileImage    String?  @db.VarChar(500)
-  bio             String?  @db.VarChar(500)
-  link            String?  @db.VarChar(500)
-  primaryColor    String?  @db.VarChar(7)
-  createdAt       DateTime @default(now())
+  id           BigInt   @id @default(autoincrement())
+  slug         String   @unique @db.VarChar(100)
+  name         String   @db.VarChar(300)
+  profileImage String?  @db.VarChar(500)
+  bio          String?  @db.VarChar(500)
+  primaryColor String?  @db.VarChar(7)
+  createdAt    DateTime @default(now())
 
   addressId BigInt?  @unique
   address   Address? @relation(fields: [addressId], references: [id])
 
   user               User?
   providerCategories ProviderProviderCategory[]
+  links              ProviderLink[]
 }
 
 model ProviderProviderCategory {
@@ -232,4 +229,26 @@ model Address {
 
   event    Event?
   provider Provider?
+}
+
+model ProviderLinkType {
+  id           BigInt  @id @default(autoincrement())
+  name         String  @db.VarChar(100)
+  icon         String  @db.VarChar(100)
+  urlStructure String? @db.VarChar(600)
+
+  providerLinks ProviderLink[]
+}
+
+model ProviderLink {
+  id     BigInt  @id @default(autoincrement())
+  label  String  @db.VarChar(100)
+  url    String  @db.VarChar(600)
+  urlKey String? @db.VarChar(200)
+
+  typeId BigInt
+  type   ProviderLinkType @relation(fields: [typeId], references: [id])
+
+  providerId BigInt
+  provider   Provider @relation(fields: [providerId], references: [id])
 }
