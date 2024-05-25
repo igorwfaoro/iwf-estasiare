@@ -8,7 +8,6 @@ import Chip from '../../../../components/Chip/Chip';
 import InitialsIcon from '../../../../components/InitialsIcon/InitialsIcon';
 import { COLORS } from '../../../../util/colors';
 import { colorIsLight } from '../../../../util/helpers/color.helper';
-import { formatToShow } from '../../../../util/helpers/http.helper';
 
 interface ProviderProfileProps {}
 
@@ -17,7 +16,7 @@ export default function ProviderProfile({}: ProviderProfileProps) {
 
   if (!sessionData?.user) return <></>;
 
-  const { slug, name, profileImage, bio, link, primaryColor, categories } =
+  const { slug, name, profileImage, bio, primaryColor, categories } =
     sessionData.user.provider!;
 
   const color = primaryColor || COLORS.primary;
@@ -46,16 +45,6 @@ export default function ProviderProfile({}: ProviderProfileProps) {
           </Link>
 
           {bio && <p className="whitespace-pre-line">{bio}</p>}
-
-          {link && (
-            <Link
-              href={link}
-              target="_blank"
-              className="text-blue-500 font-bold block truncate"
-            >
-              {formatToShow(link)}
-            </Link>
-          )}
 
           <div className="flex gap-1 flex-wrap md:max-w-[70%] lg:max-w-[50%]">
             {categories?.map((category, i) => (
