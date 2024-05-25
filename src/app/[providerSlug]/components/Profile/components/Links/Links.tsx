@@ -19,13 +19,13 @@ export default function Links({ provider: { links } }: LinksProps) {
           key={label}
           className="[&:not(:last-child)]:border-b border-gray-300 flex gap-3 justify-between items-center pb-2 mb-2"
         >
-          <div className="space-y-1">
-            <div className="flex items-center gap-1">
+          <div className="space-y-1 truncate">
+            <div className="flex items-center gap-1 truncate">
               <Icon icon={type!.icon} />
               <span className="text-sm">{label}</span>
             </div>
 
-            <div className="font-bold">{urlKey || url}</div>
+            <div className="font-bold truncate">{urlKey || url}</div>
           </div>
 
           <Link href={url} target="_blank" className="text-blue-500">

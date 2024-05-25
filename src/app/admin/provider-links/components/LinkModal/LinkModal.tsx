@@ -26,6 +26,7 @@ const formSchema = z.object({
   linkTypeId: z
     .string({ required_error: 'Defina o tipo de link' })
     .min(1, 'Defina o tipo de link')
+    .or(z.number({ required_error: 'Defina o tipo de link' }))
     .transform((value) => (value ? Number(value) : undefined)),
   label: z.string().min(1, 'Informe nome do link'),
   urlOrUrlKey: z.string().min(1, 'Campo obrigatório')
@@ -88,8 +89,9 @@ export default function LinkModal({ link, modalRef }: LinkModalProps) {
 
     /**
      * only set default label if is first linkTypeId set
+     * TODO: has a bug here
      */
-    if (type && !lastSelectedLinkType)
+    if (type && lastSelectedLinkType)
       setValue(
         'label',
         type.urlStructure || !lastSelectedLinkType ? type!.name : ''

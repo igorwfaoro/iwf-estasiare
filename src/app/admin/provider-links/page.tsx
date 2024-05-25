@@ -213,18 +213,18 @@ export default function AccountPage({}: AccountPageProps) {
             <SortableItem key={link.id}>
               <div>
                 <Card className="flex gap-3 justify-between items-center p-2 bg-white">
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1 truncate">
                     <Icon
                       icon="mdi:drag-vertical"
                       className="text-3xl text-gray-400"
                     />
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-1">
+                    <div className="space-y-1 truncate">
+                      <div className="flex items-center gap-1 truncate">
                         <Icon icon={link.type!.icon} />
-                        <span className="text-sm">{link.label}</span>
+                        <span className="text-sm truncate">{link.label}</span>
                       </div>
 
-                      <div className="font-bold">{link.urlKey || link.url}</div>
+                      <div className="font-bold truncate">{link.urlKey || link.url}</div>
 
                       <div className="flex items-center gap-2">
                         <MdEdit
