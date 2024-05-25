@@ -207,9 +207,8 @@ model ProviderProviderCategory {
 }
 
 model ProviderCategory {
-  id          BigInt  @id @default(autoincrement())
-  description String  @db.VarChar(100)
-  isOther     Boolean @default(false)
+  id          BigInt @id @default(autoincrement())
+  description String @db.VarChar(100)
 
   categoryProviders ProviderProviderCategory[]
 }
@@ -236,6 +235,7 @@ model ProviderLinkType {
   name         String  @db.VarChar(100)
   icon         String  @db.VarChar(100)
   urlStructure String? @db.VarChar(600)
+  index        Int     @default(0)
 
   providerLinks ProviderLink[]
 }

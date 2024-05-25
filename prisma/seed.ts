@@ -121,28 +121,26 @@ async function main() {
     });
   }
 
-  await prisma.providerCategory.create({
-    data: {
-      description: 'Outro',
-      isOther: true
-    }
-  });
-
   const providerlinkTypes = [
     {
       name: 'Instagram',
-      icon: 'FaInstagram',
+      icon: 'mdi:instagram',
       urlStructure: 'https://instagram.com/{{urlKey}}'
     },
     {
       name: 'WhatsApp',
-      icon: 'FaWhatsapp',
+      icon: 'ic:baseline-email',
       urlStructure: 'https://wa.me/{{urlKey}}'
     },
     {
       name: 'E-mail',
-      icon: 'FaEnvelope',
+      icon: 'ic:baseline-whatsapp',
       urlStructure: 'mailto:{{urlKey}}'
+    },
+    {
+      name: 'Outro Link',
+      icon: 'dashicons:admin-site',
+      index: 1
     }
   ];
 
@@ -188,8 +186,7 @@ async function main() {
       { description: 'Assessoria Financeira' },
       { description: 'Segurança' },
       { description: 'Limpeza' },
-      { description: 'Serviços para Crianças' },
-      { description: 'Outro', isOther: true }
+      { description: 'Serviços para Crianças' }
     ]
   });
 }

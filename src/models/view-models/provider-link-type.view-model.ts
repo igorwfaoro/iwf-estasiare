@@ -3,4 +3,5 @@ export interface ProviderLinkTypeViewModel {
   name: string;
   icon: string;
   urlStructure: string | null;
+  index: number;
 }

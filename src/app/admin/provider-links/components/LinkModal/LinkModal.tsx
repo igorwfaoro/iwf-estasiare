@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Icon } from '@iconify/react/dist/iconify.mjs';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -22,9 +23,12 @@ export interface LinkModalResult {
 }
 
 const formSchema = z.object({
-  type: z.number({ required_error: 'Defina o tipo de link' }),
+  linkTypeId: z
+    .string({ required_error: 'Defina o tipo de link' })
+    .min(1, 'Defina o tipo de link')
+    .transform((value) => (value ? Number(value) : undefined)),
   label: z.string().min(1, 'Informe nome do link'),
-  urlOrUrlKey: z.string().min(0, 'Campo obrigatório')
+  urlOrUrlKey: z.string().min(1, 'Campo obrigatório')
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -49,9 +53,14 @@ export default function LinkModal({ link, modalRef }: LinkModalProps) {
 
   const [types, setTypes] = useState<ProviderLinkTypeViewModel[]>([]);
 
-  const [selectedType, setSelectedType] = useState<ProviderLinkTypeViewModel>();
+  const [selectedLinkType, setSelectedLinkType] =
+    useState<ProviderLinkTypeViewModel>();
 
-  const selectedTypeId = watch('type');
+  const [lastSelectedLinkType, setLastSelectedLinkType] =
+    useState<ProviderLinkTypeViewModel>();
+
+  const linkTypeId = watch('linkTypeId');
+  const urlOrUrlKey = watch('urlOrUrlKey');
 
   useEffect(() => {
     getTypes();
@@ -62,35 +71,64 @@ export default function LinkModal({ link, modalRef }: LinkModalProps) {
     }
   }, []);
 
+  /**
+   * set form linkTypeId after types is loaded
+   */
   useEffect(() => {
-    if (isUpdate) {
-      setValue('type', link.type!.id);
+    if (types.length && isUpdate) {
+      setValue('linkTypeId', link.type!.id);
     }
   }, [types]);
 
+  /**
+   * set default label when type change
+   */
   useEffect(() => {
-    const t = types.find((it) => it.id === Number(selectedTypeId));
-    console.log({ t, selectedTypeId });
+    const type = types.find((it) => it.id === Number(linkTypeId));
 
-    // if (!link && t) setValue('label', selectedType!.name);
+    /**
+     * only set default label if is first linkTypeId set
+     */
+    if (type && !lastSelectedLinkType)
+      setValue(
+        'label',
+        type.urlStructure || !lastSelectedLinkType ? type!.name : ''
+      );
 
-    setSelectedType(t);
-  }, [selectedTypeId]);
+    setLastSelectedLinkType(selectedLinkType);
+    setSelectedLinkType(type);
+  }, [linkTypeId]);
 
   const getTypes = () => {
     loader.show();
     providerLinkTypeService
       .getAll()
-      .then(setTypes)
+      .then((response) => setTypes(response.sort((a, b) => a.index - b.index)))
       .catch(() => toast.open('Erro ao carregar tipos de links', 'error'))
       .finally(loader.hide);
   };
 
   const handleFormSubmit = (data: FormSchema) => {
-    modalRef.close({ link: data } as LinkModalResult);
+    modalRef.close({
+      link: {
+        typeId: data.linkTypeId,
+        label: data.label,
+        urlOrUrlKey: data.urlOrUrlKey
+      }
+    } as LinkModalResult);
   };
 
-  const fieldLabelLabel = selectedType?.urlStructure
+  const handleTransformLinkUrl = () => {
+    if (
+      selectedLinkType &&
+      !selectedLinkType.urlStructure &&
+      !urlOrUrlKey.startsWith('http')
+    ) {
+      setValue('urlOrUrlKey', `https://${urlOrUrlKey}`);
+    }
+  };
+
+  const fieldLabelLabel = selectedLinkType?.urlStructure
     ? 'Seu nome/número de usuário'
     : 'URL do link';
 
@@ -98,14 +136,14 @@ export default function LinkModal({ link, modalRef }: LinkModalProps) {
     <form onSubmit={handleSubmit(handleFormSubmit)}>
       <Field>
         <Field.Label>Tipo de link</Field.Label>
-        <Field.Select {...register('type')} includeEmpty>
+        <Field.Select {...register('linkTypeId')} includeEmpty>
           {types.map((type) => (
-            <Field.SelectOption key={'type' + type.id} value={type.id}>
+            <Field.SelectOption key={'linkType' + type.id} value={type.id}>
               {type.name}
             </Field.SelectOption>
           ))}
         </Field.Select>
-        <Field.Error>{errors.type?.message}</Field.Error>
+        <Field.Error>{errors.linkTypeId?.message}</Field.Error>
       </Field>
 
       <Field>
@@ -114,17 +152,27 @@ export default function LinkModal({ link, modalRef }: LinkModalProps) {
           Você pode escolher um nome personalizado para seu link
         </Field.HelpText>
         <Field.Input {...register('label')} />
+        <Field.Error>{errors.label?.message}</Field.Error>
       </Field>
 
-      {!!selectedType && (
+      {!!selectedLinkType && (
         <Field>
-          <Field.Label>{fieldLabelLabel}</Field.Label>
-          <Field.Input {...register('urlOrUrlKey')} />
+          <Field.Label className="flex items-center gap-1">
+            <Icon icon={selectedLinkType.icon} />
+            {fieldLabelLabel}
+          </Field.Label>
+          <Field.Input
+            {...register('urlOrUrlKey')}
+            onBlur={handleTransformLinkUrl}
+          />
+          <Field.Error>{errors.urlOrUrlKey?.message}</Field.Error>
         </Field>
       )}
 
       <div className="flex justify-end z-[99999]">
-        <Button type="submit">Salvar</Button>
+        <Button type="submit" className="w-full md:w-auto">
+          Salvar
+        </Button>
       </div>
     </form>
   );

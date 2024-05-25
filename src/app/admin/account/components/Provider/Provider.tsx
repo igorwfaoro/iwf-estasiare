@@ -128,10 +128,7 @@ export default function Provider({ isRegister }: ProviderProps) {
             )
           }));
 
-        setCategories([
-          ...categoriesToSet.filter((it) => !it.isOther),
-          ...categoriesToSet.filter((it) => it.isOther)
-        ]);
+        setCategories(categoriesToSet);
       })
       .catch(() => toast.open('Erro ao carregar categorias', 'error'))
       .finally(() => setCategoriesIsLoading(false));

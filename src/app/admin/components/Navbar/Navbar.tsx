@@ -13,29 +13,37 @@ import DropdownMenu, {
 interface LinkItem {
   label: string;
   path: string;
+  show?: boolean;
 }
 
 interface NavbarProps {}
 
 export default function Navbar({}: NavbarProps) {
-  const { data } = useSession();
+  const { data: sessionData } = useSession();
 
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
-  const links: LinkItem[] = [
-    {
-      label: 'Home',
-      path: '/admin'
-    },
-    {
-      label: 'Novo Evento',
-      path: '/admin/new-event'
-    },
-    {
-      label: 'Minha Conta',
-      path: '/admin/account'
-    }
-  ];
+  const links = (
+    [
+      {
+        label: 'Home',
+        path: '/admin'
+      },
+      {
+        label: 'Novo Evento',
+        path: '/admin/new-event'
+      },
+      {
+        label: 'Meus Links',
+        path: '/admin/provider-links',
+        show: !!sessionData?.user.provider
+      },
+      {
+        label: 'Minha Conta',
+        path: '/admin/account'
+      }
+    ] as LinkItem[]
+  ).filter((it) => it.show !== false);
 
   const dropdownMenuitems: DropdownMenuItem[] = [
     {
@@ -52,19 +60,19 @@ export default function Navbar({}: NavbarProps) {
   const closeMenu = () => setMenuIsOpen(false);
 
   const UserButton = ({ theme = 'light' }: { theme?: ButtonTheme }) =>
-    data?.user && (
+    sessionData?.user && (
       <DropdownMenu
         className="py-1"
-        label={data?.user.name}
+        label={sessionData?.user.name}
         theme={theme}
         items={dropdownMenuitems}
       />
     );
 
   return (
-    <nav className="fixed z-[999] flex h-12 w-full flex-col items-end justify-center bg-neutral-50 shadow-sm md:items-center">
+    <nav className="fixed z-[999] flex h-12 w-full flex-col items-end justify-center bg-neutral-50 md:items-center shadow-custom1">
       {/* logo */}
-      <Link href="/" className="absolute left-3 top-2">
+      <Link href="/admin" className="absolute left-3 top-2">
         <img src="/images/icon.svg" alt="logo" className="h-8" />
       </Link>
 
@@ -78,7 +86,7 @@ export default function Navbar({}: NavbarProps) {
 
       {/* mobile menu */}
       {menuIsOpen && (
-        <ul className="absolute top-0 flex w-full list-none flex-col items-center bg-neutral-50 p-0">
+        <ul className="absolute top-0 flex w-full list-none flex-col items-center bg-neutral-50 p-0 shadow-2xl">
           {links.map((link, i) => (
             <li key={i} className="w-full border-b border-neutral-100 p-3 ps-7">
               <Link

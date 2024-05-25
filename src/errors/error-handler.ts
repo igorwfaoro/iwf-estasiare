@@ -14,13 +14,15 @@ export const withErrorHandler = (fn: Function) => {
 };
 
 const mapErrorType = (error: Error) => {
-  let message: string = 'Algo errado';
+  let message: string = 'Algo errado...';
   let statusCode: number = 500;
 
   if (error instanceof CustomError) {
     message = error.message;
     statusCode = error.statusCode;
   }
+
+  console.error(error);
 
   return { message, statusCode };
 };

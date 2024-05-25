@@ -40,7 +40,7 @@ export default function AccountPage({}: AccountPageProps) {
   const providerLinkService = createProviderLinkClientService();
 
   const [links, setLinks] = useState<ProviderLinkViewModel[]>([]);
-  const [linksIsLoading, setLinksIsLoading] = useState(false);
+  const [linksIsLoading, setLinksIsLoading] = useState(true);
 
   const sessionIsLoading = sessionStatus === 'loading';
 
@@ -173,18 +173,22 @@ export default function AccountPage({}: AccountPageProps) {
     });
   };
 
+  const renderLoading = () => (
+    <div className="space-y-4">
+      {Array.from({ length: 3 }).map((_, i) => (
+        <Card key={i} className="space-y-2 p-2">
+          <Skeleton className="h-5 w-16" />
+          <Skeleton className="h-4 w-36" />
+        </Card>
+      ))}
+    </div>
+  );
+
   if (!sessionIsLoading && !sessionData?.user.provider)
     return (
       <AdminPageBase>
         <div>Você não é um fornecedor ainda</div>
       </AdminPageBase>
-    );
-
-  if (linksIsLoading)
-    return (
-      <div>
-        <Skeleton />
-      </div>
     );
 
   return (
@@ -195,64 +199,72 @@ export default function AccountPage({}: AccountPageProps) {
         Criar novo Link
       </Button>
 
-      <SortableList
-        onSortEnd={onSortEnd}
-        className="space-y-2"
-        draggedItemClassName="dragged"
-      >
-        {links.map((link) => (
-          <SortableItem key={link.id}>
-            <div>
-              <Card className="flex gap-3 justify-between items-center p-2 bg-white">
-                <div className="flex items-center gap-1">
-                  <Icon
-                    icon="mdi:drag-vertical"
-                    className="text-3xl text-gray-400"
-                  />
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-1">
-                      <Icon icon={link.type!.icon} />
-                      <span className="text-sm">{link.label}</span>
-                    </div>
+      {!linksIsLoading && !links.length && (
+        <div>Você ainda não criou nenhum link. Crie o primeiro!</div>
+      )}
 
-                    <div className="font-bold">{link.urlKey || link.url}</div>
+      {!linksIsLoading ? (
+        <SortableList
+          onSortEnd={onSortEnd}
+          className="space-y-2"
+          draggedItemClassName="dragged"
+        >
+          {links.map((link) => (
+            <SortableItem key={link.id}>
+              <div>
+                <Card className="flex gap-3 justify-between items-center p-2 bg-white">
+                  <div className="flex items-center gap-1">
+                    <Icon
+                      icon="mdi:drag-vertical"
+                      className="text-3xl text-gray-400"
+                    />
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-1">
+                        <Icon icon={link.type!.icon} />
+                        <span className="text-sm">{link.label}</span>
+                      </div>
 
-                    <div className="flex items-center gap-2">
-                      <MdEdit
-                        size={24}
-                        className="cursor-pointer"
-                        onClick={() => handleUpdate(link)}
-                      />
-                      <MdDelete
-                        size={24}
-                        className="cursor-pointer"
-                        onClick={() => handleDelete(link)}
-                      />
+                      <div className="font-bold">{link.urlKey || link.url}</div>
+
+                      <div className="flex items-center gap-2">
+                        <MdEdit
+                          size={24}
+                          className="cursor-pointer"
+                          onClick={() => handleUpdate(link)}
+                        />
+                        <MdDelete
+                          size={24}
+                          className="cursor-pointer"
+                          onClick={() => handleDelete(link)}
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="flex items-center gap-3">
-                  <Link
-                    href={link.url}
-                    target="_blank"
-                    className="text-blue-500"
-                  >
-                    <FaExternalLinkAlt size={16} />
-                  </Link>
+                  <div className="flex items-center gap-3">
+                    <Link
+                      href={link.url}
+                      target="_blank"
+                      className="text-blue-500"
+                    >
+                      <FaExternalLinkAlt size={16} />
+                    </Link>
 
-                  <Toggle
-                    checked={link.isActive}
-                    onChange={(e) =>
-                      handleIsActiveChange(link, e.target.checked)
-                    }
-                  />
-                </div>
-              </Card>
-            </div>
-          </SortableItem>
-        ))}
-      </SortableList>
+                    <Toggle
+                      checked={link.isActive}
+                      onChange={(e) =>
+                        handleIsActiveChange(link, e.target.checked)
+                      }
+                    />
+                  </div>
+                </Card>
+              </div>
+            </SortableItem>
+          ))}
+        </SortableList>
+      ) : (
+        renderLoading()
+      )}
     </AdminPageBase>
   );
 }

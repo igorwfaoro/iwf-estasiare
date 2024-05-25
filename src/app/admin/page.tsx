@@ -36,10 +36,20 @@ export default async function AdminPage({}: AdminPageProps) {
 
   const rows: Row[] = [
     {
-      className: 'grid grid-cols-1',
+      className: 'grid grid-cols-1 lg:grid-cols-2 gap-4',
       items: [
         {
           content: <ProviderProfile />,
+          show: !!user.provider
+        },
+        {
+          title: 'Meus links',
+          sub: 'Você pode criar links para aparecerem em seu perfil',
+          bgImage: '/images/admin/socials.jpg',
+          buttonLink: {
+            label: 'Acessar',
+            href: '/admin/provider-links'
+          },
           show: !!user.provider
         }
       ]

@@ -105,8 +105,12 @@ export const createProviderLinkServerService = () => {
 
     let url: string | undefined = undefined;
     let urlKey: string | undefined = undefined;
-    if (input.typeId && input.urlOrUrlKey) {
-      const result = await defineUrl(input.typeId, input.urlOrUrlKey);
+    if (input.typeId || input.urlOrUrlKey) {
+      const result = await defineUrl(
+        input.typeId || Number(link.typeId),
+        input.urlOrUrlKey || link.urlKey || link.url
+      );
+      
       url = result.url;
       urlKey = result.urlKey;
     }

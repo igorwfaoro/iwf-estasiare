@@ -10,6 +10,7 @@ export const providerLinkTypeConverter = {
     id: Number(model.id),
     name: model.name,
     icon: model.icon,
-    urlStructure: model.urlStructure
+    urlStructure: model.urlStructure,
+    index: model.index
   })
 };
