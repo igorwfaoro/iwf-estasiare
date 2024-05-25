@@ -30,8 +30,8 @@ export default function Navbar({}: NavbarProps) {
         path: '/admin'
       },
       {
-        label: 'Novo Evento',
-        path: '/admin/new-event'
+        label: 'Meus Eventos',
+        path: '/admin/events'
       },
       {
         label: 'Meus Links',

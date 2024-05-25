@@ -125,22 +125,31 @@ async function main() {
     {
       name: 'Instagram',
       icon: 'mdi:instagram',
-      urlStructure: 'https://instagram.com/{{urlKey}}'
+      urlStructure: 'https://instagram.com/{{urlKey}}',
+      index: 0
     },
     {
       name: 'WhatsApp',
       icon: 'ic:baseline-email',
-      urlStructure: 'https://wa.me/{{urlKey}}'
+      urlStructure: 'https://wa.me/{{urlKey}}',
+      index: 1
     },
     {
       name: 'E-mail',
       icon: 'ic:baseline-whatsapp',
-      urlStructure: 'mailto:{{urlKey}}'
+      urlStructure: 'mailto:{{urlKey}}',
+      index: 2
+    },
+    {
+      name: 'Facebook',
+      icon: 'ic:baseline-facebook',
+      urlStructure: 'https://facebook.com/{{urlKey}}',
+      index: 3
     },
     {
       name: 'Outro Link',
       icon: 'dashicons:admin-site',
-      index: 1
+      index: 11
     }
   ];
 
