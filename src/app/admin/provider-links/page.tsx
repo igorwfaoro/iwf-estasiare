@@ -7,7 +7,12 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import SortableList, { SortableItem } from 'react-easy-sort';
 import { FaExternalLinkAlt } from 'react-icons/fa';
-import { MdDelete, MdEdit } from 'react-icons/md';
+import {
+  MdArrowDownward,
+  MdArrowUpward,
+  MdDelete,
+  MdEdit
+} from 'react-icons/md';
 import Toggle from 'react-toggle';
 import 'react-toggle/style.css';
 import Button from '../../../components/Button/Button';
@@ -73,6 +78,12 @@ export default function AccountPage({}: AccountPageProps) {
       })
       .catch(() => toast.open('Erro ao reordenar', 'error'))
       .finally(loader.hide);
+  };
+
+  const handleReorderButtonClicked = (index: number, to: 'up' | 'down') => {
+    if (to === 'up' && index > 0) onSortEnd(index, index - 1);
+    else if (to === 'down' && index < links.length - 1)
+      onSortEnd(index, index + 1);
   };
 
   const handleDelete = (link: ProviderLinkViewModel) => {
@@ -209,7 +220,7 @@ export default function AccountPage({}: AccountPageProps) {
           className="space-y-2"
           draggedItemClassName="dragged"
         >
-          {links.map((link) => (
+          {links.map((link, i) => (
             <SortableItem key={link.id}>
               <div>
                 <Card className="flex gap-3 justify-between items-center p-2 bg-white">
@@ -224,7 +235,9 @@ export default function AccountPage({}: AccountPageProps) {
                         <span className="text-sm truncate">{link.label}</span>
                       </div>
 
-                      <div className="font-bold truncate">{link.urlKey || link.url}</div>
+                      <div className="font-bold truncate">
+                        {link.urlKey || link.url}
+                      </div>
 
                       <div className="flex items-center gap-2">
                         <MdEdit
@@ -236,6 +249,16 @@ export default function AccountPage({}: AccountPageProps) {
                           size={24}
                           className="cursor-pointer"
                           onClick={() => handleDelete(link)}
+                        />
+                        <MdArrowDownward
+                          size={24}
+                          className="cursor-pointer"
+                          onClick={() => handleReorderButtonClicked(i, 'down')}
+                        />
+                        <MdArrowUpward
+                          size={24}
+                          className="cursor-pointer"
+                          onClick={() => handleReorderButtonClicked(i, 'up')}
                         />
                       </div>
                     </div>
