@@ -1,8 +1,10 @@
+import { Address } from '@prisma/client';
 import { getAuthUser } from '../../auth/auth-config';
 import { providerConverter } from '../../converters/provider.converter';
 import { prisma } from '../../data/db';
 import { AlreadyExistsError } from '../../errors/types/already-exists.error';
 import { BadError } from '../../errors/types/bad.error';
+import { ProviderSearchInputModel } from '../../models/input-models/provider-search.input-model';
 import { ProviderInputModel } from '../../models/input-models/provider.input-model';
 import { ProviderViewModel } from '../../models/view-models/provider.view-model';
 import { normalizeSlug } from '../../util/helpers/slug.helper';
@@ -38,6 +40,55 @@ export const createProviderServerService = () => {
     return providerConverter.modelToViewModel(provider);
   };
 
+  const search = async ({ limit, index, query }: ProviderSearchInputModel) => {
+    const take = limit ?? 30;
+    const skip = (index ?? 0) * take;
+    const searchQuery = query?.toLowerCase().trim();
+
+    const providers = await prisma.provider.findMany({
+      // where: {
+      //   OR: [
+      //     {
+      //       address: {
+      //         formattedAddress: {
+      //           contains: searchQuery,
+      //           mode: 'insensitive'
+      //         }
+      //       }
+      //     },
+      //     {
+      //       weddingDetail: {
+      //         groomName: {
+      //           contains: searchQuery,
+      //           mode: 'insensitive'
+      //         }
+      //       }
+      //     },
+      //     {
+      //       weddingDetail: {
+      //         brideName: {
+      //           contains: searchQuery,
+      //           mode: 'insensitive'
+      //         }
+      //       }
+      //     }
+      //   ]
+      // },
+      include: {
+        address: true,
+        providerCategories: {
+          include: {
+            category: true
+          }
+        }
+      },
+      skip,
+      take
+    });
+
+    return providers.map(providerConverter.modelToViewModel);
+  };
+
   const create = async ({
     inputData,
     inputFiles
@@ -54,34 +105,54 @@ export const createProviderServerService = () => {
       ).fileLocation;
     }
 
-    const user = await prisma.user.update({
-      where: { id: authUser.id },
-      data: {
-        provider: {
-          create: {
-            slug: normalizeSlug(inputData.slug),
-            name: inputData.name,
-            address: {
-              create: inputData.address
-            },
-            primaryColor: inputData.primaryColor,
-            profileImage,
-            bio: inputData.bio,
-            ...(!!inputData.categories?.length && {
-              providerCategories: {
-                createMany: {
-                  data: inputData.categories?.map((categoryId) => ({
-                    categoryId
-                  }))
-                }
-              }
-            })
-          }
-        }
-      },
-      include: {
-        provider: true
+    const user = await prisma.$transaction(async (tx) => {
+      const serviceAreasAddresses: Address[] = [];
+      for (const sa of inputData.serviceAreas || []) {
+        serviceAreasAddresses.push(
+          await tx.address.create({ data: sa.address })
+        );
       }
+
+      const user = await tx.user.update({
+        where: { id: authUser.id },
+        data: {
+          provider: {
+            create: {
+              slug: normalizeSlug(inputData.slug),
+              name: inputData.name,
+              address: {
+                create: inputData.address
+              },
+              primaryColor: inputData.primaryColor,
+              profileImage,
+              bio: inputData.bio,
+              ...(!!inputData.categories?.length && {
+                providerCategories: {
+                  createMany: {
+                    data: inputData.categories?.map((categoryId) => ({
+                      categoryId
+                    }))
+                  }
+                }
+              }),
+              ...(!!serviceAreasAddresses.length && {
+                serviceAreas: {
+                  createMany: {
+                    data: serviceAreasAddresses.map((sa) => ({
+                      addressId: sa.id
+                    }))
+                  }
+                }
+              })
+            }
+          }
+        },
+        include: {
+          provider: true
+        }
+      });
+
+      return user;
     });
 
     return providerConverter.modelToViewModel(user.provider!);
@@ -113,11 +184,23 @@ export const createProviderServerService = () => {
       ).fileLocation;
     }
 
-    const [_, user] = await prisma.$transaction([
-      prisma.providerProviderCategory.deleteMany({
-        where: { providerId: authUser.provider.id }
-      }),
-      prisma.user.update({
+    const user = await prisma.$transaction(async (tx) => {
+      const serviceAreasAddresses: Address[] = [];
+      for (const sa of inputData.serviceAreas || []) {
+        serviceAreasAddresses.push(
+          await tx.address.create({ data: sa.address })
+        );
+      }
+
+      await tx.providerServiceArea.deleteMany({
+        where: { providerId: authUser.provider!.id }
+      });
+
+      await tx.providerProviderCategory.deleteMany({
+        where: { providerId: authUser.provider!.id }
+      });
+
+      const user = await tx.user.update({
         where: { id: authUser.id },
         data: {
           provider: {
@@ -126,7 +209,7 @@ export const createProviderServerService = () => {
                 ? normalizeSlug(inputData.slug)
                 : inputData.slug,
               name: inputData.name,
-              address: authUser.provider.address
+              address: authUser.provider!.address
                 ? { update: inputData.address }
                 : { create: inputData.address },
               primaryColor: inputData.primaryColor,
@@ -140,6 +223,15 @@ export const createProviderServerService = () => {
                     }))
                   }
                 }
+              }),
+              ...(!!serviceAreasAddresses.length && {
+                serviceAreas: {
+                  createMany: {
+                    data: serviceAreasAddresses.map((sa) => ({
+                      addressId: sa.id
+                    }))
+                  }
+                }
               })
             }
           }
@@ -147,8 +239,10 @@ export const createProviderServerService = () => {
         include: {
           provider: true
         }
-      })
-    ]);
+      });
+
+      return user;
+    });
 
     return providerConverter.modelToViewModel(user.provider!);
   };

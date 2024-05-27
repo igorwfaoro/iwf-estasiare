@@ -12,6 +12,10 @@ import { getFileApiUrlOrNull } from '../util/helpers/file.helper';
 import { addressConverter } from './address.converter';
 import { providerCategoryConverter } from './provider-category.converter';
 import { providerLinkConverter } from './provider-link.converter';
+import {
+  ProviderServiceAreaConverterModel,
+  providerServiceAreaConverter
+} from './provider-service-area.converter';
 
 export type ProviderConverterModel = Provider & {
   providerCategories?:
@@ -19,6 +23,7 @@ export type ProviderConverterModel = Provider & {
     | null;
   address?: Address | null;
   links?: ProviderLink[];
+  serviceAreas?: ProviderServiceAreaConverterModel[];
 };
 
 export const providerConverter = {
@@ -36,6 +41,9 @@ export const providerConverter = {
     categories: model.providerCategories?.map((pc) =>
       providerCategoryConverter.modelToViewModel(pc.category)
     ),
-    links: model.links?.map(providerLinkConverter.modelToViewModel)
+    links: model.links?.map(providerLinkConverter.modelToViewModel),
+    serviceAreas: model.serviceAreas?.map(
+      providerServiceAreaConverter.modelToViewModel
+    )
   })
 };

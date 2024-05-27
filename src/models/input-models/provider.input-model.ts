@@ -1,4 +1,5 @@
 import { AddressInputModel } from './address.input-model';
+import { ProviderServiceAreaInputModel } from './provider-service-area.input-model';
 
 export interface ProviderInputModel {
   slug: string;
@@ -7,4 +8,5 @@ export interface ProviderInputModel {
   address?: AddressInputModel;
   primaryColor?: string | null;
   categories?: number[];
+  serviceAreas?: ProviderServiceAreaInputModel[];
 }

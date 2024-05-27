@@ -1,6 +1,7 @@
 import { AddressViewModel } from './address.view-model';
 import { ProviderCategoryViewModel } from './provider-category.view-model';
 import { ProviderLinkViewModel } from './provider-link.view-model';
+import { ProviderServiceAreaViewModel } from './provider-service-area.view-model';
 
 export interface ProviderViewModel {
   id: number;
@@ -14,4 +15,5 @@ export interface ProviderViewModel {
 
   categories?: ProviderCategoryViewModel[];
   links?: ProviderLinkViewModel[];
+  serviceAreas?: ProviderServiceAreaViewModel[]
 }
