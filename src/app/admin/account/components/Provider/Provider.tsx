@@ -7,7 +7,7 @@ import ProviderAccountProvider, {
 } from './contexts/ProviderAccountProvider';
 
 function ProviderComponent() {
-  const { handleFormSubmit } = useProviderContext();
+  const { handleFormSubmit, isRegister } = useProviderContext();
 
   const accordionItems = [
     {
@@ -22,6 +22,18 @@ function ProviderComponent() {
 
   return (
     <form onSubmit={handleFormSubmit} className="space-y-5">
+      {!isRegister && (
+        <div className="flex justify-end md:hidden">
+          <Button
+            type="submit"
+            theme="primary-outline"
+            className="w-full md:w-auto"
+          >
+            Salvar
+          </Button>
+        </div>
+      )}
+
       <Accordion defaultOpenIndex={0}>
         {accordionItems.map((it) => (
           <Accordion.Item key={it.header}>

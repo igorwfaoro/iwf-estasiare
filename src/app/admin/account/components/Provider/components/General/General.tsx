@@ -37,18 +37,6 @@ export default function General({}: GeneralProps) {
 
   return (
     <>
-      {!isRegister && (
-        <div className="flex justify-end md:hidden">
-          <Button
-            type="submit"
-            theme="primary-outline"
-            className="w-full md:w-auto"
-          >
-            Salvar
-          </Button>
-        </div>
-      )}
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Field isLoading={!userIsLoaded}>
           <Field.Label>Nome de fornecedor</Field.Label>
@@ -109,7 +97,7 @@ export default function General({}: GeneralProps) {
             {profileImageThumbnail && (
               <img
                 src={profileImageThumbnail}
-                className="h-28 mb-6 rounded-md"
+                className="h-28 mt-2 mb-6 rounded-full"
               />
             )}
           </div>
