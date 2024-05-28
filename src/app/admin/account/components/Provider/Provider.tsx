@@ -20,6 +20,9 @@ function ProviderComponent() {
     <form
       onSubmit={handleSubmit(handleFormSubmit, handleFormError)}
       className="space-y-5"
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') e.preventDefault();
+      }}
     >
       {!isRegister && (
         <div className="flex justify-end md:hidden">

@@ -27,8 +27,17 @@ export default function ServiceAreas({}: ServiceAreasProps) {
     });
   };
 
+  // TODO: validate duplicate areas
   const handleNewServiceArea = (place: Place) => {
-    if (!place.city) return;
+    const canAddPlace =
+      !!place.city &&
+      !serviceAreas.find(
+        (sa) =>
+          sa.address.city === place.city && sa.address.state === place.state
+      );
+
+    if (!canAddPlace) return;
+
     setServiceAreas((curr) => [...curr, { address: place }]);
   };
 

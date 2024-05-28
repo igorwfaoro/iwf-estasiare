@@ -7,5 +7,5 @@ interface AddressMapProps {
 
 export default function AddressMap({ provider }: AddressMapProps) {
   if (!provider.address) return <></>;
-  return <MainAddressMap address={provider.address} />;
+  return <MainAddressMap address={provider.address} className='h-[250px]' />;
 }

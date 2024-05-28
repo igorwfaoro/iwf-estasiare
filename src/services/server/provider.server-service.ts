@@ -31,6 +31,11 @@ export const createProviderServerService = () => {
           include: {
             type: true
           }
+        },
+        serviceAreas: {
+          include: {
+            address: true
+          }
         }
       }
     });

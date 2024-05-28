@@ -3,6 +3,7 @@ import AddressMap from './components/AddressMap/AddressMap';
 import Categories from './components/Categories/Categories';
 import Header from './components/Header/Header';
 import Links from './components/Links/Links';
+import ServiceAreas from './components/ServiceAreas/ServiceAreas';
 
 interface ProfileProps {
   provider: ProviderViewModel;
@@ -15,6 +16,7 @@ export default function Profile({ provider }: ProfileProps) {
       <Categories provider={provider} />
       <Links provider={provider} />
       <AddressMap provider={provider} />
+      <ServiceAreas provider={provider} />
     </section>
   );
 }
