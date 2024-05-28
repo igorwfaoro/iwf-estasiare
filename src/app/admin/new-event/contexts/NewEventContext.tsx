@@ -4,10 +4,12 @@ import { useRouter } from 'next/navigation';
 import {
   Dispatch,
   MutableRefObject,
+  RefObject,
   SetStateAction,
   createContext,
   useContext,
   useMemo,
+  useRef,
   useState
 } from 'react';
 
@@ -25,10 +27,7 @@ import StepDetails from '../components/NewEventStepper/steps/StepDetails/StepDet
 import StepGeneral from '../components/NewEventStepper/steps/StepGeneral/StepGeneral';
 
 export interface INewEventProvider {
-  stepperRef: MutableRefObject<StepperRefType | undefined> | undefined;
-  setStepperRef: Dispatch<
-    SetStateAction<MutableRefObject<StepperRefType | undefined> | undefined>
-  >;
+  stepperRef: RefObject<StepperRefType>
   steps: StepItem[];
   stepPrev: () => void;
   stepNext: () => void;
@@ -63,8 +62,7 @@ const NewEventProvider = ({ children }: NewEventProviderProps) => {
   const toast = useToast();
   const router = useRouter();
 
-  const [stepperRef, setStepperRef] =
-    useState<MutableRefObject<StepperRefType | undefined>>();
+  const stepperRef = useRef<StepperRefType>(null);
 
   const [steps, setSteps] = useState<StepItem[]>([
     {
@@ -128,7 +126,6 @@ const NewEventProvider = ({ children }: NewEventProviderProps) => {
   const returnValue = useMemo(
     () => ({
       stepperRef,
-      setStepperRef,
       steps,
       stepPrev,
       stepNext,
