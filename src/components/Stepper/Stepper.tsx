@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import {
   Dispatch,
+  ForwardedRef,
   ReactElement,
   SetStateAction,
   forwardRef,
@@ -25,7 +26,6 @@ export interface StepperRefType {
   next: () => void;
   prev: () => void;
   setIndex: Dispatch<SetStateAction<number>>;
-  setStepComplete: (index: number, value: boolean) => void;
 }
 
 const Stepper = forwardRef(
@@ -35,7 +35,7 @@ const Stepper = forwardRef(
       initialIndex,
       disableManualNavigation: disableNavigation
     }: StepperProps,
-    ref
+    ref: ForwardedRef<StepperRefType>
   ) => {
     const [index, setIndex] = useState(initialIndex || 0);
 

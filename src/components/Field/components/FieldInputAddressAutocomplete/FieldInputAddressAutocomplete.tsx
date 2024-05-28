@@ -7,12 +7,18 @@ import { Place } from './types/place';
 interface FieldInputAddressAutocompleteProps extends FieldInputProps {
   onAddressSelected: (place: Place) => void;
   defaultPlaceValue?: Place;
+  placesType?: string;
+  clearAfterSelect?: boolean;
+  focusAfterSelect?: boolean;
 }
 
 export default function FieldInputAddressAutocomplete({
   onAddressSelected,
   placeholder = 'Digite um endereço',
   defaultPlaceValue,
+  placesType = 'establishment|address',
+  clearAfterSelect,
+  focusAfterSelect,
   ...props
 }: FieldInputAddressAutocompleteProps) {
   const { ref } = usePlacesWidget<HTMLInputElement>({
@@ -23,8 +29,11 @@ export default function FieldInputAddressAutocomplete({
       types: 'establishment|address'
     },
     onPlaceSelected: (place) => {
-      setCurrentPlace(place);
+      !clearAfterSelect && setCurrentPlace(place);
       onAddressSelected(mapPlaceResult(place));
+
+      if (clearAfterSelect) ref.current!.value = '';
+      if (focusAfterSelect) ref.current!.focus();
     }
   });
 
@@ -64,6 +73,7 @@ export default function FieldInputAddressAutocomplete({
   return (
     <FieldInput
       {...props}
+      autoComplete="off"
       ref={ref}
       defaultValue={currentPlace?.formattedAddress}
       placeholder={placeholder}

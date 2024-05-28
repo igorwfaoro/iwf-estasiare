@@ -12,7 +12,6 @@ interface GeneralProps {}
 
 export default function General({}: GeneralProps) {
   const {
-    isRegister,
     user,
     userIsLoaded,
     userIsProvider,
@@ -93,7 +92,7 @@ export default function General({}: GeneralProps) {
           />
           <Field.Error>{errors.profileImage?.message}</Field.Error>
 
-          <div>
+          <div className='flex justify-center lg:justify-start'>
             {profileImageThumbnail && (
               <img
                 src={profileImageThumbnail}

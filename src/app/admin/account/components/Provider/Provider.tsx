@@ -1,27 +1,26 @@
 import Accordion from '../../../../../components/Accordion/Accordion';
 import Button from '../../../../../components/Button/Button';
-import Categories from './components/Categories/Categories';
-import General from './components/General/General';
 import ProviderAccountProvider, {
   useProviderContext
 } from './contexts/ProviderAccountProvider';
 
 function ProviderComponent() {
-  const { handleFormSubmit, isRegister } = useProviderContext();
+  const {
+    handleFormSubmit,
+    handleFormError,
+    form: { handleSubmit },
+    isRegister,
+    providerAccordionRef,
+    providerAccordionItems
+  } = useProviderContext();
 
-  const accordionItems = [
-    {
-      header: 'Geral',
-      content: <General />
-    },
-    {
-      header: 'Categorias',
-      content: <Categories />
-    }
-  ];
+  const accordionItems = Object.values(providerAccordionItems);
 
   return (
-    <form onSubmit={handleFormSubmit} className="space-y-5">
+    <form
+      onSubmit={handleSubmit(handleFormSubmit, handleFormError)}
+      className="space-y-5"
+    >
       {!isRegister && (
         <div className="flex justify-end md:hidden">
           <Button
@@ -34,7 +33,7 @@ function ProviderComponent() {
         </div>
       )}
 
-      <Accordion defaultOpenIndex={0}>
+      <Accordion ref={providerAccordionRef} defaultOpenIndex={0}>
         {accordionItems.map((it) => (
           <Accordion.Item key={it.header}>
             <Accordion.ItemHeader>{it.header}</Accordion.ItemHeader>

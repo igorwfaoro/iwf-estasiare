@@ -1,4 +1,4 @@
-import { Address } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { getAuthUser } from '../../auth/auth-config';
 import { providerConverter } from '../../converters/provider.converter';
 import { prisma } from '../../data/db';
@@ -105,55 +105,63 @@ export const createProviderServerService = () => {
       ).fileLocation;
     }
 
-    const user = await prisma.$transaction(async (tx) => {
-      const serviceAreasAddresses: Address[] = [];
-      for (const sa of inputData.serviceAreas || []) {
-        serviceAreasAddresses.push(
-          await tx.address.create({ data: sa.address })
-        );
-      }
+    const user = await prisma.$transaction(
+      async (tx) => {
+        const serviceAreasAddresses = await prisma.address.createManyAndReturn({
+          data:
+            inputData.serviceAreas?.map((sa) => ({
+              ...sa.address,
+              id: undefined
+            })) || []
+        });
 
-      const user = await tx.user.update({
-        where: { id: authUser.id },
-        data: {
-          provider: {
-            create: {
-              slug: normalizeSlug(inputData.slug),
-              name: inputData.name,
-              address: {
-                create: inputData.address
-              },
-              primaryColor: inputData.primaryColor,
-              profileImage,
-              bio: inputData.bio,
-              ...(!!inputData.categories?.length && {
-                providerCategories: {
-                  createMany: {
-                    data: inputData.categories?.map((categoryId) => ({
-                      categoryId
-                    }))
+        const user = await tx.user.update({
+          where: { id: authUser.id },
+          data: {
+            provider: {
+              create: {
+                slug: normalizeSlug(inputData.slug),
+                name: inputData.name,
+                address: {
+                  create: inputData.address
+                },
+                primaryColor: inputData.primaryColor,
+                profileImage,
+                bio: inputData.bio,
+                ...(!!inputData.categories?.length && {
+                  providerCategories: {
+                    createMany: {
+                      data: inputData.categories?.map((categoryId) => ({
+                        categoryId
+                      }))
+                    }
                   }
-                }
-              }),
-              ...(!!serviceAreasAddresses.length && {
-                serviceAreas: {
-                  createMany: {
-                    data: serviceAreasAddresses.map((sa) => ({
-                      addressId: sa.id
-                    }))
+                }),
+                ...(!!serviceAreasAddresses.length && {
+                  serviceAreas: {
+                    createMany: {
+                      data: serviceAreasAddresses.map((sa) => ({
+                        addressId: sa.id
+                      }))
+                    }
                   }
-                }
-              })
+                })
+              }
             }
+          },
+          include: {
+            provider: true
           }
-        },
-        include: {
-          provider: true
-        }
-      });
+        });
 
-      return user;
-    });
+        return user;
+      },
+      {
+        maxWait: 5000,
+        timeout: 10000,
+        isolationLevel: Prisma.TransactionIsolationLevel.Serializable
+      }
+    );
 
     return providerConverter.modelToViewModel(user.provider!);
   };
@@ -184,65 +192,86 @@ export const createProviderServerService = () => {
       ).fileLocation;
     }
 
-    const user = await prisma.$transaction(async (tx) => {
-      const serviceAreasAddresses: Address[] = [];
-      for (const sa of inputData.serviceAreas || []) {
-        serviceAreasAddresses.push(
-          await tx.address.create({ data: sa.address })
-        );
-      }
+    const user = await prisma.$transaction(
+      async (tx) => {
+        const serviceAreasAddresses = await prisma.address.createManyAndReturn({
+          data:
+            inputData.serviceAreas?.map((sa) => ({
+              ...sa.address,
+              id: undefined
+            })) || []
+        });
 
-      await tx.providerServiceArea.deleteMany({
-        where: { providerId: authUser.provider!.id }
-      });
+        // TODO: refactor this
+        const providerServiceAreasToDelete =
+          await tx.providerServiceArea.findMany({
+            where: { providerId: authUser.provider!.id }
+          });
 
-      await tx.providerProviderCategory.deleteMany({
-        where: { providerId: authUser.provider!.id }
-      });
+        await tx.providerServiceArea.deleteMany({
+          where: { id: { in: providerServiceAreasToDelete.map((it) => it.id) } }
+        });
 
-      const user = await tx.user.update({
-        where: { id: authUser.id },
-        data: {
-          provider: {
-            update: {
-              slug: inputData.slug
-                ? normalizeSlug(inputData.slug)
-                : inputData.slug,
-              name: inputData.name,
-              address: authUser.provider!.address
-                ? { update: inputData.address }
-                : { create: inputData.address },
-              primaryColor: inputData.primaryColor,
-              profileImage,
-              bio: inputData.bio,
-              ...(!!inputData.categories?.length && {
-                providerCategories: {
-                  createMany: {
-                    data: inputData.categories?.map((categoryId) => ({
-                      categoryId
-                    }))
-                  }
-                }
-              }),
-              ...(!!serviceAreasAddresses.length && {
-                serviceAreas: {
-                  createMany: {
-                    data: serviceAreasAddresses.map((sa) => ({
-                      addressId: sa.id
-                    }))
-                  }
-                }
-              })
-            }
+        await tx.address.deleteMany({
+          where: {
+            id: { in: providerServiceAreasToDelete.map((it) => it.addressId) }
           }
-        },
-        include: {
-          provider: true
-        }
-      });
+        });
 
-      return user;
-    });
+        // TODO: refactor this
+        await tx.providerProviderCategory.deleteMany({
+          where: { providerId: authUser.provider!.id }
+        });
+
+        const user = await tx.user.update({
+          where: { id: authUser.id },
+          data: {
+            provider: {
+              update: {
+                slug: inputData.slug
+                  ? normalizeSlug(inputData.slug)
+                  : inputData.slug,
+                name: inputData.name,
+                address: authUser.provider!.address
+                  ? { update: inputData.address }
+                  : { create: inputData.address },
+                primaryColor: inputData.primaryColor,
+                profileImage,
+                bio: inputData.bio,
+                ...(!!inputData.categories?.length && {
+                  providerCategories: {
+                    createMany: {
+                      data: inputData.categories?.map((categoryId) => ({
+                        categoryId
+                      }))
+                    }
+                  }
+                }),
+                ...(!!serviceAreasAddresses.length && {
+                  serviceAreas: {
+                    createMany: {
+                      data: serviceAreasAddresses.map((sa) => ({
+                        addressId: sa.id
+                      }))
+                    }
+                  }
+                })
+              }
+            }
+          },
+          include: {
+            provider: true
+          }
+        });
+
+        return user;
+      },
+      {
+        maxWait: 5000,
+        timeout: 10000,
+        isolationLevel: Prisma.TransactionIsolationLevel.Serializable
+      }
+    );
 
     return providerConverter.modelToViewModel(user.provider!);
   };

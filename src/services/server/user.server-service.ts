@@ -12,7 +12,12 @@ const defaultInclude: Prisma.UserInclude = {
   provider: {
     include: {
       providerCategories: { include: { category: true } },
-      address: true
+      address: true,
+      serviceAreas: {
+        include: {
+          address: true
+        }
+      }
     }
   }
 };
