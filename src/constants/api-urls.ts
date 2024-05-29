@@ -64,6 +64,7 @@ export const API_URLS = {
     update: () => `${API_BASE_URL}/providers`,
     slugAlreadyExists: (slug: string) =>
       `${API_BASE_URL}/providers/slug/already-exists/${slug}`,
+    search: () => `${API_BASE_URL}/providers`,
     categories: {
       getAll: () => `${API_BASE_URL}/providers/categories`
     },

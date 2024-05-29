@@ -1,5 +1,6 @@
 import { Prisma } from '@prisma/client';
 import { getAuthUser } from '../../auth/auth-config';
+import { defaultLocation } from '../../constants/location';
 import { providerConverter } from '../../converters/provider.converter';
 import { prisma } from '../../data/db';
 import { AlreadyExistsError } from '../../errors/types/already-exists.error';
@@ -7,6 +8,7 @@ import { BadError } from '../../errors/types/bad.error';
 import { ProviderSearchInputModel } from '../../models/input-models/provider-search.input-model';
 import { ProviderInputModel } from '../../models/input-models/provider.input-model';
 import { ProviderViewModel } from '../../models/view-models/provider.view-model';
+import { getLocationByIp } from '../../util/helpers/location.helper';
 import { normalizeSlug } from '../../util/helpers/slug.helper';
 import { createFileServerService } from './file.server-service';
 
@@ -45,15 +47,84 @@ export const createProviderServerService = () => {
     return providerConverter.modelToViewModel(provider);
   };
 
-  const search = async ({
-    limit,
-    index,
-    query,
-    city,
-    providerCategories: providerCategoriesIds
-  }: ProviderSearchInputModel) => {
+  const _getAddressWhereByUserLocation = async (
+    ip: string | undefined
+  ): Promise<Prisma.AddressWhereInput> => {
+    const userLocation = ip ? await getLocationByIp(ip) : undefined;
+
+    if (userLocation?.city) {
+      const possibleCities = await prisma.address.findMany({
+        where: { city: { not: null } },
+        select: { city: true },
+        distinct: ['city']
+      });
+
+      const canUseCity = possibleCities
+        .map((it) => it.city?.toLocaleLowerCase())
+        .includes(userLocation.city.toLocaleLowerCase());
+
+      if (canUseCity)
+        return {
+          city: { mode: 'insensitive', equals: userLocation.city }
+        };
+    }
+
+    if (userLocation?.region?.code) {
+      const possibleStates = await prisma.address.findMany({
+        where: { state: { not: null } },
+        select: { state: true },
+        distinct: ['state']
+      });
+
+      const canUseState = possibleStates
+        .map((it) => it.state?.toLocaleLowerCase())
+        .includes(userLocation.region.code.toLocaleLowerCase());
+
+      if (canUseState)
+        return {
+          state: { mode: 'insensitive', equals: userLocation.region.code }
+        };
+    }
+
+    return {
+      country: {
+        mode: 'insensitive',
+        equals: userLocation?.country?.code || defaultLocation.country.name
+      }
+    };
+  };
+
+  const search = async (
+    {
+      limit,
+      index,
+      query,
+      city,
+      providerCategories: providerCategoriesIds
+    }: ProviderSearchInputModel,
+    userPublicIpv4: string | undefined
+  ) => {
     const take = limit ?? 30;
     const skip = (index ?? 0) * take;
+
+    const serviceAreaAddressWhere: Prisma.AddressWhereInput[] = [];
+
+    if (query)
+      serviceAreaAddressWhere.push({
+        formattedAddress: {
+          contains: query,
+          mode: 'insensitive'
+        }
+      });
+
+    if (city)
+      serviceAreaAddressWhere.push({
+        city: { mode: 'insensitive', equals: city }
+      });
+    else
+      serviceAreaAddressWhere.push(
+        await _getAddressWhereByUserLocation(userPublicIpv4)
+      );
 
     const providers = await prisma.provider.findMany({
       where: {
@@ -87,20 +158,7 @@ export const createProviderServerService = () => {
             serviceAreas: {
               some: {
                 address: {
-                  OR: [
-                    {
-                      formattedAddress: {
-                        contains: query,
-                        mode: 'insensitive'
-                      }
-                    },
-                    {
-                      city: {
-                        mode: 'insensitive',
-                        equals: city
-                      }
-                    }
-                  ]
+                  OR: serviceAreaAddressWhere
                 }
               }
             }
