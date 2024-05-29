@@ -45,45 +45,78 @@ export const createProviderServerService = () => {
     return providerConverter.modelToViewModel(provider);
   };
 
-  const search = async ({ limit, index, query }: ProviderSearchInputModel) => {
+  const search = async ({
+    limit,
+    index,
+    query,
+    city,
+    providerCategories: providerCategoriesIds
+  }: ProviderSearchInputModel) => {
     const take = limit ?? 30;
     const skip = (index ?? 0) * take;
-    const searchQuery = query?.toLowerCase().trim();
 
     const providers = await prisma.provider.findMany({
-      // where: {
-      //   OR: [
-      //     {
-      //       address: {
-      //         formattedAddress: {
-      //           contains: searchQuery,
-      //           mode: 'insensitive'
-      //         }
-      //       }
-      //     },
-      //     {
-      //       weddingDetail: {
-      //         groomName: {
-      //           contains: searchQuery,
-      //           mode: 'insensitive'
-      //         }
-      //       }
-      //     },
-      //     {
-      //       weddingDetail: {
-      //         brideName: {
-      //           contains: searchQuery,
-      //           mode: 'insensitive'
-      //         }
-      //       }
-      //     }
-      //   ]
-      // },
+      where: {
+        OR: [
+          {
+            name: {
+              contains: query,
+              mode: 'insensitive'
+            }
+          },
+          {
+            providerCategories: {
+              some: {
+                OR: [
+                  {
+                    category: {
+                      description: {
+                        contains: query,
+                        mode: 'insensitive'
+                      }
+                    }
+                  },
+                  {
+                    id: { in: providerCategoriesIds }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            serviceAreas: {
+              some: {
+                address: {
+                  OR: [
+                    {
+                      formattedAddress: {
+                        contains: query,
+                        mode: 'insensitive'
+                      }
+                    },
+                    {
+                      city: {
+                        mode: 'insensitive',
+                        equals: city
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      },
       include: {
         address: true,
         providerCategories: {
           include: {
             category: true
+          }
+        },
+        serviceAreas: {
+          include: {
+            address: true
           }
         }
       },
@@ -299,6 +332,7 @@ export const createProviderServerService = () => {
     getBySlug,
     create,
     update,
-    slugAlreadyExists
+    slugAlreadyExists,
+    search
   };
 };
