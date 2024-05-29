@@ -5,7 +5,6 @@ import { arrayMoveImmutable } from 'array-move';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import SortableList, { SortableItem } from 'react-easy-sort';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import {
   MdArrowDownward,
@@ -215,76 +214,59 @@ export default function AccountPage({}: AccountPageProps) {
       )}
 
       {!linksIsLoading ? (
-        <SortableList
-          onSortEnd={onSortEnd}
-          className="space-y-2"
-          draggedItemClassName="dragged"
-        >
+        <div className="space-y-2">
           {links.map((link, i) => (
-            <SortableItem key={link.id}>
-              <div>
-                <Card className="flex gap-3 justify-between items-center p-2 bg-white">
-                  <div className="flex items-center gap-1 truncate">
-                    <Icon
-                      icon="mdi:drag-vertical"
-                      className="text-3xl text-gray-400"
-                    />
-                    <div className="space-y-1 truncate">
-                      <div className="flex items-center gap-1 truncate">
-                        <Icon icon={link.type!.icon} />
-                        <span className="text-sm truncate">{link.label}</span>
-                      </div>
+            <Card
+              key={link.id}
+              className="flex gap-3 justify-between items-center p-3 bg-white"
+            >
+              <div className="space-y-1 truncate">
+                <div className="flex items-center gap-1 truncate">
+                  <Icon icon={link.type!.icon} />
+                  <span className="text-sm truncate">{link.label}</span>
+                </div>
 
-                      <div className="font-bold truncate">
-                        {link.urlKey || link.url}
-                      </div>
+                <div className="font-bold truncate">
+                  {link.urlKey || link.url}
+                </div>
 
-                      <div className="flex items-center gap-2">
-                        <MdEdit
-                          size={24}
-                          className="cursor-pointer"
-                          onClick={() => handleUpdate(link)}
-                        />
-                        <MdDelete
-                          size={24}
-                          className="cursor-pointer"
-                          onClick={() => handleDelete(link)}
-                        />
-                        <MdArrowDownward
-                          size={24}
-                          className="cursor-pointer"
-                          onClick={() => handleReorderButtonClicked(i, 'down')}
-                        />
-                        <MdArrowUpward
-                          size={24}
-                          className="cursor-pointer"
-                          onClick={() => handleReorderButtonClicked(i, 'up')}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <Link
-                      href={link.url}
-                      target="_blank"
-                      className="text-blue-500"
-                    >
-                      <FaExternalLinkAlt size={16} />
-                    </Link>
-
-                    <Toggle
-                      checked={link.isActive}
-                      onChange={(e) =>
-                        handleIsActiveChange(link, e.target.checked)
-                      }
-                    />
-                  </div>
-                </Card>
+                <div className="flex items-center gap-2">
+                  <MdEdit
+                    size={24}
+                    className="cursor-pointer"
+                    onClick={() => handleUpdate(link)}
+                  />
+                  <MdDelete
+                    size={24}
+                    className="cursor-pointer"
+                    onClick={() => handleDelete(link)}
+                  />
+                  <MdArrowDownward
+                    size={24}
+                    className="cursor-pointer"
+                    onClick={() => handleReorderButtonClicked(i, 'down')}
+                  />
+                  <MdArrowUpward
+                    size={24}
+                    className="cursor-pointer"
+                    onClick={() => handleReorderButtonClicked(i, 'up')}
+                  />
+                </div>
               </div>
-            </SortableItem>
+
+              <div className="flex items-center gap-3">
+                <Link href={link.url} target="_blank" className="text-blue-500">
+                  <FaExternalLinkAlt size={16} />
+                </Link>
+
+                <Toggle
+                  checked={link.isActive}
+                  onChange={(e) => handleIsActiveChange(link, e.target.checked)}
+                />
+              </div>
+            </Card>
           ))}
-        </SortableList>
+        </div>
       ) : (
         renderLoading()
       )}

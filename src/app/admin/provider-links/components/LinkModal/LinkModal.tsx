@@ -61,6 +61,7 @@ export default function LinkModal({ link, modalRef }: LinkModalProps) {
     useState<ProviderLinkTypeViewModel>();
 
   const linkTypeId = watch('linkTypeId');
+  const label = watch('label');
   const urlOrUrlKey = watch('urlOrUrlKey');
 
   useEffect(() => {
@@ -87,19 +88,19 @@ export default function LinkModal({ link, modalRef }: LinkModalProps) {
   useEffect(() => {
     const type = types.find((it) => it.id === Number(linkTypeId));
 
-    /**
-     * only set default label if is first linkTypeId set
-     * TODO: has a bug here
-     */
-    if (type && lastSelectedLinkType)
-      setValue(
-        'label',
-        type.urlStructure || !lastSelectedLinkType ? type!.name : ''
-      );
+    if (type && (!label || (label !== type.name && !!lastSelectedLinkType))) {
+      setValue('label', type.name);
+    }
 
-    setLastSelectedLinkType(selectedLinkType);
     setSelectedLinkType(type);
   }, [linkTypeId]);
+
+  /**
+   * set last selectedLinkType
+   */
+  useEffect(() => {
+    setLastSelectedLinkType(selectedLinkType);
+  }, [selectedLinkType]);
 
   const getTypes = () => {
     loader.show();
