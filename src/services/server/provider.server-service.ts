@@ -95,13 +95,7 @@ export const createProviderServerService = () => {
   };
 
   const search = async (
-    {
-      limit,
-      index,
-      query,
-      city,
-      providerCategories: providerCategoriesIds
-    }: ProviderSearchInputModel,
+    { limit, index, query, city, providerCategoryId }: ProviderSearchInputModel,
     userPublicIpv4: string | undefined
   ) => {
     const take = limit ?? 30;
@@ -148,7 +142,7 @@ export const createProviderServerService = () => {
                     }
                   },
                   {
-                    id: { in: providerCategoriesIds }
+                    id: providerCategoryId
                   }
                 ]
               }

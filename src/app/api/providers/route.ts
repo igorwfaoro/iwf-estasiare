@@ -53,9 +53,9 @@ export const GET = withErrorHandler(async (req: Request, {}: Params) => {
       index: getSearchParamValue('index', 'number', searchParams),
       limit: getSearchParamValue('limit', 'number', searchParams),
       city: getSearchParamValue('city', 'string', searchParams),
-      providerCategories: getSearchParamValue(
-        'providerCategories',
-        'arrayOfNumbers',
+      providerCategoryId: getSearchParamValue(
+        'providerCategoryId',
+        'number',
         searchParams
       )
     },

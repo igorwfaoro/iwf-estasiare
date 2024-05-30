@@ -1,16 +1,18 @@
 'use client';
 
-import { useEffect } from 'react';
-import { createProviderClientService } from '../../services/client/provider.client-service';
+import Content from './components/Content/Content';
+import Filter from './components/Filter/Filter';
+import ProviderSearchProvider from './contexts/ProviderSearchContext';
 
 interface ProvidersPageProps {}
 
 export default function ProvidersPage({}: ProvidersPageProps) {
-  const providerService = createProviderClientService();
-
-  useEffect(() => {
-    providerService.search().then(console.log);
-  }, []);
-
-  return <div>Providers</div>;
+  return (
+    <div className="space-y-4">
+      <ProviderSearchProvider>
+        <Filter />
+        <Content />
+      </ProviderSearchProvider>
+    </div>
+  );
 }
