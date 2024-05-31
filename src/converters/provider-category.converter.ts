@@ -9,6 +9,7 @@ export const providerCategoryConverter = {
     model: ProviderCategoryConverterModel
   ): ProviderCategoryViewModel => ({
     id: Number(model.id),
-    description: model.description
+    description: model.description,
+    isOther: model.isOther
   })
 };

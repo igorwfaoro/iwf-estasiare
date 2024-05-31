@@ -8,6 +8,7 @@ import { BadError } from '../../errors/types/bad.error';
 import { ProviderSearchInputModel } from '../../models/input-models/provider-search.input-model';
 import { ProviderInputModel } from '../../models/input-models/provider.input-model';
 import { ProviderViewModel } from '../../models/view-models/provider.view-model';
+import { SearchDataViewModel } from '../../models/view-models/search-data.view-model';
 import { getLocationByIp } from '../../util/helpers/location.helper';
 import { normalizeSlug } from '../../util/helpers/slug.helper';
 import { createFileServerService } from './file.server-service';
@@ -95,9 +96,15 @@ export const createProviderServerService = () => {
   };
 
   const search = async (
-    { limit, index, query, city, providerCategoryId }: ProviderSearchInputModel,
+    {
+      limit,
+      index,
+      q: query,
+      city,
+      providerCategoryId
+    }: ProviderSearchInputModel,
     userPublicIpv4: string | undefined
-  ) => {
+  ): Promise<SearchDataViewModel<ProviderViewModel>> => {
     const take = limit ?? 30;
     const skip = (index ?? 0) * take;
 
@@ -115,50 +122,54 @@ export const createProviderServerService = () => {
       serviceAreaAddressWhere.push({
         city: { mode: 'insensitive', equals: city }
       });
-    else
+
+    if (!city && !query)
       serviceAreaAddressWhere.push(
         await _getAddressWhereByUserLocation(userPublicIpv4)
       );
+    console.log(serviceAreaAddressWhere);
 
-    const providers = await prisma.provider.findMany({
-      where: {
-        OR: [
-          {
-            name: {
-              contains: query,
-              mode: 'insensitive'
-            }
-          },
-          {
-            providerCategories: {
-              some: {
-                OR: [
-                  {
-                    category: {
-                      description: {
-                        contains: query,
-                        mode: 'insensitive'
-                      }
+    const providersWhere: Prisma.ProviderWhereInput = {
+      OR: [
+        {
+          name: {
+            contains: query,
+            mode: 'insensitive'
+          }
+        },
+        {
+          providerCategories: {
+            some: {
+              OR: [
+                {
+                  category: {
+                    description: {
+                      contains: query,
+                      mode: 'insensitive'
                     }
-                  },
-                  {
-                    id: providerCategoryId
                   }
-                ]
-              }
-            }
-          },
-          {
-            serviceAreas: {
-              some: {
-                address: {
-                  OR: serviceAreaAddressWhere
+                },
+                {
+                  id: providerCategoryId
                 }
+              ]
+            }
+          }
+        },
+        {
+          serviceAreas: {
+            some: {
+              address: {
+                OR: serviceAreaAddressWhere
               }
             }
           }
-        ]
-      },
+        }
+      ]
+    };
+
+    const providers = await prisma.provider.findMany({
+      where: providersWhere,
       include: {
         address: true,
         providerCategories: {
@@ -170,13 +181,25 @@ export const createProviderServerService = () => {
           include: {
             address: true
           }
+        },
+        links: {
+          include: {
+            type: true
+          }
         }
       },
       skip,
       take
     });
 
-    return providers.map(providerConverter.modelToViewModel);
+    const providersCount = await prisma.provider.count({
+      where: providersWhere
+    });
+
+    return {
+      data: providers.map(providerConverter.modelToViewModel),
+      totalResults: providersCount
+    };
   };
 
   const create = async ({

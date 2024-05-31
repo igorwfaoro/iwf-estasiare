@@ -208,8 +208,9 @@ model ProviderProviderCategory {
 }
 
 model ProviderCategory {
-  id          BigInt @id @default(autoincrement())
-  description String @db.VarChar(100)
+  id          BigInt  @id @default(autoincrement())
+  description String  @db.VarChar(100)
+  isOther     Boolean @default(false)
 
   categoryProviders ProviderProviderCategory[]
 }

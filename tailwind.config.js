@@ -24,6 +24,7 @@ module.exports = {
   plugins: [
     require('tailwind-gradient-mask-image'),
     require('tailwind-scrollbar')({ nocompatible: true }),
-    require('@tailwindcss/typography')
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/line-clamp')
   ]
 };

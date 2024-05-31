@@ -12,9 +12,9 @@ interface LinkItem {
   path: string;
 }
 
-interface HomeNavbarProps {}
+interface NavbarProps {}
 
-export default function HomeNavbar({}: HomeNavbarProps) {
+export default function Navbar({}: NavbarProps) {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
   const links: LinkItem[] = [

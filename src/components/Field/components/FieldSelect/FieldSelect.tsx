@@ -30,17 +30,13 @@ const FieldSelect = forwardRef(
       <select
         ref={ref}
         className={twMerge(
-          'border-gray-300 rounded-md focus:outline-none p-4 text-md w-full',
+          'border border-gray-300 bg-white rounded-lg focus:outline-none p-4 pr-3 text-md w-full h-[58px]',
           className
         )}
         defaultValue={includeEmpty ? '' : defaultValue}
         {...props}
       >
-        {includeEmpty && (
-          <FieldSelectOption value="" disabled>
-            -
-          </FieldSelectOption>
-        )}
+        {includeEmpty && <FieldSelectOption value="">-</FieldSelectOption>}
         {children}
       </select>
     );

@@ -4,6 +4,7 @@ import { http } from '../../http/http';
 import { ProviderSearchInputModel } from '../../models/input-models/provider-search.input-model';
 import { ProviderInputModel } from '../../models/input-models/provider.input-model';
 import { ProviderViewModel } from '../../models/view-models/provider.view-model';
+import { SearchDataViewModel } from '../../models/view-models/search-data.view-model';
 import { getPublicIp } from '../../util/helpers/http.helper';
 
 export const createProviderClientService = () => {
@@ -44,7 +45,7 @@ export const createProviderClientService = () => {
 
   const search = async (
     params: ProviderSearchInputModel = {}
-  ): Promise<boolean> =>
+  ): Promise<SearchDataViewModel<ProviderViewModel>> =>
     http()
       .get(API_URLS.providers.search(), {
         params,

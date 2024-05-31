@@ -4,8 +4,13 @@ import { ProviderCategoryViewModel } from '../../models/view-models/provider-cat
 
 export const createProviderCategoryServerService = () => {
   const getAll = async (): Promise<ProviderCategoryViewModel[]> => {
-    const categories = await prisma.providerCategory.findMany();
-    return categories.map(providerCategoryConverter.modelToViewModel);
+    const categories = await prisma.providerCategory.findMany({
+      orderBy: { description: 'asc' }
+    });
+
+    return categories
+      .sort((a, b) => Number(a.isOther) - Number(b.isOther))
+      .map(providerCategoryConverter.modelToViewModel);
   };
 
   return {

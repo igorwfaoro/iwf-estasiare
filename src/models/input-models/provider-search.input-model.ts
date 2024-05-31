@@ -1,5 +1,5 @@
 export interface ProviderSearchInputModel {
-  query?: string;
+  q?: string;
   city?: string;
   providerCategoryId?: number;
 

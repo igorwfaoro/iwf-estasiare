@@ -49,7 +49,7 @@ export const GET = withErrorHandler(async (req: Request, {}: Params) => {
 
   const response = await providerService.search(
     {
-      query: getSearchParamValue('q', 'string', searchParams),
+      q: getSearchParamValue('q', 'string', searchParams),
       index: getSearchParamValue('index', 'number', searchParams),
       limit: getSearchParamValue('limit', 'number', searchParams),
       city: getSearchParamValue('city', 'string', searchParams),
