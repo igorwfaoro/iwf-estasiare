@@ -15,7 +15,6 @@ export default function Provider({ provider }: ProviderProps) {
     name,
     profileImage,
     bio,
-    primaryColor,
     categories,
     serviceAreas,
     links
@@ -53,7 +52,7 @@ export default function Provider({ provider }: ProviderProps) {
 
             <div className="text-sm text-gray-600">
               <div className="font-bold">Atende em:</div>
-              <div>
+              <div className='truncate'>
                 {serviceAreas?.map((sa) => sa.address?.city).join(', ')}
               </div>
             </div>
