@@ -1,9 +1,9 @@
 import { EventType } from '@prisma/client';
-import dayjs from 'dayjs';
 import Link from 'next/link';
 import { RefObject } from 'react';
 
 import { EventViewModel } from '../../models/view-models/event.view-model';
+import { appDayjs } from '../../util/date';
 import { eventTypeLabel } from '../../util/helpers/event-type.helper';
 import Card from '../Card/Card';
 
@@ -35,7 +35,7 @@ export default function EventCard({
       .join(' & ')
   }[event.eventType];
 
-  const date = dayjs(event.date).format('DD/MM/YYYY');
+  const date = appDayjs(event.date).format('DD/MM/YYYY');
 
   return (
     <Link href={eventUrl} className={className}>

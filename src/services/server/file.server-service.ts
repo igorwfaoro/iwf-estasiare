@@ -1,9 +1,9 @@
 import { S3 } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
-import dayjs from 'dayjs';
 import { fileTypeFromBuffer } from 'file-type';
 import { v4 as uuidV4 } from 'uuid';
 import { BadError } from '../../errors/types/bad.error';
+import { appDayjs } from '../../util/date';
 
 export interface UploadFileResult {
   fileLocation: string;
@@ -28,7 +28,7 @@ export const createFileServerService = () => {
     const fileType = await fileTypeFromBuffer(fileBuffer);
 
     if (!fileName)
-      fileName = `${dayjs().format('YYYYMMDD-HHmmss.sss')}_${uuidV4()}.${
+      fileName = `${appDayjs().format('YYYYMMDD-HHmmss.sss')}_${uuidV4()}.${
         fileExt || fileType?.ext || 'bin'
       }`;
 

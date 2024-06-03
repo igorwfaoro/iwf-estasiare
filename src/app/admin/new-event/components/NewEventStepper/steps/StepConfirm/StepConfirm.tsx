@@ -1,7 +1,6 @@
-import dayjs from 'dayjs';
-
 import Button from '../../../../../../../components/Button/Button';
 import { EventCreateInputModel } from '../../../../../../../models/input-models/event-create.input-model';
+import { appDayjs } from '../../../../../../../util/date';
 import { eventTitleDescription } from '../../../../../../../util/helpers/event-title-description.helper';
 import { renderInitialsIcon } from '../../../../../../../util/helpers/initials-icon.helper';
 import { useNewEventContext } from '../../../../contexts/NewEventContext';
@@ -29,7 +28,7 @@ export default function StepConfirm({ index }: StepConfirmProps) {
 
   const titleDescription = eventTitleDescription(data);
 
-  const dateFormatted = dayjs(data.date).format('DD/MM/YYYY HH:mm');
+  const dateFormatted = appDayjs.utc(data.date).format('DD/MM/YYYY HH:mm');
 
   const logo = logoImageThumbnail ? (
     <img className="h-7" src={logoImageThumbnail} />

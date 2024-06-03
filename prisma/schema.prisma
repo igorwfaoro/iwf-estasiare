@@ -16,6 +16,11 @@ enum UserEventRole {
   EDITOR
 }
 
+enum UserRole {
+  ADMIN
+  NORMAL
+}
+
 enum GuestStatus {
   PENDING
   CONFIRMED
@@ -163,6 +168,8 @@ model User {
 
   providerId BigInt?   @unique
   provider   Provider? @relation(fields: [providerId], references: [id])
+
+  role UserRole @default(NORMAL)
 
   createdAt  DateTime    @default(now())
   userEvents UserEvent[]

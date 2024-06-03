@@ -8,7 +8,7 @@ import Field from '../../../../../../../../../../components/Field/Field';
 import { useLoader } from '../../../../../../../../../../contexts/LoaderContext';
 import { useToast } from '../../../../../../../../../../contexts/ToastContext';
 import { createEventClientService } from '../../../../../../../../../../services/client/event.client-service';
-import { dateStringToInput } from '../../../../../../../../../../util/helpers/date.helper';
+import { dateStringToInput } from '../../../../../../../../../../util/date';
 import {
   eventTypeLabel,
   eventTypeList

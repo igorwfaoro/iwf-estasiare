@@ -127,30 +127,33 @@ export const createProviderServerService = () => {
       serviceAreaAddressWhere.push(
         await _getAddressWhereByUserLocation(userPublicIpv4)
       );
-    console.log(serviceAreaAddressWhere);
 
     const providersWhere: Prisma.ProviderWhereInput = {
       OR: [
         {
-          name: {
-            contains: query,
-            mode: 'insensitive'
-          }
+          ...(query && {
+            name: {
+              contains: query,
+              mode: 'insensitive'
+            }
+          })
         },
         {
           providerCategories: {
             some: {
               OR: [
                 {
-                  category: {
-                    description: {
-                      contains: query,
-                      mode: 'insensitive'
+                  ...(query && {
+                    category: {
+                      description: {
+                        contains: query,
+                        mode: 'insensitive'
+                      }
                     }
-                  }
+                  })
                 },
                 {
-                  id: providerCategoryId
+                  ...(providerCategoryId && { id: providerCategoryId })
                 }
               ]
             }
@@ -167,6 +170,8 @@ export const createProviderServerService = () => {
         }
       ]
     };
+
+    console.log(JSON.stringify(providersWhere, null, 2));
 
     const providers = await prisma.provider.findMany({
       where: providersWhere,

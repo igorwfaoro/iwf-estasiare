@@ -9,6 +9,7 @@ import { z } from 'zod';
 import Accordion from '../../../../components/Accordion/Accordion';
 import Button from '../../../../components/Button/Button';
 import Field from '../../../../components/Field/Field';
+import Skeleton from '../../../../components/Skeleton/Skeleton';
 import { ProviderSearchInputModel } from '../../../../models/input-models/provider-search.input-model';
 import { useProviderSearchContext } from '../../contexts/ProviderSearchContext';
 
@@ -31,18 +32,23 @@ export default function Filter({}: FilterProps) {
   const pathname = usePathname();
   const queryParams = useSearchParams();
 
-  const { categories, cities, setSearchParams, providersIsLoading } =
-    useProviderSearchContext();
+  const {
+    categories,
+    cities,
+    setSearchParams,
+    providersIsLoading,
+    providersIsLoaded
+  } = useProviderSearchContext();
 
   const { register, handleSubmit, setValue, getValues } = useForm<FormSchema>({
     resolver: zodResolver(formSchema)
   });
 
   useEffect(() => {
-    Object.entries(getValues()).map(([key, value]) => {
-      const paramValue = queryParams.get(key);
-      if (paramValue) setValue(key as any, value);
-    });
+    // Object.entries(getValues()).map(([key, value]) => {
+    //   const paramValue = queryParams.get(key);
+    //   if (paramValue) setValue(key as any, value);
+    // });
   }, []);
 
   const handleSearch = (data: FormSchema) => {
@@ -56,11 +62,12 @@ export default function Filter({}: FilterProps) {
 
     setSearchParams(params);
 
-    const urlSearchParams = new URLSearchParams();
-    Object.entries(params).map(([key, value]) => {
-      urlSearchParams.set(key, value ? String(value) : '');
-    });
-    router.push(`${pathname}?${urlSearchParams.toString()}`);
+    // TODO: use search params query
+    // const urlSearchParams = new URLSearchParams();
+    // Object.entries(params).map(([key, value]) => {
+    //   urlSearchParams.set(key, value ? String(value) : '');
+    // });
+    // router.push(`${pathname}?${urlSearchParams.toString()}`);
   };
 
   const handleClear = () => {
@@ -71,6 +78,10 @@ export default function Filter({}: FilterProps) {
     value: c.city,
     label: `${c.city} - ${c.state}`
   }));
+
+  if (!providersIsLoaded && providersIsLoading) {
+    return <Skeleton className="w-full h-14 rounded-2xl" />;
+  }
 
   return (
     <Accordion>

@@ -6,8 +6,8 @@ import {
   ProviderProviderCategory
 } from '@prisma/client';
 
-import dayjs from 'dayjs';
 import { ProviderViewModel } from '../models/view-models/provider.view-model';
+import { appDayjs } from '../util/date';
 import { getFileApiUrlOrNull } from '../util/helpers/file.helper';
 import { addressConverter } from './address.converter';
 import { providerCategoryConverter } from './provider-category.converter';
@@ -37,7 +37,7 @@ export const providerConverter = {
       ? addressConverter.modelToViewModel(model.address)
       : undefined,
     primaryColor: model.primaryColor,
-    createdAt: dayjs(model.createdAt).toISOString(),
+    createdAt: appDayjs(model.createdAt).toISOString(),
     categories: model.providerCategories?.map((pc) =>
       providerCategoryConverter.modelToViewModel(pc.category)
     ),

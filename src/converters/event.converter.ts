@@ -10,10 +10,10 @@ import {
   Gift,
   GiftRegistry
 } from '@prisma/client';
-import dayjs from 'dayjs';
 
 import { EventDetailViewModel } from '../models/view-models/event-detail.view-model';
 import { EventViewModel } from '../models/view-models/event.view-model';
+import { appDayjs } from '../util/date';
 import { eventTitleDescription } from '../util/helpers/event-title-description.helper';
 import { eventTypeLabel } from '../util/helpers/event-type.helper';
 import { addressConverter } from './address.converter';
@@ -29,7 +29,7 @@ import { giftRegistryConverter } from './gift-registry.converter';
 import { giftConverter } from './gift.converter';
 
 export type EventConverterModel = Event & {
-  address?: Address,
+  address?: Address;
   content?: EventContentConverterModel;
   financial?: EventFinancial;
   gifts?: Gift[];
@@ -54,7 +54,7 @@ export const eventConverter = {
   ): EventDetailViewModel => ({
     id: Number(model.id),
     eventType: model.eventType,
-    date: dayjs(model.date).toISOString(),
+    date: appDayjs(model.date).toISOString(),
     slug: model.slug,
 
     address: model.address
@@ -77,7 +77,7 @@ export const eventConverter = {
       ? eventContactInfoConverter.modelToViewModel(model.contactInfo)
       : undefined,
 
-    createdAt: dayjs(model.createdAt).toISOString(),
+    createdAt: appDayjs(model.createdAt).toISOString(),
 
     weddingDetail: model.weddingDetail
       ? eventWeddingDetailConverter.modelToViewModel(model.weddingDetail)
@@ -97,7 +97,7 @@ export const eventConverter = {
   modelViewModel: (model: EventConverterModel): EventViewModel => ({
     id: Number(model.id),
     eventType: model.eventType,
-    date: dayjs(model.date).toISOString(),
+    date: appDayjs(model.date).toISOString(),
     slug: model.slug,
 
     address: model.address
@@ -116,7 +116,7 @@ export const eventConverter = {
       ? eventWeddingDetailConverter.modelToViewModel(model.weddingDetail)
       : undefined,
 
-    createdAt: dayjs(model.createdAt).toISOString(),
+    createdAt: appDayjs(model.createdAt).toISOString(),
 
     titleDescription: {
       [EventType.WEDDING]: `${eventTypeLabel[EventType.WEDDING]} ${

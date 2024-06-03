@@ -6,9 +6,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
+import Button from '../../../../../components/Button/Button';
 import { EventDetailViewModel } from '../../../../../models/view-models/event-detail.view-model';
 import { renderInitialsIcon } from '../../../../../util/helpers/initials-icon.helper';
-import Button from '../../../../../components/Button/Button';
 
 interface LinkItem {
   path: string;
@@ -48,7 +48,7 @@ export function EventNavbar({ event }: EventNavbarProps) {
   const closeMenu = () => setMenuIsOpen(false);
 
   return (
-    <nav className="fixed z-[999] flex h-12 w-full flex-col items-end justify-center bg-neutral-50 shadow-sm md:items-center">
+    <nav className="fixed z-[999] flex h-12 w-full flex-col items-end justify-center bg-neutral-50 shadow-sm md:items-center top-0">
       {/* logo */}
       <Link href={`/${event.slug}`} className="absolute left-3 top-2">
         {renderInitialsIcon(event, 34)}

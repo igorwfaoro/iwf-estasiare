@@ -1,10 +1,10 @@
 import Button from '../../../components/Button/Button';
 
-interface ButtonRegisterProps {
+interface ButtonNewEventProps {
   className?: string;
 }
 
-export default function ButtonRegister({ className }: ButtonRegisterProps) {
+export default function ButtonNewEvent({ className }: ButtonNewEventProps) {
   return (
     <Button className={className} theme="highlight" href="/admin/new-event">
       Crie seu evento!

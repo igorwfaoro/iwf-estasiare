@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { getAuthUser } from '../../auth/auth-config';
 import { eventConverter } from '../../converters/event.converter';
 import { prisma } from '../../data/db';
@@ -10,6 +9,7 @@ import { EventUpdateInputModel } from '../../models/input-models/event-update.in
 import { SearchEventsInputModel } from '../../models/input-models/search-events.input-model';
 import { EventDetailViewModel } from '../../models/view-models/event-detail.view-model';
 import { EventViewModel } from '../../models/view-models/event.view-model';
+import { appDayjs } from '../../util/date';
 import { eventSlug } from '../../util/helpers/slug.helper';
 import { createFileServerService } from './file.server-service';
 
@@ -210,7 +210,7 @@ export const createEventServerService = () => {
       data: {
         slug: eventSlug(inputData),
         eventType: inputData.eventType,
-        date: dayjs(inputData.date).toDate(),
+        date: appDayjs.utc(inputData.date).toDate(),
         address: {
           create: inputData.address
         },
@@ -283,7 +283,7 @@ export const createEventServerService = () => {
       where: eventWhere,
       data: {
         eventType: inputData.eventType,
-        date: dayjs(inputData.date).toDate(),
+        date: appDayjs.utc(inputData.date).toDate(),
         address: {
           update: inputData.address
         },

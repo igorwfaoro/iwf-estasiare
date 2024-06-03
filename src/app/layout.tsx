@@ -1,5 +1,4 @@
 import { GoogleAnalytics } from '@next/third-parties/google';
-import dayjs from 'dayjs';
 import { Metadata } from 'next';
 import { ReactNode, Suspense } from 'react';
 
@@ -35,8 +34,6 @@ export const metadata: Metadata = {
     images: meta.image
   }
 };
-
-dayjs.locale(locale.id);
 
 const { NEXT_PUBLIC_GTAG: GTAG } = process.env;
 

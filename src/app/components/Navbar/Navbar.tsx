@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 import Button from '../../../components/Button/Button';
-import ButtonRegister from '../ButtonRegister/ButtonRegister';
 
 interface LinkItem {
   label: string;
@@ -29,6 +28,10 @@ export default function Navbar({}: NavbarProps) {
     {
       label: 'Sobre',
       path: '#about'
+    },
+    {
+      label: 'Fornecedores',
+      path: '/providers'
     }
   ];
 
@@ -36,7 +39,7 @@ export default function Navbar({}: NavbarProps) {
   const closeMenu = () => setMenuIsOpen(false);
 
   return (
-    <nav className="fixed z-[999] flex h-12 w-full flex-col items-end justify-center bg-neutral-50 shadow-sm md:items-center">
+    <nav className="fixed z-[999] top-0 flex h-12 w-full flex-col items-end justify-center bg-neutral-50 shadow-sm md:items-center">
       {/* logo */}
       <Link href="/" className="absolute left-3 top-2">
         <img src="/images/icon.svg" alt="logo" className="h-8" />
@@ -99,8 +102,6 @@ export default function Navbar({}: NavbarProps) {
         >
           Acessar Painel
         </Link>
-
-        <ButtonRegister className="px-2 py-1 hidden md:block" />
       </div>
     </nav>
   );

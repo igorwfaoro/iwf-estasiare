@@ -1,10 +1,10 @@
-import dayjs from 'dayjs';
 import Link from 'next/link';
 
 import { FaPhone, FaWhatsapp } from 'react-icons/fa';
 import { MdMail } from 'react-icons/md';
 import Divider from '../../../../../components/Divider/Divider';
 import { EventDetailViewModel } from '../../../../../models/view-models/event-detail.view-model';
+import { appDayjs } from '../../../../../util/date';
 
 interface ContactItem {
   icon?: JSX.Element;
@@ -18,7 +18,7 @@ interface FooterProps {
 }
 
 export function EventFooter({ event }: FooterProps) {
-  const year = dayjs().format('YYYY');
+  const year = appDayjs().format('YYYY');
 
   const contactItems: ContactItem[] = (
     [

@@ -1,6 +1,6 @@
 import { EventType } from '@prisma/client';
-import dayjs from 'dayjs';
 import { EventDetailViewModel } from '../../../../../models/view-models/event-detail.view-model';
+import { appDayjs } from '../../../../../util/date';
 import { eventTypeLabel } from '../../../../../util/helpers/event-type.helper';
 
 interface EventHeaderProps {
@@ -8,7 +8,7 @@ interface EventHeaderProps {
 }
 
 export default function EventHeader({ event }: EventHeaderProps) {
-  const dateFormatted = dayjs(event.date).format('DD/MM/YYYY');
+  const dateFormatted = appDayjs(event.date).format('DD/MM/YYYY');
 
   const titleText = {
     [EventType.WEDDING]: [

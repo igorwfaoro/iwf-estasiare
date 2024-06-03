@@ -99,7 +99,7 @@ export default function User({}: UserProps) {
           className="w-full md:w-auto whitespace-normal"
           onClick={() => setCreateProvider(true)}
         >
-          Cadastrar fornecedor
+          Ser um fornecedor
         </Button>
       )}
 

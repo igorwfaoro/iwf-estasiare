@@ -10,6 +10,7 @@ export const userConverter = {
     id: Number(model.id),
     name: model.name,
     email: model.email,
+    role: model.role,
     provider: model.provider
       ? providerConverter.modelToViewModel(model.provider)
       : undefined

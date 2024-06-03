@@ -1,3 +1,4 @@
+import Skeleton from '../../../../components/Skeleton/Skeleton';
 import { useProviderSearchContext } from '../../contexts/ProviderSearchContext';
 import Provider from './components/Provider/Provider';
 
@@ -16,6 +17,19 @@ export default function Content({}: ContentProps) {
     return (
       <div className="text-xl font-bold text-center p-4">
         Nenhum fornecedor encontrado 😥
+      </div>
+    );
+  }
+
+  if (providersIsLoading) {
+    return (
+      <div className="space-y-2">
+        <Skeleton className="h-5 w-[300px]" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Skeleton key={i} className="w-full h-52 rounded-2xl" />
+          ))}
+        </div>
       </div>
     );
   }

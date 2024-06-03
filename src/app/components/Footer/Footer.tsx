@@ -1,14 +1,14 @@
-import dayjs from 'dayjs';
 import Link from 'next/link';
 import { FaInstagram } from 'react-icons/fa';
 import Divider from '../../../components/Divider/Divider';
+import { appDayjs } from '../../../util/date';
 
 export default function Footer() {
-  const year = dayjs().format('YYYY');
+  const year = appDayjs().format('YYYY');
 
   return (
     <footer className="flex flex-col justify-center items-center gap-8 px-3 py-16 text-neutral-400 bg-white">
-      <div className='space-y-2'>
+      <div className="space-y-2">
         <div className="text-2xl font-bold">Nos siga nas redes sociais</div>
 
         <div>

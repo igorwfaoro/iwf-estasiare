@@ -6,7 +6,7 @@ import { z } from 'zod';
 import Button from '../../../../../../../components/Button/Button';
 import Field from '../../../../../../../components/Field/Field';
 import { Place } from '../../../../../../../components/Field/components/FieldInputAddressAutocomplete/types/place';
-import { dateStringToInput } from '../../../../../../../util/helpers/date.helper';
+import { dateStringToInput } from '../../../../../../../util/date';
 import {
   eventTypeLabel,
   eventTypeList
