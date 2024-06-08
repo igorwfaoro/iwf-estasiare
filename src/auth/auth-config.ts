@@ -3,6 +3,7 @@ import { AuthOptions, Session, getServerSession } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import { NextRequest, NextResponse } from 'next/server';
 
+import CredentialsProvider from 'next-auth/providers/credentials';
 import { AuthError } from '../errors/types/auth.error';
 import { createUserServerService } from '../services/server/user.server-service';
 import { AuthUser } from './auth-user';
@@ -12,6 +13,22 @@ export const authOptions: AuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
+    }),
+    CredentialsProvider({
+      credentials: {
+        email: {},
+        password: {}
+      },
+      async authorize(credentials, req) {
+        const userService = createUserServerService();
+
+        console.log({ credentials, body: req.body });
+
+        if (!credentials?.email || !credentials.password)
+          throw new AuthError('E-mail ou Senha inválida');
+
+        return userService.verifyByEmailAndPassword(credentials);
+      }
     })
   ],
   secret: process.env.NEXTAUTH_SECRET,
@@ -24,7 +41,7 @@ export const authOptions: AuthOptions = {
 
       if (account?.provider === 'google') {
         if (!profile) return false;
-        return userService.verify(profile);
+        return userService.verifyByProfile(profile);
       }
 
       return false;
@@ -34,6 +51,7 @@ export const authOptions: AuthOptions = {
     //   return token;
     // },
     session: async ({ session, token }) => {
+      console.log('session', { session, token });
       const userService = createUserServerService();
 
       session.user = await userService.getByEmail(token.email!);

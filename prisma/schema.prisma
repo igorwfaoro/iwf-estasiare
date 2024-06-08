@@ -162,9 +162,10 @@ model EventHandbook {
 }
 
 model User {
-  id    BigInt @id @default(autoincrement())
-  name  String @db.VarChar(300)
-  email String @unique @db.VarChar(300)
+  id       BigInt  @id @default(autoincrement())
+  name     String  @db.VarChar(300)
+  email    String  @unique @db.VarChar(300)
+  password String? @db.VarChar(100)
 
   providerId BigInt?   @unique
   provider   Provider? @relation(fields: [providerId], references: [id])

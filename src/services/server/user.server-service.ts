@@ -5,6 +5,7 @@ import { getAuthSession, getAuthUser } from '../../auth/auth-config';
 import { AuthUser } from '../../auth/auth-user';
 import { userConverter } from '../../converters/user.converter';
 import { prisma } from '../../data/db';
+import { AuthError } from '../../errors/types/auth.error';
 import { NotFoundError } from '../../errors/types/not-found.error';
 import { UserUpdateInputModel } from '../../models/input-models/user-update.input-model';
 
@@ -23,7 +24,7 @@ const defaultInclude: Prisma.UserInclude = {
 };
 
 export const createUserServerService = () => {
-  const verify = async (profile: Profile): Promise<boolean> => {
+  const verifyByProfile = async (profile: Profile): Promise<boolean> => {
     if (!profile.email) return false;
 
     const user = await prisma.user.findFirst({
@@ -40,6 +41,28 @@ export const createUserServerService = () => {
     });
 
     return true;
+  };
+
+  const verifyByEmailAndPassword = async ({
+    email,
+    password
+  }: {
+    email: string;
+    password: string;
+  }): Promise<AuthUser> => {
+    const user = await prisma.user.findFirst({
+      where: { email },
+      include: defaultInclude
+    });
+
+    if (!user) throw new AuthError('E-mail ou Senha inválida');
+
+    if (!user.password) throw new AuthError('Usuário cadastrado com Google');
+
+    // if (!(await compare(password, user.password)))
+    //   throw new AuthError('E-mail ou Senha inválida');
+
+    return userConverter.modelToAuthUser(user);
   };
 
   const getByEmail = async (email: string): Promise<AuthUser> => {
@@ -71,7 +94,8 @@ export const createUserServerService = () => {
   };
 
   return {
-    verify,
+    verifyByProfile,
+    verifyByEmailAndPassword,
     getByEmail,
     update
   };
