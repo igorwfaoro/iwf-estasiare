@@ -2,8 +2,8 @@ interface HeaderProps {}
 
 export default function Header({}: HeaderProps) {
   return (
-    <header className="w-full h-[50vh] bg-[url(/images/providers/header-banner.jpg)] bg-cover bg-center flex flex-col items-center justify-center gap-4 mt-4">
-      <h1 className="font-bold text-neutral-50 text-5xl mt-8 mb-2">
+    <header className="w-full bg-[url(/images/providers/header-banner.jpg)] bg-cover bg-center px-10 py-12 md:py-20 text-center flex flex-col items-center justify-center gap-4 mt-4">
+      <h1 className="font-bold text-neutral-50 text-3xl md:text-5xl mt-8 mb-2">
         Encontre Fornecedores para o Seu Evento
       </h1>
 

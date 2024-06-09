@@ -10,15 +10,8 @@ interface ProviderProps {
 }
 
 export default function Provider({ provider }: ProviderProps) {
-  const {
-    slug,
-    name,
-    profileImage,
-    bio,
-    categories,
-    serviceAreas,
-    links
-  } = provider;
+  const { slug, name, profileImage, bio, categories, serviceAreas, links } =
+    provider;
 
   const image = profileImage ? (
     <img
@@ -52,8 +45,12 @@ export default function Provider({ provider }: ProviderProps) {
 
             <div className="text-sm text-gray-600">
               <div className="font-bold">Atende em:</div>
-              <div className='truncate'>
-                {serviceAreas?.map((sa) => sa.address?.city).join(', ')}
+              <div className="flex flex-wrap gap-1">
+                {serviceAreas?.map((sa) => (
+                  <Chip key={sa.id} className="bg-white border border-gray-300 text-xs">
+                    {sa.address?.city}
+                  </Chip>
+                ))}
               </div>
             </div>
 
