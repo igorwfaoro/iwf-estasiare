@@ -13,6 +13,7 @@ import { ProviderLinkUpdateInputModel } from '../../../../../models/input-models
 import { ProviderLinkTypeViewModel } from '../../../../../models/view-models/provider-link-type.view-model';
 import { ProviderLinkViewModel } from '../../../../../models/view-models/provider-link.view-model';
 import { createProviderLinkTypeClientService } from '../../../../../services/client/provider-link-type.client-service';
+import { isValidUrl } from '../../../../../util/helpers/http.helper';
 
 export interface LinkModalProps extends ModalRefPropType {
   link?: ProviderLinkViewModel;
@@ -45,14 +46,16 @@ export default function LinkModal({ link, modalRef }: LinkModalProps) {
     handleSubmit,
     formState: { errors },
     setValue,
-    watch
+    watch,
+    setError,
+    clearErrors
   } = useForm<FormSchema>({
     resolver: zodResolver(formSchema)
   });
 
   const isUpdate = !!link;
 
-  const [types, setTypes] = useState<ProviderLinkTypeViewModel[]>([]);
+  const [linkTypes, setLinkTypes] = useState<ProviderLinkTypeViewModel[]>([]);
 
   const [selectedLinkType, setSelectedLinkType] =
     useState<ProviderLinkTypeViewModel>();
@@ -77,16 +80,16 @@ export default function LinkModal({ link, modalRef }: LinkModalProps) {
    * set form linkTypeId after types is loaded
    */
   useEffect(() => {
-    if (types.length && isUpdate) {
+    if (linkTypes.length && isUpdate) {
       setValue('linkTypeId', link.type!.id);
     }
-  }, [types]);
+  }, [linkTypes]);
 
   /**
    * set default label when type change
    */
   useEffect(() => {
-    const type = types.find((it) => it.id === Number(linkTypeId));
+    const type = linkTypes.find((it) => it.id === Number(linkTypeId));
 
     if (type && (!label || (label !== type.name && !!lastSelectedLinkType))) {
       setValue('label', type.name);
@@ -102,11 +105,30 @@ export default function LinkModal({ link, modalRef }: LinkModalProps) {
     setLastSelectedLinkType(selectedLinkType);
   }, [selectedLinkType]);
 
+  /**
+   * verify if urlOrUrlKey is link
+   */
+  useEffect(() => {
+    const isRequiredUsername = !!linkTypes.find(
+      (t) => t.id === selectedLinkType?.id
+    )?.urlStructure;
+
+    if (isRequiredUsername && isValidUrl(urlOrUrlKey)) {
+      setError('urlOrUrlKey', {
+        message: 'Informe apenas o nome/número de usuário e não o link inteiro'
+      });
+    } else {
+      clearErrors('urlOrUrlKey');
+    }
+  }, [urlOrUrlKey]);
+
   const getTypes = () => {
     loader.show();
     providerLinkTypeService
       .getAll()
-      .then((response) => setTypes(response.sort((a, b) => a.index - b.index)))
+      .then((response) =>
+        setLinkTypes(response.sort((a, b) => a.index - b.index))
+      )
       .catch(() => toast.open('Erro ao carregar tipos de links', 'error'))
       .finally(loader.hide);
   };
@@ -135,12 +157,17 @@ export default function LinkModal({ link, modalRef }: LinkModalProps) {
     ? 'Seu nome/número de usuário'
     : 'URL do link';
 
+  const urlOrUrlKeyDescription =
+    selectedLinkType?.urlStructure && urlOrUrlKey
+      ? selectedLinkType.urlStructure.replace('{{urlKey}}', urlOrUrlKey)
+      : '';
+
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
       <Field>
         <Field.Label>Tipo de link</Field.Label>
         <Field.Select {...register('linkTypeId')} includeEmpty>
-          {types.map((type) => (
+          {linkTypes.map((type) => (
             <Field.SelectOption key={'linkType' + type.id} value={type.id}>
               {type.name}
             </Field.SelectOption>
@@ -164,6 +191,7 @@ export default function LinkModal({ link, modalRef }: LinkModalProps) {
             <Icon icon={selectedLinkType.icon} />
             {fieldLabelLabel}
           </Field.Label>
+          <Field.HelpText>{urlOrUrlKeyDescription}</Field.HelpText>
           <Field.Input
             {...register('urlOrUrlKey')}
             onBlur={handleTransformLinkUrl}

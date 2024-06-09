@@ -63,3 +63,12 @@ export const getPublicIp = async () => {
 
   return publicIp || undefined;
 };
+
+export const isValidUrl = (value: string) => {
+  try {
+    new URL(value);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
