@@ -43,16 +43,21 @@ export default function Provider({ provider }: ProviderProps) {
               ))}
             </div>
 
-            <div className="text-sm text-gray-600">
-              <div className="font-bold">Atende em:</div>
-              <div className="flex flex-wrap gap-1">
-                {serviceAreas?.map((sa) => (
-                  <Chip key={sa.id} className="bg-white border border-gray-300 text-xs">
-                    {sa.address?.city}
-                  </Chip>
-                ))}
+            {!!serviceAreas?.length && (
+              <div className="text-sm text-gray-600">
+                <div className="font-bold">Atende em:</div>
+                <div className="flex flex-wrap gap-1">
+                  {serviceAreas?.map((sa) => (
+                    <Chip
+                      key={sa.id}
+                      className="bg-white border border-gray-300 text-xs"
+                    >
+                      {sa.address?.city}
+                    </Chip>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             <div className="flex items-center gap-2">
               {linksToShow?.map((link) => (
