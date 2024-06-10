@@ -158,7 +158,7 @@ export default function LinkModal({ link, modalRef }: LinkModalProps) {
     : 'URL do link';
 
   const urlOrUrlKeyDescription =
-    selectedLinkType?.urlStructure && urlOrUrlKey
+    selectedLinkType?.urlStructure
       ? selectedLinkType.urlStructure.replace('{{urlKey}}', urlOrUrlKey)
       : '';
 
