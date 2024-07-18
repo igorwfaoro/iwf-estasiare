@@ -33,7 +33,9 @@ export default function AdminLoginPage({}: AdminLoginPageProps) {
 
   const onSubmit = (data: FormSchema) => {
     console.log(data);
-    signIn('credentials', { ...data, redirect: false });
+    signIn('credentials', { ...data, redirect: false })
+      .then(() => console.log('ok, td certo'))
+      .catch((error) => console.log('erro', error));
   };
 
   return (
