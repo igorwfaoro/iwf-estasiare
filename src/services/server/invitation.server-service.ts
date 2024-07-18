@@ -203,12 +203,20 @@ export const createInvitationServerService = () => {
   const remove = async (eventId: number, id: number): Promise<void> => {
     await eventService.verifyUserEvent(eventId);
 
-    await prisma.invitation.delete({
-      where: {
-        eventId,
-        id
-      }
-    });
+    await prisma.$transaction([
+      prisma.guest.deleteMany({
+        where: {
+          invitation: { eventId },
+          invitationId: id
+        }
+      }),
+      prisma.invitation.delete({
+        where: {
+          eventId,
+          id
+        }
+      })
+    ]);
   };
 
   const updateGuestsConfirmation = async (
