@@ -3,6 +3,7 @@ import { FaExternalLinkAlt } from 'react-icons/fa';
 
 import Skeleton from '../../../../../../components/Skeleton/Skeleton';
 import { eventTitleDescription } from '../../../../../../util/helpers/event-title-description.helper';
+import { getEventPublicUrl } from '../../../../../../util/helpers/event.helper';
 import { renderInitialsIcon } from '../../../../../../util/helpers/initials-icon.helper';
 import { useAdminEventPageContext } from '../../contexts/AdminEventPageContext';
 
@@ -46,7 +47,7 @@ export default function Header({}: HeaderProps) {
 
       <div>
         <Link
-          href={`/e/${event.slug}`}
+          href={getEventPublicUrl(event.slug)}
           target="_blank"
           className="text-blue-600 hover:underline font-bold flex items-center gap-2"
         >

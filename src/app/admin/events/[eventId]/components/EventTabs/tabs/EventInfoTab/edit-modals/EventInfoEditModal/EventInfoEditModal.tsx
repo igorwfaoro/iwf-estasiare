@@ -12,7 +12,7 @@ import { dateStringToInput } from '../../../../../../../../../../util/date';
 import {
   eventTypeLabel,
   eventTypeList
-} from '../../../../../../../../../../util/helpers/event-type.helper';
+} from '../../../../../../../../../../util/helpers/event.helper';
 import { EditModalProps } from '../../types/edit-modal-props';
 import { EditModalResult } from '../../types/edit-modal-result';
 

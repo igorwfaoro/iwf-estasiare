@@ -3,6 +3,7 @@ import { cache } from 'react';
 
 import AddressMap from '../../../components/AddressMap/AddressMap';
 import { createEventServerService } from '../../../services/server/event.server-service';
+import { getEventPublicUrl } from '../../../util/helpers/event.helper';
 import EventBanner, {
   EventBannerProps
 } from './components/EventBanner/EventBanner';
@@ -43,7 +44,7 @@ export default async function Event({
         'Nossa celebração está se aproximando, e estamos felizes em compartilhá-la com vocês. Se desejarem nos presentear de maneira simbólica, confiram nossa lista de presentes especiais',
       buttonText: 'Lista de presentes',
       imageSrc: '/images/event/banner1.jpg',
-      buttonLink: `/e/${event.slug}/gifts`
+      buttonLink: `${getEventPublicUrl(event.slug)}/gifts`
     } as EventBannerProps,
     presenceConfirmation: {
       title: 'Confirmação de Presença',
@@ -51,7 +52,7 @@ export default async function Event({
         'Confirme sua presença em nossa celebração especial. Estamos ansiosos para compartilhar este momento com você!',
       buttonText: 'Confirmação',
       imageSrc: '/images/event/banner2.jpg',
-      buttonLink: `/e/${event.slug}/presence-confirmation`
+      buttonLink: `${getEventPublicUrl(event.slug)}/presence-confirmation`
     } as EventBannerProps,
     handbooks: {
       title: 'Manuais',
@@ -59,7 +60,7 @@ export default async function Event({
         'Aqui, você encontrará uma coleção de guias úteis para diversos aspectos do nosso evento especial',
       buttonText: 'Acessar',
       imageSrc: '/images/event/banner3.jpg',
-      buttonLink: `/e/${event.slug}/handbooks`
+      buttonLink: `${getEventPublicUrl(event.slug)}/handbooks`
     } as EventBannerProps
   };
 

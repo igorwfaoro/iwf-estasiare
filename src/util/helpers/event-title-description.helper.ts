@@ -1,6 +1,6 @@
 import { EventType } from '.prisma/client';
 import { GenericEventParams } from '../types/generic-event';
-import { eventTypeLabel } from './event-type.helper';
+import { eventTypeLabel } from './event.helper';
 
 export const eventTitleDescription = ({
   eventType,

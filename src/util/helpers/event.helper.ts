@@ -5,3 +5,5 @@ export const eventTypeLabel: { [key in EventType]: string } = {
 };
 
 export const eventTypeList = Object.keys(eventTypeLabel);
+
+export const getEventPublicUrl = (slug: string) => `/e/${slug}`;

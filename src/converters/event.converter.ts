@@ -15,7 +15,7 @@ import { EventDetailViewModel } from '../models/view-models/event-detail.view-mo
 import { EventViewModel } from '../models/view-models/event.view-model';
 import { appDayjs } from '../util/date';
 import { eventTitleDescription } from '../util/helpers/event-title-description.helper';
-import { eventTypeLabel } from '../util/helpers/event-type.helper';
+import { eventTypeLabel } from '../util/helpers/event.helper';
 import { addressConverter } from './address.converter';
 import { eventContactInfoConverter } from './event-contact-info.converter';
 import {

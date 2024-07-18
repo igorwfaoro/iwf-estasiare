@@ -1,7 +1,7 @@
 import { EventType } from '@prisma/client';
 import { EventDetailViewModel } from '../../../../../models/view-models/event-detail.view-model';
 import { appDayjs } from '../../../../../util/date';
-import { eventTypeLabel } from '../../../../../util/helpers/event-type.helper';
+import { eventTypeLabel } from '../../../../../util/helpers/event.helper';
 
 interface EventHeaderProps {
   event: EventDetailViewModel;

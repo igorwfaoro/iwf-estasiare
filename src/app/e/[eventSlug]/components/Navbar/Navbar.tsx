@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Button from '../../../../../components/Button/Button';
 import { EventDetailViewModel } from '../../../../../models/view-models/event-detail.view-model';
+import { getEventPublicUrl } from '../../../../../util/helpers/event.helper';
 import { renderInitialsIcon } from '../../../../../util/helpers/initials-icon.helper';
 
 interface LinkItem {
@@ -27,19 +28,19 @@ export function EventNavbar({ event }: EventNavbarProps) {
 
   const links = [
     {
-      path: `/e/${event.slug}`,
+      path: `${getEventPublicUrl(event.slug)}`,
       label: 'Home'
     },
     event.hasGifts && {
-      path: `/e/${event.slug}/gifts`,
+      path: `${getEventPublicUrl(event.slug)}/gifts`,
       label: 'Presentes'
     },
     event.hasInvitations && {
-      path: `/e/${event.slug}/presence-confirmation`,
+      path: `${getEventPublicUrl(event.slug)}/presence-confirmation`,
       label: 'Confirmação de presença'
     },
     event.hasHandbooks && {
-      path: `/e/${event.slug}/handbooks`,
+      path: `${getEventPublicUrl(event.slug)}/handbooks`,
       label: 'Manuais'
     }
   ].filter(Boolean) as LinkItem[];

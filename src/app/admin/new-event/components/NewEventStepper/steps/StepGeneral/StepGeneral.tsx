@@ -10,7 +10,7 @@ import { dateStringToInput } from '../../../../../../../util/date';
 import {
   eventTypeLabel,
   eventTypeList
-} from '../../../../../../../util/helpers/event-type.helper';
+} from '../../../../../../../util/helpers/event.helper';
 import { useNewEventContext } from '../../../../contexts/NewEventContext';
 
 interface StepGeneralProps {
