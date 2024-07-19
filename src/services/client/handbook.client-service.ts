@@ -4,7 +4,7 @@ import { HandbookInputModel } from '../../models/input-models/handbook.input-mod
 import { EventHandbookDetailViewModel } from '../../models/view-models/event-handbook-detail.view-model';
 import { EventHandbookViewModel } from '../../models/view-models/event-handbook.view-model';
 
-export const createHandbookClientService = () => {
+export const useHandbookClientService = () => {
   const getAllByEvent = (eventId: number): Promise<EventHandbookViewModel[]> =>
     http()
       .get(API_URLS.handbooks.getAllByEvent(eventId))

@@ -10,7 +10,7 @@ import { useModal } from '../../../../../../../../../../contexts/ModalContext';
 import { useToast } from '../../../../../../../../../../contexts/ToastContext';
 import { EventDetailViewModel } from '../../../../../../../../../../models/view-models/event-detail.view-model';
 import { GiftRegistryViewModel } from '../../../../../../../../../../models/view-models/gift-registry.view-model';
-import { createGiftRegistryClientService } from '../../../../../../../../../../services/client/gift-registry.client-service';
+import { useGiftRegistryClientService } from '../../../../../../../../../../services/client/gift-registry.client-service';
 import { isMobile } from '../../../../../../../../../../util/helpers/is-mobile.helper';
 import FormModal, {
   FormModalProps,
@@ -29,7 +29,7 @@ export default function GiftRegistriesModal({
   const modal = useModal();
   const alert = useAlert();
 
-  const giftRegistryService = createGiftRegistryClientService();
+  const giftRegistryService = useGiftRegistryClientService();
 
   const [giftRegistries, setGiftRegistries] = useState<GiftRegistryViewModel[]>(
     []

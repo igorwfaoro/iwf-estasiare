@@ -17,7 +17,7 @@ import { useToast } from '../../../../../../../../../contexts/ToastContext';
 import { InvitationInputModel } from '../../../../../../../../../models/input-models/invitation-create.input-model';
 import { InvitationDetailViewModel } from '../../../../../../../../../models/view-models/invitation-detail.view-model';
 import { InvitationViewModel } from '../../../../../../../../../models/view-models/invitation.view-model';
-import { createInvitationClientService } from '../../../../../../../../../services/client/invitation.client-service';
+import { useInvitationClientService } from '../../../../../../../../../services/client/invitation.client-service';
 import { isMobile } from '../../../../../../../../../util/helpers/is-mobile.helper';
 import { useAdminEventPageContext } from '../../../../../contexts/AdminEventPageContext';
 import InvitationFormModal, {
@@ -47,7 +47,7 @@ const InvitationsTabContext = createContext<
 const InvitationsTabProvider = ({ children }: InvitationsTabProviderProps) => {
   const { event } = useAdminEventPageContext();
 
-  const invitationService = createInvitationClientService();
+  const invitationService = useInvitationClientService();
 
   const loader = useLoader();
   const toast = useToast();

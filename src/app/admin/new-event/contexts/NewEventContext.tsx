@@ -20,7 +20,7 @@ import {
 import { useLoader } from '../../../../contexts/LoaderContext';
 import { useToast } from '../../../../contexts/ToastContext';
 import { EventCreateInputModel } from '../../../../models/input-models/event-create.input-model';
-import { createEventClientService } from '../../../../services/client/event.client-service';
+import { useEventClientService } from '../../../../services/client/event.client-service';
 import StepConfirm from '../components/NewEventStepper/steps/StepConfirm/StepConfirm';
 import StepContent from '../components/NewEventStepper/steps/StepContent/StepContent';
 import StepDetails from '../components/NewEventStepper/steps/StepDetails/StepDetails';
@@ -56,7 +56,7 @@ interface NewEventProviderProps {
 const NewEventContext = createContext<INewEventProvider | undefined>(undefined);
 
 const NewEventProvider = ({ children }: NewEventProviderProps) => {
-  const eventClientService = createEventClientService();
+  const eventClientService = useEventClientService();
 
   const loader = useLoader();
   const toast = useToast();

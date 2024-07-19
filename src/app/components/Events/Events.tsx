@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react';
 
 import { useToast } from '../../../contexts/ToastContext';
 import { EventViewModel } from '../../../models/view-models/event.view-model';
-import { createEventClientService } from '../../../services/client/event.client-service';
+import { useEventClientService } from '../../../services/client/event.client-service';
 import EventsList from './EventsList/EventsList';
 
 interface EventsProps {}
 
 export default function Events({}: EventsProps) {
-  const eventClientService = createEventClientService();
+  const eventClientService = useEventClientService();
   const toast = useToast();
 
   const [isFirstLoading, setIsFirstLoading] = useState(true);

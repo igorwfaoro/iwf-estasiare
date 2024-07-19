@@ -17,7 +17,7 @@ import { useLoader } from '../../../../../../../../../contexts/LoaderContext';
 import { useModal } from '../../../../../../../../../contexts/ModalContext';
 import { useToast } from '../../../../../../../../../contexts/ToastContext';
 import { GiftViewModel } from '../../../../../../../../../models/view-models/gift.view-model';
-import { createGiftClientService } from '../../../../../../../../../services/client/gift.client-service';
+import { useGiftClientService } from '../../../../../../../../../services/client/gift.client-service';
 import { isMobile } from '../../../../../../../../../util/helpers/is-mobile.helper';
 import { useAdminEventPageContext } from '../../../../../contexts/AdminEventPageContext';
 import EventFinancialEditModal, {
@@ -51,7 +51,7 @@ const GiftsTabContext = createContext<IGiftsTabProvider | undefined>(undefined);
 const GiftsTabProvider = ({ children }: GiftsTabProviderProps) => {
   const { event } = useAdminEventPageContext();
 
-  const giftService = createGiftClientService();
+  const giftService = useGiftClientService();
 
   const loader = useLoader();
   const toast = useToast();

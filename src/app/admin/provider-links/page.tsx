@@ -24,7 +24,7 @@ import { useToast } from '../../../contexts/ToastContext';
 import { ProviderLinkCreateInputModel } from '../../../models/input-models/provider-link-create.input';
 import { ProviderLinkUpdateInputModel } from '../../../models/input-models/provider-link-update.input';
 import { ProviderLinkViewModel } from '../../../models/view-models/provider-link.view-model';
-import { createProviderLinkClientService } from '../../../services/client/provider-link.client-service';
+import { useProviderLinkClientService } from '../../../services/client/provider-link.client-service';
 import { isMobile } from '../../../util/helpers/is-mobile.helper';
 import AdminPageBase from '../components/AdminPageBase/AdminPageBase';
 import LinkModal, {
@@ -41,7 +41,7 @@ export default function AccountPage({}: AccountPageProps) {
   const alert = useAlert();
   const modal = useModal();
 
-  const providerLinkService = createProviderLinkClientService();
+  const providerLinkService = useProviderLinkClientService();
 
   const [links, setLinks] = useState<ProviderLinkViewModel[]>([]);
   const [linksIsLoading, setLinksIsLoading] = useState(true);

@@ -2,12 +2,16 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { MdArrowBack } from 'react-icons/md';
 import { z } from 'zod';
 import Button from '../../components/Button/Button';
 import Card from '../../components/Card/Card';
 import Field from '../../components/Field/Field';
-import GoogleButton from './components/GoogleButton/GoogleButton';
+import GoogleButton from '../../components/GoogleButton/GoogleButton';
+import { useLoader } from '../../contexts/LoaderContext';
+import { useToast } from '../../contexts/ToastContext';
 
 interface AdminLoginPageProps {}
 
@@ -31,22 +35,44 @@ export default function AdminLoginPage({}: AdminLoginPageProps) {
     resolver: zodResolver(formSchema)
   });
 
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const toast = useToast();
+  const loader = useLoader();
+
   const onSubmit = (data: FormSchema) => {
-    console.log(data);
+    loader.show();
     signIn('credentials', { ...data, redirect: false })
-      .then(() => console.log('ok, td certo'))
-      .catch((error) => console.log('erro', error));
+      .then((result) => {
+        if (result?.ok) {
+          router.push(searchParams.get('callbackUrl') || '/admin');
+        } else {
+          toast.open(result?.error || 'Erro na autenticação', 'error');
+        }
+      })
+      .finally(loader.hide);
+  };
+
+  const handleGoogleButtonClick = () => {
+    signIn('google', { callbackUrl: '/admin' });
   };
 
   return (
     <div className="flex flex-col gap-4 items-center justify-center h-screen">
       <Card className="p-4 space-y-4 w-[90%] md:w-96">
-        <h1 className="text-2xl font-bold">Estasiare Login</h1>
+        <h1 className="text-2xl font-bold flex items-center gap-2">
+          <MdArrowBack
+            className="cursor-pointer"
+            onClick={() => router.back()}
+          />
+          <span>Estasiare Login</span>
+        </h1>
 
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <Field>
             <Field.Label>E-mail</Field.Label>
             <Field.Input type="email" {...register('email')} />
+            <Field.Error>{errors.email?.message}</Field.Error>
           </Field>
 
           <Field>
@@ -67,12 +93,8 @@ export default function AdminLoginPage({}: AdminLoginPageProps) {
 
         <div className="text-center">ou</div>
 
-        <GoogleButton />
+        <GoogleButton onClick={handleGoogleButtonClick} />
       </Card>
-
-      <Button theme="light" size="small" href="/">
-        Voltar ao Início
-      </Button>
     </div>
   );
 }

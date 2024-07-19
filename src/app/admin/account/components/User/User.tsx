@@ -7,7 +7,7 @@ import Button from '../../../../../components/Button/Button';
 import Field from '../../../../../components/Field/Field';
 import { useLoader } from '../../../../../contexts/LoaderContext';
 import { useToast } from '../../../../../contexts/ToastContext';
-import { createUserClientService } from '../../../../../services/client/user.client-service';
+import { useUserClientService } from '../../../../../services/client/user.client-service';
 import Provider from '../Provider/Provider';
 
 interface UserProps {}
@@ -25,7 +25,7 @@ type FormSchema = z.infer<typeof formSchema>;
 export default function User({}: UserProps) {
   const loader = useLoader();
   const toast = useToast();
-  const userService = createUserClientService();
+  const userService = useUserClientService();
 
   const { data: sessionData } = useSession();
 

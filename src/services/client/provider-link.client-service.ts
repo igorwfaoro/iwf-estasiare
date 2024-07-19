@@ -5,7 +5,7 @@ import { ProviderLinkReorderInputModel } from '../../models/input-models/provide
 import { ProviderLinkUpdateInputModel } from '../../models/input-models/provider-link-update.input';
 import { ProviderLinkViewModel } from '../../models/view-models/provider-link.view-model';
 
-export const createProviderLinkClientService = () => {
+export const useProviderLinkClientService = () => {
   const getAllByProvider = (): Promise<ProviderLinkViewModel[]> =>
     http()
       .get(API_URLS.providers.links.getAllByProvider())

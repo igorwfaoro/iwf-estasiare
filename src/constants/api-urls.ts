@@ -80,7 +80,8 @@ export const API_URLS = {
     }
   },
   users: {
-    update: () => `${API_BASE_URL}/users`
+    update: () => `${API_BASE_URL}/users`,
+    register: () => `${API_BASE_URL}/users`,
   },
   address: {
     getAllCities: () => `${API_BASE_URL}/addresses/cities`

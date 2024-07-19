@@ -15,8 +15,8 @@ import { AddressCityViewModel } from '../../../models/view-models/address-city.v
 import { ProviderCategoryViewModel } from '../../../models/view-models/provider-category.view-model';
 import { ProviderViewModel } from '../../../models/view-models/provider.view-model';
 import { SearchDataViewModel } from '../../../models/view-models/search-data.view-model';
-import { createAddressClientService } from '../../../services/client/address.client-service';
-import { createProviderCategoryClientService } from '../../../services/client/provider-category.client-service';
+import { useAddressClientService } from '../../../services/client/address.client-service';
+import { useProviderCategoryClientService } from '../../../services/client/provider-category.client-service';
 import { createProviderClientService } from '../../../services/client/provider.client-service';
 
 export interface ProviderSearchIProvider {
@@ -41,8 +41,8 @@ const ProviderSearchProvider = ({ children }: ProviderSearchProviderProps) => {
   const toast = useToast();
 
   const providerService = createProviderClientService();
-  const providerCategoryService = createProviderCategoryClientService();
-  const addressService = createAddressClientService();
+  const providerCategoryService = useProviderCategoryClientService();
+  const addressService = useAddressClientService();
 
   const [searchParams, setSearchParams] = useState<ProviderSearchInputModel>(
     {}

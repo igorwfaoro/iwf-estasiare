@@ -8,7 +8,7 @@ import Field from '../../../../../../../../../../components/Field/Field';
 import { Place } from '../../../../../../../../../../components/Field/components/FieldInputAddressAutocomplete/types/place';
 import { useLoader } from '../../../../../../../../../../contexts/LoaderContext';
 import { useToast } from '../../../../../../../../../../contexts/ToastContext';
-import { createEventClientService } from '../../../../../../../../../../services/client/event.client-service';
+import { useEventClientService } from '../../../../../../../../../../services/client/event.client-service';
 import { EditModalProps } from '../../types/edit-modal-props';
 import { EditModalResult } from '../../types/edit-modal-result';
 
@@ -30,7 +30,7 @@ export default function EventAddressEditModal({
   event,
   modalRef
 }: EventAddressEditModalProps) {
-  const eventClientService = createEventClientService();
+  const eventClientService = useEventClientService();
   const loader = useLoader();
   const toast = useToast();
 

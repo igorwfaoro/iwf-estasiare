@@ -22,8 +22,6 @@ export const authOptions: AuthOptions = {
       async authorize(credentials, req) {
         const userService = createUserServerService();
 
-        console.log({ credentials, body: req.body });
-
         if (!credentials?.email || !credentials.password)
           throw new AuthError('E-mail ou Senha inválida');
 
@@ -36,12 +34,17 @@ export const authOptions: AuthOptions = {
     signIn: '/login'
   },
   callbacks: {
-    async signIn({ account, profile }) {
+    async signIn({ account, profile, user }) {
       const userService = createUserServerService();
 
       if (account?.provider === 'google') {
         if (!profile) return false;
         return userService.verifyByProfile(profile);
+      }
+
+      if (account?.provider === 'credentials') {
+        if (!user) return false;
+        return true;
       }
 
       return false;

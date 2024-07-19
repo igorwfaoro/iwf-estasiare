@@ -3,7 +3,7 @@ import { http } from '../../http/http';
 import { GiftRegistryInputModel } from '../../models/input-models/gift-registry.input-model';
 import { GiftRegistryViewModel } from '../../models/view-models/gift-registry.view-model';
 
-export const createGiftRegistryClientService = () => {
+export const useGiftRegistryClientService = () => {
   const getAllByEvent = (eventId: number): Promise<GiftRegistryViewModel[]> =>
     http()
       .get(API_URLS.giftRegistries.getAllByEvent(eventId))

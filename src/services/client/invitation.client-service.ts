@@ -6,7 +6,7 @@ import { InvitationInputModel } from '../../models/input-models/invitation-creat
 import { InvitationDetailViewModel } from '../../models/view-models/invitation-detail.view-model';
 import { InvitationViewModel } from '../../models/view-models/invitation.view-model';
 
-export const createInvitationClientService = () => {
+export const useInvitationClientService = () => {
   const searchByGuestName = (
     eventId: number,
     query: string

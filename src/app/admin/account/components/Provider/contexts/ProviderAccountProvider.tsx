@@ -26,7 +26,7 @@ import { Place } from '../../../../../../components/Field/components/FieldInputA
 import { useLoader } from '../../../../../../contexts/LoaderContext';
 import { useToast } from '../../../../../../contexts/ToastContext';
 import { ProviderCategoryViewModel } from '../../../../../../models/view-models/provider-category.view-model';
-import { createProviderCategoryClientService } from '../../../../../../services/client/provider-category.client-service';
+import { useProviderCategoryClientService } from '../../../../../../services/client/provider-category.client-service';
 import { createProviderClientService } from '../../../../../../services/client/provider.client-service';
 import { COLORS } from '../../../../../../util/colors';
 import { normalizeSlug } from '../../../../../../util/helpers/slug.helper';
@@ -133,7 +133,7 @@ const ProviderAccountProvider = ({
   const providerAccordionRef = useRef<AccordionRefType>(null);
 
   const providerService = createProviderClientService();
-  const providerCategoryService = createProviderCategoryClientService();
+  const providerCategoryService = useProviderCategoryClientService();
 
   const [profileImageThumbnail, setProfileImageThumbnail] = useState<string>();
 

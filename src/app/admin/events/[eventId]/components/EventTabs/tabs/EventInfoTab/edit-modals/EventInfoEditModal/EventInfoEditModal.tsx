@@ -7,7 +7,7 @@ import Button from '../../../../../../../../../../components/Button/Button';
 import Field from '../../../../../../../../../../components/Field/Field';
 import { useLoader } from '../../../../../../../../../../contexts/LoaderContext';
 import { useToast } from '../../../../../../../../../../contexts/ToastContext';
-import { createEventClientService } from '../../../../../../../../../../services/client/event.client-service';
+import { useEventClientService } from '../../../../../../../../../../services/client/event.client-service';
 import { dateStringToInput } from '../../../../../../../../../../util/date';
 import {
   eventTypeLabel,
@@ -32,7 +32,7 @@ export default function EventInfoEditModal({
   event,
   modalRef
 }: EventInfoEditModalProps) {
-  const eventClientService = createEventClientService();
+  const eventClientService = useEventClientService();
   const loader = useLoader();
   const toast = useToast();
 

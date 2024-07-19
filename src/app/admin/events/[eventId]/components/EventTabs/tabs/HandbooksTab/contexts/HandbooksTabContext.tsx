@@ -8,7 +8,7 @@ import { useModal } from '../../../../../../../../../contexts/ModalContext';
 import { useToast } from '../../../../../../../../../contexts/ToastContext';
 import { EventHandbookDetailViewModel } from '../../../../../../../../../models/view-models/event-handbook-detail.view-model';
 import { EventHandbookViewModel } from '../../../../../../../../../models/view-models/event-handbook.view-model';
-import { createHandbookClientService } from '../../../../../../../../../services/client/handbook.client-service';
+import { useHandbookClientService } from '../../../../../../../../../services/client/handbook.client-service';
 import { useAdminEventPageContext } from '../../../../../contexts/AdminEventPageContext';
 import HandbookFormModal, {
   HandbookFormModalProps,
@@ -33,7 +33,7 @@ const HandbooksTabContext = createContext<IHandbooksTabProvider | undefined>(
 const HandbooksTabProvider = ({ children }: HandbooksTabProviderProps) => {
   const { event } = useAdminEventPageContext();
 
-  const handbookService = createHandbookClientService();
+  const handbookService = useHandbookClientService();
 
   const loader = useLoader();
   const toast = useToast();

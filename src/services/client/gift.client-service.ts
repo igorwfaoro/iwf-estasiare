@@ -2,7 +2,7 @@ import { API_URLS } from '../../constants/api-urls';
 import { http } from '../../http/http';
 import { GiftViewModel } from '../../models/view-models/gift.view-model';
 
-export const createGiftClientService = () => {
+export const useGiftClientService = () => {
   const getAllByEvent = (eventId: number): Promise<GiftViewModel[]> =>
     http()
       .get(API_URLS.gifts.getAllByEvent(eventId))

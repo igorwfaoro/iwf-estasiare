@@ -1,12 +1,14 @@
 import { Profile } from 'next-auth';
 
 import { Prisma } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
 import { getAuthSession, getAuthUser } from '../../auth/auth-config';
 import { AuthUser } from '../../auth/auth-user';
 import { userConverter } from '../../converters/user.converter';
 import { prisma } from '../../data/db';
 import { AuthError } from '../../errors/types/auth.error';
 import { NotFoundError } from '../../errors/types/not-found.error';
+import { UserRegisterInputModel } from '../../models/input-models/user-register.input-model';
 import { UserUpdateInputModel } from '../../models/input-models/user-update.input-model';
 
 const defaultInclude: Prisma.UserInclude = {
@@ -55,12 +57,11 @@ export const createUserServerService = () => {
       include: defaultInclude
     });
 
-    if (!user) throw new AuthError('E-mail ou Senha inválida');
+    if (!user || !user.password)
+      throw new AuthError('E-mail ou Senha inválida');
 
-    if (!user.password) throw new AuthError('Usuário cadastrado com Google');
-
-    // if (!(await compare(password, user.password)))
-    //   throw new AuthError('E-mail ou Senha inválida');
+    if (!(await bcrypt.compare(password, user.password)))
+      throw new AuthError('E-mail ou Senha inválida');
 
     return userConverter.modelToAuthUser(user);
   };
@@ -93,10 +94,24 @@ export const createUserServerService = () => {
     return viewModel;
   };
 
+  const register = async (input: UserRegisterInputModel): Promise<AuthUser> => {
+    const user = await prisma.user.create({
+      data: {
+        name: input.name,
+        email: input.email,
+        password: await bcrypt.hash(input.password, 10)
+      },
+      include: defaultInclude
+    });
+
+    return userConverter.modelToAuthUser(user);
+  };
+
   return {
     verifyByProfile,
     verifyByEmailAndPassword,
     getByEmail,
-    update
+    update,
+    register
   };
 };

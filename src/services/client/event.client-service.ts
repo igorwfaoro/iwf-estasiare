@@ -10,7 +10,7 @@ export interface CreateUpdateEventParams<T> {
   inputFiles: { bannerImage?: File; logoImage?: File };
 }
 
-export const createEventClientService = () => {
+export const useEventClientService = () => {
   const search = ({
     q,
     index,

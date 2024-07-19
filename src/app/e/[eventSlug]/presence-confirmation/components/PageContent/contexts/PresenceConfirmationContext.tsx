@@ -15,7 +15,7 @@ import { EventDetailViewModel } from '../../../../../../../models/view-models/ev
 import { GuestViewModel } from '../../../../../../../models/view-models/guest.view-model';
 import { InvitationDetailViewModel } from '../../../../../../../models/view-models/invitation-detail.view-model';
 import { InvitationViewModel } from '../../../../../../../models/view-models/invitation.view-model';
-import { createInvitationClientService } from '../../../../../../../services/client/invitation.client-service';
+import { useInvitationClientService } from '../../../../../../../services/client/invitation.client-service';
 
 export interface IPresenceConfirmationProvider {
   invitation?: InvitationViewModel;
@@ -44,7 +44,7 @@ const PresenceConfirmationContext = createContext<
 const PresenceConfirmationProvider = (
   props: PresenceConfirmationProviderProps
 ) => {
-  const invitationClientService = createInvitationClientService();
+  const invitationClientService = useInvitationClientService();
 
   const toast = useToast();
 

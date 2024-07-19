@@ -12,7 +12,7 @@ import { ProviderLinkCreateInputModel } from '../../../../../models/input-models
 import { ProviderLinkUpdateInputModel } from '../../../../../models/input-models/provider-link-update.input';
 import { ProviderLinkTypeViewModel } from '../../../../../models/view-models/provider-link-type.view-model';
 import { ProviderLinkViewModel } from '../../../../../models/view-models/provider-link.view-model';
-import { createProviderLinkTypeClientService } from '../../../../../services/client/provider-link-type.client-service';
+import { useProviderLinkTypeClientService } from '../../../../../services/client/provider-link-type.client-service';
 import { isValidUrl } from '../../../../../util/helpers/http.helper';
 
 export interface LinkModalProps extends ModalRefPropType {
@@ -39,7 +39,7 @@ export default function LinkModal({ link, modalRef }: LinkModalProps) {
   const loader = useLoader();
   const toast = useToast();
 
-  const providerLinkTypeService = createProviderLinkTypeClientService();
+  const providerLinkTypeService = useProviderLinkTypeClientService();
 
   const {
     register,
