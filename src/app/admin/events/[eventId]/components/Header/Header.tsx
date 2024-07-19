@@ -32,7 +32,7 @@ export default function Header({}: HeaderProps) {
   ) : (
     <div className="space-y-4">
       <div
-        className="w-full h-32 rounded-xl flex items-center justify-center relative"
+        className="w-full h-32 rounded-xl flex items-center justify-center relative bg-cover bg-center"
         style={{
           backgroundImage: `url(${event.content?.bannerImage})`,
           backgroundColor: event.content?.primaryColor
