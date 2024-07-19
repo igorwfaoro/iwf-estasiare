@@ -1,9 +1,9 @@
-import { Icon } from '@iconify/react/dist/iconify.mjs';
 import Link from 'next/link';
 import Card from '../../../../../../components/Card/Card';
 import Chip from '../../../../../../components/Chip/Chip';
 import InitialsIcon from '../../../../../../components/InitialsIcon/InitialsIcon';
 import { ProviderViewModel } from '../../../../../../models/view-models/provider.view-model';
+import { Icon } from '@iconify/react/dist/iconify.js';
 
 interface ProviderProps {
   provider: ProviderViewModel;
