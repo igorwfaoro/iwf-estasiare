@@ -1,6 +1,6 @@
 'use client';
 
-import { Icon } from '@iconify/react/dist/iconify.mjs';
+import { Icon } from '@iconify/react/dist/iconify.js';
 import { arrayMoveImmutable } from 'array-move';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
