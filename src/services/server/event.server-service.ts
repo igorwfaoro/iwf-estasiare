@@ -283,7 +283,9 @@ export const createEventServerService = () => {
       where: eventWhere,
       data: {
         eventType: inputData.eventType,
-        date: appDayjs.utc(inputData.date).toDate(),
+        date: inputData.date
+          ? appDayjs.utc(inputData.date).toDate()
+          : undefined,
         address: {
           update: inputData.address
         },
