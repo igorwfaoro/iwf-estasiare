@@ -5,6 +5,7 @@ import { ReactNode, Suspense, useEffect } from 'react';
 
 import ProviderComposer from '../../components/ProviderCompose';
 import AlertProvider from '../../contexts/AlertContext';
+import ImageCropProvider from '../../contexts/ImageCropContext';
 import LoaderProvider from '../../contexts/LoaderContext';
 import ModalProvider from '../../contexts/ModalContext';
 import ToastProvider from '../../contexts/ToastContext';
@@ -27,6 +28,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         { Component: ToastProvider },
         { Component: LoaderProvider },
         { Component: SessionProvider },
+        { Component: ImageCropProvider },
         { Component: ModalProvider },
         { Component: AlertProvider }
       ]}

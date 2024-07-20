@@ -12,6 +12,7 @@ import { z } from 'zod';
 
 import Button from '../../../../../../../../../../components/Button/Button';
 import Field from '../../../../../../../../../../components/Field/Field';
+import { useImageCrop } from '../../../../../../../../../../contexts/ImageCropContext';
 import { useLoader } from '../../../../../../../../../../contexts/LoaderContext';
 import { useToast } from '../../../../../../../../../../contexts/ToastContext';
 import { useEventClientService } from '../../../../../../../../../../services/client/event.client-service';
@@ -36,6 +37,8 @@ export default function EventContentEditModal({
   const eventClientService = useEventClientService();
   const loader = useLoader();
   const toast = useToast();
+
+  const imageCrop = useImageCrop();
 
   const {
     register,
@@ -73,8 +76,12 @@ export default function EventContentEditModal({
 
     const file = event.target.files[0];
 
-    setFileState(file);
-    setThumbnailState(await fileToDataURL(file));
+    const cropResult = await imageCrop.open(file, { aspect: 1 });
+
+    const resultFile = cropResult?.file || file;
+
+    setFileState(resultFile);
+    setThumbnailState(await fileToDataURL(resultFile));
   };
 
   const handleFormSubmit = (data: FormSchema) => {

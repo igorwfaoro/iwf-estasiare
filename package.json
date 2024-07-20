@@ -57,6 +57,8 @@
     "react-google-autocomplete": "^2.7.3",
     "react-hook-form": "^7.50.1",
     "react-icons": "^4.10.1",
+    "react-image-crop": "^11.0.6",
+    "react-image-file-resizer": "^0.4.8",
     "react-indiana-drag-scroll": "^2.2.0",
     "react-modal": "^3.16.1",
     "react-quill": "^2.0.0",
