@@ -171,8 +171,6 @@ export const createProviderServerService = () => {
       ]
     };
 
-    console.log(JSON.stringify(providersWhere, null, 2));
-
     const providers = await prisma.provider.findMany({
       where: providersWhere,
       include: {

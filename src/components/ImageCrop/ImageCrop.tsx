@@ -29,16 +29,19 @@ const ImageCrop = ({ file, aspect, modalRef }: ImageCropProps) => {
   });
 
   const onImageLoad = () => {
-    if (aspect && imgRef.current) {
-      const { clientWidth } = imgRef.current;
+    if (imgRef.current) {
+      const { clientWidth, clientHeight } = imgRef.current;
 
-      setCrop({
+      const params: Crop & PixelCrop = {
         unit: 'px',
-        x: 0,
-        y: 0,
+        x: clientWidth / 2 - ((clientWidth / 100) * 40) / 2,
+        y: clientHeight / 2 - ((clientHeight / 100) * 40) / 2,
         width: (clientWidth / 100) * 40,
-        height: ((clientWidth / 100) * 40) / aspect
-      });
+        height: ((clientHeight / 100) * 40) / (aspect || 1)
+      };
+
+      setCrop(params);
+      setCompletedCrop(params);
     }
   };
 
@@ -52,16 +55,13 @@ const ImageCrop = ({ file, aspect, modalRef }: ImageCropProps) => {
 
   const getCroppedImage = async (
     image: HTMLImageElement,
-    x: number,
-    y: number,
-    width: number,
-    height: number
+    cropParams: PixelCrop
   ) => {
     const canvas = document.createElement('canvas');
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = cropParams.width;
+    canvas.height = cropParams.height;
     const ctx = canvas.getContext('2d');
 
     if (!ctx) {
@@ -70,14 +70,14 @@ const ImageCrop = ({ file, aspect, modalRef }: ImageCropProps) => {
 
     ctx.drawImage(
       image,
-      x * scaleX,
-      y * scaleY,
-      width * scaleX,
-      height * scaleY,
+      cropParams.x * scaleX,
+      cropParams.y * scaleY,
+      cropParams.width * scaleX,
+      cropParams.height * scaleY,
       0,
       0,
-      width,
-      height
+      cropParams.width,
+      cropParams.height
     );
 
     return new Promise<File>((resolve, reject) => {
@@ -100,13 +100,9 @@ const ImageCrop = ({ file, aspect, modalRef }: ImageCropProps) => {
     }
 
     try {
-      const c = completedCrop || crop;
       const croppedImageFile = await getCroppedImage(
         imgRef.current,
-        c.x,
-        c.y,
-        c.width,
-        c.height
+        completedCrop!
       );
 
       modalRef.close({ file: croppedImageFile } as ImageCropResult);
@@ -119,11 +115,12 @@ const ImageCrop = ({ file, aspect, modalRef }: ImageCropProps) => {
     <div className="p-4 flex items-center flex-col gap-4">
       <ReactCrop
         crop={crop}
-        keepSelection
         aspect={aspect}
         className="max-h-[80vh]"
         onChange={setCrop}
         onComplete={setCompletedCrop}
+        keepSelection
+        ruleOfThirds
       >
         <img
           ref={imgRef}
@@ -133,7 +130,7 @@ const ImageCrop = ({ file, aspect, modalRef }: ImageCropProps) => {
         />
       </ReactCrop>
 
-      <div className="flex justify-center gap-">
+      <div className="flex justify-center gap-2">
         <Button theme="primary-outline" onClick={modalRef.close}>
           Cancelar
         </Button>

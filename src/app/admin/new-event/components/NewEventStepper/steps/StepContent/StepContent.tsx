@@ -7,8 +7,10 @@ import { z } from 'zod';
 import Button from '../../../../../../../components/Button/Button';
 import Field from '../../../../../../../components/Field/Field';
 import { DEFAULT_INPUT_ACCEPT_FILE_TYPES } from '../../../../../../../constants/file-types';
+import { useImageCrop } from '../../../../../../../contexts/ImageCropContext';
 import { COLORS } from '../../../../../../../util/colors';
 import { fileToDataURL } from '../../../../../../../util/helpers/file.helper';
+import { resizeImage } from '../../../../../../../util/helpers/image.helper';
 import { useNewEventContext } from '../../../../contexts/NewEventContext';
 
 interface StepContentProps {
@@ -22,6 +24,8 @@ const formContentSchema = z.object({
 type FormContentSchema = z.infer<typeof formContentSchema>;
 
 export default function StepContent({ index }: StepContentProps) {
+  const imageCrop = useImageCrop();
+
   const {
     stepNext,
     stepPrev,
@@ -72,14 +76,26 @@ export default function StepContent({ index }: StepContentProps) {
   const handleInputFileChange = async (
     event: ChangeEvent<HTMLInputElement>,
     setFileState: Dispatch<SetStateAction<File | undefined>>,
-    setThumbnailState: Dispatch<SetStateAction<string | undefined>>
+    setThumbnailState: Dispatch<SetStateAction<string | undefined>>,
+    isLogo: boolean = false
   ) => {
     if (!event.target.files || event.target.files.length === 0) return;
 
     const file = event.target.files[0];
 
-    setFileState(file);
-    setStateFileData(setThumbnailState, file);
+    const cropResult = await imageCrop.open(file);
+
+    if (!cropResult?.file) return;
+
+    const resultFile = (await resizeImage(cropResult.file, {
+      quality: 90,
+      maxWidth: 1200,
+      maxHeight: 1200,
+      compressFormat: isLogo ? 'PNG' : 'JPEG'
+    })) as File;
+
+    setFileState(resultFile);
+    setStateFileData(setThumbnailState, resultFile);
   };
 
   const handleFormSubmit = (data: FormContentSchema) => {
@@ -154,7 +170,8 @@ export default function StepContent({ index }: StepContentProps) {
             handleInputFileChange(
               event,
               setLogoImageFile,
-              setLogoImageThumbnail
+              setLogoImageThumbnail,
+              true
             )
           }
         />

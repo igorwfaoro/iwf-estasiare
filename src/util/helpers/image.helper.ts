@@ -1,16 +1,14 @@
 import Resizer from 'react-image-file-resizer';
 
 interface ResizeImageParams {
-  file: File;
+  maxWidth?: number;
+  maxHeight?: number;
+  compressFormat?: 'JPEG' | 'PNG' | 'WEBP';
 
-  maxWidth: number;
-  maxHeight: number;
-  compressFormat: 'JPEG' | 'PNG' | 'WEBP';
+  /** 0 to 100. Only for JPEG */
+  quality?: number;
 
-  /** 0 to 100 */
-  quality: number;
-
-  outputType: 'base64' | 'blob' | 'file';
+  outputType?: 'base64' | 'blob' | 'file';
 }
 
 export const resizeImage = (
@@ -18,10 +16,10 @@ export const resizeImage = (
   {
     maxWidth = 99999,
     maxHeight = 99999,
-    compressFormat = 'PNG',
+    compressFormat = 'JPEG',
     quality = 100,
     outputType = 'file'
-  }: ResizeImageParams
+  }: ResizeImageParams = {}
 ): Promise<string | File | Blob | ProgressEvent<FileReader>> =>
   new Promise((resolve) =>
     Resizer.imageFileResizer(
