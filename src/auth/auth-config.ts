@@ -54,7 +54,6 @@ export const authOptions: AuthOptions = {
     //   return token;
     // },
     session: async ({ session, token }) => {
-      console.log('session', { session, token });
       const userService = createUserServerService();
 
       session.user = await userService.getByEmail(token.email!);

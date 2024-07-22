@@ -12,10 +12,12 @@ import { z } from 'zod';
 
 import Button from '../../../../../../../../../../components/Button/Button';
 import Field from '../../../../../../../../../../components/Field/Field';
+import { useImageCrop } from '../../../../../../../../../../contexts/ImageCropContext';
 import { useLoader } from '../../../../../../../../../../contexts/LoaderContext';
 import { useToast } from '../../../../../../../../../../contexts/ToastContext';
 import { useEventClientService } from '../../../../../../../../../../services/client/event.client-service';
 import { fileToDataURL } from '../../../../../../../../../../util/helpers/file.helper';
+import { resizeImage } from '../../../../../../../../../../util/helpers/image.helper';
 import { EditModalProps } from '../../types/edit-modal-props';
 import { EditModalResult } from '../../types/edit-modal-result';
 
@@ -36,6 +38,8 @@ export default function EventContentEditModal({
   const eventClientService = useEventClientService();
   const loader = useLoader();
   const toast = useToast();
+
+  const imageCrop = useImageCrop();
 
   const {
     register,
@@ -67,14 +71,26 @@ export default function EventContentEditModal({
   const handleInputFileChange = async (
     event: ChangeEvent<HTMLInputElement>,
     setFileState: Dispatch<SetStateAction<File | undefined>>,
-    setThumbnailState: Dispatch<SetStateAction<string | undefined>>
+    setThumbnailState: Dispatch<SetStateAction<string | undefined>>,
+    isLogo: boolean = false
   ) => {
     if (!event.target.files || event.target.files.length === 0) return;
 
     const file = event.target.files[0];
 
-    setFileState(file);
-    setThumbnailState(await fileToDataURL(file));
+    const cropResult = await imageCrop.open(file);
+
+    if (!cropResult?.file) return;
+
+    const resultFile = (await resizeImage(cropResult.file, {
+      quality: 90,
+      maxWidth: 1200,
+      maxHeight: 1200,
+      compressFormat: isLogo ? 'PNG' : 'JPEG'
+    })) as File;
+
+    setFileState(resultFile);
+    setThumbnailState(await fileToDataURL(resultFile));
   };
 
   const handleFormSubmit = (data: FormSchema) => {
@@ -164,7 +180,8 @@ export default function EventContentEditModal({
             handleInputFileChange(
               event,
               setLogoImageFile,
-              setLogoImageThumbnail
+              setLogoImageThumbnail,
+              true
             )
           }
         />
