@@ -51,7 +51,10 @@ export function EventNavbar({ event }: EventNavbarProps) {
   return (
     <nav className="fixed z-[999] flex h-12 w-full flex-col items-end justify-center bg-neutral-50 shadow-sm md:items-center top-0">
       {/* logo */}
-      <Link href={`/${event.slug}`} className="absolute left-3 top-2">
+      <Link
+        href={getEventPublicUrl(event.slug)}
+        className="absolute left-3 top-2"
+      >
         {renderInitialsIcon(event, 34)}
       </Link>
 
