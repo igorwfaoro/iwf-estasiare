@@ -9,6 +9,9 @@ export const eventFinancialConverter = {
     model: EventFinancialConverterModel
   ): EventFinancialViewModel => ({
     id: Number(model.id),
-    paypalBusinessCode: model.paypalBusinessCode
+    paypalBusinessCode: model.paypalBusinessCode,
+    pixType: model.pixType,
+    pixKey: model.pixKey,
+    pixDescription: model.pixDescription
   })
 };

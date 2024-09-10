@@ -1,4 +1,4 @@
-import { EventType } from '.prisma/client';
+import { EventType } from '@prisma/client';
 import { useNewEventContext } from '../../../../contexts/NewEventContext';
 import WeddingDetail from './components/WeddingDetail/WeddingDetail';
 
