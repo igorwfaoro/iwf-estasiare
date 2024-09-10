@@ -21,7 +21,7 @@ export default function GiftRegistries({ event }: GiftRegistriesProps) {
 
   return (
     <div className="max-w-[672px] mx-auto space-y-2">
-      <p className="text-lg text-center text-gray-800">
+      <p className="text-lg text-center text-gray-800 italic">
         Se preferir, você pode acessar {giftRegistriesListContent}:
       </p>
 

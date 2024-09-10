@@ -67,6 +67,7 @@
     "sass": "^1.64.2",
     "typescript": "5.1.6",
     "uuid": "^9.0.0",
+    "vanilla-masker": "^1.2.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
@@ -76,6 +77,7 @@
     "@types/bcrypt": "^5.0.2",
     "@types/react-toggle": "^4.0.5",
     "@types/uuid": "^9.0.2",
+    "@types/vanilla-masker": "^1.2.4",
     "autoprefixer": "^10.4.16",
     "node-sass": "^9.0.0",
     "postcss": "^8.4.31",

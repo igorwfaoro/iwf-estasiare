@@ -1,4 +1,4 @@
-import { EventType } from '.prisma/client';
+import { EventType } from '@prisma/client';
 import { AddressInputModel } from './address.input-model';
 
 export interface EventCreateInputModel {

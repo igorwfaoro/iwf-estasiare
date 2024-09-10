@@ -1,4 +1,4 @@
-import { EventType } from '.prisma/client';
+import { EventType, PixKeyType } from '@prisma/client';
 import { AddressInputModel } from './address.input-model';
 
 export type EventUpdateInputModel = Partial<Event>;
@@ -16,6 +16,9 @@ interface Event {
 
 interface Financial {
   paypalBusinessCode: string;
+  pixType: PixKeyType;
+  pixKey: string;
+  pixDescription: string;
 }
 
 interface Content {

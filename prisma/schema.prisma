@@ -27,6 +27,14 @@ enum GuestStatus {
   DECLINED
 }
 
+enum PixKeyType {
+  CNPJ
+  CPF
+  PHONE
+  EMAIL
+  RANDOM
+}
+
 model Event {
   id          BigInt          @id @default(autoincrement())
   eventType   EventType
@@ -105,7 +113,12 @@ model GiftRegistry {
 model EventFinancial {
   id                 BigInt  @id @default(autoincrement())
   paypalBusinessCode String? @db.VarChar(100)
-  event              Event?
+
+  pixType        PixKeyType?
+  pixKey         String?     @db.VarChar(200)
+  pixDescription String?     @db.VarChar(200)
+
+  event Event?
 }
 
 model EventContactInfo {

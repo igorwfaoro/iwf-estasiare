@@ -9,7 +9,7 @@ export default function Header({ event }: HeaderProps) {
   return (
     <EventPageHeader className="pb-0">
       <EventPageHeader.Title color={event.content?.primaryColor}>
-        Escolha um presente simbólico!
+        Escolha um presente
       </EventPageHeader.Title>
       <EventPageHeader.Sub>
         <p>
