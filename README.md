@@ -1,4 +1,8 @@
-# Estasiare
+<p align="center">
+  <img src="https://www.estasiare.com.br/images/icon.svg" alt="Estasiare Logo" width="100" height="100">
+</p>
+
+<h1 align="center">Estasiare</h1>
 
 Estasiare is a platform designed for event organizers to easily create customized websites for weddings, graduations, and other important occasions. The platform also connects users with service providers, enabling a seamless search and collaboration process for all event needs.
 
